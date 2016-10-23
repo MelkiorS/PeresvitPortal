@@ -1,20 +1,20 @@
 package org.bionic.mma.config;
 
-import org.springframework.context.annotation.Bean;
+/*import org.springframework.context.annotation.Bean;*/
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
-@Configuration
+/*@Configuration
 @PropertySource("classpath:persistence.properties")
-@PropertySource("classpath:application.properties")
-@ComponentScan(basePackageClasses = Application.class)
+@PropertySource("classpath:application.properties")*/
+/*@ComponentScan(basePackageClasses = Application.class)*/
 class ApplicationConfig {
-    @Bean
+   /* @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
-    }
+    }*/
 
 }
 
