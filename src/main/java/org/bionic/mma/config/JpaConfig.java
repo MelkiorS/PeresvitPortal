@@ -20,11 +20,11 @@ public class JpaConfig {
 	@Value("${jdbc.driverClassName}")
 	private String driverClassName = "com.mysql.jdbc.Driver";
 	@Value("${jdbc.url}")
-	private String url;    // put url to your db
+	private String url = "jdbc:mysql://localhost:3306/peresvitDB?useSSL=false";
 	@Value("${jdbc.username}")
-	private String username = "peresvitBionic";
+	private String username = "peresvit";
 	@Value("${jdbc.password}")
-	private String password = "peresvitBionicPass";
+	private String password = "peresvitPass";
 
 	@Value("${hibernate.dialect}")
 	private String hibernateDialect = "MySQLDialect";
