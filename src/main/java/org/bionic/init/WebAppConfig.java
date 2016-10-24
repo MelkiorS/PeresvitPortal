@@ -35,7 +35,10 @@ public class WebAppConfig {
 	private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
 	private static final String PROPERTY_NAME_HIBERNATE_HMB2DLL_AUTO = "hibernate.hbm2ddl.auto";
 	private static final String PROPERTY_NAME_CONNTECTION_CHARACHTER_ENCODING = "hibernate.connection.characterEncoding";
+	private static final String PROPERTY_NAME_CONNECTION_USE_UNICDE = "hibernate.connection.useUnicode";
+	private static final String PROPERTY_NAME_CONNECTION_CHAR_SET = "hibernate.connection.CharSet";
 	private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "entitymanager.packages.to.scan";
+	
 
 	@Resource
 	private Environment env;
@@ -68,6 +71,8 @@ public class WebAppConfig {
 		properties.put(PROPERTY_NAME_HIBERNATE_DIALECT,	env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_DIALECT));
 		properties.put(PROPERTY_NAME_HIBERNATE_SHOW_SQL, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_SHOW_SQL));
 		properties.put(PROPERTY_NAME_HIBERNATE_HMB2DLL_AUTO, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_HMB2DLL_AUTO));
+		properties.put(PROPERTY_NAME_CONNECTION_USE_UNICDE, env.getRequiredProperty(PROPERTY_NAME_CONNECTION_USE_UNICDE));
+		properties.put(PROPERTY_NAME_CONNECTION_CHAR_SET, env.getRequiredProperty(PROPERTY_NAME_CONNECTION_CHAR_SET));
 		properties.put(PROPERTY_NAME_CONNTECTION_CHARACHTER_ENCODING, env.getRequiredProperty(PROPERTY_NAME_CONNTECTION_CHARACHTER_ENCODING));
 		return properties;
 	}
