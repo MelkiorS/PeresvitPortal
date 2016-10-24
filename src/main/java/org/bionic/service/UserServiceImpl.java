@@ -48,7 +48,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User update(User user){
 		User updatedUser = userRepository.findOne(user.getId());
-		updatedUser.setName(user.getName());
+		updatedUser.setFname(user.getFname());
+		updatedUser.setLname(user.getLname());
 		return updatedUser;
 	}
 

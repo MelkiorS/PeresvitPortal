@@ -19,7 +19,7 @@ public class UserController {
 	private UserService userService;
 
 	// create user
-	@RequestMapping(value = "/user", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public User addUser(@RequestBody User user) {
 		return userService.create(user);
 	}
