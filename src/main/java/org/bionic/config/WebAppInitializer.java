@@ -1,4 +1,4 @@
-package org.bionic.init;
+package org.bionic.config;
 
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
@@ -11,7 +11,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
-public class Initializer implements WebApplicationInitializer {
+public class WebAppInitializer implements WebApplicationInitializer {
 
 	private static final String DISPATCHER_SERVLET_NAME = "dispatcher";
 
@@ -34,5 +34,26 @@ public class Initializer implements WebApplicationInitializer {
         filterRegistration.setInitParameter("forceEncoding", "true");
         filterRegistration.addMappingForUrlPatterns(null, true, "*");
 	}
+
+//	public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+//
+//		// Map DispatcherServlet
+//		@Override
+//		protected String[] getServletMappings() {
+//			return new String[]{"/"};
+//		}
+//
+//		// Specify configuration class
+//		@Override
+//		protected Class<?>[] getRootConfigClasses() {
+//			return new Class<?>[]{RootConfig.class};
+//		}
+//
+//		// Specify configuration class
+//		@Override
+//		protected Class<?>[] getServletConfigClasses() {
+//			return new Class<?>[]{WebConfig.class};
+//		}
+//	}
 
 }

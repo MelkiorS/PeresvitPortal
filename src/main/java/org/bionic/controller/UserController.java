@@ -23,7 +23,7 @@ public class UserController {
 	public User addUser(@RequestBody User user) {
 		return userService.create(user);
 	}
-	
+
 	// edit user
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
 	public @ResponseBody User editUserPage(@RequestBody User user, @PathVariable Integer id) {

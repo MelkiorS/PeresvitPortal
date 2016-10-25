@@ -1,4 +1,4 @@
-package org.bionic.init;
+package org.bionic.config;
 
 import java.util.Properties;
 
@@ -22,7 +22,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan("org.bionic")
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:db.properties")
 @EnableJpaRepositories("org.bionic.repository")
 public class WebAppConfig {
 
