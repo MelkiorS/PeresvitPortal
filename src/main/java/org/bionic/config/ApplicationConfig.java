@@ -9,7 +9,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.bionic.Application;
 
 @Configuration
-@PropertySource("classpath:persistence.properties")
+@PropertySource("classpath:persistence-mysql.properties")
 @PropertySource("classpath:application.properties")
 @ComponentScan(basePackageClasses = Application.class)
 class ApplicationConfig {
