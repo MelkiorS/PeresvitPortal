@@ -46,10 +46,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User update(User user){
-		User updatedUser = userRepository.findOne(user.getId());
+	public User update(User user,int userId){
+		User updatedUser = userRepository.findOne(userId);
 		updatedUser.setFname(user.getFname());
 		updatedUser.setLname(user.getLname());
+		create(updatedUser);
 		return updatedUser;
 	}
 
