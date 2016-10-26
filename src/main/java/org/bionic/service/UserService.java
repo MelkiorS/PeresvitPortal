@@ -6,7 +6,7 @@ import org.bionic.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface UserService {
-	
+
 	@Transactional
 	public User create(User user);
 	@Transactional

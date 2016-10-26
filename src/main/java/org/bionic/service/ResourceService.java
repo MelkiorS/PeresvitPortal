@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 public interface ResourceService{
-	
+
 	<S extends Resource> S save(S arg0);
 
 	Resource findOne(Long arg0);

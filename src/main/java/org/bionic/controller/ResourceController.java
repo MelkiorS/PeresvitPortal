@@ -3,7 +3,7 @@ package org.bionic.controller;
 import java.util.List;
 
 import org.bionic.entity.Resource;
-import org.bionic.service.impl.ResourceServiceImpl;
+import org.bionic.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,9 +18,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 public class ResourceController {
+
 	@Autowired
-	private ResourceServiceImpl resourceService;
-	
+	private ResourceService resourceService;
+
 	// create resource
 		@RequestMapping(value = "/resource/", method = RequestMethod.POST)
 		public ResponseEntity<Void> createResource(@RequestBody Resource resource, UriComponentsBuilder ucBuilder) {
@@ -48,7 +49,7 @@ public class ResourceController {
 	            return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
 	        }
 
-	        resourceService.delete(resourceId);
+	        resourceService.delete(resourceService.findOne(resourceId));
 	        return new ResponseEntity<Resource>(HttpStatus.NO_CONTENT);
 	    }
 
@@ -67,7 +68,7 @@ public class ResourceController {
 		public ResponseEntity<List<Resource>> listAllResources() {
 			List<Resource> resource = resourceService.findAll();
 			if (resource.isEmpty()) {
-				return new ResponseEntity<List<Resource>>(HttpStatus.NO_CONTENT);											
+				return new ResponseEntity<List<Resource>>(HttpStatus.NO_CONTENT);
 			}
 			return new ResponseEntity<List<Resource>>(resource, HttpStatus.OK);
 		}

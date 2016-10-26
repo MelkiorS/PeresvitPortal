@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService{
-	
+
 	@Autowired
 	private UserInfoRepository userInfoRepository;
-	
+
 	@Autowired
-	private UserRepository userRepository;	
+	private UserRepository userRepository;
 
 	@Override
 	public UserInfo create(UserInfo userInfo, Long userId) {
@@ -25,7 +25,7 @@ public class UserInfoServiceImpl implements UserInfoService{
 	}
 
 	@Override
-	public List<UserInfo> findAll(Long userId) { 
+	public List<UserInfo> findAll(Long userId) {
 		return userInfoRepository.findByUser_id(userId);
 	}
 
@@ -48,7 +48,7 @@ public class UserInfoServiceImpl implements UserInfoService{
 		userInfoRepository.delete(deletedUserInfo);
 		return deletedUserInfo;
 	}
-	
-	
+
+
 
 }

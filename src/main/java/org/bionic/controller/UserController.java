@@ -3,6 +3,7 @@ package org.bionic.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,13 +19,13 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	// create user
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public User addUser(@RequestBody User user) {
 		return userService.create(user);
 	}
-	
+
 	// edit user
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public @ResponseBody User editUserPage(@RequestBody User user, @PathVariable Long id) {
@@ -32,7 +33,7 @@ public class UserController {
 			userService.update(user, id);
 		return user;
 	}
-	
+
 	// delete user
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public @ResponseBody User deleteUserPage(@PathVariable Long id) {
@@ -41,7 +42,7 @@ public class UserController {
 	}
 
 	// show user by id
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public @ResponseBody User showUserPage(@PathVariable Long id) {
 		User user = userService.findById(id);
 		return user;
@@ -49,10 +50,11 @@ public class UserController {
 
 	// show all users
 	@RequestMapping(value = "/", method = RequestMethod.GET)
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
 	public @ResponseBody List<User> showAllUsers() {
 		List<User> users = userService.findAll();
 		return users;
 	}
-	
+
 }
 

@@ -3,6 +3,7 @@ package org.bionic.controller;
 import java.util.List;
 
 import org.bionic.entity.ResourceGroup;
+import org.bionic.service.ResourceGroupService;
 import org.bionic.service.impl.ResourceGroupServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -19,8 +20,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 public class ResourceGroupController {
 	@Autowired
-	private ResourceGroupServiceImpl resourceGroupService;
-	
+	private ResourceGroupService resourceGroupService;
+
 	// create resourceGroup
 		@RequestMapping(value = "/resourceGroup/", method = RequestMethod.POST)
 		public ResponseEntity<Void> createResourceGroup(@RequestBody ResourceGroup resourceGroup, UriComponentsBuilder ucBuilder) {
@@ -48,7 +49,7 @@ public class ResourceGroupController {
 	            return new ResponseEntity<ResourceGroup>(HttpStatus.NOT_FOUND);
 	        }
 
-	        resourceGroupService.delete(resourceGroupId);
+	        resourceGroupService.delete(resourceGroupService.findOne(resourceGroupId));
 	        return new ResponseEntity<ResourceGroup>(HttpStatus.NO_CONTENT);
 	    }
 
@@ -67,7 +68,7 @@ public class ResourceGroupController {
 		public ResponseEntity<List<ResourceGroup>> listAllResourceGroups() {
 			List<ResourceGroup> resourceGroup = resourceGroupService.findAll();
 			if (resourceGroup.isEmpty()) {
-				return new ResponseEntity<List<ResourceGroup>>(HttpStatus.NO_CONTENT);											
+				return new ResponseEntity<List<ResourceGroup>>(HttpStatus.NO_CONTENT);
 			}
 			return new ResponseEntity<List<ResourceGroup>>(resourceGroup, HttpStatus.OK);
 		}

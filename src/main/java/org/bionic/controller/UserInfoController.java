@@ -18,20 +18,20 @@ public class UserInfoController {
 
 	@Autowired
 	private UserInfoService userInfoService;
-	
+
 	// create userInfo
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public UserInfo addUserInfo(@PathVariable Long id, @RequestBody UserInfo userInfo) {
 		return userInfoService.create(userInfo, id);
 	}
-	
+
 	// show all user info
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public @ResponseBody List<UserInfo> showAllUserInfo(@PathVariable Long id) {
 		List<UserInfo> userInfo = userInfoService.findAll(id);
 		return userInfo;
 	}
-	
+
 	// edit user info
 	@RequestMapping(value = "/{infoid}", method = RequestMethod.PUT)
 	public @ResponseBody UserInfo editUserInfo(@RequestBody UserInfo userInfo, @PathVariable Long infoid) {
@@ -39,19 +39,19 @@ public class UserInfoController {
 			userInfoService.update(userInfo, infoid);
 		return userInfo;
 	}
-	
+
 	// show user info by id
-	@RequestMapping(value = "/{infoid}", method = RequestMethod.GET)	
+	@RequestMapping(value = "/{infoid}", method = RequestMethod.GET)
 	public @ResponseBody UserInfo showUserInfo(@PathVariable Long infoid) {
 		UserInfo userInfo = userInfoService.findById(infoid);
 		return userInfo;
 	}
-	
+
 	// delete user info
 	@RequestMapping(value = "/{infoid}", method = RequestMethod.DELETE)
 	public @ResponseBody UserInfo deleteUserInfo(@PathVariable Long infoid) {
 		UserInfo userInfo = userInfoService.delete(infoid);
 		return userInfo;
-	}	
-	
+	}
+
 }

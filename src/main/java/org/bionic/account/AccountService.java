@@ -22,14 +22,14 @@ import org.springframework.context.annotation.ScopedProxyMode;
 @Service
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AccountService implements UserDetailsService {
-	
+
 	@Autowired
 	private AccountRepository accountRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@PostConstruct	
+	@PostConstruct
 	protected void initialize() {
 		save(new Account("user", "demo", "ROLE_USER"));
 		save(new Account("admin", "admin", "ROLE_ADMIN"));
@@ -50,15 +50,15 @@ public class AccountService implements UserDetailsService {
 		}
 		return createUser(account);
 	}
-	
+
 	public void signin(Account account) {
 		SecurityContextHolder.getContext().setAuthentication(authenticate(account));
 	}
-	
+
 	private Authentication authenticate(Account account) {
-		return new UsernamePasswordAuthenticationToken(createUser(account), null, Collections.singleton(createAuthority(account)));		
+		return new UsernamePasswordAuthenticationToken(createUser(account), null, Collections.singleton(createAuthority(account)));
 	}
-	
+
 	private User createUser(Account account) {
 		return new User(account.getEmail(), account.getPassword(), Collections.singleton(createAuthority(account)));
 	}

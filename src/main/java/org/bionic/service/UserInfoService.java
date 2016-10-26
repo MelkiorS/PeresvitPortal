@@ -14,5 +14,5 @@ public interface UserInfoService {
 	public List<UserInfo> findAll(Long user);
 	@Transactional
 	public UserInfo update(UserInfo user, Long id);
-	public UserInfo findById(Long id);	
+	public UserInfo findById(Long id);
 }
