@@ -8,6 +8,7 @@ import org.bionic.service.UserService;
 import org.bionic.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -16,6 +17,7 @@ public class UserServiceImpl implements UserService{
 	private UserRepository userRepository;
 
 	@Override
+	@Transactional
 	public User create(User user) {
 		User createdUser = user;
 		return userRepository.save(createdUser);
