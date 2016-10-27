@@ -16,17 +16,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+
 @RestController
 public class ResourceController {
 	@Autowired
 	private ResourceService resourceService;
 	
-	// create resource
+	    // create resource
 		@RequestMapping(value = "/resource/", method = RequestMethod.POST)
 		public ResponseEntity<Void> createResource(@RequestBody Resource resource, UriComponentsBuilder ucBuilder) {
 			resourceService.save(resource);
 			HttpHeaders headers = new HttpHeaders();
-			headers.setLocation(ucBuilder.path("/resource/{resourceId}").buildAndExpand(resource.getId()).toUri());
+			headers.setLocation(ucBuilder.path("/resource/{resourceId}").buildAndExpand(resource.getResourceId()).toUri());
 			return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 		}
 
@@ -67,7 +68,7 @@ public class ResourceController {
 		public ResponseEntity<List<Resource>> listAllResources() {
 			List<Resource> resource = resourceService.findAll();
 			if (resource.isEmpty()) {
-				return new ResponseEntity<List<Resource>>(HttpStatus.NO_CONTENT);											
+				return new ResponseEntity<List<Resource>>(HttpStatus.NO_CONTENT);
 			}
 			return new ResponseEntity<List<Resource>>(resource, HttpStatus.OK);
 		}

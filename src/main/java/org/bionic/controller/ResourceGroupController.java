@@ -21,12 +21,12 @@ public class ResourceGroupController {
 	@Autowired
 	private ResourceGroupService resourceGroupService;
 	
-	// create resourceGroup
+		// create resourceGroup
 		@RequestMapping(value = "/resourceGroup/", method = RequestMethod.POST)
 		public ResponseEntity<Void> createResourceGroup(@RequestBody ResourceGroup resourceGroup, UriComponentsBuilder ucBuilder) {
 			resourceGroupService.save(resourceGroup);
 			HttpHeaders headers = new HttpHeaders();
-			headers.setLocation(ucBuilder.path("/resourceGroup/{resourceGroupId}").buildAndExpand(resourceGroup.getId()).toUri());
+			headers.setLocation(ucBuilder.path("/resourceGroup/{resourceGroupId}").buildAndExpand(resourceGroup.getResourceGroupId()).toUri());
 			return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 		}
 

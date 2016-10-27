@@ -1,49 +1,28 @@
 package org.bionic.entity;
 
-import java.util.Collection;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "resourceGroup")
 public class ResourceGroup {
 	@Id
 	@GeneratedValue
-	private Long id;
-	private String type; // ENUM
-	private Long typeId; //id of resourceType (imagine we have Event entity with x id 
-			// to get all concerning resources type = EVENT id = X
+	@Getter @Setter private Long resourceGroupId;
+	@Getter @Setter private String type; // ENUM
+	@Getter @Setter private Long typeId; //resourceGroupId of resourceType (imagine we have Event entity with x resourceGroupId
+			// to get all concerning resources type = EVENT resourceGroupId = X
 	@OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
-	Collection<Resource> resourceCollection;
-	
-	
-	public Collection<Resource> getResourceCollection() {
-		return resourceCollection;
-	}
-	public void setResourceCollection(Collection<Resource> resourceCollection) {
-		this.resourceCollection = resourceCollection;
-	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	public Long getTypeId() {
-		return typeId;
-	}
-	public void setTypeId(Long typeId) {
-		this.typeId = typeId;
-	}
+	@Getter @Setter Collection<Resource> resourceCollection;
+    @ManyToMany(
+            mappedBy="resourceGroups",
+            targetEntity = User.class
+    )
+    @Getter @Setter private Set<User> users = new HashSet<User>();
 }

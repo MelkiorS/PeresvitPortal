@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User update(User user, Long id){
-		user.setId(id);
+		user.setUserId(id);
 		User updatedUser = userRepository.findOne(id);
 		org.springframework.beans.BeanUtils.copyProperties(user, updatedUser);
 		return userRepository.save(updatedUser);

@@ -21,7 +21,7 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-//import com.google.common.baнse.Preconditions;
+//import com.google.common.base.Preconditions;
 
 @Configuration
 @EnableJpaRepositories(basePackageClasses = Application.class)

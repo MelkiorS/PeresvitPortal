@@ -31,7 +31,7 @@ public class UserInfoServiceImpl implements UserInfoService{
 
 	@Override
 	public UserInfo update(UserInfo userInfo, Long id) {
-		userInfo.setId(id);
+		userInfo.setUserInfoId(id);
 		UserInfo updatedUserInfo = userInfoRepository.findOne(id);
 		org.springframework.beans.BeanUtils.copyProperties(userInfo, updatedUserInfo);
 		return userInfoRepository.save(updatedUserInfo);
