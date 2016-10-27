@@ -31,3 +31,4 @@ CONTROLER:
 		
 // show all resources (get collection of resources in JSON)
 @RequestMapping(value = "/resource/", method = RequestMethod.GET)
+
