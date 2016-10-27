@@ -1,6 +1,9 @@
 package org.bionic.service;
 
+
+
 import org.bionic.entity.ResourceGroup;
+
 
 public interface ResourceGroupService {
 

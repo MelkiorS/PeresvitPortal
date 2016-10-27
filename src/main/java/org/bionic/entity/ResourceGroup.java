@@ -1,8 +1,12 @@
 package org.bionic.entity;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -13,7 +17,17 @@ public class ResourceGroup {
 	private Long id;
 	private String type; // ENUM
 	private Long typeId; //id of resourceType (imagine we have Event entity with x id 
-						 // to get all concerning resources type = EVENT id = X
+			// to get all concerning resources type = EVENT id = X
+	@OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
+	Collection<Resource> resourceCollection;
+	
+	
+	public Collection<Resource> getResourceCollection() {
+		return resourceCollection;
+	}
+	public void setResourceCollection(Collection<Resource> resourceCollection) {
+		this.resourceCollection = resourceCollection;
+	}
 	public Long getId() {
 		return id;
 	}
