@@ -34,5 +34,9 @@ public class User {
 		return "User [id=" + id + ", fname=" + fname + ", lname=" + lname + ", mname=" + mname + ", login=" + login
 				+ ", pass=" + pass + ", email=" + email + "]";
 	}
+
+	public void setId(long intValue) {
+		this.id = intValue;	
+	}
 	
 }
