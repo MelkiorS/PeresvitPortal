@@ -12,8 +12,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java-version>1.8</java-version>
-        <!-- Override Spring version -->
-        <!-- <spring.version>4.2.5.RELEASE</spring.version> -->
         <!-- AssertJ is not a part of Spring IO platform, so the version must be provided explicitly -->
         <assertj-core-version>3.4.1</assertj-core-version>
         <hibernate-version>5.2.3.Final</hibernate-version>
