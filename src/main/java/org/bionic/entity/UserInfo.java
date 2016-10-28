@@ -21,7 +21,7 @@ public class UserInfo {
 	@Getter @Setter private Long userInfoId;
 	
 	@ManyToOne
-	@JoinColumn(name="userID")
+	@JoinColumn(name="userId")
 	@Getter @Setter private User user;
 
 	@Getter @Setter private String InfoName;

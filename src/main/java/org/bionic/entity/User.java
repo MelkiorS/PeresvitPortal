@@ -30,9 +30,9 @@ public class User {
 			targetEntity = ResourceGroup.class
 	)
     @JoinTable(
-    		name="User_ResourceGroup",
-            joinColumns={@JoinColumn(name="UserID")},
-            inverseJoinColumns={@JoinColumn(name="ResourceGroupID")}
+    		name="userResourceGroup",
+            joinColumns={@JoinColumn(name="userId")},
+            inverseJoinColumns={@JoinColumn(name="resourceGroupId")}
 	)
     @Getter @Setter private Set<ResourceGroup> resourceGroups = new HashSet<ResourceGroup>();
      

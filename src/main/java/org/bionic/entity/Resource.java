@@ -21,7 +21,7 @@ public class Resource {
 	@Getter @Setter private int type; // ENUM
 	@Getter @Setter private String url;
 	@ManyToOne
-	@JoinColumn(name="groupId")
+	@JoinColumn(name="resourceGroupId")
 	@Getter @Setter private ResourceGroup group; //ManyToOne
 	@ManyToOne
 	@JoinColumn(name="ownerId")

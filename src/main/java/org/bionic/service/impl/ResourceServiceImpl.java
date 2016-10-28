@@ -45,7 +45,7 @@ public  class ResourceServiceImpl implements ResourceService{
 	
 	@Override
 	public
-	List<Resource> findByGroupId(Long groupid){
-		return resourceRepository.findByGroupId(groupid);
+	List<Resource> findByResourceGroupId(Long resourceId){
+		return resourceRepository.findByResourceId(resourceId);
 	}
 }

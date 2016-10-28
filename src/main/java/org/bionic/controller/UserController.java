@@ -27,33 +27,30 @@ public class UserController {
 	}
 
 	// edit user
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public @ResponseBody User editUserPage(@RequestBody User user, @PathVariable Long id) {
+	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
+	public @ResponseBody User editUserPage(@RequestBody User user, @PathVariable Long userId) {
 		if (user != null)
-			userService.update(user, id);
+			userService.update(user, userId);
 		return user;
 	}
 
 	// delete user
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public @ResponseBody User deleteUserPage(@PathVariable Long id) {
-		User user = userService.delete(id);
-		return user;
+	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+	public @ResponseBody User deleteUserPage(@PathVariable Long userId) {
+		return userService.delete(userId);
 	}
 
-	// show user by id
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public @ResponseBody User showUserPage(@PathVariable Long id) {
-		User user = userService.findById(id);
-		return user;
+	// show user by userId
+	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+	public @ResponseBody User showUserPage(@PathVariable Long userId) {
+		return userService.findByUserId(userId);
 	}
 
 	// show all users
 	@RequestMapping(value = "/", method = RequestMethod.GET)
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
 	public @ResponseBody List<User> showAllUsers() {
-		List<User> users = userService.findAll();
-		return users;
+		return userService.findAll();
 	}
 
 }
