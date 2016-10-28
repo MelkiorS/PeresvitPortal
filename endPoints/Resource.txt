@@ -8,6 +8,7 @@ Resource JSON:
     "group": null,			// ResourceGroup in JSON in belongs to
     "user": null			// If it's personal resource User in JSON
   }
+  
  -------------------------------
 TYPES FOR JSON:
  	TEXT(0),
