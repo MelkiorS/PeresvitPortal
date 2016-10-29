@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user/{id}/info")
+@RequestMapping("/user/{userId}/info")
 public class UserInfoController {
 
 	@Autowired
@@ -21,36 +21,36 @@ public class UserInfoController {
 
 	// create userInfo
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public UserInfo addUserInfo(@PathVariable Long id, @RequestBody UserInfo userInfo) {
-		return userInfoService.create(userInfo, id);
+	public UserInfo addUserInfo(@PathVariable Long userId, @RequestBody UserInfo userInfo) {
+		return userInfoService.create(userInfo, userId);
 	}
 
 	// show all user info
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public @ResponseBody List<UserInfo> showAllUserInfo(@PathVariable Long id) {
-		List<UserInfo> userInfo = userInfoService.findAll(id);
+	public @ResponseBody List<UserInfo> showAllUserInfo(@PathVariable Long userId) {
+		List<UserInfo> userInfo = userInfoService.findAll(userId);
 		return userInfo;
 	}
 
 	// edit user info
-	@RequestMapping(value = "/{infoid}", method = RequestMethod.PUT)
-	public @ResponseBody UserInfo editUserInfo(@RequestBody UserInfo userInfo, @PathVariable Long infoid) {
+	@RequestMapping(value = "/{userInfoId}", method = RequestMethod.PUT)
+	public @ResponseBody UserInfo editUserInfo(@RequestBody UserInfo userInfo, @PathVariable Long userInfoId) {
 		if (userInfo != null)
-			userInfoService.update(userInfo, infoid);
+			userInfoService.update(userInfo, userInfoId);
 		return userInfo;
 	}
 
-	// show user info by id
-	@RequestMapping(value = "/{infoid}", method = RequestMethod.GET)
-	public @ResponseBody UserInfo showUserInfo(@PathVariable Long infoid) {
-		UserInfo userInfo = userInfoService.findById(infoid);
+	// show user info by userInfoId
+	@RequestMapping(value = "/{userInfoId}", method = RequestMethod.GET)
+	public @ResponseBody UserInfo showUserInfo(@PathVariable Long userInfoId) {
+		UserInfo userInfo = userInfoService.findByUserInfoId(userInfoId);
 		return userInfo;
 	}
 
 	// delete user info
-	@RequestMapping(value = "/{infoid}", method = RequestMethod.DELETE)
-	public @ResponseBody UserInfo deleteUserInfo(@PathVariable Long infoid) {
-		UserInfo userInfo = userInfoService.delete(infoid);
+	@RequestMapping(value = "/{userInfoId}", method = RequestMethod.DELETE)
+	public @ResponseBody UserInfo deleteUserInfo(@PathVariable Long userInfoId) {
+		UserInfo userInfo = userInfoService.delete(userInfoId);
 		return userInfo;
 	}
 

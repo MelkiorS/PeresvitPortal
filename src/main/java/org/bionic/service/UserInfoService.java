@@ -10,9 +10,9 @@ public interface UserInfoService {
 	@Transactional
 	public UserInfo create(UserInfo  UserInfo, Long userId);
 	@Transactional
-	public UserInfo delete(Long id);
-	public List<UserInfo> findAll(Long user);
+	public UserInfo delete(Long userInfoId);
+	public List<UserInfo> findAll(Long userId);
 	@Transactional
-	public UserInfo update(UserInfo user, Long id);
-	public UserInfo findById(Long id);
+	public UserInfo update(UserInfo userInfo, Long userInfoId);
+	public UserInfo findByUserInfoId(Long userInfoId);
 }

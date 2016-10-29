@@ -1,6 +1,6 @@
 Resource JSON:
    {
-    "id": 3,				// id
+    "resourceId": 3,				// resourceId
     "title": null,			// title of media
     "description": null,	// it's description
     "type": 0,				// TYPE 
@@ -27,7 +27,7 @@ CONTROLER:
 @RequestMapping(value = "/resource/{resourceId}", method = RequestMethod.DELETE)
 
 
-// show resource by id (get object in JSON)
+// show resource by resourceId (get object in JSON)
 @RequestMapping(value = "/resource/{resourceId}", method = RequestMethod.GET)
 		
 // show all resources (get collection of resources in JSON)

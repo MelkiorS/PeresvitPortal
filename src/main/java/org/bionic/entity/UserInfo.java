@@ -8,53 +8,30 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Table(name = "userinfo")
+@Table(name = "userInfo")
 @JsonIgnoreProperties({"user", "user"})
 public class UserInfo {
 
 	@Id
     @GeneratedValue
-    private Long id;
+	@Getter @Setter private Long userInfoId;
 	
 	@ManyToOne
-	@JoinColumn(name="USER_ID")
-	private User user;
-	
-    private String InfoName;
-    private String InfoValue;
+	@JoinColumn(name="userId")
+	@Getter @Setter private User user;
+
+	@Getter @Setter private String InfoName;
+	@Getter @Setter private String InfoValue;
 	
     public UserInfo() {}
-    
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public String getInfoName() {
-		return InfoName;
-	}
-	public void setInfoName(String infoName) {
-		InfoName = infoName;
-	}
-	public String getInfoValue() {
-		return InfoValue;
-	}
-	public void setInfoValue(String infoValue) {
-		InfoValue = infoValue;
-	}
 	
 	@Override
 	public String toString() {
-		return "UserInfo [id=" + id + ", user=" + user + ", InfoName=" + InfoName + ", InfoValue=" + InfoValue + "]";
+		return "UserInfo [userInfoId=" + userInfoId + ", user=" + user + ", InfoName=" + InfoName + ", InfoValue=" + InfoValue + "]";
 	}
     
     
