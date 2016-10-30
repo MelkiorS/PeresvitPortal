@@ -18,10 +18,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 public class ResourceController {
-
 	@Autowired
 	private ResourceService resourceService;
-
+	
 	// create resource
 		@RequestMapping(value = "/resource/", method = RequestMethod.POST)
 		public ResponseEntity<Void> createResource(@RequestBody Resource resource, UriComponentsBuilder ucBuilder) {
@@ -68,7 +67,7 @@ public class ResourceController {
 		public ResponseEntity<List<Resource>> listAllResources() {
 			List<Resource> resource = resourceService.findAll();
 			if (resource.isEmpty()) {
-				return new ResponseEntity<List<Resource>>(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<List<Resource>>(HttpStatus.NO_CONTENT);											
 			}
 			return new ResponseEntity<List<Resource>>(resource, HttpStatus.OK);
 		}

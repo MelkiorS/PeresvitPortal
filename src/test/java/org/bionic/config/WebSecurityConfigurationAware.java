@@ -1,4 +1,4 @@
-package org.bionic.config;
+/*package org.bionic.config;
 
 import org.junit.Before;
 import org.springframework.security.web.FilterChainProxy;
@@ -18,3 +18,4 @@ public abstract class WebSecurityConfigurationAware extends WebAppConfigurationA
                 .addFilters(this.springSecurityFilterChain).build();
     }
 }
+*/

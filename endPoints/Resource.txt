@@ -1,0 +1,35 @@
+Resource JSON:
+   {
+    "id": 3,				// id
+    "title": null,			// title of media
+    "description": null,	// it's description
+    "type": 0,				// TYPE 
+    "url": null,			// path
+    "group": null,			// ResourceGroup in JSON in belongs to
+    "user": null			// If it's personal resource User in JSON
+  }
+  
+ -------------------------------
+TYPES FOR JSON:
+ 	TEXT(0),
+	PHOTO(1),
+	VIDEO(2);
+-------------------------------
+CONTROLER:
+
+// create resource (send object JSON)
+@RequestMapping(value = "/resource/", method = RequestMethod.POST)
+
+// edit resource (send object in JSON)
+@RequestMapping(value = "/resource/{resourceId}", method = RequestMethod.PUT)
+		
+// delete resource
+@RequestMapping(value = "/resource/{resourceId}", method = RequestMethod.DELETE)
+
+
+// show resource by id (get object in JSON)
+@RequestMapping(value = "/resource/{resourceId}", method = RequestMethod.GET)
+		
+// show all resources (get collection of resources in JSON)
+@RequestMapping(value = "/resource/", method = RequestMethod.GET)
+

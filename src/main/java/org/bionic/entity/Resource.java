@@ -3,6 +3,8 @@ package org.bionic.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,10 +15,14 @@ public class Resource {
 	private Long id;
 	private String title;
 	private String description;
-	private String type;
+	private int type; // ENUM
 	private String url;
-	private Long groupId; //ManyToOne
-	private Long ownerId;
+	@ManyToOne
+	@JoinColumn(name="groupId")
+	private ResourceGroup group; //ManyToOne 
+	@ManyToOne
+	@JoinColumn(name="ownerId")
+	private User user; // If personal information (info concerning user)
 	
 	public Long getId() {
 		return id;
@@ -25,10 +31,10 @@ public class Resource {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getType() {
+	public int getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 	public String getUrl() {
@@ -37,17 +43,13 @@ public class Resource {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public Long getGroupId() {
-		return groupId;
+	
+	public User getUser() {
+		return user;
 	}
-	public void setGroupId(Long groupId) {
-		this.groupId = groupId;
-	}
-	public Long getOwnerId() {
-		return ownerId;
-	}
-	public void setOwnerId(Long ownerId) {
-		this.ownerId = ownerId;
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getTitle() {
@@ -64,6 +66,14 @@ public class Resource {
 
 	public void setDescription(String desc) {
 		this.description = desc;
+	}
+
+	public ResourceGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(ResourceGroup group) {
+		this.group = group;
 	}
 	
 }
