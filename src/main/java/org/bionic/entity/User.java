@@ -7,32 +7,26 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.Data;
 
 @Entity
 @Table(name = "user")
-public class User {
+public @Data class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Getter @Setter private Long id;
+	private Long id;
  
-    @Getter @Setter private String fname;
-	@Getter @Setter private String lname;
-	@Getter @Setter private String mname;
-	@Getter @Setter private String login;
+    private String fname;
+	private String lname;
+	private String mname;
+	private String login;
     
     @JsonIgnore
-    @Getter @Setter private String pass;
-	@Getter @Setter private String email;
-	@Getter @Setter private String avatarURL;
+    private String pass;
+	private String email;
+	private String avatarURL;
      
 	public User() {}
-	
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", fname=" + fname + ", lname=" + lname + ", mname=" + mname + ", login=" + login
-				+ ", pass=" + pass + ", email=" + email + "]";
-	}
 	
 }
