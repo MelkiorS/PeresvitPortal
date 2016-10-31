@@ -12,9 +12,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "userinfo")
 @JsonIgnoreProperties({"user", "user"})
-public @Data class UserInfo {
+public class UserInfo {
 
 	@Id
     @GeneratedValue

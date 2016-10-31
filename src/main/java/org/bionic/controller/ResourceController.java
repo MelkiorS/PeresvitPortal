@@ -20,21 +20,24 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
+@RequestMapping("/resource")
 public class ResourceController {
 	@Autowired
 	private ResourceService resourceService;
 	
 	// create resource
-	@RequestMapping(value = "/resource/", method = RequestMethod.POST)
-	public ResponseEntity<Void> createResource(@RequestBody Resource resource, @RequestParam("file") MultipartHttpServletRequest file, UriComponentsBuilder ucBuilder) {
-		resourceService.save(resource, file);
+	@RequestMapping(value = "/", headers=("content-type=multipart/*"), method = RequestMethod.POST)
+	public ResponseEntity<Void> createResource(@RequestBody Resource resource, @RequestParam("file") MultipartFile inputFile, UriComponentsBuilder ucBuilder) { //  @RequestParam("file") MultipartFile inputFile , MultipartHttpServletRequest request
+		
+//		resourceService.save(resource, inputFile);
+		
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/resource/{resourceId}").buildAndExpand(resource.getResourceId()).toUri());
+		headers.setLocation(ucBuilder.path("/{resourceId}").buildAndExpand(resource.getResourceId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
 	// edit resource
-	@RequestMapping(value = "/resource/{resourceId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{resourceId}", method = RequestMethod.PUT)
 	public ResponseEntity<Resource> updateResource(@PathVariable("resourceId") long resourceId, @RequestBody Resource resource) {
 		Resource currentResource = resourceService.findOne(resourceId);
 		if (currentResource == null) {
@@ -44,7 +47,7 @@ public class ResourceController {
 	}
 
 	// delete resource
-	@RequestMapping(value = "/resource/{resourceId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{resourceId}", method = RequestMethod.DELETE)
 	public ResponseEntity<Resource> deleteResource(@PathVariable("resourceId") long resourceId) {
 		Resource resource = resourceService.findOne(resourceId);
 		if (resource == null) {
@@ -56,7 +59,7 @@ public class ResourceController {
 	}
 
 	// show resource by id
-	@RequestMapping(value = "/resource/{resourceId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/{resourceId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Resource> getResource(@PathVariable("resourceId") long resourceId) {
 		Resource resource = resourceService.findOne(resourceId);
 		if (resource == null) {
@@ -66,7 +69,7 @@ public class ResourceController {
 	}
 
 	// show all resources
-	@RequestMapping(value = "/resource/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ResponseEntity<List<Resource>> listAllResources() {
 		List<Resource> resource = resourceService.findAll();
 		if (resource.isEmpty()) {
