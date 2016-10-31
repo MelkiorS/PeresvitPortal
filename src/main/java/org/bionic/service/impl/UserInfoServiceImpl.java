@@ -26,28 +26,26 @@ public class UserInfoServiceImpl implements UserInfoService{
 
 	@Override
 	public List<UserInfo> findAll(Long userId) {
-		return userInfoRepository.findByUser_id(userId);
+		return userInfoRepository.findByUserInfoId(userId);
 	}
 
 	@Override
-	public UserInfo update(UserInfo userInfo, Long id) {
-		UserInfo updatedUserInfo = userInfoRepository.findOne(id);
+	public UserInfo update(UserInfo userInfo, Long userInfoId) {
+		UserInfo updatedUserInfo = userInfoRepository.findOne(userInfoId);
 		org.springframework.beans.BeanUtils.copyProperties(userInfo, updatedUserInfo);
 		return userInfoRepository.save(updatedUserInfo);
 	}
 
 	@Override
-	public UserInfo findById(Long id) {
-		return userInfoRepository.findOne(id);
+	public UserInfo findByUserInfoId(Long userInfoId) {
+		return userInfoRepository.findOne(userInfoId);
 	}
 
 	@Override
-	public UserInfo delete(Long id) {
-		UserInfo deletedUserInfo = userInfoRepository.findOne(id);
+	public UserInfo delete(Long userInfoId) {
+		UserInfo deletedUserInfo = userInfoRepository.findOne(userInfoId);
 		userInfoRepository.delete(deletedUserInfo);
 		return deletedUserInfo;
 	}
-
-
 
 }

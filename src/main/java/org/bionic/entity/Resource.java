@@ -16,7 +16,7 @@ import lombok.Data;
 public class Resource {
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Long resourceId;
 	private String title;
 	private String description;
 	private int type; // ENUM
@@ -25,7 +25,7 @@ public class Resource {
 	private byte[] fileStream;
 	private String fileType;
 	@ManyToOne
-	@JoinColumn(name="groupId")
+	@JoinColumn(name="resourceGroupId")
 	private ResourceGroup group; //ManyToOne 
 	@ManyToOne
 	@JoinColumn(name="ownerId")

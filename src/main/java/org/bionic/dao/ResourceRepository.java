@@ -18,5 +18,5 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
 
 	boolean equals(Object obj);
 
-	List<Resource> findByGroupId(Long groupid);
+	List<Resource> findByResourceId(Long resourceId);
 }

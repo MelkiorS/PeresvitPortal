@@ -18,10 +18,10 @@ public @Data class UserInfo {
 
 	@Id
     @GeneratedValue
-    private Long id;
+    private Long userInfoId;
 	
 	@ManyToOne
-	@JoinColumn(name="USER_ID")
+	@JoinColumn(name="userId")
 	private User user;
 	
 	private String InfoName;

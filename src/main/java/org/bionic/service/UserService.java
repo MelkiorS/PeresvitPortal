@@ -10,10 +10,10 @@ public interface UserService {
 	@Transactional
 	public User create(User user);
 	@Transactional
-	public User delete(Long id);
+	public User delete(Long userId);
 	public List<User> findAll();
 	@Transactional
-	public User update(User user, Long id);
-	public User findById(Long id);
+	public User update(User user, Long userId);
+	public User findByUserId(Long userId);
 
 }

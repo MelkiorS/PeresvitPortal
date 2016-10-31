@@ -18,5 +18,5 @@ public interface ResourceService{
 
 	boolean equals(Object obj);
 
-	List<Resource> findByGroupId(Long groupid);
+	List<Resource> findByResourceGroupId(Long resourceGroupId);
 }

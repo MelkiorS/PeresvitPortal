@@ -29,14 +29,13 @@ public class ResourceController {
 	public ResponseEntity<Void> createResource(@RequestBody Resource resource, @RequestParam("file") MultipartHttpServletRequest file, UriComponentsBuilder ucBuilder) {
 		resourceService.save(resource, file);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/resource/{resourceId}").buildAndExpand(resource.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/resource/{resourceId}").buildAndExpand(resource.getResourceId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
 	// edit resource
 	@RequestMapping(value = "/resource/{resourceId}", method = RequestMethod.PUT)
-	public ResponseEntity<Resource> updateResource(@PathVariable("resourceId") long resourceId,
-			@RequestBody Resource resource) {
+	public ResponseEntity<Resource> updateResource(@PathVariable("resourceId") long resourceId, @RequestBody Resource resource) {
 		Resource currentResource = resourceService.findOne(resourceId);
 		if (currentResource == null) {
 			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);

@@ -1,6 +1,6 @@
 Resource JSON:
    {
-    "id": 3,				// id
+    "resourceId": 3,				// resourceId
     "title": null,			// title of media
     "description": null,	// it's description
     "type": 0,				// TYPE 
@@ -8,6 +8,7 @@ Resource JSON:
     "group": null,			// ResourceGroup in JSON in belongs to
     "user": null			// If it's personal resource User in JSON
   }
+  
  -------------------------------
 TYPES FOR JSON:
  	TEXT(0),
@@ -26,8 +27,9 @@ CONTROLER:
 @RequestMapping(value = "/resource/{resourceId}", method = RequestMethod.DELETE)
 
 
-// show resource by id (get object in JSON)
+// show resource by resourceId (get object in JSON)
 @RequestMapping(value = "/resource/{resourceId}", method = RequestMethod.GET)
 		
 // show all resources (get collection of resources in JSON)
 @RequestMapping(value = "/resource/", method = RequestMethod.GET)
+

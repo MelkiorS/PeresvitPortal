@@ -1,21 +1,20 @@
 package org.bionic.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
 public @Data class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Long userId;
  
     private String fname;
 	private String lname;
@@ -27,6 +26,17 @@ public @Data class User {
 	private String email;
 	private String avatarURL;
      
+  	@ManyToMany(
+    		cascade = {CascadeType.ALL},
+			targetEntity = ResourceGroup.class
+	)
+    @JoinTable(
+    		name="userResourceGroup",
+            joinColumns={@JoinColumn(name="userId")},
+            inverseJoinColumns={@JoinColumn(name="resourceGroupId")}
+	)
+    private Set<ResourceGroup> resourceGroups = new HashSet<ResourceGroup>();
+         
 	public User() {}
 	
 }
