@@ -9,6 +9,13 @@
     <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
 </head>
 <body>
+
+<form method="POST" enctype="multipart/form-data"
+      action="http://localhost:8080/mma/upload">
+   File to upload: <input type="file" name="uploadedFile"><br />
+   <input type="submit" value="Upload">
+</form>
+
 <div th:replace="fragments/header :: header">Header</div>
 <div class="container">
     <div class="text-center">

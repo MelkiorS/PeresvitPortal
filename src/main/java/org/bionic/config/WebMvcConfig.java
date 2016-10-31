@@ -81,6 +81,14 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
         thymeleafViewResolver.setCharacterEncoding("UTF-8");
         return thymeleafViewResolver;
     }
+    
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver commonsMultipartResolver(){
+    	CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setDefaultEncoding("utf-8");
+        commonsMultipartResolver.setMaxUploadSize(50000000);
+        return commonsMultipartResolver;
+    }
 
     @Override
     public Validator getValidator() {
