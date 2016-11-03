@@ -1,4 +1,4 @@
-package org.bionic.controller;
+/*package org.bionic.controller;
 
 import java.io.File;
 import java.util.Iterator;
@@ -165,3 +165,4 @@ public class FileUploadController {
 	
 }
 
+*/

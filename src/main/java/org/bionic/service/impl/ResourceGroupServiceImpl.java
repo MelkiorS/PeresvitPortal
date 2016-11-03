@@ -40,10 +40,4 @@ public  class ResourceGroupServiceImpl implements ResourceGroupService{
 	boolean equals(Object obj){
 		return resourceGroupRepository.equals(obj);
 	}
-	
-	@Override
-	public
-	ResourceGroup findByType(String type){
-		return resourceGroupRepository.findByType(type);
-	}
 }

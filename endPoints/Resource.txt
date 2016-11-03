@@ -17,8 +17,8 @@ TYPES FOR JSON:
 -------------------------------
 CONTROLER:
 
-// create resource (send object JSON)
-@RequestMapping(value = "/resource/", method = RequestMethod.POST)
+	// create resource (send object JSON)
+	@RequestMapping(value = "/resource/", method = RequestMethod.POST)
 
 // edit resource (send object in JSON)
 @RequestMapping(value = "/resource/{resourceId}", method = RequestMethod.PUT)

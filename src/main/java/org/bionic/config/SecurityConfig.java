@@ -18,7 +18,7 @@ import org.bionic.account.AccountService;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = false)
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

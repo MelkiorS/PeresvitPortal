@@ -1,41 +1,49 @@
 package org.bionic.entity;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
-import lombok.Data;
 
 @Entity
 @Data
 @Table(name = "resource")
 public class Resource {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long resourceId;
 	private String title;
 	private String description;
-	private int type; 					// ENUM
 	private String url;
+	// resource format type
+	@ManyToOne
+	@JoinColumn(name="resourceTypeId")
+	private ResourceType resourceType;
+	// resource group 
 	@ManyToOne
 	@JoinColumn(name="resourceGroupId")
-	private ResourceGroup group; 		//ManyToOne 
+	private ResourceGroup resourceGroup;
+	// If personal information (info concerning user)
 	@ManyToOne
-	@JoinColumn(name="ownerId")
-	private User user; 					// If personal information (info concerning user)
-
-	public Resource(){}
+	@JoinColumn(name="userId")
+	private User user;
 	
-	public Resource(String title, String description, int type, ResourceGroup group, User user) {
+	public Resource(String title, String description, ResourceType type, ResourceGroup group, User user) {
 		this.title = title;
 		this.description = description;
-		this.type = type;
-		this.group = group;
+		this.resourceType = type;
+		this.resourceGroup = group;
 		this.user = user;
 	}
-	
-	
 }

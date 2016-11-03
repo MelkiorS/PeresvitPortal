@@ -1,19 +1,31 @@
 package org.bionic.entity;
 
-import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
-
-import java.util.HashSet;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "user")
-public @Data class User {
+@Data
+public class User {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long userId;
  
     private String fname;
@@ -25,8 +37,11 @@ public @Data class User {
     private String pass;
 	private String email;
 	private String avatarURL;
-     
-  	@ManyToMany(
+	// level of user
+	@ManyToOne
+	@JoinColumn(name="rangId")
+	private Rang rang;
+  /*  @ManyToMany(
     		cascade = {CascadeType.ALL},
 			targetEntity = ResourceGroup.class
 	)
@@ -36,7 +51,12 @@ public @Data class User {
             inverseJoinColumns={@JoinColumn(name="resourceGroupId")}
 	)
     private Set<ResourceGroup> resourceGroups = new HashSet<ResourceGroup>();
-         
+     */
 	public User() {}
 	
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", fname=" + fname + ", lname=" + lname + ", mname=" + mname + ", login=" + login
+				+ ", pass=" + pass + ", email=" + email + "]";
+	}
 }

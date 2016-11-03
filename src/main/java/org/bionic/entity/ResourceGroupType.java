@@ -1,21 +1,21 @@
 package org.bionic.entity;
 
-public enum ResourceGroupType {
-	
-	LESSON(0),
-	EVENT(1),
-	COMPETITION(2),
-	LEVEL_1(3),
-	LEVEL_2(4),
-	LEVEL_3(5);
-	
-	private final int value;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-	private ResourceGroupType(int value) {
-		this.value = value;
-	}
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-	public int getValue() {
-		return value;
-	}
+@Entity
+@Data
+@Table(name = "resourceGroupType")
+public class ResourceGroupType {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long resourceGroupTypeId;	
+	private String groupName; // ManyToOne
 }

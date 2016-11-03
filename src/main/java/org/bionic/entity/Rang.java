@@ -12,10 +12,10 @@ import lombok.Setter;
 
 @Entity
 @Data
-@Table(name = "resourceType")
-public class ResourceType {
+@Table(name = "rang")
+public class Rang {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long resourceTypeId;	
-	private String typeName;
+	private long rangId;	
+	private String rangName;
 }

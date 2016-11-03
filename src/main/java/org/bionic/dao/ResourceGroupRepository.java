@@ -17,5 +17,5 @@ public interface ResourceGroupRepository extends JpaRepository<ResourceGroup, Lo
 
 	boolean equals(Object obj);
 
-	ResourceGroup findByType(String type);
+	ResourceGroup findByResourceGroupId(String resourceGroupId);
 }

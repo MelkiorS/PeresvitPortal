@@ -16,6 +16,4 @@ public interface ResourceGroupService {
 	void delete(ResourceGroup arg0);
 
 	boolean equals(Object obj);
-
-	ResourceGroup findByType(String type);
 }
