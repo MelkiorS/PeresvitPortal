@@ -13,32 +13,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.UriComponentsBuilder;
+
 
 @RestController
 @RequestMapping("/resource")
 public class ResourceController {
 	@Autowired
 	private ResourceService resourceService;
-	
+
 	// create resource
-	@RequestMapping(value = "/", headers=("content-type=multipart/*"), method = RequestMethod.POST)
-	public ResponseEntity<Void> createResource(@RequestBody Resource resource, @RequestParam("file") MultipartFile inputFile, UriComponentsBuilder ucBuilder) { //  @RequestParam("file") MultipartFile inputFile , MultipartHttpServletRequest request
-		
-//		resourceService.save(resource, inputFile);
-		
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public ResponseEntity<Void> createResource(@RequestBody Resource resource, UriComponentsBuilder ucBuilder) {
+		resourceService.save(resource);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/{resourceId}").buildAndExpand(resource.getResourceId()).toUri());
+		headers.setLocation(ucBuilder.path("/resource/{resourceId}").buildAndExpand(resource.getResourceId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
 	// edit resource
 	@RequestMapping(value = "/{resourceId}", method = RequestMethod.PUT)
-	public ResponseEntity<Resource> updateResource(@PathVariable("resourceId") long resourceId, @RequestBody Resource resource) {
+	public ResponseEntity<Resource> updateResource(@PathVariable("resourceId") long resourceId,
+			@RequestBody Resource resource) {
 		Resource currentResource = resourceService.findOne(resourceId);
 		if (currentResource == null) {
 			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
@@ -77,5 +74,4 @@ public class ResourceController {
 		}
 		return new ResponseEntity<List<Resource>>(resource, HttpStatus.OK);
 	}
-			
 }

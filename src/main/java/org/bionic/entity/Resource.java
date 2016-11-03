@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -21,9 +20,6 @@ public class Resource {
 	private String description;
 	private int type; 					// ENUM
 	private String url;
-	@Lob 								// @Lob saves the data in BLOB (Binary Large Object) table field format
-	private byte[] fileStream;
-	private String fileType;
 	@ManyToOne
 	@JoinColumn(name="resourceGroupId")
 	private ResourceGroup group; 		//ManyToOne 
@@ -31,6 +27,15 @@ public class Resource {
 	@JoinColumn(name="ownerId")
 	private User user; 					// If personal information (info concerning user)
 
-	public Resource() {}	
+	public Resource(){}
+	
+	public Resource(String title, String description, int type, ResourceGroup group, User user) {
+		this.title = title;
+		this.description = description;
+		this.type = type;
+		this.group = group;
+		this.user = user;
+	}
+	
 	
 }

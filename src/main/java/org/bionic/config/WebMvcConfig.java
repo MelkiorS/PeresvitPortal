@@ -47,14 +47,6 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
         return messageSource;
     }
 
-    @Bean(name = "multipartResolver")
-    public CommonsMultipartResolver createMultipartResolver() {
-        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-        resolver.setDefaultEncoding("utf-8");
-        resolver.setMaxInMemorySize(1024*1024*1024); // 1 Gb
-        return resolver;
-    }
-    
     @Bean
     public ITemplateResolver templateResolver() {
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
