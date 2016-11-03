@@ -19,25 +19,11 @@ public class Event {
 
     @Id
     @GeneratedValue
-    @Getter
-    @Setter
     private long id;
-
-    @Getter
-    @Setter
     private String name;
-
-    @Getter
-    @Setter
     private Date start;
-    @Getter
-    @Setter
     private Date finish;
-    @Getter
-    @Setter
     private Date created;
-    @Getter
-    @Setter
     private String eventUrl;
 
 }
