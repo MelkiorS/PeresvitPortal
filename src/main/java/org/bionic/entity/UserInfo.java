@@ -8,31 +8,27 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.Data;
 
 @Entity
-@Table(name = "userInfo")
+@Data
+@Table(name = "userinfo")
 @JsonIgnoreProperties({"user", "user"})
 public class UserInfo {
 
 	@Id
     @GeneratedValue
-	@Getter @Setter private Long userInfoId;
+    private Long userInfoId;
 	
 	@ManyToOne
 	@JoinColumn(name="userId")
-	@Getter @Setter private User user;
-
-	@Getter @Setter private String InfoName;
-	@Getter @Setter private String InfoValue;
+	private User user;
+	
+	private String InfoName;
+	private String InfoValue;
 	
     public UserInfo() {}
-	
-	@Override
-	public String toString() {
-		return "UserInfo [userInfoId=" + userInfoId + ", user=" + user + ", InfoName=" + InfoName + ", InfoValue=" + InfoValue + "]";
-	}
     
     
 }
