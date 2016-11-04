@@ -25,14 +25,10 @@ public class UserInfo {
 	@JoinColumn(name="userId")
 	private User user;
 
-	private String InfoName;
-	private String InfoValue;
+	private String infoName;
+	private String infoValue;
 	
     public UserInfo() {}
 	
-	@Override
-	public String toString() {
-		return "UserInfo [userInfoId=" + userInfoId + ", user=" + user + ", InfoName=" + InfoName + ", InfoValue=" + InfoValue + "]";
-	}
 }
 

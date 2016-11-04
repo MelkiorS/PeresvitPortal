@@ -2,7 +2,7 @@
 
 REQUEST:
 <form method="POST" enctype="multipart/form-data"
-      action="http://localhost:8080/mma/upload_avatar">
+      action="http://128.0.169.5:9280/mma/upload_avatar">
    File to upload: <input type="file" name="uploadedFile"><br />
    UserId:  	   <input type="text" name="userId"><br />
    <input type="submit" value="Upload">
@@ -16,7 +16,7 @@ EXAMPLE Jquery AJAX:
 						var settings = {
 						  "async": true,
 						  "crossDomain": true,
-						  "url": "http://localhost:8080/mma/upload_avatar",
+						  "url": "http://128.0.169.5:9280/mma/upload_avatar",
 						  "method": "POST",
 						  "headers": {
 						    "cache-control": "no-cache",
@@ -33,13 +33,13 @@ EXAMPLE Jquery AJAX:
 						});
 RESPONSE:
 		HEADERS
-		content-disposition →D:\Program Files\......\mma\home\mma\downloads\user3\avatar\IMG_20161013_123445.jpg
+		content-disposition →\\128.0.169.5:9280\mma\home\mma\downloads\user3\avatar\IMG_20161013_123445.jpg
 		userId →1	
 
 2)New resource for existing user. resourceId must be 0!
 REQUEST:
 <form method="POST" enctype="multipart/form-data"   
-   action="http://localhost:8080/mma/upload_resource">
+   action="http://128.0.169.5:9280/mma/upload_resource">
    File to upload: <input type="file" name="uploadedFile"><br />
    resourceId:  	   <input type="text" name="resourceId"><br />
    title:  	   		   <input type="text" name="title"><br />
@@ -59,7 +59,7 @@ EXAMPLE Jquery AJAX:
 					var settings = {
 					  "async": true,
 					  "crossDomain": true,
-					  "url": "http://localhost:8080/mma/upload_resource",
+					  "url": "http://128.0.169.5:9280/mma/upload_resource",
 					  "method": "POST",
 					  "headers": {
 					    "cache-control": "no-cache",
@@ -76,7 +76,7 @@ EXAMPLE Jquery AJAX:
 					});				
 RESPONSE:
 		HEADERS
-		content-disposition →D:\Program Files\......\mma\home\mma\downloads\user1\application\vnd.ms-powerpoint\2_XML.ppt
+		content-disposition →\\128.0.169.5:9280\mma\home\mma\downloads\user1\application\vnd.ms-powerpoint\2_XML.ppt
 		resourceId →5
 		
 3) Change resource. resourceId must by not 0 or "".
@@ -91,7 +91,7 @@ EXAMPLE Jquery AJAX:
 					var settings = {
 					  "async": true,
 					  "crossDomain": true,
-					  "url": "http://localhost:8080/mma/upload_resource",
+					  "url": "http://128.0.169.5:9280/mma/upload_resource",
 					  "method": "POST",
 					  "headers": {
 					    "cache-control": "no-cache",
@@ -109,7 +109,7 @@ EXAMPLE Jquery AJAX:
 
 RESPONSE:
 		HEADERS					
-		content-disposition →D:\Program Files\......\mma\home\mma\downloads\userunknown\image\png\Walking_Horse_Outline_clip_art_hight.png
+		content-disposition →\\128.0.169.5:9280\mma\home\mma\downloads\userunknown\image\png\Walking_Horse_Outline_clip_art_hight.png
 		resourceId →5		
  
  4) To delete avatar or resource file ----> edit User or Resource with empty field avatarURL or URL.
