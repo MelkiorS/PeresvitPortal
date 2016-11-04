@@ -78,7 +78,7 @@ public class FileUploadController {
         }
         catch (Exception e) {return new ResponseEntity<>("{saving error}", HttpStatus.INTERNAL_SERVER_ERROR);}
         
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>("file not selected", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
       
 	@RequestMapping(value = "/upload_resource")
@@ -160,7 +160,7 @@ public class FileUploadController {
         }
         catch (Exception e) {return new ResponseEntity<>("{saving error}", HttpStatus.INTERNAL_SERVER_ERROR);}
         
-        return new ResponseEntity<Resource>(resource, HttpStatus.OK);
+        return new ResponseEntity<>("file not selected", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }
