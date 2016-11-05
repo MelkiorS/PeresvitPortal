@@ -1,0 +1,116 @@
+1) Saving avatar for exist User. UserId must by not 0 or ""!
+
+REQUEST:
+<form method="POST" enctype="multipart/form-data"
+      action="http://128.0.169.5:9280/mma/upload_avatar">
+   File to upload: <input type="file" name="uploadedFile"><br />
+   UserId:  	   <input type="text" name="userId"><br />
+   <input type="submit" value="Upload">
+</form>
+
+EXAMPLE Jquery AJAX:
+						var form = new FormData();
+						form.append("userId", "1");
+						form.append("uploadedFile", {"0":{}});
+						
+						var settings = {
+						  "async": true,
+						  "crossDomain": true,
+						  "url": "http://128.0.169.5:9280/mma/upload_avatar",
+						  "method": "POST",
+						  "headers": {
+						    "cache-control": "no-cache",
+						    "postman-token": "a8ce9dad-17c2-f119-1cc4-4cdaad89bccd"
+						  },
+						  "processData": false,
+						  "contentType": false,
+						  "mimeType": "multipart/form-data",
+						  "data": form
+						}
+						
+						$.ajax(settings).done(function (response) {
+						  console.log(response);
+						});
+RESPONSE:
+		HEADERS
+		content-disposition →\\128.0.169.5:9280\mma\home\mma\downloads\user3\avatar\IMG_20161013_123445.jpg
+		userId →1	
+
+2)New resource for existing user. resourceId must be 0!
+REQUEST:
+<form method="POST" enctype="multipart/form-data"   
+   action="http://128.0.169.5:9280/mma/upload_resource">
+   File to upload: <input type="file" name="uploadedFile"><br />
+   resourceId:  	   <input type="text" name="resourceId"><br />
+   title:  	   		   <input type="text" name="title"><br />
+   description:  	   <input type="text" name="description"><br />
+   userId:  	       <input type="text" name="userId"><br />
+   <input type="submit" value="Upload">
+</form>
+
+EXAMPLE Jquery AJAX:
+					var form = new FormData();
+					form.append("resourceId", "0");
+					form.append("uploadedFile", {"0":{}});
+					form.append("title", "Super");
+					form.append("description", "very interesting");
+					form.append("userId", "1");
+					
+					var settings = {
+					  "async": true,
+					  "crossDomain": true,
+					  "url": "http://128.0.169.5:9280/mma/upload_resource",
+					  "method": "POST",
+					  "headers": {
+					    "cache-control": "no-cache",
+					    "postman-token": "dcd57f62-557f-754c-133a-d398a100faf3"
+					  },
+					  "processData": false,
+					  "contentType": false,
+					  "mimeType": "multipart/form-data",
+					  "data": form
+					}
+					
+					$.ajax(settings).done(function (response) {
+					  console.log(response);
+					});				
+RESPONSE:
+		HEADERS
+		content-disposition →\\128.0.169.5:9280\mma\home\mma\downloads\user1\application\vnd.ms-powerpoint\2_XML.ppt
+		resourceId →5
+		
+3) Change resource. resourceId must by not 0 or "".
+Example Changes: "title", "Super"     ----> "Hourse"
+				 "file" , "2_XML.ppt" ----> "Walking_Horse_Outline_clip_art_hight.png"
+EXAMPLE Jquery AJAX:
+					var form = new FormData();
+					form.append("resourceId", "5");
+					form.append("uploadedFile", {"0":{}});
+					form.append("title", "Hourse");
+					
+					var settings = {
+					  "async": true,
+					  "crossDomain": true,
+					  "url": "http://128.0.169.5:9280/mma/upload_resource",
+					  "method": "POST",
+					  "headers": {
+					    "cache-control": "no-cache",
+					    "postman-token": "fc0693de-76bf-9856-4573-65b88e22aab9"
+					  },
+					  "processData": false,
+					  "contentType": false,
+					  "mimeType": "multipart/form-data",
+					  "data": form
+					}
+					
+					$.ajax(settings).done(function (response) {
+					  console.log(response);
+					});		
+
+RESPONSE:
+		HEADERS					
+		content-disposition →\\128.0.169.5:9280\mma\home\mma\downloads\userunknown\image\png\Walking_Horse_Outline_clip_art_hight.png
+		resourceId →5		
+ 
+ 4) To delete avatar or resource file ----> edit User or Resource with empty field avatarURL or URL.
+  

@@ -1,0 +1,29 @@
+http://128.0.169.5:9280/mma/user/
+
+USER JSON:
+{
+  	"id": 3, 
+	"fname": "Kenny",  // first name 
+	"lname": "Mak",    // last
+	"mname": "cvb",    // middle 
+	"email": "wee@sdds",  
+	"avatarURL": "erte"
+}
+
+
+CONTROLER:
+
+// create user(send object JSON)
+@RequestMapping(value = "/user/", method = RequestMethod.POST)
+
+// edit user(send object in JSON)
+@RequestMapping(value = "/user/{userId}", method = RequestMethod.PUT)
+		
+// delete user
+@RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE)
+
+// show user by userId (get object in JSON)
+@RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
+		
+// show all users (get collection of resources in JSON)
+@RequestMapping(value = "/user/", method = RequestMethod.GET)

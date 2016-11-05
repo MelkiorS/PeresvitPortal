@@ -14,6 +14,7 @@ import java.util.List;
  * Event controller by MMaximov 03.11.2016
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/event")
 public class EventController {
 
