@@ -1,31 +1,24 @@
 package org.bionic.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
-import org.bionic.dto.UserDto;
+import org.bionic.web.dto.UserDto;
 
 @Entity
 @Table(name = "user")
 @Data
 public class User {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
  
     private String firstName;
 	private String lastName;
 	private String middleName;
-	//private String login;
-    
+
     @JsonIgnore
     private String password;
 	private String email;
@@ -53,7 +46,12 @@ public class User {
     }
 
     public User(UserDto accountDto){
-
+        super();
+        firstName = accountDto.getFirstName();
+        lastName = accountDto.getLastName();
+        middleName = accountDto.getMiddleName();
+        password = accountDto.getPassword();
+        email = accountDto.getEmail();
     }
 
 	@Override

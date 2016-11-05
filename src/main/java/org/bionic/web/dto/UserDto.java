@@ -1,4 +1,4 @@
-package org.bionic.dto;
+package org.bionic.web.dto;
 
 
 import lombok.Data;
