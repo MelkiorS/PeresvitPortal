@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @CrossOrigin
@@ -145,10 +144,9 @@ public class FileUploadController {
         				
         				if(itsNewResource)
         					resourceService.save(resource);
-        				/*else
-        					resourceService.update(resource, resourceId);*/
-        				
-
+        				else
+        					resourceService.update(resource, resourceId);
+        	
                         // Generate the http headers with the file properties
         				HttpHeaders headers = new HttpHeaders();
                         headers.add("content-disposition", pathFile);
