@@ -1,4 +1,4 @@
-/*package org.bionic.controller;
+package org.bionic.controller;
 
 import java.io.File;
 import java.util.Iterator;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
+@CrossOrigin
 // Max uploaded file size (here it is 20 MB)
 @MultipartConfig(fileSizeThreshold = 1024*1024*20)
 public class FileUploadController {
@@ -100,7 +102,7 @@ public class FileUploadController {
 		Resource resource = resourceService.findOne(resourceId);
 		boolean itsNewResource = false;
 		if(resource==null){
-			resource = new Resource(request.getParameter("title"), request.getParameter("description"), 0, resourceGroup, user);
+			resource = new Resource(request.getParameter("title"), request.getParameter("description"), user);
 			itsNewResource = true;
 		}
 			
@@ -143,12 +145,12 @@ public class FileUploadController {
         				
         				if(itsNewResource)
         					resourceService.save(resource);
-        				else
-        					resourceService.update(resource, resourceId);
+        				/*else
+        					resourceService.update(resource, resourceId);*/
         				
 
                         // Generate the http headers with the file properties
-                        HttpHeaders headers = new HttpHeaders();
+        				HttpHeaders headers = new HttpHeaders();
                         headers.add("content-disposition", pathFile);
                         headers.add("resourceId", "" + resource.getResourceId());
                         
@@ -165,4 +167,3 @@ public class FileUploadController {
 	
 }
 
-*/

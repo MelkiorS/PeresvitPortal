@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 
 @RestController
+@CrossOrigin
 public class ResourceController {
 	@Autowired
 	private ResourceService resourceService;
@@ -27,6 +29,7 @@ public class ResourceController {
 		public ResponseEntity<Void> createResource(@RequestBody Resource resource, UriComponentsBuilder ucBuilder) {
 			resourceService.save(resource);
 			HttpHeaders headers = new HttpHeaders();
+			headers.setAccessControlAllowOrigin("*");
 			headers.setLocation(ucBuilder.path("/resource/{resourceId}").buildAndExpand(resource.getResourceId()).toUri());
 			return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 		}
