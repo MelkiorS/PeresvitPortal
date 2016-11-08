@@ -5,73 +5,80 @@ import java.util.List;
 import org.bionic.entity.Rang;
 import org.bionic.service.RangService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
-@RestController
-@CrossOrigin
+@Controller
+@RequestMapping(value = "/admin/rang")
 public class RangController {
 	@Autowired
 	private RangService rangService;
+		
+	//go to manage page
+	@RequestMapping(value = "/management", method = RequestMethod.GET)
+	public String goToManagement(Model model) {
+		return "admin/rang/rangManagement";
+	}
+	//go to addForm
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public String goToAddForm(Model model) {
+		model.addAttribute(new Rang());
+		return "admin/rang/addRang";
+	}
 	
-	    // create rang
-		@RequestMapping(value = "/rang/", method = RequestMethod.POST)
-		public ResponseEntity<Void> createRang(@RequestBody Rang rang, UriComponentsBuilder ucBuilder) {
-			rangService.save(rang);
-			HttpHeaders headers = new HttpHeaders();
-			headers.setLocation(ucBuilder.path("/rang/{rangId}").buildAndExpand(rang.getRangId()).toUri());
-			return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-		}
+	 // create rang
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public String createRang(Rang rang, RedirectAttributes model) {
+		rangService.save(rang);
+		model.addAttribute("rangId", rang.getRangId());
+		model.addFlashAttribute("rang", rang);
+		return "redirect:/admin/rang/{rangId}";
+	}
+	
+	// show rang by id
+	@RequestMapping(value = "/{rangId}", method = RequestMethod.GET)
+	public String getRang(@PathVariable("rangId") long rangId, Model model) {
+		if (!model.containsAttribute("rang")) 
+			model.addAttribute("rang", rangService.findOne(rangId));
+		return "admin/rang/rangProfile";
+	}
 
-		// edit rang
-		@RequestMapping(value = "/rang/{rangId}", method = RequestMethod.PUT)
-		public ResponseEntity<Rang> updateRang(@PathVariable("rangId") long rangId, @RequestBody Rang rang) {
-			Rang currentRang = rangService.findOne(rangId);
-			if (currentRang == null) {
-				return new ResponseEntity<Rang>(HttpStatus.NOT_FOUND);
-			}
-			return new ResponseEntity<Rang>(rangService.save(rang), HttpStatus.OK);
-		}
-
-		// delete rang
-		@RequestMapping(value = "/rang/{rangId}", method = RequestMethod.DELETE)
-	    public ResponseEntity<Rang> deleteRang(@PathVariable("rangId") long rangId) {
-	        Rang rang = rangService.findOne(rangId);
-	        if (rang == null) {
-	            return new ResponseEntity<Rang>(HttpStatus.NOT_FOUND);
-	        }
-
-	        rangService.delete(rangService.findOne(rangId));
-	        return new ResponseEntity<Rang>(HttpStatus.NO_CONTENT);
-	    }
-
-		// show rang by id
-		@RequestMapping(value = "/rang/{rangId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-		public ResponseEntity<Rang> getRang(@PathVariable("rangId") long rangId) {
-			Rang rang = rangService.findOne(rangId);
-			if (rang == null) {
-				return new ResponseEntity<Rang>(HttpStatus.NOT_FOUND);
-			}
-			return new ResponseEntity<Rang>(rang, HttpStatus.OK);
-		}
-
-		// show all rangs
-		@RequestMapping(value = "/rang/", method = RequestMethod.GET)
-		public ResponseEntity<List<Rang>> listAllRangs() {
-			List<Rang> rang = rangService.findAll();
-			if (rang.isEmpty()) {
-				return new ResponseEntity<List<Rang>>(HttpStatus.NO_CONTENT);
-			}
-			return new ResponseEntity<List<Rang>>(rang, HttpStatus.OK);
-		}
+	// show all rangs
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String listAllRangs(Model model) {
+		List<Rang> rangs = rangService.findAll();
+		model.addAttribute("rangList", rangs);
+		model.addAttribute("rang", new Rang());
+		return "admin/rang/allRangs";
+	}
+	
+	// delete rang
+	// need to solve issue when its FK to smth !!!!
+	@RequestMapping(value = "/delete/{rangId}", method = RequestMethod.GET)
+    public String deleteRang(@PathVariable("rangId") long rangId,
+    		Model model) {
+        Rang rang = rangService.findOne(rangId);
+        if (rang == null) {
+           // custom exception
+        }
+        rangService.delete(rang);
+        return listAllRangs(model);
+    }
+	
+	// edit rang
+	@RequestMapping(value = "/edit/{rangId}", method = RequestMethod.GET)
+    public String editRang(@PathVariable("rangId")  long rangId,
+    		Model model) {
+        Rang rang = rangService.findOne(rangId);
+        if (rang == null) {
+           // custom exception
+        }
+        model.addAttribute("rang", rang);
+        return "admin/rang/addRang";
+    }
+	
 }

@@ -1,6 +1,22 @@
 package org.bionic.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.*;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,6 +41,7 @@ public class User {
 	private String avatarURL;
 	// level of user
 	@ManyToOne
+	@Cascade(CascadeType.DELETE)
 	@JoinColumn(name="rangId")
 	private Rang rang;
     //Account verification status
@@ -40,20 +57,8 @@ public class User {
 	)
     private Set<ResourceGroup> resourceGroups = new HashSet<ResourceGroup>();
      */
-	public User() {
-        super();
-        this.enabled = false;
-    }
-
-    public User(UserDto accountDto){
-        super();
-        firstName = accountDto.getFirstName();
-        lastName = accountDto.getLastName();
-        middleName = accountDto.getMiddleName();
-        password = accountDto.getPassword();
-        email = accountDto.getEmail();
-    }
-
+	public User() {}
+	
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", middleName=" + middleName + /*", login=" + login

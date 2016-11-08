@@ -5,72 +5,80 @@ import java.util.List;
 import org.bionic.entity.ResourceGroupType;
 import org.bionic.service.ResourceGroupTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
-@RestController
-@CrossOrigin
+@Controller
+@RequestMapping(value = "/admin/resourceGroupType")
 public class ResourceGroupTypeController {
 	@Autowired
 	private ResourceGroupTypeService resourceGroupTypeService;
+		
+	//go to manage page
+	@RequestMapping(value = "/management", method = RequestMethod.GET)
+	public String goToManagement(Model model) {
+		return "admin/resourceGroupType/resourceGroupTypeManagement";
+	}
+	//go to addForm
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public String goToAddForm(Model model) {
+		model.addAttribute(new ResourceGroupType());
+		return "admin/resourceGroupType/addResourceGroupType";
+	}
 	
-	    // create resourceGroupType
-		@RequestMapping(value = "/resourceGroupType/", method = RequestMethod.POST)
-		public ResponseEntity<Void> createResourceGroupType(@RequestBody ResourceGroupType resourceGroupType, UriComponentsBuilder ucBuilder) {
-			resourceGroupTypeService.save(resourceGroupType);
-			HttpHeaders headers = new HttpHeaders();
-			headers.setLocation(ucBuilder.path("/resourceGroupType/{resourceGroupTypeId}").buildAndExpand(resourceGroupType.getResourceGroupTypeId()).toUri());
-			return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-		}
+	 // create resourceGroupType
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public String createResourceGroupType(ResourceGroupType resourceGroupType, RedirectAttributes model) {
+		resourceGroupTypeService.save(resourceGroupType);
+		model.addAttribute("resourceGroupTypeId", resourceGroupType.getResourceGroupTypeId());
+		model.addFlashAttribute("resourceGroupType", resourceGroupType);
+		return "redirect:/admin/resourceGroupType/{resourceGroupTypeId}";
+	}
+	
+	// show resourceGroupType by id
+	@RequestMapping(value = "/{resourceGroupTypeId}", method = RequestMethod.GET)
+	public String getResourceGroupType(@PathVariable("resourceGroupTypeId") long resourceGroupTypeId, Model model) {
+		if (!model.containsAttribute("resourceGroupType")) 
+			model.addAttribute("resourceGroupType", resourceGroupTypeService.findOne(resourceGroupTypeId));
+		return "admin/resourceGroupType/resourceGroupTypeProfile";
+	}
 
-		// edit resourceGroupType
-		@RequestMapping(value = "/resourceGroupType/{resourceGroupTypeId}", method = RequestMethod.PUT)
-		public ResponseEntity<ResourceGroupType> updateResourceGroupType(@PathVariable("resourceGroupTypeId") long resourceGroupTypeId, @RequestBody ResourceGroupType resourceGroupType) {
-			ResourceGroupType currentResourceGroupType = resourceGroupTypeService.findOne(resourceGroupTypeId);
-			if (currentResourceGroupType == null) {
-				return new ResponseEntity<ResourceGroupType>(HttpStatus.NOT_FOUND);
-			}
-			return new ResponseEntity<ResourceGroupType>(resourceGroupTypeService.save(resourceGroupType), HttpStatus.OK);
-		}
-
-		// delete resourceGroupType
-		@RequestMapping(value = "/resourceGroupType/{resourceGroupTypeId}", method = RequestMethod.DELETE)
-	    public ResponseEntity<ResourceGroupType> deleteResourceGroupType(@PathVariable("resourceGroupTypeId") long resourceGroupTypeId) {
-	        ResourceGroupType resourceGroupType = resourceGroupTypeService.findOne(resourceGroupTypeId);
-	        if (resourceGroupType == null) {
-	            return new ResponseEntity<ResourceGroupType>(HttpStatus.NOT_FOUND);
-	        }
-
-	        resourceGroupTypeService.delete(resourceGroupTypeService.findOne(resourceGroupTypeId));
-	        return new ResponseEntity<ResourceGroupType>(HttpStatus.NO_CONTENT);
-	    }
-
-		// show resourceGroupType by id
-		@RequestMapping(value = "/resourceGroupType/{resourceGroupTypeId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-		public ResponseEntity<ResourceGroupType> getResourceGroupType(@PathVariable("resourceGroupTypeId") long resourceGroupTypeId) {
-			ResourceGroupType resourceGroupType = resourceGroupTypeService.findOne(resourceGroupTypeId);
-			if (resourceGroupType == null) {
-			}
-			return new ResponseEntity<ResourceGroupType>(resourceGroupType, HttpStatus.OK);
-		}
-
-		// show all resourceGroupTypes
-		@RequestMapping(value = "/resourceGroupType/", method = RequestMethod.GET)
-		public ResponseEntity<List<ResourceGroupType>> listAllResourceGroupTypes() {
-			List<ResourceGroupType> resourceGroupType = resourceGroupTypeService.findAll();
-			if (resourceGroupType.isEmpty()) {
-				return new ResponseEntity<List<ResourceGroupType>>(HttpStatus.NO_CONTENT);
-			}
-			return new ResponseEntity<List<ResourceGroupType>>(resourceGroupType, HttpStatus.OK);
-		}
+	// show all resourceGroupTypes
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String listAllResourceGroupTypes(Model model) {
+		List<ResourceGroupType> resourceGroupTypes = resourceGroupTypeService.findAll();
+		model.addAttribute("resourceGroupTypeList", resourceGroupTypes);
+		model.addAttribute("resourceGroupType", new ResourceGroupType());
+		return "admin/resourceGroupType/allResourceGroupTypes";
+	}
+	
+	// delete resourceGroupType
+	// need to solve issue when its FK to smth !!!!
+	@RequestMapping(value = "/delete/{resourceGroupTypeId}", method = RequestMethod.GET)
+    public String deleteResourceGroupType(@PathVariable("resourceGroupTypeId") long resourceGroupTypeId,
+    		Model model) {
+        ResourceGroupType resourceGroupType = resourceGroupTypeService.findOne(resourceGroupTypeId);
+        if (resourceGroupType == null) {
+           // custom exception
+        }
+        resourceGroupTypeService.delete(resourceGroupType);
+        return listAllResourceGroupTypes(model);
+    }
+	
+	// edit resourceGroupType
+	@RequestMapping(value = "/edit/{resourceGroupTypeId}", method = RequestMethod.GET)
+    public String editResourceGroupType(@PathVariable("resourceGroupTypeId")  long resourceGroupTypeId,
+    		Model model) {
+        ResourceGroupType resourceGroupType = resourceGroupTypeService.findOne(resourceGroupTypeId);
+        if (resourceGroupType == null) {
+           // custom exception
+        }
+        model.addAttribute("resourceGroupType", resourceGroupType);
+        return "admin/resourceGroupType/addResourceGroupType";
+    }
+	
 }
