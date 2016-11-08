@@ -2,22 +2,27 @@ package org.bionic.controller;
 
 import java.util.List;
 
+import org.bionic.validation.EmailExistsException;
+import org.bionic.web.dto.UserDto;
+import org.bionic.web.error.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import org.bionic.entity.User;
 import org.bionic.service.UserService;
+
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin
@@ -27,16 +32,45 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	// Show registration form
+	@RequestMapping(value = "/registration", method = RequestMethod.GET)
+	public String showRegistrationForm(WebRequest request, Model model) {
+		UserDto userDto = new UserDto();
+		model.addAttribute("user", userDto);
+		return "registration/registration";
+	}
+
 	// create user
 	@CrossOrigin
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public ResponseEntity<Void> addUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
-		userService.create(user);
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setAccessControlAllowOrigin("*");
-		headers.setLocation(ucBuilder.path("/user/{userId}").buildAndExpand(user.getUserId()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);		
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	public ModelAndView registerUserAccount(
+			@ModelAttribute("user") UserDto accountDto,
+			BindingResult result,
+			WebRequest request,
+			Errors errors) {
+
+		User registered = userService.registerNewUserAccount(accountDto);
+		if (!result.hasErrors()) {
+			registered = createUserAccount(accountDto, result);
+		}
+		if (registered == null) {
+			result.rejectValue("email", "message.regError");
+		}
+		if (result.hasErrors()) {
+			return new ModelAndView("registration/registration", "user", accountDto);
+		}
+		else {
+			return new ModelAndView("workField/office", "user", accountDto);
+		}
+	}
+	private User createUserAccount(UserDto accountDto, BindingResult result) {
+		User registered = null;
+		try {
+			registered = userService.registerNewUserAccount(accountDto);
+		} catch (UserAlreadyExistException e) {
+			return null;
+		}
+		return registered;
 	}
 
 	// edit user

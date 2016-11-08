@@ -15,7 +15,7 @@ $(function(){
             var formData = JSON.stringify(newUser);
             $.ajax({
                 type: "POST",
-                url: server + "user/",
+                url: server + "user/registration",
                 data: formData,
                 crossDomain: true,
                 xhrFields: {
@@ -37,7 +37,7 @@ $(function(){
     $('#enterForm').on('submit',function(e){
         e.p
         $.ajax({
-            url: server + "user/3",
+            url: server + "user/",
             crossDomain: true,
             xhrFields: {withCredentials: true},
 

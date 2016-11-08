@@ -17,8 +17,6 @@ $(function(){
             .done(function(data){
                 insert_data_in_private_office_fields( JSON.stringify(data));
             });
-
-
     }
     function insert_data_in_private_office_fields(data) {
         var userData = JSON.parse(data);
