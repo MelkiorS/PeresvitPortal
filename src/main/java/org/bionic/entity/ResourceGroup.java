@@ -1,7 +1,7 @@
 package org.bionic.entity;
 
+
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -10,10 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import lombok.Data;
 
@@ -24,6 +26,8 @@ public class ResourceGroup {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long resourceGroupId;
+	// title
+	private String resourceGroupName;
 	// resource content type
 	@ManyToOne
 	@JoinColumn(name="resourceGroupTypeId")
@@ -35,8 +39,9 @@ public class ResourceGroup {
 	/*ResourceGroupId of resourceType (imagine we have Event entity with x resourceGroupId
 	to get all concerning resources type = EVENT resourceGroupId = X*/
 	private Long typeId; 
-	/*@OneToMany(mappedBy = "resourceGroup")
-	Collection<Resource> resourceCollection;*/
+	@OneToMany(mappedBy = "resourceGroup")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	Collection<Resource> resourceCollection;
     /*@ManyToMany(
             mappedBy="resourceGroups",
             targetEntity = User.class

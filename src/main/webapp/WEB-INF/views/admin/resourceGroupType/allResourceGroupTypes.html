@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ResourceGroups List</title>
+</head>
+<body>
+<a th:href="@{/admin/resourceGroupType/management}" >ResourceGroupsType Management</a>
+<br/>
+<div class="resourceGroupTypeList" th:unless="${#lists.isEmpty(resourceGroupTypeList)}">
+    
+  <h2 >List of ResourcesGroupTypes</h2>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Group Name</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="resourceGroupType : ${resourceGroupTypeList}">
+        <td th:text="${resourceGroupType.resourceGroupTypeId}"></td>
+        <td th:text="${resourceGroupType.groupName}"></td>
+        <td><a th:href="@{/admin/resourceGroupType/edit/} + ${resourceGroupType.resourceGroupTypeId}">Edit</a></td>   
+        <td><a th:href="@{/admin/resourceGroupType/delete/} + ${resourceGroupType.resourceGroupTypeId}">Delete</a></td>         
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

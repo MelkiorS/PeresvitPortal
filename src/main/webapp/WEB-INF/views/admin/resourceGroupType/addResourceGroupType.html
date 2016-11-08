@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<a th:href="@{/admin/resourceGroupType/management}" >ResourceGroupsType Management</a>
+<br/>
+<form action="#" th:action="@{/admin/resourceGroupType/}" th:object="${resourceGroupType}" method="post">
+ <input type="hidden" th:field="*{resourceGroupTypeId}" />
+ <label for="groupName">Group name:</label>
+ <input type="text" th:field="*{groupName}" />
+ <input type="submit" />
+</form>
+</body>
+</html>

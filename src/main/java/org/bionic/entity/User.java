@@ -3,8 +3,8 @@ package org.bionic.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +13,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -39,6 +42,7 @@ public class User {
 	private String avatarURL;
 	// level of user
 	@ManyToOne
+	@Cascade(CascadeType.DELETE)
 	@JoinColumn(name="rangId")
 	private Rang rang;
   /*  @ManyToMany(
