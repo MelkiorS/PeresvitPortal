@@ -4,6 +4,7 @@ package org.bionic.web.dto;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 
@@ -32,5 +33,6 @@ public class UserDto {
 
     @NotNull
     @NotEmpty
+//    @Column(unique = true)
     private String email;
 }
