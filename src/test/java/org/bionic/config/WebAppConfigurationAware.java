@@ -1,4 +1,4 @@
-/*package org.bionic.config;
+package org.bionic.config;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -31,4 +31,3 @@ public abstract class WebAppConfigurationAware {
     }
 
 }
-*/
