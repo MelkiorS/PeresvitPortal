@@ -100,10 +100,10 @@ public class FileUploadController {
 		// if resource not exist instance it
 		Resource resource = resourceService.findOne(resourceId);
 		boolean itsNewResource = false;
-		if(resource==null){
-			resource = new Resource(request.getParameter("title"), request.getParameter("description"), user);
-			itsNewResource = true;
-		}
+//		if(resource==null){
+//			resource = new Resource(request.getParameter("title"), request.getParameter("description"), user);
+//			itsNewResource = true;
+//		}
 			
         try {
             Iterator<String> itr = request.getFileNames();
