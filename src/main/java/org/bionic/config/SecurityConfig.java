@@ -1,12 +1,14 @@
 package org.bionic.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,6 +19,7 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 import org.bionic.account.AccountService;
 
 @Configuration
+//@ComponentScan(basePackages = { "org.bionic.security" })
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = false)
 class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -37,15 +40,27 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-            .eraseCredentials(true)
-            .userDetailsService(accountService)
-            .passwordEncoder(passwordEncoder());
+            .inMemoryAuthentication()
+                .withUser("user").password("password").roles("USER")
+                .and()
+                .withUser("admin").password("password").roles("ADMIN","USER");
+    }
+
+    @Override
+    public void configure(final WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/resources/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeRequests().anyRequest().permitAll();
+        http
+            .csrf().disable()
+            .authorizeRequests().antMatchers("/admin/**", "/user/registration*").permitAll()
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                .loginPage("/registration/registration").permitAll()
+                .and();
 //            .authorizeRequests()
 //                .antMatchers("/", "/favicon.ico", "/resources/**", "/signup").permitAll()
 //                .anyRequest().authenticated()

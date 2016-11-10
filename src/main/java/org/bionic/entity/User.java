@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -20,24 +21,22 @@ import org.hibernate.annotations.CascadeType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import org.bionic.web.dto.UserDto;
 
 @Entity
 @Table(name = "user")
 @Data
 public class User {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
  
-    private String fname;
-	private String lname;
-	private String mname;
-	private String login;
-    
+    private String firstName;
+	private String lastName;
+	private String middleName;
+
     @JsonIgnore
-    private String pass;
+    private String password;
 	private String email;
 	private String avatarURL;
 	// level of user
@@ -45,6 +44,8 @@ public class User {
 	@Cascade(CascadeType.DELETE)
 	@JoinColumn(name="rangId")
 	private Rang rang;
+    //Account verification status
+    private boolean enabled;
   /*  @ManyToMany(
     		cascade = {CascadeType.ALL},
 			targetEntity = ResourceGroup.class
@@ -60,7 +61,7 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", fname=" + fname + ", lname=" + lname + ", mname=" + mname + ", login=" + login
-				+ ", pass=" + pass + ", email=" + email + "]";
+		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", middleName=" + middleName + /*", login=" + login
+				+ */ ", password=" + password + ", email=" + email + "]";
 	}
 }

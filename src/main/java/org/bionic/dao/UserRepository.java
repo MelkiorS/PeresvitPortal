@@ -9,4 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional()
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    <S extends User> S save(S arg0);
+
+    User findByEmail(String email);
+
+    User findOne(Long userId);
+
+    java.util.List<User> findAll();
+
+    void delete(User arg0);
+
+    boolean equals(Object obj);
 }
