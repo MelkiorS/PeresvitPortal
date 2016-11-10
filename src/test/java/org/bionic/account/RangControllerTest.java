@@ -16,16 +16,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 
 import org.bionic.config.WebAppConfigurationAware;
+import org.bionic.controller.RangController;
+import org.bionic.dao.RangRepository;
 import org.bionic.entity.Rang;
 
 import org.bionic.service.RangService;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 
 public class RangControllerTest extends WebAppConfigurationAware{
 
-    @Autowired
+    @InjectMocks
+    RangController rangController;
+    @Mock
+    RangRepository rangRepository;
+    @Mock
     private RangService rangServiceMock;
 
     @Test

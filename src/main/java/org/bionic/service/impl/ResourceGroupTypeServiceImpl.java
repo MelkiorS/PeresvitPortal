@@ -47,4 +47,8 @@ public class ResourceGroupTypeServiceImpl implements ResourceGroupTypeService {
 	public List<ResourceGroupType> findByResourceGroupTypeId(Long resourceGroupTypeId) {
 		return resourceGroupTypeRepository.findByResourceGroupTypeId(resourceGroupTypeId);
 	}
+	@Override
+	public ResourceGroupType findResourceGroupTypeByGroupName(String name){
+		return resourceGroupTypeRepository.findResourceGroupTypeByGroupName(name);
+	}
 }

@@ -1,7 +1,9 @@
 package org.bionic.service.impl;
 
 import org.bionic.dao.ResourceGroupRepository;
+import org.bionic.entity.Rang;
 import org.bionic.entity.ResourceGroup;
+import org.bionic.entity.ResourceGroupType;
 import org.bionic.service.ResourceGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,5 +41,11 @@ public  class ResourceGroupServiceImpl implements ResourceGroupService{
 	public
 	boolean equals(Object obj){
 		return resourceGroupRepository.equals(obj);
+	}
+
+	@Override
+	public
+	ResourceGroup findResourceGroupByResourceGroupTypeAndRang(ResourceGroupType type, Rang rang){
+		return resourceGroupRepository.findResourceGroupByResourceGroupTypeAndRang(type,rang);
 	}
 }

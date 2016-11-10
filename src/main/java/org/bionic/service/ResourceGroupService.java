@@ -2,7 +2,9 @@ package org.bionic.service;
 
 
 
+import org.bionic.entity.Rang;
 import org.bionic.entity.ResourceGroup;
+import org.bionic.entity.ResourceGroupType;
 
 
 public interface ResourceGroupService {
@@ -16,4 +18,6 @@ public interface ResourceGroupService {
 	void delete(ResourceGroup arg0);
 
 	boolean equals(Object obj);
+
+	ResourceGroup findResourceGroupByResourceGroupTypeAndRang(ResourceGroupType type, Rang rang);
 }

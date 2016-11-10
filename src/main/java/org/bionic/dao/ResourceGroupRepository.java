@@ -1,6 +1,8 @@
 package org.bionic.dao;
 
+import org.bionic.entity.Rang;
 import org.bionic.entity.ResourceGroup;
+import org.bionic.entity.ResourceGroupType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.lang.Long;
@@ -18,4 +20,6 @@ public interface ResourceGroupRepository extends JpaRepository<ResourceGroup, Lo
 	boolean equals(Object obj);
 
 	ResourceGroup findByResourceGroupId(String resourceGroupId);
+
+    ResourceGroup findResourceGroupByResourceGroupTypeAndRang(ResourceGroupType type, Rang rang);
 }
