@@ -37,7 +37,7 @@ public class UserController {
 
     // create user
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String createRang(User user, RedirectAttributes model) {
+    public String createUser(User user, RedirectAttributes model) {
         userService.save(user);
         model.addAttribute("userId", user.getUserId());
         model.addFlashAttribute("user", user);
@@ -46,7 +46,7 @@ public class UserController {
 
     // show user by id
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public String getRang(@PathVariable("userId") long userId, Model model) {
+    public String getUser(@PathVariable("userId") long userId, Model model) {
         if (!model.containsAttribute("user"))
             model.addAttribute("user", userService.findOne(userId));
         return "admin/user/userProfile";
@@ -64,7 +64,7 @@ public class UserController {
     // delete user
     // need to solve issue when its FK to smth !!!!
     @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
-    public String deleteRang(@PathVariable("userId") long userId,
+    public String deleteUser(@PathVariable("userId") long userId,
                              Model model) {
         User user = userService.findOne(userId);
         if (user == null) {
@@ -76,7 +76,7 @@ public class UserController {
 
     // edit user
     @RequestMapping(value = "/edit/{userId}", method = RequestMethod.GET)
-    public String editRang(@PathVariable("userId")  long userId,
+    public String editUser(@PathVariable("userId")  long userId,
                            Model model) {
         User user = userService.findOne(userId);
         if (user == null) {

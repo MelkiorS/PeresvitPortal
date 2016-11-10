@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 
+import org.bionic.dao.RangRepository;
 import org.bionic.dao.VerificationTokenRepository;
 import org.bionic.entity.User;
 import org.bionic.entity.VerificationToken;
@@ -23,6 +24,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private VerificationTokenRepository tokenRepository;
+
+    @Autowired
+    private RangRepository rangRepository;
 
 
     @Override
@@ -89,6 +93,8 @@ public class UserServiceImpl implements UserService{
         user.setLastName(accountDto.getLastName());
         user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
+        user.setRang(rangRepository.findOne(1L));
+
         return userRepository.save(user);
     }
     private boolean emailExist(String email) {

@@ -35,7 +35,6 @@ public class User {
 	private String lastName;
 	private String middleName;
 
-    @JsonIgnore
     private String password;
 	private String email;
 	private String avatarURL;
@@ -44,7 +43,7 @@ public class User {
 	@Cascade(CascadeType.DELETE)
 	@JoinColumn(name="rangId")
 	private Rang rang;
-    //Account verification status
+    // Account verification status
     private boolean enabled;
   /*  @ManyToMany(
     		cascade = {CascadeType.ALL},
@@ -57,7 +56,10 @@ public class User {
 	)
     private Set<ResourceGroup> resourceGroups = new HashSet<ResourceGroup>();
      */
-	public User() {}
+	public User() {
+		super();
+		enabled = true;
+	}
 	
 	@Override
 	public String toString() {
