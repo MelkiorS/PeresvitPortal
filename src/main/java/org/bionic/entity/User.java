@@ -3,6 +3,7 @@ package org.bionic.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.enterprise.inject.Default;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -44,7 +45,8 @@ public class User {
 	@JoinColumn(name="rangId")
 	private Rang rang;
     // Account verification status
-    private boolean enabled;
+	@Column(columnDefinition = "boolean default true")
+    private boolean enabled = true;
   /*  @ManyToMany(
     		cascade = {CascadeType.ALL},
 			targetEntity = ResourceGroup.class

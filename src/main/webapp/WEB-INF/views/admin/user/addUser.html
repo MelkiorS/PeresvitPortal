@@ -5,7 +5,7 @@
     <title>Add Rang</title>
 </head>
 <body>
-    <a th:href="@{../}" >User Management</a>
+    <a th:href="@{/admin/user/management}" >User Management</a>
     <br/>
     <form action="#" th:action="@{/admin/user/}" th:object="${user}" method="post">
         <input type="hidden" th:field="*{userId}" />
