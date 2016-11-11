@@ -3,8 +3,8 @@ INSERT INTO  resourceType(typeName) VALUES ('TEXT'),('PHOTO'),('VIDEO'),('OTHER'
 INSERT INTO  resourceGroupType(groupName) VALUES ('EVENT'),('BASE_TECHNIQUE'),('BASE_TECH_COMPLEX'),('SPECIAL_PHYSICAL_TRAININGS'),('GENERAL_PHYSICAL_TRAININGS'),('ANOTHER_SUBJECTS'),('COMPETITION');
 INSERT INTO  rang(rangName) VALUES ('LEVEL_1'),('LEVEL_2'),('LEVEL_3');
 INSERT INTO  resourceGroup(rangId,resourceGroupTypeId) VALUES (2,2);
-INSERT INTO  user(userId,fname,rangId) VALUES (1,'Bruce',2);
-INSERT INTO  resource(title,userId,resourceTypeId) VALUES ('avatar',1,2);
+INSERT INTO  user(userId,firstName,rangId) VALUES (1,'Bruce',2);
+INSERT INTO  user(userId,firstName,rangId,email,enabled,password) VALUES (1,'Lee',2,'lalala@gmail.com',b'1','123');
 INSERT INTO  resource(title,resourceGroupId,resourceTypeId) VALUES ('some_photo1',1,2);
 INSERT INTO  resource(title,resourceGroupId,resourceTypeId) VALUES ('some_photo2',1,2);
 INSERT INTO  resource(title,resourceGroupId,resourceTypeId) VALUES ('some_doc1',1,1);

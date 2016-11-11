@@ -11,6 +11,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import org.bionic.entity.User;
@@ -37,7 +38,8 @@ public class UserController {
 
     // create user
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String createUser(User user, RedirectAttributes model) {
+    public String createUser(User user, RedirectAttributes model, @RequestParam("file") MultipartFile file) {
+    	user.setAvatarURL(userService.saveFile(user, file));
         userService.save(user);
         model.addAttribute("userId", user.getUserId());
         model.addFlashAttribute("user", user);

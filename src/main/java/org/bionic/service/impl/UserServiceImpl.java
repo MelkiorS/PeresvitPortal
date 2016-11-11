@@ -3,7 +3,7 @@ package org.bionic.service.impl;
 import java.util.List;
 import java.util.UUID;
 
-
+import org.bionic.config.Constant;
 import org.bionic.dao.RangRepository;
 import org.bionic.dao.VerificationTokenRepository;
 import org.bionic.entity.User;
@@ -15,6 +15,7 @@ import org.bionic.web.error.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -101,4 +102,23 @@ public class UserServiceImpl implements UserService{
         User user = userRepository.findByEmail(email);
         return user != null;
     }
+
+	@Override
+	public String saveFile(User user, MultipartFile inputFile) {
+		
+		if(user.getUserId() == null)
+			save(user);
+			
+		String pathFile = Constant.UPLOAD_PATH + "/" + Constant.USR_FOLDER + user.getUserId() + "/" + Constant.AVATAR;
+		String fileURL = Constant.uploadingFile(inputFile, pathFile);
+		
+		// delete old file
+		if(user.getUserId() != null){
+			String oldPath = findOne(user.getUserId()).getAvatarURL();
+			if(!fileURL.equals(oldPath))
+				Constant.deleteFile(findOne(user.getUserId()).getAvatarURL());
+		}
+			
+		return fileURL;
+	}
 }

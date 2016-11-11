@@ -1,11 +1,12 @@
 package org.bionic.config;
 
 import java.io.File;
+import org.springframework.web.multipart.MultipartFile;
 
 public class Constant {
-
+	
 	 // main path to download folder
-	 public static final String UPLOAD_PATH = "/home/mma/downloads/";
+	 public static final String UPLOAD_PATH = "/home/mma/downloads";
 	 // folder user${userId} files
 	 public static final String USR_FOLDER  = "user";
 	// folder user without id files
@@ -27,7 +28,33 @@ public class Constant {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		}	
+	}
+	
+	public static String uploadingFile(MultipartFile inputFile, String pathFile){
 		
+		try {
+			if (!inputFile.isEmpty()) {
+				try {
+					String originalFilename = inputFile.getOriginalFilename();
+
+					File destinationFile = new File(pathFile, originalFilename);
+					destinationFile.getParentFile().mkdirs();
+					inputFile.transferTo(destinationFile);
+	
+					// saving URL
+					pathFile = destinationFile.getPath();
+					
+					return pathFile;
+					
+				} catch (Exception e) {
+					return null;
+				}
+			}
+		} catch (Exception e) {
+			return null;
+		}
+
+		return null;		
 	}
 }

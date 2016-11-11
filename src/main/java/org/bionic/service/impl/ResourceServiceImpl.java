@@ -1,6 +1,5 @@
 package org.bionic.service.impl;
 
-import java.io.File;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -76,52 +75,34 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Override
 	public String saveFile(Resource resource, MultipartFile inputFile) {
-
+		
+		String pathFile = "";
+		String fileContentType = inputFile.getContentType();
+		if (resource.getUser() != null)
+			pathFile = Constant.UPLOAD_PATH + "/" + Constant.USR_FOLDER + resource.getUser().getUserId() + "/" + fileContentType;
+		else
+			pathFile = Constant.UPLOAD_PATH + "/" + Constant.USER_UNKNOWN + "/" + fileContentType;
+		
+		String fileURL = Constant.uploadingFile(inputFile, pathFile);
+		
+		// Split the mimeType into primary and sub types
+		String primaryType, subType;
 		try {
-			if (!inputFile.isEmpty()) {
-				try {
-					String originalFilename = inputFile.getOriginalFilename();
-
-					String pathFile = "";
-					String fileContentType = inputFile.getContentType();
-					if (resource.getUser() != null)
-						pathFile = Constant.UPLOAD_PATH + "/" + Constant.USR_FOLDER + resource.getUser().getUserId() + "/" + fileContentType;
-					else
-						pathFile = Constant.UPLOAD_PATH + "/" + Constant.USER_UNKNOWN + "/" + fileContentType;
-
-					File destinationFile = new File(context.getRealPath(pathFile), originalFilename);
-					destinationFile.getParentFile().mkdirs();
-					inputFile.transferTo(destinationFile);
-
-					// Split the mimeType into primary and sub types
-					String primaryType, subType;
-					try {
-						primaryType = fileContentType.split("/")[0];
-						subType = fileContentType.split("/")[1];
-						resource.setResourceType(defineResourceTypeByMIME(primaryType, subType));
-					} catch (IndexOutOfBoundsException | NullPointerException ex){ 						
-						resource.setResourceType(resourceTypeService.findOne(EnumResourceType.OTHER.getValue()));
-					}
-
-					// delete old file
-					if(resource.getResourceId() != null)
-						Constant.deleteFile(resourceRepository.findOne(resource.getResourceId()).getUrl());
-					
-					// saving URL
-					pathFile = destinationFile.getPath();
-					// resource.setType(primaryType);
-					
-					return pathFile;
-				} catch (Exception e) {
-					return null;
-				}
-
-			}
-		} catch (Exception e) {
-			return null;
+			primaryType = fileContentType.split("/")[0];
+			subType = fileContentType.split("/")[1];
+			resource.setResourceType(defineResourceTypeByMIME(primaryType, subType));
+		} catch (IndexOutOfBoundsException | NullPointerException ex) {
+			resource.setResourceType(resourceTypeService.findOne(EnumResourceType.OTHER.getValue()));
+		}
+		
+		// delete old file
+		if(resource.getResourceId() != null){
+			String oldPath = findOne(resource.getResourceId()).getUrl();
+			if(!fileURL.equals(oldPath))
+				Constant.deleteFile(oldPath);		
 		}
 
-		return null;
+		return fileURL;
 	}
 	
 	public ResourceType defineResourceTypeByMIME(String primaryMimeType, String subType){

@@ -7,7 +7,7 @@
 <body>
     <a th:href="@{../}" >User Management</a>
     <br/>
-    <form action="#" th:action="@{/admin/user/}" th:object="${user}" method="post">
+    <form action="#" th:action="@{/admin/user/}" th:object="${user}" enctype="multipart/form-data" method="post">
         <input type="hidden" th:field="*{userId}" />
         <input type="hidden" th:field="*{enabled}" />
 
@@ -15,8 +15,8 @@
         <input type="text" th:field="*{lastName}" placeholder="lastName" /><br/>
         <input type="text" th:field="*{middleName}" placeholder="middleName" /><br/>
         <input type="text" th:field="*{email}" placeholder="email" /><br/>
-        <input type="text" th:field="*{password}" placeholder="password" /><br/>
-        <input type="text" th:field="*{avatarURL}" placeholder="avatarURL" /><br/>
+        <input type="text" th:field="*{password}" placeholder="password" /><br/>     
+ 		<input type="file" name="file" /><br/>       
         <input type="text" th:field="*{rang.rangId}" placeholder="rang ID"/><br/>
         <input type="submit" />
     </form>
