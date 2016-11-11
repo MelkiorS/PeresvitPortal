@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resource List</title>
+</head>
+<body>
+<a th:href="@{/resource/myWay}" >My Way</a>
+<br/>
+<div class="resourceList" >
+
+    <h2 >TEXT</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>URL</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="resource : ${resourceListText}">
+            <td th:text="${resource.title}"></td>
+            <td th:text="${resource.description}"></td>
+            <td th:text="${resource.url}"></td>
+            <td><a th:href="@{/admin/resource/edit/} + ${resource.resourceId}">Edit</a></td>
+            <td><a th:href="@{/admin/resource/delete/} + ${resource.resourceId}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 >PHOTO</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>URL</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="resource : ${resourceListPhoto}">
+            <td th:text="${resource.title}"></td>
+            <td th:text="${resource.description}"></td>
+            <td th:text="${resource.url}"></td>
+            <td><a th:href="@{/admin/resource/edit/} + ${resource.resourceId}">Edit</a></td>
+            <td><a th:href="@{/admin/resource/delete/} + ${resource.resourceId}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 >Video</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>URL</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="resource : ${resourceListVideo}">
+            <td th:text="${resource.title}"></td>
+            <td th:text="${resource.description}"></td>
+            <td th:text="${resource.url}"></td>
+            <td><a th:href="@{/admin/resource/edit/} + ${resource.resourceId}">Edit</a></td>
+            <td><a th:href="@{/admin/resource/delete/} + ${resource.resourceId}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
