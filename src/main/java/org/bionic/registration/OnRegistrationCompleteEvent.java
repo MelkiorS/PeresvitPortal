@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationEvent;
 import java.util.Locale;
 
 @SuppressWarnings("serial")
+
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
 
     private final String appUrl;

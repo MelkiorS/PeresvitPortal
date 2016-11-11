@@ -1,6 +1,8 @@
 package org.bionic.controller;
 
+import org.bionic.entity.Rang;
 import org.bionic.entity.User;
+import org.bionic.service.RangService;
 import org.bionic.service.UserService;
 import org.bionic.web.dto.UserDto;
 import org.bionic.web.error.UserAlreadyExistException;
@@ -10,9 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 /**
  * Created by Alex Sanak on 10.11.2016.
@@ -23,6 +29,7 @@ public class RegistrationController {
 
     @Autowired
     private UserService userService;
+
 
     // Show registration form
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -39,22 +46,31 @@ public class RegistrationController {
             BindingResult result,
             WebRequest request,
             Errors errors,
-            Model model) {
+            RedirectAttributes model) {
 
-        User registered = userService.registerNewUserAccount(accountDto);
+        User registered = new User();
         if (!result.hasErrors()) {
+            System.out.println("ADDING");
             registered = createUserAccount(accountDto, result);
-            model.addAttribute("user", User.class);
+            model.addFlashAttribute("user", registered);
         }
         if (registered == null) {
             result.rejectValue("email", "message.regError");
         }
         if (result.hasErrors()) {
+            System.out.println("DON'T ADDING");
             return "registration/registration";
         }
         else {
-            return "workField/office";
+            model.addAttribute("userId", registered.getUserId());
+            return "redirect:/registration/success/{userId}";
         }
+    }
+    @RequestMapping(value = "/success/{userId}", method = RequestMethod.GET)
+    public String showPesrPage(@PathVariable("userId") long userId, WebRequest request, Model model) {
+        if (!model.containsAttribute("user"))
+            model.addAttribute("user", userService.findOne(userId));
+        return "workField/office";
     }
     private User createUserAccount(UserDto accountDto, BindingResult result) {
         User registered;
