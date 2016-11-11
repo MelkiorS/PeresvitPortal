@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
@@ -11,9 +12,14 @@
         <input type="text" th:field="*{firstName}" placeholder="firstName" /><br/>
         <input type="text" th:field="*{lastName}" placeholder="lastName" /><br/>
         <input type="text" th:field="*{middleName}" placeholder="middleName" /><br/>
-        <input type="text" th:field="*{email}" placeholder="email" /><br/>
-        <span id="emailError" class="alert alert-danger col-sm-4" style="display:none"></span>
-        <input type="text" th:field="*{password}" placeholder="password" />       <input type="submit" />
+        <input type="text" th:field="*{email}" placeholder="email" th:class="${#fields.hasErrors('email')}? fieldError"/><br/>
+        <div th:if="${#fields.hasAnyErrors()}">
+            <p th:each="err : ${#fields.allErrors()}" th:text="${err}">error</p>
+        </div>
+        <input type="text" th:field="*{password}" placeholder="password" />       <input type="submit" /><br/>
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">errorGlobal</p>
+        </div>
     </form>
 </body>
 </html>

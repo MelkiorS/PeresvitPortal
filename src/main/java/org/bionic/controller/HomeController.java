@@ -22,6 +22,11 @@ public class HomeController {
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String goToReg(WebRequest request, Principal principal) {
 //		return principal != null ? "workField/office" : "registration/registration";
-	    return "registration/registration";
+	    return "redirect:/registration/registration";
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String goToLoginPage(WebRequest request) {
+		return "login/login";
 	}
 }

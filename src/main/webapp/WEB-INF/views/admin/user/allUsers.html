@@ -5,7 +5,7 @@
 <title>User List</title>
 </head>
 <body>
-<a th:href="@{../}" >User Management</a>
+<a th:href="@{/admin/user/management}" >User Management</a>
 <br/>
 <div class="rangList" th:unless="${#lists.isEmpty(userList)}">
     
@@ -20,6 +20,7 @@
         <th>Middle Name</th>
         <th>Email</th>
         <th>Avatar URL</th>
+        <th>Enabled</th>
         <th>Rang</th>
         <th>Edit</th>
         <th>Delete</th>

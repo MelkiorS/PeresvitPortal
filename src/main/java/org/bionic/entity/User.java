@@ -1,5 +1,9 @@
 package org.bionic.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.enterprise.inject.Default;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,11 +37,24 @@ public class User {
 	@JoinColumn(name="rangId")
 	private Rang rang;
     // Account verification status
+	@Column(columnDefinition = "boolean default true")
+    private boolean enabled = true;
+  /*  @ManyToMany(
+    		cascade = {CascadeType.ALL},
+			targetEntity = ResourceGroup.class
+	)
+    @JoinTable(
+    		name="userResourceGroup",
+            joinColumns={@JoinColumn(name="userId")},
+            inverseJoinColumns={@JoinColumn(name="resourceGroupId")}
+	)
+    private Set<ResourceGroup> resourceGroups = new HashSet<ResourceGroup>();
+     */
     private boolean enabled;
 
 	public User() {
 		super();
 		enabled = true;
 	}
-	
+
 }
