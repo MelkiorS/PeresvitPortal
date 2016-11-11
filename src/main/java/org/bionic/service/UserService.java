@@ -1,19 +1,28 @@
 package org.bionic.service;
 
-import java.util.List;
 
 import org.bionic.entity.User;
-import org.springframework.transaction.annotation.Transactional;
+import org.bionic.entity.VerificationToken;
+import org.bionic.web.dto.UserDto;
+import org.bionic.web.error.UserAlreadyExistException;
+
 
 public interface UserService {
 
-	@Transactional
-	public User create(User user);
-	@Transactional
-	public User delete(Long userId);
-	public List<User> findAll();
-	@Transactional
-	public User update(User user, Long userId);
-	public User findByUserId(Long userId);
+	<S extends User> S save(S arg0);
 
+	User findOne(Long userId);
+
+	java.util.List<User> findAll();
+
+	void delete(User user);
+
+	boolean equals(Object obj);
+
+	User findUserByEmail(String email);
+	////////////////////////////////////////////////////////////////////////
+	void createVerificationTokenForUser(User user, String token);
+	VerificationToken getVerificationToken(String VerificationToken);
+	VerificationToken generateNewVerificationToken(String token);
+	User registerNewUserAccount(UserDto accountDto) throws UserAlreadyExistException;
 }

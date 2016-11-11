@@ -35,17 +35,4 @@ public class Resource {
 	
 	public Resource(){};
 	
-	public Resource(String title, String description, ResourceType type, ResourceGroup group, User user) {
-		this.title = title;
-		this.description = description;
-		this.resourceType = type;
-		this.resourceGroup = group;
-		this.user = user;
-	}
-	
-	public Resource(String title, String description, User user) {
-		this.title = title;
-		this.description = description;
-		this.user = user;
-	}
 }

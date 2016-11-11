@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Rang List</title>
+</head>
+<body>
+<a th:href="@{/admin/rang/management}" >Rang Management</a>
+<br/>
+<div class="rangList" th:unless="${#lists.isEmpty(rangList)}">
+    
+  <h2 >List of Rang</h2>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Rang Name</th>
+        <th>Users</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="rang : ${rangList}">
+        <td th:text="${rang.rangId}"></td>
+        <td th:text="${rang.rangName}"></td>
+        <td><a th:href="@{/admin/user/rang/} + ${rang.rangId}">Users</a></td>   
+        <td><a th:href="@{/admin/rang/edit/} + ${rang.rangId}">Edit</a></td>   
+        <td><a th:href="@{/admin/rang/delete/} + ${rang.rangId}">Delete</a></td>         
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

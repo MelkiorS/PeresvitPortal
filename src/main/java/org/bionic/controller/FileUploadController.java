@@ -41,7 +41,7 @@ public class FileUploadController {
 	@RequestMapping(value = "/upload_avatar")
 	public ResponseEntity<?> uploadAvatarFile(@RequestParam("userId") Long userId, MultipartHttpServletRequest request) {	
 		
-		User user = userService.findByUserId(userId);
+		User user = userService.findOne(userId);
 		
 		if(user==null)
 			return new ResponseEntity<>("{user with id " + userId + " not found}", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -64,7 +64,7 @@ public class FileUploadController {
         				// update user URL
         				pathFile = destinationFile.getPath();
         				user.setAvatarURL(pathFile);
-        				userService.update(user, userId);
+        				userService.save(user);
         				
                         // Generate the http headers with the file properties
                         HttpHeaders headers = new HttpHeaders();
@@ -89,7 +89,7 @@ public class FileUploadController {
 		User user = null; Long userId = null;
 		if(request.getParameter("userId") != null){
 			userId = Long.parseLong(request.getParameter("userId"));
-			user = userService.findByUserId(userId);
+			user = userService.findOne(userId);
 		}
 		
 		// define resource Group
@@ -100,10 +100,10 @@ public class FileUploadController {
 		// if resource not exist instance it
 		Resource resource = resourceService.findOne(resourceId);
 		boolean itsNewResource = false;
-		if(resource==null){
-			resource = new Resource(request.getParameter("title"), request.getParameter("description"), user);
-			itsNewResource = true;
-		}
+//		if(resource==null){
+//			resource = new Resource(request.getParameter("title"), request.getParameter("description"), user);
+//			itsNewResource = true;
+//		}
 			
         try {
             Iterator<String> itr = request.getFileNames();

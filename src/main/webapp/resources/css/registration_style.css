@@ -1,0 +1,81 @@
+body{
+    background: url('../images/back.jpg');
+
+    background-repeat: no-repeat;
+    padding: 0;
+    margin: 0;
+    height: auto;
+}
+.wrapper{
+    position: relative;
+    height:100%;
+    width: 100%;
+    margin:0 auto;
+    padding: 5% 0 0 0;
+}
+.log_in{
+    margin: 3% 0;
+}
+.log_in_field_header{
+    text-align: center;
+}
+.log_in_field_header img{
+    width:90%;
+    height: auto;
+}
+.log_in_field_main{
+    padding: 3% 2%;
+}
+.log_in_field_main_logIn{
+    margin-left: 2%;
+}
+.btn_modal,
+.btn_modal:focus,
+.log_in_field_main_logIn,
+.log_in_field_main_logIn:focus,
+.log_in_field_main_signUp,
+.log_in_field_main_signUp:focus
+{
+    /*width: 25%;*/
+    background: #0a3f51;
+    color: #fff;
+}
+.btn_modal:hover,
+.log_in_field_main_logIn:hover,
+.log_in_field_main_signUp:hover
+{
+    background: #1b6f8c;
+    color:#fff;
+}
+
+/*.log_in_field_main_signUp:hover,*/
+/*.log_in_field_main_signUp:active*/
+/*{*/
+    /*background: #1b6f8c;*/
+    /*color: #fff;*/
+/*}*/
+.modal-title{
+    text-align: center;
+}
+.btn_modal{
+    width: 28%;
+    background: #0a3f51;
+    color: #fff;
+}
+.btn{
+    font-size: 1.6rem;
+}
+.inputPassword3_error{
+    /*display: none;*/
+    line-height: normal;
+    border: 1px solid #ccc;
+    margin-top:10px;
+    border-radius: 5px;
+    background: rgb(255,204,188);
+    padding: 5px 2px 5px 2px;
+    font: bold 1.7rem sans-serif;
+}
+.inputPassword3_error p{
+    margin:0;
+    padding:0;
+}

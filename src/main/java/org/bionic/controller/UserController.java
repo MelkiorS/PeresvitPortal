@@ -2,80 +2,88 @@ package org.bionic.controller;
 
 import java.util.List;
 
+import org.bionic.entity.Rang;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import org.bionic.entity.User;
 import org.bionic.service.UserService;
 
-@RestController
-@CrossOrigin
-@RequestMapping("/user")
+@Controller
+@RequestMapping(value = "/admin/user")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 
-	// create user
-	@CrossOrigin
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public ResponseEntity<Void> addUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
-		userService.create(user);
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setAccessControlAllowOrigin("*");
-		headers.setLocation(ucBuilder.path("/user/{userId}").buildAndExpand(user.getUserId()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);		
-	}
+    //go to manage page
+    @RequestMapping(value = "/management", method = RequestMethod.GET)
+    public String goToManagement(Model model) {
+        return "admin/user/userManagement";
+    }
+    //go to addForm
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String goToAddForm(Model model) {
+        model.addAttribute(new User());
+        return "admin/user/addUser";
+    }
 
-	// edit user
-	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-	public ResponseEntity<User> editUserPage(@RequestBody User user, @PathVariable Long userId) {
-		if (user == null)
-			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-		
-		return new ResponseEntity<User>(userService.update(user, userId), HttpStatus.OK);
-	}
+    // create user
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String createRang(User user, RedirectAttributes model) {
+        userService.save(user);
+        model.addAttribute("userId", user.getUserId());
+        model.addFlashAttribute("user", user);
+        return "redirect:/admin/user/{userId}";
+    }
 
-	// delete user
-	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-	public ResponseEntity<User> deleteUserPage(@PathVariable Long userId) {
-		userService.delete(userId);
-		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-	}
+    // show user by id
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+    public String getRang(@PathVariable("userId") long userId, Model model) {
+        if (!model.containsAttribute("user"))
+            model.addAttribute("user", userService.findOne(userId));
+        return "admin/user/userProfile";
+    }
 
-	// show user by userId
-	@RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> showUserPage(@PathVariable Long userId) {
-		User user = userService.findByUserId(userId);
-		
-		if (user == null) 
-			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-		
-		return new ResponseEntity<User>(user, HttpStatus.OK);
-	}
+    // show all users
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String listAllUsers(Model model) {
+        List<User> users = userService.findAll();
+        model.addAttribute("userList", users);
+        model.addAttribute("user", new User());
+        return "admin/user/allUsers";
+    }
 
-	// show all users
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-	public ResponseEntity<List<User>> showAllUsers() {
-		List<User> userList = userService.findAll();
-		
-		if (userList.isEmpty()) 
-			return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
-			
-		return new ResponseEntity<List<User>>(userList, HttpStatus.OK);
-	}
+    // delete user
+    // need to solve issue when its FK to smth !!!!
+    @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
+    public String deleteRang(@PathVariable("userId") long userId,
+                             Model model) {
+        User user = userService.findOne(userId);
+        if (user == null) {
+            // custom exception
+        }
+        userService.delete(user);
+        return listAllUsers(model);
+    }
+
+    // edit user
+    @RequestMapping(value = "/edit/{userId}", method = RequestMethod.GET)
+    public String editRang(@PathVariable("userId")  long userId,
+                           Model model) {
+        User user = userService.findOne(userId);
+        if (user == null) {
+            // custom exception
+        }
+        model.addAttribute("user", user);
+        return "admin/user/addUser";
+    }
 
 }

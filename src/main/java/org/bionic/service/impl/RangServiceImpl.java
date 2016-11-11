@@ -38,8 +38,7 @@ public class RangServiceImpl implements RangService {
 	}
 	
 	@Override
-	public
-	boolean equals(Object obj){
+	public boolean equals(Object obj){
 		return rangRepository.equals(obj);
 	}
 

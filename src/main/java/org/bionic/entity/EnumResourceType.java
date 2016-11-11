@@ -2,17 +2,18 @@ package org.bionic.entity;
 
 public enum EnumResourceType {
 	
-	TEXT(0),
-	PHOTO(1),
-	VIDEO(2);
+	TEXT (1L),
+	IMAGE(2L),
+	VIDEO(3L),
+	OTHER(4L);
 
-private final int value;
+private final Long value;
 	
-    private EnumResourceType(int value) {
+    private EnumResourceType(Long value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public Long getValue() {
         return value;
     }
 }
