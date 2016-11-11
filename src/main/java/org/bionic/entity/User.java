@@ -4,13 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.enterprise.inject.Default;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -50,7 +44,6 @@ public class User {
 	)
     private Set<ResourceGroup> resourceGroups = new HashSet<ResourceGroup>();
      */
-    private boolean enabled;
 
 	public User() {
 		super();

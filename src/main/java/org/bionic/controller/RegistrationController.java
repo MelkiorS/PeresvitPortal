@@ -1,24 +1,18 @@
 package org.bionic.controller;
 
-import org.bionic.entity.Rang;
 import org.bionic.entity.User;
-import org.bionic.service.RangService;
 import org.bionic.service.UserService;
 import org.bionic.web.dto.UserDto;
 import org.bionic.web.error.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 /**
  * Created by Alex Sanak on 10.11.2016.
