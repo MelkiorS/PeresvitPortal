@@ -2,6 +2,8 @@ package org.bionic.controller;
 
 import java.util.Collection;
 
+import javax.servlet.annotation.MultipartConfig;
+
 import org.bionic.entity.Resource;
 import org.bionic.service.ResourceGroupService;
 import org.bionic.service.ResourceService;
@@ -11,10 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/admin/resource")
+@MultipartConfig(fileSizeThreshold = 1024*1024*20)
 public class ResourceController {
 	@Autowired
 	private ResourceService resourceService;
@@ -37,7 +43,8 @@ public class ResourceController {
 	
 	 // create resource
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String createResource(Resource resource, RedirectAttributes model) {
+	public String createResource(Resource resource, RedirectAttributes model, @RequestParam("file") MultipartFile file) {
+		resource.setUrl(resourceService.saveFile(resource, file));
 		resourceService.save(resource);
 		model.addAttribute("resourceId", resource.getResourceId());
 		model.addFlashAttribute("resource", resource);

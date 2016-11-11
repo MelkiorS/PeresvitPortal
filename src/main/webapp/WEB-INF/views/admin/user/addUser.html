@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Add Rang</title>
+</head>
+<body>
+    <a th:href="@{/admin/user/management}" >User Management</a>
+    <br/>
+    <form action="#" th:action="@{/admin/user/}" th:object="${user}" method="post">
+        <input type="hidden" th:field="*{userId}" />
+         <label for="groupName">Group name:</label>
+         <input type="text" th:field="*{rangName}" />
+         <input type="submit" />
+    </form>
+</body>
+</html>
