@@ -2,6 +2,7 @@ package org.bionic.service;
 
 import org.bionic.entity.Event;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,5 +16,9 @@ public interface EventService {
     Event delete(Event e);
     Event update(Event e);
     Event findById(long id);
+
+    List<Event> findClosest(Date date, int count);
+    Event findNext(Date date);
+    List<Event> getPeriod(Date start, Date finish);
 
 }
