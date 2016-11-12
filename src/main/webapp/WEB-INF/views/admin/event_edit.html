@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/resources/dhtmlx/skins/dhtmlxscheduler_flat.css" type="text/css" media="screen" charset="utf-8"/>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="/resources/dhtmlx/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+    <style type="text/css" media="screen">
+        html, body{
+            margin:0px;
+            padding:0px;
+            height:100%;
+            overflow:hidden;
+        }
+    </style>
+    <script type="text/javascript" charset="utf-8">
+        function init() {
+            scheduler.init('scheduler_here', new Date(),"month");
+            scheduler.config.xml_date="%Y%m%d %H%i";
+            scheduler.templates.xml_date = function(value){ return new Date(value); };
+            scheduler.load('/admin/myeventsperiod?start=20161101&finish=20161130','json');
+
+            scheduler.attachEvent("onEventAdded", function(id,ev){
+                console.log(ev);
+                $.ajax({
+                    type : "POST",
+                    url : "/admin/changeEvent",
+                    data : {
+                        "start_date" : ev.start_date.getTime(),
+                        "end_date" : ev.end_date.getTime(),
+                        "text" : ev.text
+                    },
+                    success: function(data){
+//                        $('#next').html(data);
+                    }
+                });
+            });
+//            var dp = new dataProcessor("/admin/changeEvent");
+//            dp.init(scheduler);
+//            dp.setTransactionMode("POST", false);
+        }
+    </script>
+</head>
+<body onload="init();">
+
+<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+    <div class="dhx_cal_navline">
+        <div class="dhx_cal_prev_button"> </div>
+        <div class="dhx_cal_next_button"> </div>
+        <div class="dhx_cal_today_button"></div>
+        <div class="dhx_cal_date"></div>
+        <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+        <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+        <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+    </div>
+    <div class="dhx_cal_header"></div>
+    <div class="dhx_cal_data"></div>
+</div>
+
+</body>
+</html>

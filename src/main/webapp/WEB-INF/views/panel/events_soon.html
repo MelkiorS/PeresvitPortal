@@ -1,0 +1,10 @@
+<div>
+    <table th:if="${events.size()>0}">
+        <tr>
+            <td> Ближайшие события </td>
+        </tr>
+        <tr th:each="event : ${events}">
+            <td th:text="${event.toString()}"> Ev </td>
+        </tr>
+    </table>
+</div>
