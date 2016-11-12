@@ -4,78 +4,171 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Peresvit</title>
-    <link rel="stylesheet" href="/resources/css/bootstrap.css">
-    <link rel="stylesheet" href="/resources/css/registration_style.css">
-    <script src="/resources/js/jquery-2.2.4.min.js">   </script>
-    <script src="/resources/js/bootstrap.min.js"></script>
-    <script src="/resources/js/constants.js"></script>
-    <script  async src="/resources/js/registration_script.js"></script>
+    <link rel="stylesheet" href="../../../resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="../../../resources/frontend/registration/css/registration_style.css">
+    <script src="../../../resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="../../../resources/frontend/libraries/constants.js"></script>
+    <script src="../../../resources/frontend/libraries/bootstrap.min.js"></script>
+    <script  async src="../../../resources/frontend/registration/js/validator.js"></script>
+    <script  async src="../../../resources/frontend/registration/js/registration_script.js"></script>
 </head>
 <body>
 <div class="container-fluid wrapper">
 <div class="row log_in">
-    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3 panel panel-default log_in_field">
-        <div class="log_in_field_header"><img src="/resources/images/registration_logo_Peresvit.png" alt=""></div>
-        <div class="log_in_field_main">
-            <form action="/user/2" data-toggle="validator" role="form">
-                <div class="form-group">
-                    <label for="inputEmail"  class="control-label">Введіть Ваш email:</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Email" data-error="email address is invalid" required>
-                    <div class="help-block with-errors"></div>
+                <button type="button" class="btn btn-default col-xs-offset-3 col-xs-2  col-sm-offset-3 col-sm-2 log_in_field_main_logIn" data-toggle="modal" data-target="#myModal_sign_up">Вхід</button>
+</div>
+    <!-- Вход в личный кабинет-->
+    <div class="modal fade" id="myModal_log_in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content ">
+                <div class="modal_header_logIn row">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <div class="modal_header_logIn_title col-xs-offset-1 col-xs-10" id="myModalLabel"><p>Вхід до особистого кабінету</p></div>
                 </div>
-                <div class="form-group">
-                    <label for="inputPassword">Введіть Ваш пароль:</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" required>
-                </div>
-                <div class="row">
-                    <button type="submit" class="btn btn-default  col-xs-2  col-md-offset-0 col-md-2 log_in_field_main_logIn">Вхід</button>
-                <button type="button" class="btn btn-default col-xs-offset-1 col-xs-4  col-sm-offset-0 col-sm-3 log_in_field_main_signUp" data-toggle="modal" data-target="#myModal">Реєстрація</button>
-                </div>
-            </form>
+                <div class="modal_logIn_section row">
+                    <form class='col-xs-offset-1 col-xs-10 modal_logIn_section_form' data-toggle="validator" role="form">
+                        <div class="form-group has-feedback row modal_logIn_section_form_email">
+                                <label for="inputEmail" class="control-label">Введіть Ваш email</label>
 
+                                <div class="input-group col-xs-12">
+                                    <input type="text" class="form-control " pattern="^[_A-z0-9]{1,}$" id="inputEmail" placeholder="email" data-error="Ваш email невірний" required>
+                                    <span class="input-group-addon">@gmail.com</span>
+                                </div>
+                            <i class="glyphicon form-control-feedback" aria-hidden="true"></i>
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-8 row modal_logIn_section_form_pass">
+                            <label for="inputPassword" class="control-label">Введіть Ваш пароль</label>
+                            <div class="input-group col-xs-12 modal_logIn_section_form_pass_input">
+                                <span class="input-group-addon"><div class="glyphicon glyphicon-lock"></div></span>
+                                <input type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Password" required>
+                            </div>
+                            <i class="glyphicon form-control-feedback " aria-hidden="true" ></i>
+                            <!--<div class="help-block with-errors">Hey look, this one has feedback icons!</div>-->
+                            <div class="help-block"><p>Довжина має бути не менше 6 символів</p></div>
+                        </div>
+                        <div class="form-group col-xs-4 modal_logIn_section_form_pass_forget">
+                            <div class="modal_logIn_section_form_pass_forget_item">
+                                <p><a href="">Забули пароль?</a></p>
+                            </div>
+                        </div>
+                        <div class="form_inline modal_logIn_section_form_rememberMe col-xs-12">
+                            <div class="form-group">
+                                <div class="col-xs-6 modal_logIn_section_form_rememberMe_text ">
+                                    <h3>Запам'ятати мене</h3>
+                                </div>
+                                <div class="col-xs-offset-1 col-xs-3 modal_logIn_section_form_rememberMe_checkbox">
+                                    <label class="switch">
+                                        <input type="checkbox" >
+                                        <div class="slider round"></div>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group using_social_networks row col-xs-12">
+                            <div class="vk col-xs-offset-1  col-xs-11">
+                                <a role="button" class="btn btn-default vk_button" href="#"><img src="../../../resources/frontend/registration/img/vk_icon.png" alt=""> Войти через Вконтате</a>
+                            </div>
+                            <div class="fb col-xs-offset-1 col-xs-11">
+                                <a role="button" class="btn btn-default fb_button" href="#"><img src="../../../resources/frontend/registration/img/fb_icon.png" alt="">Войти через Facebook</a>
+                            </div>
+                            <div class="google_plus col-xs-offset-1 col-xs-11">
+                                <a role="button" class="btn btn-default google_plus_button" href="#"><img src="../../../resources/frontend/registration/img/google_plus_icon.png" alt=""> Войти через Google+</a>
+                            </div>
+                        </div>
+                        <div class="form-group no_account row col-xs-12">
+                            <p class=" col-xs-9"><a data-toggle="modal" data-target="#myModal_sign_up" href="">Немає облікового запису? Реєстрація</a></p>
+                        </div>
+                        <div class="form-group col-xs-offset-10 col-xs-2">
+                            <button type="submit" class="btn btn-primary">Увійти</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <!--Регистрация-->
+    <div class="modal fade" id="myModal_sign_up" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_sign_up">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h2 class="modal-title" id="myModalLabel">Реєстрація</h2>
+            <div class="modal-content ">
+                <div class="modal_header_signUp row">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <div class="modal_header_signUp_title col-xs-offset-1 col-xs-10" id="myModalLabel_sign_up"><p>Реєстрація</p></div>
                 </div>
-                <form  action='' id="myForm">
-                <div class="modal-body">
+                <div class="modal_signUp_section row">
+                    <form class='col-xs-offset-1 col-xs-10 modal_signUp_section_form' data-toggle="validator" role="form">
+                        <div class="form-group row modal_signUp_section_form_name has-feedback">
+                            <label for="inputName" class="control-label ">Ім'я</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><div class="glyphicon glyphicon-user"></div></span>
+                                <input type="text" class="form-control col-xs-12" id="inputName" placeholder="Введіть Ваше ім'я" required>
 
-                        <div class="form-group">
-                            <label for="inputFirstName">Ваше ім'я:</label>
-                            <input type="text" class="form-control user_name" id="inputFirstName" placeholder="Name" required>
+                            </div>
+                            <i class="glyphicon form-control-feedback " aria-hidden="true" ></i>
+                            <div class="help-block"><p>Це поле є обов`язковим для заповнення</p></div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputLastName">Ваше прізвище:</label>
-                            <input type="text" class="form-control " id="inputLastName" placeholder="Name" required>
+                        <div class="form-group row modal_signUp_section_form_surname has-feedback">
+                            <label for="inputSurname" class="control-label ">Прізвище</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><div class="glyphicon glyphicon-user"></div></span>
+                                <input type="text" class="form-control col-xs-12" id="inputSurname" placeholder="Введіть Вашe прізвище" required>
+
+                            </div>
+                            <i class="glyphicon form-control-feedback " aria-hidden="true" ></i>
+                            <div class="help-block"><p>Це поле є обов`язковим для заповнення</p></div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputEmail2">Ваш e-mail:</label>
-                            <input type="email" class="form-control" id="inputEmail2" placeholder="Email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputPassword2">Введіть пароль:</label>
-                            <input type="password" class="form-control" id="inputPassword2" placeholder="Password" required>
-                        </div>
-                    <!--Валидация пароля проходит в js через jn.('keyup')-->
-                        <div class="form-group">
-                            <label for="inputPassword3">Підтвердіть пароль:</label>
-                            <input type="password" class="form-control" id="inputPassword3" placeholder="Password" required>
+                        <div class="form-group row has-feedback modal_signUp_section_form_email ">
+                            <label for="inputEmail_signUp" class="control-label">Введіть Ваш email</label>
+
+                            <div class="input-group col-xs-12">
+                                <input type="text" class="form-control " pattern="^[_A-z0-9]{1,}$" id="inputEmail_signUp" placeholder="email" data-error="Ваш email невірний" required>
+                                <span class="input-group-addon">@gmail.com</span>
+                            </div>
+                            <i class="glyphicon form-control-feedback" aria-hidden="true"></i>
+                            <div class="help-block with-errors"></div>
                         </div>
 
+                        <div class="form-group has-feedback col-xs-8 row modal_logIn_section_form_pass">
+                            <label for="inputPassword_signUp" class="control-label">Введіть Ваш пароль</label>
+                            <div class="input-group col-xs-12 modal_logIn_section_form_pass_input">
+                                <span class="input-group-addon"><div class="glyphicon glyphicon-lock"></div></span>
+                                <input type="password" data-minlength="6" class="form-control" id="inputPassword_signUp" placeholder="Password" required>
+                            </div>
+                            <i class="glyphicon form-control-feedback " aria-hidden="true" ></i>
+                            <div class="help-block"><p>Довжина має бути не менше 6 символів</p></div>
+                        </div>
+                        <div class="form-group col-xs-4 modal_logIn_section_form_pass_forget">
+                            <div class="modal_logIn_section_form_pass_forget_item">
+                                <p><a href="">Забули пароль?</a></p>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 row modal_signUp_section_form_confirm has-feedback ">
+                            <label for="inputPasswordConfirm" class="control-label">Введіть Ваш пароль</label>
+                            <div class="input-group col-xs-12 pass_confirm">
+                                <span class="input-group-addon"><div class="glyphicon glyphicon-lock"></div></span>
+                            <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword_signUp" data-match-error="Паролі не співпадають" placeholder="Confirm" required>
+                                </div>
+                            <i class="glyphicon form-control-feedback " aria-hidden="true" ></i>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="form-group using_social_networks row col-xs-12">
+                            <div class="vk col-xs-offset-1  col-xs-11">
+                                <a role="button" class="btn btn-default vk_button" href="#"><img src="../../../resources/frontend/registration/img/vk_icon.png" alt=""> Войти через Вконтате</a>
+                            </div>
+                            <div class="fb col-xs-offset-1 col-xs-11">
+                                <a role="button" class="btn btn-default fb_button" href="#"><img src="../../../resources/frontend/registration/img/fb_icon.png" alt="">Войти через Facebook</a>
+                            </div>
+                            <div class="google_plus col-xs-offset-1 col-xs-11">
+                                <a role="button" class="btn btn-default google_plus_button" href="#"><img src="../../../resources/frontend/registration/img/google_plus_icon.png" alt=""> Войти через Google+</a>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-offset-9 col-xs-3">
+                            <button type="submit" class="btn btn-success">Зареєструватися</button>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="modal-footer">
-                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                    <button type="submit" class="btn btn_modal">Зареєструватися</button>
-                </div>
-                </form>
             </div>
         </div>
     </div>
