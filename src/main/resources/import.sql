@@ -6,9 +6,9 @@ INSERT INTO  user(firstName, lastName, email, password, rangId) VALUES ('test', 
 INSERT INTO  resourceGroup(rangId,resourceGroupTypeId) VALUES (2,2);
 INSERT INTO  user(userId,firstName,rangId) VALUES (1,'Bruce',2);
 INSERT INTO  user(userId,firstName,rangId,email,enabled,password) VALUES (1,'Lee',2,'lalala@gmail.com',b'1','123');
-INSERT INTO  resource(title,resourceGroupId,resourceTypeId) VALUES ('some_photo1',1,2);
-INSERT INTO  resource(title,resourceGroupId,resourceTypeId) VALUES ('some_photo2',1,2);
-INSERT INTO  resource(title,resourceGroupId,resourceTypeId) VALUES ('some_doc1',1,1);
-INSERT INTO  resource(title,resourceGroupId,resourceTypeId) VALUES ('some_doc2',1,1);
-INSERT INTO  resource(title,resourceGroupId,resourceTypeId) VALUES ('some_video',1,3);
+INSERT INTO  resource(url,title,resourceGroupId,resourceTypeId) VALUES ('some_url','some_photo1',1,2);
+INSERT INTO  resource(url,title,resourceGroupId,resourceTypeId) VALUES ('some_url','some_photo2',1,2);
+INSERT INTO  resource(url,title,resourceGroupId,resourceTypeId) VALUES ('some_url','some_doc1',1,1);
+INSERT INTO  resource(url,title,resourceGroupId,resourceTypeId) VALUES ('some_url','some_doc2',1,1);
+INSERT INTO  resource(url,title,resourceGroupId,resourceTypeId) VALUES ('some_url','some_video',1,3);
 --INSERT INTO  resource(title) VALUES ('avatar');

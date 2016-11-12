@@ -22,6 +22,7 @@
         <th>Delete</th>
         <th>Resources</th>
         <th>NewResource</th>
+        <th>NewVideoResource</th>
       </tr>
     </thead>
     <tbody>
@@ -34,7 +35,8 @@
         <td><a th:href="@{/admin/resourceGroup/edit/} + ${resourceGroup.resourceGroupId}">Edit</a></td>   
         <td><a th:href="@{/admin/resourceGroup/delete/} + ${resourceGroup.resourceGroupId}">Delete</a></td>
         <td><a th:href="@{/admin/resource/group/} + ${resourceGroup.resourceGroupId}">Resources</a></td>   
-        <td><a th:href="@{/admin/resource/add/group/} + ${resourceGroup.resourceGroupId}">Add resource</a></td>         
+        <td><a th:href="@{/admin/resource/add/group/} + ${resourceGroup.resourceGroupId}">Add resource</a></td>
+        <td><a th:href="@{/admin/resource/addVideo/group/} + ${resourceGroup.resourceGroupId}">Add videoResource</a></td>
       </tr>
     </tbody>
   </table>

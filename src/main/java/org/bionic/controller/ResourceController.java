@@ -10,9 +10,12 @@ import java.util.Collection;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletResponse;
 
+import org.bionic.entity.EnumResourceType;
 import org.bionic.entity.Resource;
+import org.bionic.entity.ResourceType;
 import org.bionic.service.ResourceGroupService;
 import org.bionic.service.ResourceService;
+import org.bionic.service.ResourceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,13 +34,16 @@ public class ResourceController {
 	private ResourceService resourceService;
 	@Autowired
 	private ResourceGroupService resourceGroupService;
+	@Autowired
+	private ResourceTypeService resourceTypeService;
 		
 	//go to manage page
 	@RequestMapping(value = "/management", method = RequestMethod.GET)
 	public String goToManagement(Model model) {
 		return "admin/resource/resourceManagement";
 	}
-	//go to addForm
+
+	//go to TEXT PHOTO addForm
 	@RequestMapping(value = "/add/group/{resourceGroupId}", method = RequestMethod.GET)
 	public String goToAddForm(@PathVariable("resourceGroupId") long resourceGroupId, Model model) {
 		Resource resource = new Resource();
@@ -45,11 +51,31 @@ public class ResourceController {
 		model.addAttribute("resource", resource);
 		return "admin/resource/addResource";
 	}
+
+	//go to  VIDEO addForm
+	@RequestMapping(value = "/addVideo/group/{resourceGroupId}", method = RequestMethod.GET)
+	public String goToAddVideoForm(@PathVariable("resourceGroupId") long resourceGroupId, Model model) {
+		Resource resource = new Resource();
+		resource.setResourceGroup(resourceGroupService.findOne(resourceGroupId));
+		model.addAttribute("resource", resource);
+		return "admin/resource/addVideoResource";
+	}
 	
 	 // create resource
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String createResource(Resource resource, RedirectAttributes model, @RequestParam("file") MultipartFile file) {
 		resource.setUrl(resourceService.saveFile(resource, file));
+		resourceService.save(resource);
+		model.addAttribute("resourceId", resource.getResourceId());
+		model.addFlashAttribute("resource", resource);
+		return "redirect:/admin/resource/{resourceId}";
+	}
+
+	// create video resource
+	@RequestMapping(value = "/video", method = RequestMethod.POST)
+	public String createVideoResource(Resource resource, RedirectAttributes model) {
+		ResourceType resourceType = resourceTypeService.findOne(EnumResourceType.VIDEO.getValue());
+		resource.setResourceType(resourceType);
 		resourceService.save(resource);
 		model.addAttribute("resourceId", resource.getResourceId());
 		model.addFlashAttribute("resource", resource);

@@ -19,4 +19,5 @@ public interface ResourceTypeRepository extends JpaRepository<ResourceType, Long
 	boolean equals(Object obj);
 
 	List<ResourceType> findByResourceTypeId(Long resourceTypeId);
+
 }
