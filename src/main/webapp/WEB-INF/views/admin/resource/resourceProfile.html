@@ -16,6 +16,7 @@
         <th>Title</th>
         <th>Description</th>
         <th>URL</th>
+        <th>Download</th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
@@ -25,6 +26,7 @@
         <td th:text="${resource.title}"></td>
         <td th:text="${resource.description}"></td>
         <td th:text="${resource.url}"></td>
+        <td><a th:href="@{/admin/resource/download/} + ${resource.resourceId}">Download</a></td>
         <td><a th:href="@{/admin/resource/edit/} + ${resource.resourceId}">Edit</a></td>   
         <td><a th:href="@{/admin/resource/delete/} + ${resource.resourceId}">Delete</a></td>         
       </tr>

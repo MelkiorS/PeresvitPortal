@@ -1,8 +1,14 @@
 package org.bionic.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletResponse;
 
 import org.bionic.entity.Resource;
 import org.bionic.service.ResourceGroupService;
@@ -15,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -93,4 +98,29 @@ public class ResourceController {
         model.addAttribute("resource", resource);
         return "admin/resource/addResource";
     }	
+	
+	 // download resource file
+	@RequestMapping(value = "/download/{resourceId}", method = RequestMethod.GET)
+	public void downloadResourceFile(@PathVariable("resourceId") long resourceId, HttpServletResponse response, Model model) {
+		Resource resource = resourceService.findOne(resourceId);
+
+		if (resource.getUrl() != null) {
+			File downloadingFile = new File(resource.getUrl());
+			Path filePath = Paths.get(downloadingFile.getPath());
+			if (downloadingFile.exists()) {
+				try {
+					response.setContentType(Files.probeContentType(filePath));
+					response.addHeader("Content-Disposition", "attachment; filename=" + downloadingFile.getName());
+
+					Files.copy(filePath.toAbsolutePath(), response.getOutputStream());
+					response.getOutputStream().flush();
+				} catch (IOException ex) {
+					//model.addAttribute("errorMessage", "file " + filePath.toAbsolutePath() + " not found!");
+					ex.printStackTrace();
+					//response.setHeader("Location", "redirect:/message/{errorMessage}");
+				}
+			}
+		}		
+	}
+		
 }
