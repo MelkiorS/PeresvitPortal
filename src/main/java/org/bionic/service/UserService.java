@@ -23,6 +23,7 @@ public interface UserService {
 	boolean equals(Object obj);
 
 	User findUserByEmail(String email);
+	User findUserByEmailAndPassword(String email,String password);
 	////////////////////////////////////////////////////////////////////////
 	void createVerificationTokenForUser(User user, String token);
 	VerificationToken getVerificationToken(String VerificationToken);

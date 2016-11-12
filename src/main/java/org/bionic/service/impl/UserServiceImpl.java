@@ -121,4 +121,8 @@ public class UserServiceImpl implements UserService{
 			
 		return fileURL;
 	}
+    @Override
+    public User findUserByEmailAndPassword(String email,String password){
+        return userRepository.findUserByEmailAndPassword(email, password);
+    }
 }

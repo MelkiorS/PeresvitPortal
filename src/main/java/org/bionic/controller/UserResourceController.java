@@ -3,10 +3,7 @@ package org.bionic.controller;
 import org.bionic.dao.RangRepository;
 import org.bionic.dao.ResourceGroupRepository;
 import org.bionic.dao.ResourceGroupTypeRepository;
-import org.bionic.entity.Rang;
-import org.bionic.entity.Resource;
-import org.bionic.entity.ResourceGroup;
-import org.bionic.entity.ResourceGroupType;
+import org.bionic.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,10 +37,12 @@ public class UserResourceController {
     }
     // show resources for current user depending on his name
     @RequestMapping(value = "/{groupName}", method = RequestMethod.GET)
-    public String getResourceGroup(@PathVariable String groupName, Model model) {
+    public String getResourceGroup(@PathVariable String groupName, Model model, HttpServletRequest request) {
         // need to take userId from session
         try {
-            Rang rang = rangRepository.findOne(2l);
+            HttpSession session = request.getSession();
+            User user = (User)session.getAttribute("user");
+            Rang rang = user.getRang();
             ResourceGroupType type = resourceGroupTypeRepository.findResourceGroupTypeByGroupName(groupName);
             ResourceGroup resourceGroup = resourceGroupRepository.findResourceGroupByResourceGroupTypeAndRang(type, rang);
             Collection<Resource> resourceCollection = resourceGroup.getResourceCollection();
