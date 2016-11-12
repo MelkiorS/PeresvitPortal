@@ -25,6 +25,7 @@
         <tr>
             <th>Title</th>
             <th>Description</th>
+            <th>Download</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +34,7 @@
                 <span th:utext="${resource.title}">Title</span>
             </a></td>
             <td th:text="${resource.description}"> Description </td>
+            <td><a th:href="@{/admin/resource/download/} + ${resource.resourceId}">Download</a></td>
         </tr>
         </tbody>
     </table>
