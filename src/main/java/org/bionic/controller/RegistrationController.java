@@ -44,14 +44,14 @@ public class RegistrationController {
     public String registerUserAccount(
             @ModelAttribute("user") UserDto accountDto, RedirectAttributes model) {
 
-        User registered = new User();
+        User registered;
         registered = createUserAccount(accountDto);
         if (registered == null) {
             return "registration/registration";
         }
         model.addFlashAttribute("user", registered);
         model.addAttribute("userId", registered.getUserId());
-        return "redirect:/registration/success/{userId}";
+        return "redirect:/registration/success";
 //        if (!result.hasErrors()) {
 //            System.out.println("ADDING");
 //            registered = createUserAccount(accountDto, result);
@@ -69,10 +69,8 @@ public class RegistrationController {
 //            return "redirect:/registration/success/{userId}";
 //        }
     }
-    @RequestMapping(value = "/success/{userId}", method = RequestMethod.GET)
-    public String showPersPage(@PathVariable("userId") long userId, WebRequest request, Model model) {
-        if (!model.containsAttribute("user"))
-            model.addAttribute("user", userService.findOne(userId));
+    @RequestMapping(value = "/success", method = RequestMethod.GET)
+    public String showPersPage() {
         return "workField/office";
     }
     private User createUserAccount(UserDto accountDto) {
