@@ -23,23 +23,46 @@
             scheduler.load('/admin/myeventsperiod?start=20161101&finish=20161130','json');
 
             scheduler.attachEvent("onEventAdded", function(id,ev){
-                console.log(ev);
                 $.ajax({
                     type : "POST",
-                    url : "/admin/changeEvent",
+                    url : "/admin/addEvent",
                     data : {
                         "start_date" : ev.start_date.getTime(),
                         "end_date" : ev.end_date.getTime(),
                         "text" : ev.text
                     },
                     success: function(data){
-//                        $('#next').html(data);
+                        scheduler.load('/admin/myeventsperiod?start=20161101&finish=20161130','json');
+                        scheduler.deleteEvent(id);
                     }
                 });
             });
-//            var dp = new dataProcessor("/admin/changeEvent");
-//            dp.init(scheduler);
-//            dp.setTransactionMode("POST", false);
+
+            scheduler.attachEvent("onEventChanged", function(id, ev) {
+                $.ajax({
+                    type : "POST",
+                    url : "/admin/updEvent",
+                    data : {
+                        "id" : ev.id,
+                        "start_date" : ev.start_date.getTime(),
+                        "end_date" : ev.end_date.getTime(),
+                        "text" : ev.text
+                    },
+                    success: function(data){
+                    }
+                });
+            });
+            scheduler.attachEvent("onEventDeleted", function(id) {
+                $.ajax({
+                    type : "POST",
+                    url : "/admin/delEvent",
+                    data : {
+                        "id" : id
+                    },
+                    success: function(data){
+                    }
+                });
+            });
         }
     </script>
 </head>

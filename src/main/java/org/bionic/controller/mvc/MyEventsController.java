@@ -57,16 +57,32 @@ public class MyEventsController {
         return res;
     }
 
-    @RequestMapping(value = "/admin/changeEvent", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/addEvent", method = RequestMethod.POST)
+    @ResponseBody
 //    public String updEvent(@RequestParam("start_date") String start, @RequestParam("end_date") String end, @RequestParam("text") String text, @RequestParam("!nativeeditor_status") String status) throws URISyntaxException {
-    public String updEvent(@RequestParam("start_date") Long start, @RequestParam("end_date") Long end, @RequestParam("text") String text) throws URISyntaxException {
+    public String addEvent(@RequestParam("start_date") Long start, @RequestParam("end_date") Long end, @RequestParam("text") String text) throws URISyntaxException {
         Event ev = new Event();
         ev.setName(text);
         ev.setStart(new Date(start));
         ev.setFinish(new Date(end));
 
-        es.create(ev);
-        return editEvents();
+        return String.valueOf(es.create(ev));
+    }
+
+    @RequestMapping(value = "/admin/updEvent", method = RequestMethod.POST)
+    @ResponseBody
+    public String updEvent(@RequestParam("id") long id, @RequestParam("start_date") Long start, @RequestParam("end_date") Long end, @RequestParam("text") String text) {
+        Event ev = es.findById(id);
+        ev.setName(text);
+        ev.setStart(new Date(start));
+        ev.setFinish(new Date(end));
+        return String.valueOf(es.update(ev));
+    }
+
+    @RequestMapping(value = "/admin/delEvent", method = RequestMethod.POST)
+    @ResponseBody
+    public String updEvent(@RequestParam("id") long id) {
+        return String.valueOf(es.delete(es.findById(id)));
     }
 
     @RequestMapping(value = "/admin/event_edit", method = RequestMethod.GET)
