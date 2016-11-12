@@ -3,77 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <title>Resource List</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
 </head>
 <body>
+
+<div data-role="page"  >
 <a th:href="@{/resource/myWay}" >My Way</a>
 <br/>
 <div class="resourceList" >
 
-    <h2 >TEXT</h2>
+    <div data-role="header">
+        <h1>TEXT</h1>
+    </div>
     <table>
         <thead>
         <tr>
             <th>Title</th>
             <th>Description</th>
-            <th>URL</th>
-            <th>Edit</th>
-            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="resource : ${resourceListText}">
-            <td th:text="${resource.title}"></td>
-            <td th:text="${resource.description}"></td>
-            <td th:text="${resource.url}"></td>
-            <td><a th:href="@{/admin/resource/edit/} + ${resource.resourceId}">Edit</a></td>
-            <td><a th:href="@{/admin/resource/delete/} + ${resource.resourceId}">Delete</a></td>
+            <td ><a th:href="${resource.url}">
+                <span th:utext="${resource.title}">Title</span>
+            </a></td>
+            <td th:text="${resource.description}"> Description </td>
         </tr>
         </tbody>
     </table>
-
-    <h2 >PHOTO</h2>
+        <div data-role="header">
+            <h1>PHOTO</h1>
+        </div>
+        <p>Нажмите чтобы увеличить фотографию и прочитать ее описание</p>
+        <div id="pageone" data-role="main" class="ui-content" th:each="resource : ${resourceListPhoto}">
+            <a href="#myPopup" data-rel="popup" data-position-to="window">
+                <img th:src="${resource.url}" th:alt="${resource.title}" style="width:200px;"></a>
+            <div data-role="popup" id="myPopup">
+                <span th:utext="${resource.title}">Title</span>
+                <a href="#pageone" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <img th:src="${resource.url}" style="width:800px;height:400px;" th:alt="${resource.title}">
+                <span th:utext="${resource.description}">Title</span>
+            </div>
+        </div>
+    <div data-role="header">
+        <h1>VIDEO</h1>
+    </div>
     <table>
         <thead>
         <tr>
             <th>Title</th>
             <th>Description</th>
-            <th>URL</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="resource : ${resourceListPhoto}">
-            <td th:text="${resource.title}"></td>
-            <td th:text="${resource.description}"></td>
-            <td th:text="${resource.url}"></td>
-            <td><a th:href="@{/admin/resource/edit/} + ${resource.resourceId}">Edit</a></td>
-            <td><a th:href="@{/admin/resource/delete/} + ${resource.resourceId}">Delete</a></td>
-        </tr>
-        </tbody>
-    </table>
-
-    <h2 >Video</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>URL</th>
-            <th>Edit</th>
-            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="resource : ${resourceListVideo}">
-            <td th:text="${resource.title}"></td>
-            <td th:text="${resource.description}"></td>
-            <td th:text="${resource.url}"></td>
-            <td><a th:href="@{/admin/resource/edit/} + ${resource.resourceId}">Edit</a></td>
-            <td><a th:href="@{/admin/resource/delete/} + ${resource.resourceId}">Delete</a></td>
+            <td ><a th:href="${resource.url}">
+                <span th:utext="${resource.title}">Title</span>
+            </a></td>
+            <td th:text="${resource.description}"> Description </td>
         </tr>
         </tbody>
     </table>
+</div>
 </div>
 </body>
 </html>
