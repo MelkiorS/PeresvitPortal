@@ -1,7 +1,7 @@
 'use strict';
 function show_private_office(){
     // var private_office = $($('link[rel=import].private_office').prop('import')).find('.show').get(0);
-    $('.main_section').load('private_office.html');
+    $('.main_section').load('privateOffice');
     //при загрузке делаем кнопку 'Особистий кабінет' активной
     for(var i in $('.control_button')){
         if($.trim($('.control_button')[i].innerHTML) =='Особистий кабінет'){
@@ -23,10 +23,10 @@ $(function(){
         // $('.control_button').not($(this));
         $('.main_section').empty();
         if($.trim($(this).html()) ==='наші події'){
-            $('.main_section').load('our_events.html');
+            $('.main_section').load('ourEvents.html');
         }
         if($.trim($(this).html()) ==='Особистий кабінет'){
-            $('.main_section').load('private_office.html');
+            $('.main_section').load('privateOffice.html');
         }
 
     });

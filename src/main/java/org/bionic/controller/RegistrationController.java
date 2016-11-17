@@ -77,7 +77,7 @@ public class RegistrationController {
     }
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String showPersPage() {
-        return "home/workField";
+        return "redirect:/home/workField";
     }
 
     private User createUserAccount(UserDto accountDto) {

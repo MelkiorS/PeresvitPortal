@@ -1,6 +1,7 @@
-<div class="show" xmlns:th="http://www.thymeleaf.org">
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<div class="show user" xmlns:th="http://www.thymeleaf.org">
     <div>
-        <p class="text-left h2 main_section_name" th:text="${user.firstName} ${user.lastName}"> </p>
+        <p class="text-left h2 main_section_name"> <span th:text="${user.firstName}"></span> <span th:text="${user.lastName}"></span></p>
     </div>
     <div class="row main_section_basic">
         <div class="col-xs-2 main_section_basic_avatar">
@@ -24,7 +25,7 @@
             </p>
         </div>
         <div class="col-xs-12 main_section_basic_level">
-            <p th:text="${user.rang.rangName}"></p>
+            <p th:text="${user.rang.rangName}">Ранг</p>
         </div>
     </div>
 
@@ -51,3 +52,5 @@
         </div>
     </div>
 </div>
+</html>
+

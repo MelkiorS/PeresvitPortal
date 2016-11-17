@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 @Controller
-public class HomeController {
+public class StartPageController {
 
 	@Autowired
 	private UserService userService;
@@ -26,15 +26,15 @@ public class HomeController {
 		return "admin/adminIndex";
 	}
 
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String goToReg(Model model, Principal principal) {
-		if (principal != null) {
-			User loggedUser = userService.findUserByEmail(principal.getName());
-			model.addAttribute("user", loggedUser);
-			return "home/workField";
-		}
-	    return "redirect:/registration/registration";
-	}
+//    @RequestMapping(value = "/home", method = RequestMethod.GET)
+//    public String goToReg(Model model, Principal principal) {
+//        if (principal != null) {
+//            User loggedUser = userService.findUserByEmail(principal.getName());
+//            model.addAttribute("user", loggedUser);
+//            return "home/workField";
+//        }
+//        return "redirect:/registration/registration";
+//    }
 
 //	@RequestMapping(value = "/loginForm", method = RequestMethod.GET)
 //	public String goToLoginPage(Model model, Principal principal) {

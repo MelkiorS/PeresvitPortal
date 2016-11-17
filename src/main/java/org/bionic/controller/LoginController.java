@@ -28,6 +28,6 @@ public class LoginController {
     public String loginSuccess(Model model, Principal principal) {
         User loggedInUser = userService.findUserByEmail(principal.getName());
         model.addAttribute("user", loggedInUser);
-        return "home/workField";
+        return "redirect:/home/workField";
     }
 }
