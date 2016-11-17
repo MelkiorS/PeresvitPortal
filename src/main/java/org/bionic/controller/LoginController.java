@@ -21,13 +21,13 @@ public class LoginController {
 
 //    @RequestMapping(value = "login")
 //    public String login() {
-//        return "login/login";
+//        return "registration/registration";
 //    }
 
     @RequestMapping(value = "login/success")
     public String loginSuccess(Model model, Principal principal) {
-        User loggedUser = userService.findUserByEmail(principal.getName());
-        model.addAttribute("user", loggedUser);
-        return "workField/office";
+        User loggedInUser = userService.findUserByEmail(principal.getName());
+        model.addAttribute("user", loggedInUser);
+        return "home/workField";
     }
 }

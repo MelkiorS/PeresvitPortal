@@ -7,6 +7,10 @@ import org.bionic.service.UserService;
 import org.bionic.web.dto.UserDto;
 import org.bionic.web.error.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +48,7 @@ public class RegistrationController {
     // create user
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registerUserAccount(
-            @ModelAttribute("user") UserDto accountDto, RedirectAttributes model) {
+            @ModelAttribute("user") UserDto accountDto, RedirectAttributes model, Principal principal) {
 
         User registered;
         registered = createUserAccount(accountDto);
@@ -50,7 +56,7 @@ public class RegistrationController {
             return "registration/registration";
         }
         model.addFlashAttribute("user", registered);
-        model.addAttribute("userId", registered.getUserId());
+        authenticateUser(registered);
         return "redirect:/registration/success";
 //        if (!result.hasErrors()) {
 //            System.out.println("ADDING");
@@ -71,8 +77,9 @@ public class RegistrationController {
     }
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String showPersPage() {
-        return "workField/office";
+        return "home/workField";
     }
+
     private User createUserAccount(UserDto accountDto) {
         User registered;
         try {
@@ -82,4 +89,16 @@ public class RegistrationController {
         }
         return registered;
     }
+
+    public void authenticateUser(User user) {
+        List<GrantedAuthority> authorities =
+                new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ADMIN"));
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(
+                        user.getEmail(),
+                        user.getPassword(),
+                        authorities));
+    }
+
 }

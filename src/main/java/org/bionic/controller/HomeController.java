@@ -26,19 +26,23 @@ public class HomeController {
 		return "admin/adminIndex";
 	}
 
-	@RequestMapping(value = "/registration", method = RequestMethod.GET)
-	public String goToReg(WebRequest request, Principal principal) {
-
-	    return "redirect:/registration/registration";
-	}
-
-	@RequestMapping(value = "/loginForm", method = RequestMethod.GET)
-	public String goToLoginPage(Model model, Principal principal) {
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String goToReg(Model model, Principal principal) {
 		if (principal != null) {
 			User loggedUser = userService.findUserByEmail(principal.getName());
 			model.addAttribute("user", loggedUser);
-			return "workField/office";
+			return "home/workField";
 		}
-		return "login/login";
+	    return "redirect:/registration/registration";
 	}
+
+//	@RequestMapping(value = "/loginForm", method = RequestMethod.GET)
+//	public String goToLoginPage(Model model, Principal principal) {
+//		if (principal != null) {
+//			User loggedUser = userService.findUserByEmail(principal.getName());
+//			model.addAttribute("user", loggedUser);
+//			return "home/workField";
+//		}
+//		return "redirect:registration/registration";
+//	}
 }

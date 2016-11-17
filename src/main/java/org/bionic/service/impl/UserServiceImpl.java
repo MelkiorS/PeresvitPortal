@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User registerNewUserAccount(final UserDto accountDto) {
         if (emailExist(accountDto.getEmail())) {
-            throw new UserAlreadyExistException("There is an account with that email adress: " + accountDto.getEmail());
+            throw new UserAlreadyExistException("There is an account with that email address: " + accountDto.getEmail());
         }
         final User user = new User();
 
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService{
         user.setLastName(accountDto.getLastName());
         user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
-        user.setRang(rangRepository.findOne(1L));
+        user.setRang(rangRepository.findOne(5L));
 
         return userRepository.save(user);
     }
