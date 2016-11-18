@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletResponse;
@@ -43,6 +44,13 @@ public class ResourceController {
 		return "admin/resource/resourceManagement";
 	}
 
+	//go to addForm
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public String goToAddForm(Model model) {
+		model.addAttribute(new Resource());
+		return "admin/resource/addResource";
+	}
+	
 	//go to TEXT PHOTO addForm
 	@RequestMapping(value = "/add/group/{resourceGroupId}", method = RequestMethod.GET)
 	public String goToAddForm(@PathVariable("resourceGroupId") long resourceGroupId, Model model) {
@@ -99,6 +107,15 @@ public class ResourceController {
 		return "admin/resource/allResources";
 	}
 	
+	// show all resources
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String listAllResources(Model model) {
+		List<Resource> resources = resourceService.findAll();
+		model.addAttribute("resourceList", resources);
+		model.addAttribute("resource", new Resource());
+		return "admin/resource/allResources";
+	}
+	
 	// delete resource
 	// need to solve issue when its FK to smth !!!!
 	@RequestMapping(value = "/delete/{resourceId}", method = RequestMethod.GET)
@@ -142,11 +159,16 @@ public class ResourceController {
 					response.getOutputStream().flush();
 				} catch (IOException ex) {
 					//model.addAttribute("errorMessage", "file " + filePath.toAbsolutePath() + " not found!");
-					ex.printStackTrace();
-					//response.setHeader("Location", "redirect:/message/{errorMessage}");
+					//ex.printStackTrace();
+					//response.setHeader("Location", "redirect:/message/{errorMessage}");	
+					throw new RuntimeException("IOError writing file to output stream");
 				}
 			}
-		}		
+			else
+				throw new RuntimeException("IOError file not exis!");
+		}
+		else
+			throw new RuntimeException("IOError URL is empty");
 	}
 		
 }

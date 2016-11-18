@@ -1,13 +1,10 @@
 package org.bionic.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.bionic.entity.Rang;
+import org.bionic.entity.EnumUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import org.bionic.entity.User;
+import org.bionic.entity.UserInfo;
+import org.bionic.service.UserInfoService;
 import org.bionic.service.UserService;
 
 @Controller
@@ -23,26 +22,42 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-
+	
+	@Autowired
+	private UserInfoService userInfoService;
+	
     //go to manage page
     @RequestMapping(value = "/management", method = RequestMethod.GET)
     public String goToManagement(Model model) {
         return "admin/user/userManagement";
     }
+    
     //go to addForm
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String goToAddForm(Model model) {
-        model.addAttribute(new User());
+    	User user = new User();
+    	
+    	initializeUserInfo(user);   
+       
+        model.addAttribute(user);
+        
         return "admin/user/addUser";
     }
 
     // create user
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String createUser(User user, RedirectAttributes model, @RequestParam("file") MultipartFile file) {
+    	   
     	user.setAvatarURL(userService.saveFile(user, file));
         userService.save(user);
+        
+    	// UserInfo saving
+    	for(UserInfo userInfo : user.getUserInfoList())
+    		userInfoService.save(userInfo, user.getUserId());
+    	
         model.addAttribute("userId", user.getUserId());
         model.addFlashAttribute("user", user);
+        
         return "redirect:/admin/user/{userId}";
     }
 
@@ -84,8 +99,24 @@ public class UserController {
         if (user == null) {
             // custom exception
         }
+        
+        initializeUserInfo(user);        	
+        
         model.addAttribute("user", user);
         return "admin/user/addUser";
     }
 
+	// initialize UserInfoList    
+    private void initializeUserInfo(User user){
+    	
+    	if(user == null)
+    		return;
+    	
+		if (user.getUserInfoList() == null || user.getUserInfoList().isEmpty()) {
+			user.setUserInfoList(new ArrayList<UserInfo>(EnumUserInfo.values().length));
+			for (EnumUserInfo value : EnumUserInfo.values())
+				user.addUserInfo(new UserInfo(value.name(), ""));
+		}
+    }
+    
 }

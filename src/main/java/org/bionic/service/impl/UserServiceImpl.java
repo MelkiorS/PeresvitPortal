@@ -106,6 +106,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String saveFile(User user, MultipartFile inputFile) {
 		
+		if(inputFile.isEmpty())
+			return "";
+			
 		if(user.getUserId() == null)
 			save(user);
 			

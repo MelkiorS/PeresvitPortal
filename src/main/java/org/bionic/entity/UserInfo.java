@@ -7,6 +7,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
@@ -22,6 +25,7 @@ public class UserInfo {
 	private Long userInfoId;
 	
 	@ManyToOne
+	@Cascade(CascadeType.DELETE)
 	@JoinColumn(name="userId")
 	private User user;
 
@@ -29,6 +33,13 @@ public class UserInfo {
 	private String infoValue;
 	
     public UserInfo() {}
+
+	public UserInfo(String infoName, String infoValue) {
+		this.infoName = infoName;
+		this.infoValue = infoValue;
+	}
+  
+    
 	
 }
 

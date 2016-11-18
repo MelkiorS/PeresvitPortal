@@ -18,7 +18,15 @@
         <input type="text" th:field="*{password}" placeholder="password" /><br/>     
  		<input type="file" name="file" /><br/>       
         <input type="text" th:field="*{rang.rangId}" placeholder="rang ID"/><br/>
-        <input type="submit" />
-    </form>
+        
+		<br/> User info <br/>
+	    <tr th:each="userInfo, rowStat : *{userInfoList}">
+	    	<input type="hidden" th:field="*{userInfoList[__${rowStat.index}__].userInfoId}" />
+	    	<input type="hidden" th:field="*{userInfoList[__${rowStat.index}__].infoName}" />
+	        <input type="text" 	 th:field="*{userInfoList[__${rowStat.index}__].infoValue}" th:placeholder="*{userInfoList[__${rowStat.index}__].infoName}"/><br/>
+	    </tr><br/>
+                    				
+		<input type="submit" />
+    </form>      
 </body>
 </html>

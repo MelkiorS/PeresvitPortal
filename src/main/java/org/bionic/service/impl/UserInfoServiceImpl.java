@@ -19,11 +19,16 @@ public class UserInfoServiceImpl implements UserInfoService{
 	private UserRepository userRepository;
 
 	@Override
-	public UserInfo create(UserInfo userInfo, Long userId) {
+	public UserInfo save(UserInfo userInfo, Long userId) {
 		userInfo.setUser(userRepository.getOne(userId));
 		return userInfoRepository.save(userInfo);
 	}
 
+	@Override
+	public UserInfo save(UserInfo userInfo) {
+		return userInfoRepository.save(userInfo);
+	}
+	
 	@Override
 	public List<UserInfo> findAll(Long userId) {
 		return userInfoRepository.findByUserInfoId(userId);

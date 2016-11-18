@@ -1,13 +1,14 @@
 package org.bionic.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-import javax.enterprise.inject.Default;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import lombok.Data;
 
 @Entity
@@ -33,21 +34,18 @@ public class User {
     // Account verification status
 	@Column(columnDefinition = "boolean default true")
     private boolean enabled = true;
-  /*  @ManyToMany(
-    		cascade = {CascadeType.ALL},
-			targetEntity = ResourceGroup.class
-	)
-    @JoinTable(
-    		name="userResourceGroup",
-            joinColumns={@JoinColumn(name="userId")},
-            inverseJoinColumns={@JoinColumn(name="resourceGroupId")}
-	)
-    private Set<ResourceGroup> resourceGroups = new HashSet<ResourceGroup>();
-     */
 
+	@OneToMany(mappedBy = "user")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@Cascade(CascadeType.DELETE)	
+	private List<UserInfo> userInfoList;
+	
 	public User() {
 		super();
 		enabled = true;
 	}
 
+	public void addUserInfo(UserInfo userInfo){
+		userInfoList.add(userInfo);
+	}
 }

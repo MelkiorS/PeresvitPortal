@@ -5,7 +5,7 @@
 <title>Resource List</title>
 </head>
 <body>
-<a th:href="@{/}" >Admin Management</a>
+<a th:href="@{/admin/resource/management}" >Resource Management</a>
 <br/>
 <div class="resource">
     
@@ -26,7 +26,13 @@
         <td th:text="${resource.title}"></td>
         <td th:text="${resource.description}"></td>
         <td th:text="${resource.url}"></td>
-        <td><a th:href="@{/admin/resource/download/} + ${resource.resourceId}">Download</a></td>
+
+		<td th:switch="${resource.url}">
+			<div th:case = "''"></div>
+			<div th:case = null></div>
+			<div th:case = "*"><a th:href="@{/admin/resource/download/} + ${resource.resourceId}">Download</a></div>
+		</td>
+
         <td><a th:href="@{/admin/resource/edit/} + ${resource.resourceId}">Edit</a></td>   
         <td><a th:href="@{/admin/resource/delete/} + ${resource.resourceId}">Delete</a></td>         
       </tr>

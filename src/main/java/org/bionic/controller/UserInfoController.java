@@ -24,7 +24,7 @@ public class UserInfoController {
 	// create userInfo
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public UserInfo addUserInfo(@PathVariable Long userId, @RequestBody UserInfo userInfo) {
-		return userInfoService.create(userInfo, userId);
+		return userInfoService.save(userInfo, userId);
 	}
 
 	// show all user info

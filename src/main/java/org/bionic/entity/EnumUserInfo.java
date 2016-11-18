@@ -1,0 +1,19 @@
+package org.bionic.entity;
+
+public enum EnumUserInfo {
+
+	CITY(1L),
+	CLUB(2L),
+	MENTOR(3L),
+	ABOUT(4L);
+	
+	private final Long value;
+	
+    private EnumUserInfo(Long value) {
+        this.value = value;
+    }
+
+    public Long getValue() {
+        return value;
+    }	
+}
