@@ -15,7 +15,7 @@ $(function(){
             var formData = JSON.stringify(newUser);
             $.ajax({
                 type: "POST",
-                url: server + "user/registration",
+                url: server + "registration/registration",
                 data: formData,
                 crossDomain: true,
                 xhrFields: {
@@ -25,6 +25,7 @@ $(function(){
                 contentType: "application/json"
             })
                 .done(function (data) {
+
                     console.log('успех');
                 })
                 .fail(function (err) {
@@ -37,7 +38,7 @@ $(function(){
     $('#enterForm').on('submit',function(e){
         e.p
         $.ajax({
-            url: server + "user/",
+            url: server + "/login",
             crossDomain: true,
             xhrFields: {withCredentials: true},
 
