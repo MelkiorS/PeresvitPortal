@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Peresvit</title>
+    <link rel="stylesheet" href="../../../resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="../../../resources/frontend/workField/css/workField_style.css">
+    <link rel="stylesheet" href="../../../resources/frontend/workField/css/my_way_sidebar.css">
+    <link rel="stylesheet" href="../../../resources/frontend/workField/css/our_events.css">
+    <script src="http://www.w3schools.com/lib/w3data.js"></script>
+    <!--<link rel="import" class='private_office' href="../../../resources/frontend/workField/html/private_office.html">-->
+    <script src="../../../resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="../../../resources/frontend/libraries/wm-html-include.min.js"></script>
+    <script src="../../../resources/frontend/libraries/constants.js"></script>
+    <script  async src="../../../resources/frontend/workField/js/workField_script.js"></script>
+
+</head>
+<body>
+<div class="container-fluid wrapper">
+    <div class="row header">
+        <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
+        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="../../../resources/frontend/workField/images/logo_Peresvit.png" alt="логотип"></div>
+        <div class="col-xs-8  row header_nav">
+            <div class="btn-group btn-group-justified" role="group" aria-label="1">
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        новини </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        обговорення </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        повідомлення </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        ми </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row main">
+        <div class="col-xs-3 container main_sidebar">
+            <div class="btn-group-vertical btn-group-lg" role="group" aria-label="111">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        Особистий кабінет </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        наші події </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        мої події </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        мій шлях </button>
+                </div>
+            </div>
+
+
+            <!--<div class="container-fluid row add_sidebar" >-->
+                <!--<div class="btn-group-vertical btn-group-lg my_way_sidebar" role="group1" aria-label="222">-->
+                    <!--<div class="btn-group my_way_sidebar_group" role="group1">-->
+                        <!--<button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">Базова техніка </button>-->
+                    <!--</div>-->
+                    <!--<div class="btn-group " role="group1">-->
+                            <!--<button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">-->
+                            <!--наші події </button>-->
+                    <!--</div>-->
+                    <!--<div class="btn-group" role="group1">-->
+                        <!--<button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">-->
+                            <!--мої події </button>-->
+                    <!--</div>-->
+                    <!--<div class="btn-group" role="group1">-->
+                        <!--<button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">-->
+                            <!--мій шлях </button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="place_for_add_sidebar col-xs-12 row"></div>
+        </div>
+        <div class=" col-xs-7 row well container-fluid main_section"></div>
+
+        <footer>
+            <div class="row container-fluid">
+                <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">Гугл реклама</div>
+                <div class="col-xs-2 col-md-2 row">
+                    <img src="../../../resources/frontend/workField/images/Logovk.png" alt="vk">
+                    <img src="../../../resources/frontend/workField/images/Logofc.png" alt="fs">
+                    <img src="../../../resources/frontend/workField/images/Logoin.png" alt="instagram">
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<div class="user">
+    <h2 >User</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>userId</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Middle Name</th>
+            <th>Email</th>
+            <th>Avatar URL</th>
+            <th>Rang</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${user.userId}"></td>
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.middleName}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.avatarURL}"></td>
+            <td th:text="${user.rang.rangName}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>

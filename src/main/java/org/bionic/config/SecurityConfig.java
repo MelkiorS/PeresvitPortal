@@ -1,5 +1,6 @@
 package org.bionic.config;
 
+import org.bionic.security.UserDetailsService;
 import org.bionic.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
@@ -24,18 +26,18 @@ import javax.sql.DataSource;
 @Configuration
 //@ComponentScan(basePackages = { "org.bionic.security" })
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = false)
+//@EnableGlobalMethodSecurity(securedEnabled = false)
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AccountService accountService;
+    private UserDetailsService userDetailsService;
 
     @Autowired
     DataSource dataSource;
 
     @Bean
     public TokenBasedRememberMeServices rememberMeServices() {
-        return new TokenBasedRememberMeServices("remember-me-key", accountService);
+        return new TokenBasedRememberMeServices("remember-me-key", userDetailsService);
     }
 
     @Bean
@@ -45,12 +47,13 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery(
-                        "select email, password from user where email=?")
-                .authoritiesByUsernameQuery(
-                        "select email, rangName from rang r, user u where u.rangId=r.rangId AND email=?");
-//        auth.userDetailsService(userDetailsService);
+//        auth.jdbcAuthentication().dataSource(dataSource)
+//                .usersByUsernameQuery(
+//                        "select email, password, enabled from user where email=?");
+//                .authoritiesByUsernameQuery(
+//                        "select email, rangName from rang r, user u where u.rangId=r.rangId AND email=?");
+        auth.userDetailsService(userDetailsService).and();
+//                .inMemoryAuthentication().withUser("test@test").password("123").roles("ADMIN");
 //        auth
 //            .inMemoryAuthentication()
 //                .withUser("test").password("123").roles("ADMIN")
@@ -71,13 +74,15 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
-                .loginPage("/login").permitAll()
-                .loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/workField/office",true)
-//                .failureUrl("/login.html?error=true")
-                .usernameParameter("email")
+                .loginPage("/login")
+                .usernameParameter("username")
                 .passwordParameter("password")
-                .and();
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/login/success")
+                .failureUrl("/login")
+                .permitAll();
+
+//                .and();
 //            .authorizeRequests()
 //                .antMatchers("/", "/favicon.ico", "/resources/**", "/signup").permitAll()
 //                .anyRequest().authenticated()
