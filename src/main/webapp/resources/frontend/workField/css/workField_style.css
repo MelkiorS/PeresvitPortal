@@ -54,8 +54,12 @@ body{
 .main_section{
     margin:0 0 6% 2.5%;
     padding: 1%;
+    min-height: 400px;
     width: 64%;
 }
+/*.well .main_section {*/
+    /*min-height: 30%;*/
+/*}*/
 .main_section_name{
     margin:0 0 2% 0;
     padding: 0 0 0 2%;
@@ -69,12 +73,11 @@ body{
     border-radius: 50%;
 }
 .main_section_basic_links{
-    margin-top: 3.5%;
 }
 .main_section_basic_links_item{
     color:#23527c;
     font: 1.9rem sans-serif;
-    margin: 6% 0;
+    margin: 2% 0;
 }
 .main_section_basic_links_item a{
     text-decoration: none;
@@ -84,6 +87,18 @@ body{
     height: 40px;
     width: 40px;
     border-radius: 100%;
+}
+.main_section_basic_links_item_belt img{
+    width: 15rem;
+    margin-left: 3%;
+}
+.main_section_basic_links_item_direction span{
+    font-size: 2rem;
+    margin-left: 10%;
+}
+.main_section_basic_level p{
+    font-size: 2.4rem;
+    margin: 1% 7%;
 }
 .main_section_userInf{
     margin: 2% 0 1% 3%;
