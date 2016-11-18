@@ -1,9 +1,41 @@
 
 <html lang="ukr" xmlns:th="http://www.thymeleaf.org">
-<div class='container-fluid row xmlns:th="http://www.thymeleaf.org"'>
-    <div class="head">
-
-        <h2>Общая физическая подготовка</h2>
+<link rel="stylesheet" href="../../../../resources/frontend/workField/css/myWay/myWayBasic.css">
+<body>
+<div class='container-fluid row mainBasic xmlns:th="http://www.thymeleaf.org"'>
+    <div class="col-xs-8">
+        <!--Сюда вставляем Заголовок-->
+        <h2>Маваши Гери</h2>
+    </div>
+    <div class="col-xs-offset-1 col-xs-3">
+        <p>Сложность техники</p>
+        <!--Сюда вставляем сложность техники (определяется в звездочках)-->
+        <p>
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+        </p>
+    </div>
+    <!--Сюда вставляем основной текст статьи-->
+    <div class="col-xs-12">
+        <p>Каждый, кто хотя бы немного интересовался восточными единоборствами , знает, что их основная визитная карточка - удары ногами. Ну а какой из этих пинков самый главный и запоминающийся? Конечно же, боковой удар подъемом стопы. "Вертушки" и сайд-кики хорошо смотрятся на показухах и в кино. Если же наблюдать соревнования, то мы увидим, что все многообразие ножных техник сводится к различным вариантам маваши гери (возьмем за основу каратистскую терминологию как самую распространенную), которыми противники осыпают друг друга.</p>
+    </div>
+    <div class=" col-xs-offset-1 col-xs-7">
+        <!--В тэг инфрейм вставляем ссылку на наще видео, если несколько, то дублируем тэги и вставляем туда наши ссылки-->
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/4eUrbhxRl6g" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div class="col-xs-10 row moreInfo">
+        <legend>Дополнительная информация</legend>
+        <!--Тут содержатся дополнительные ресурсы-->
+        <div class="  col-xs-12">
+            <a href="http://budmuzhchinoi.ru/literatura">Научные пособия</a>
+        </div>
+        <div class="  col-xs-12">
+            <a href="https://www.youtube.com/channel/UCVZYiDrmaRh4j_rWJBlUCXw">Больше видео на канале</a>
+        </div>
     </div>
 </div>
+</body>
 </html>
