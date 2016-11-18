@@ -48,4 +48,51 @@ public class UserPageController {
         model.addAttribute("user", loggedUser);
         return "home/ourEvents";
     }
+
+    @RequestMapping(value = "/myWay/myWaySidebar", method = RequestMethod.GET)
+    public String myWaySidebar(Model model, Principal principal) {
+        User loggedUser = userService.findUserByEmail(principal.getName());
+        model.addAttribute("user", loggedUser);
+        return "home/myWay/myWaySidebar";
+    }
+
+    @RequestMapping(value = "/myWay/myWayBasic", method = RequestMethod.GET)
+    public String myWayBasic(Model model, Principal principal) {
+        User loggedUser = userService.findUserByEmail(principal.getName());
+        model.addAttribute("user", loggedUser);
+        return "home/myWay/myWayBasic";
+    }
+
+    @RequestMapping(value = "/myWay/myWayBaseComplex", method = RequestMethod.GET)
+    public String myWayBaseComplex(Model model, Principal principal) {
+        User loggedUser = userService.findUserByEmail(principal.getName());
+        model.addAttribute("user", loggedUser);
+        return "home/myWay/myWayBaseComplex";
+    }
+
+    @RequestMapping(value = "/myWay/myWayPairWork", method = RequestMethod.GET)
+    public String myWayPairWork(Model model, Principal principal) {
+        User loggedUser = userService.findUserByEmail(principal.getName());
+        model.addAttribute("user", loggedUser);
+        return "home/myWay/myWayPairWork";
+    }
+    @RequestMapping(value = "/myWay/myWaySpecPhysical", method = RequestMethod.GET)
+    public String myWaySpecPhysical(Model model, Principal principal) {
+        User loggedUser = userService.findUserByEmail(principal.getName());
+        model.addAttribute("user", loggedUser);
+        return "home/myWay/myWaySpecPhysical";
+    }
+
+    @RequestMapping(value = "/myWay/myWayGeneralPhysical", method = RequestMethod.GET)
+    public String myWayGeneralPhysical(Model model, Principal principal) {
+        User loggedUser = userService.findUserByEmail(principal.getName());
+        model.addAttribute("user", loggedUser);
+        return "home/myWay/myWayGeneralPhysical";
+    }
+    @RequestMapping(value = "/myWay/myWayBreakingObj", method = RequestMethod.GET)
+    public String myWayBreakingObj(Model model, Principal principal) {
+        User loggedUser = userService.findUserByEmail(principal.getName());
+        model.addAttribute("user", loggedUser);
+        return "home/myWay/myWayBreakingObj";
+    }
 }
