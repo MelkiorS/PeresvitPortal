@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Peresvit</title>
     <link rel="stylesheet" href="../../../resources/frontend/libraries/bootstrap.css">
-    <link rel="stylesheet" href="../../../resources/frontend/workField/css/workField_style.css">
-    <link rel="stylesheet" href="../../../resources/frontend/workField/css/our_events.css">
+    <link rel="stylesheet" href="../../../resources/frontend/workField/css/workField.css">
+
     <!--<link rel="import" class='private_office' href="../../../resources/frontend/workField/html/private_office.html">-->
     <script src="../../../resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <!--<script src="../../../resources/frontend/libraries/wm-html-include.min.js"></script>-->
     <script src="../../../resources/frontend/libraries/constants.js"></script>
+    <script type="text/javascript" src="flowplayer/flowplayer-3.2.2.min.js"></script>
     <script  async src="../../../resources/frontend/workField/js/workField_script.js"></script>
+
+
 </head>
 <body>
 <div class="container-fluid wrapper">
@@ -63,30 +67,32 @@
             </div>
 
 
-            <div class="container-fluid row add_sidebar" >
-                <div class="btn-group-vertical btn-group-lg my_way_sidebar" role="group1" aria-label="222">
-                    <div class="btn-group my_way_sidebar_group" role="group1">
-                        <button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">Базова техніка </button>
-                    </div>
-                    <div class="btn-group " role="group1">
-                            <button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                            наші події </button>
-                    </div>
-                    <div class="btn-group" role="group1">
-                        <button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                            мої події </button>
-                    </div>
-                    <div class="btn-group" role="group1">
-                        <button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                            мій шлях </button>
-                    </div>
-                    <div class="btn-group" role="group1">
-
-                    </div>
-                </div>
-            </div>
+            <!--<div class="container-fluid row add_sidebar" >-->
+                <!--<div class="btn-group-vertical btn-group-lg my_way_sidebar" role="group1" aria-label="222">-->
+                    <!--<div class="btn-group my_way_sidebar_group" role="group1">-->
+                        <!--<button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">Базова техніка </button>-->
+                    <!--</div>-->
+                    <!--<div class="btn-group " role="group1">-->
+                            <!--<button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">-->
+                            <!--наші події </button>-->
+                    <!--</div>-->
+                    <!--<div class="btn-group" role="group1">-->
+                        <!--<button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">-->
+                            <!--мої події </button>-->
+                    <!--</div>-->
+                    <!--<div class="btn-group" role="group1">-->
+                        <!--<button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">-->
+                            <!--мій шлях </button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--В элемент ниже вставляем наш дополнительный сайдбар если юзер нажал на кнопку "мій шлях" -->
+            <div class="place_for_add_sidebar col-xs-12 row"></div>
         </div>
-        <div class=" col-xs-7 row well container-fluid main_section"></div>
+
+        <div class=" col-xs-7 row well container-fluid main_section">
+            <!--Сюда вставляем содержимое страниц в соответствии с нажатыми кнопками-->
+        </div>
 
         <footer>
             <div class="row container-fluid">

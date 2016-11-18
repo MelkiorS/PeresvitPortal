@@ -23,10 +23,17 @@ $(function(){
         // $('.control_button').not($(this));
         $('.main_section').empty();
         if($.trim($(this).html()) ==='наші події'){
-            $('.main_section').load('ourEvents.html');
+            $('.main_section').load('ourEvents');
         }
         if($.trim($(this).html()) ==='Особистий кабінет'){
-            $('.main_section').load('privateOffice.html');
+            $('.main_section').load('privateOffice');
+        }
+        if($.trim($(this).html()) ==='мій шлях'){
+            $('.main_section').load('myWay/myWayBasic');
+            $('.place_for_add_sidebar ').load('myWay/myWaySidebar');
+        }
+        if($.trim($(this).html()) !=='мій шлях'){
+            $('.place_for_add_sidebar').empty();
         }
 
     });
