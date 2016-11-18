@@ -26,8 +26,11 @@ public class LoginController {
 
     @RequestMapping(value = "login/success")
     public String loginSuccess(Model model, Principal principal) {
-        User loggedInUser = userService.findUserByEmail(principal.getName());
-        model.addAttribute("user", loggedInUser);
+        if (userService.getCurrentUser().getRang().getRangName().equals("ADMIN")) {
+            return "redirect:/admin";
+        }
+//        User loggedInUser = userService.findUserByEmail(principal.getName());
+//        model.addAttribute("user", loggedInUser);
         return "redirect:/home/workField";
     }
 }

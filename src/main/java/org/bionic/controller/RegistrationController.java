@@ -48,16 +48,19 @@ public class RegistrationController {
     // create user
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registerUserAccount(
-            @ModelAttribute("user") UserDto accountDto, RedirectAttributes model, Principal principal) {
+            @ModelAttribute("user") UserDto accountDto) {
 
         User registered;
         registered = createUserAccount(accountDto);
         if (registered == null) {
             return "registration/registration";
         }
-        model.addFlashAttribute("user", registered);
+//        model.addFlashAttribute("user", registered);
         authenticateUser(registered);
-        return "redirect:/registration/success";
+        if (registered.getRang().getRangName().equals("ADMIN")) {
+            return "redirect:/admin";
+        }
+        return "redirect:/home/workField";
 //        if (!result.hasErrors()) {
 //            System.out.println("ADDING");
 //            registered = createUserAccount(accountDto, result);
@@ -93,7 +96,7 @@ public class RegistrationController {
     public void authenticateUser(User user) {
         List<GrantedAuthority> authorities =
                 new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ADMIN"));
+        authorities.add(new SimpleGrantedAuthority(user.getRang().getRangName()));
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(
                         user.getEmail(),

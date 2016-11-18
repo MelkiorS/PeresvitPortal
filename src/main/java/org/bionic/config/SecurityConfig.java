@@ -80,8 +80,12 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/login/success")
                 .failureUrl("/login")
-                .permitAll();
-
+                .permitAll()
+                .and()
+            .logout()
+                .logoutUrl("/logout")
+                .permitAll()
+                .logoutSuccessUrl("/home");
 //                .and();
 //            .authorizeRequests()
 //                .antMatchers("/", "/favicon.ico", "/resources/**", "/signup").permitAll()

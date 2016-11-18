@@ -1,6 +1,7 @@
 package org.bionic.controller;
 
 import org.bionic.entity.User;
+import org.bionic.service.EventService;
 import org.bionic.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,9 +21,15 @@ public class UserPageController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EventService eventService;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String goToReg(Model model, Principal principal) {
         if (principal != null) {
+            if (userService.getCurrentUser().getRang().getRangName().equals("ADMIN")) {
+                return "redirect:/admin";
+            }
             return "redirect:/home/workField";
         }
         return "redirect:/registration/registration";
@@ -46,6 +53,8 @@ public class UserPageController {
     public String showOurEvents(Model model, Principal principal) {
         User loggedUser = userService.findUserByEmail(principal.getName());
         model.addAttribute("user", loggedUser);
+        //-----------------Here should be ourEvents service implementation--------------------//
+        model.addAttribute("events", eventService.findAll());
         return "home/ourEvents";
     }
 }

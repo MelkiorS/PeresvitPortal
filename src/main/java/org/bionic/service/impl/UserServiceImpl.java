@@ -13,6 +13,8 @@ import org.bionic.dao.UserRepository;
 import org.bionic.web.dto.UserDto;
 import org.bionic.web.error.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,6 +62,13 @@ public class UserServiceImpl implements UserService{
         return userRepository.findByEmail(email);
     }
 
+    @Override
+    public User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+        return userRepository.findByEmail(name);
+    }
+
 
     //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -94,7 +103,7 @@ public class UserServiceImpl implements UserService{
         user.setLastName(accountDto.getLastName());
         user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
-        user.setRang(rangRepository.findOne(5L));
+        user.setRang(rangRepository.findOne(4L));
 
         return userRepository.save(user);
     }

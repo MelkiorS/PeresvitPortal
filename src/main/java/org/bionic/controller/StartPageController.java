@@ -13,16 +13,16 @@ import org.springframework.web.context.request.WebRequest;
 @Controller
 public class StartPageController {
 
-	@Autowired
-	private UserService userService;
+//	@Autowired
+//	private UserService userService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(WebRequest request){
-        return "newHome";
+    public String index(){
+        return "redirect:/home";
     }
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	public String goToAdminPage(WebRequest request) {
+	public String goToAdminPage() {
 		return "admin/adminIndex";
 	}
 
