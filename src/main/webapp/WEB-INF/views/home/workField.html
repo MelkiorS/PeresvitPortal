@@ -7,12 +7,11 @@
     <link rel="stylesheet" href="../../../resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="../../../resources/frontend/workField/css/workField.css">
 
-
-
     <!--<link rel="import" class='private_office' href="../../../resources/frontend/workField/html/private_office.html">-->
     <script src="../../../resources/frontend/libraries/jquery-2.2.4.min.js"></script>
-    <script src="../../../resources/frontend/libraries/wm-html-include.min.js"></script>
+    <!--<script src="../../../resources/frontend/libraries/wm-html-include.min.js"></script>-->
     <script src="../../../resources/frontend/libraries/constants.js"></script>
+    <script type="text/javascript" src="flowplayer/flowplayer-3.2.2.min.js"></script>
     <script  async src="../../../resources/frontend/workField/js/workField_script.js"></script>
 
 
@@ -84,9 +83,13 @@
                     <!--</div>-->
                 <!--</div>-->
             <!--</div>-->
+            <!--В элемент ниже вставляем наш дополнительный сайдбар если юзер нажал на кнопку "мій шлях" -->
             <div class="place_for_add_sidebar col-xs-12 row"></div>
         </div>
-        <div class=" col-xs-7 row well container-fluid main_section"></div>
+
+        <div class=" col-xs-7 row well container-fluid main_section">
+            <!--Сюда вставляем содержимое страниц в соответствии с нажатыми кнопками-->
+        </div>
 
         <footer>
             <div class="row container-fluid">
