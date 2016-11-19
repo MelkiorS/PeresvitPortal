@@ -1,7 +1,5 @@
 package org.bionic.controller;
 
-import java.util.List;
-
 import org.bionic.entity.Rang;
 import org.bionic.entity.ResourceGroup;
 import org.bionic.entity.ResourceGroupType;
@@ -15,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/admin/resourceGroup")
@@ -96,5 +96,4 @@ public class ResourceGroupController {
 		model.addAttribute("resourceGroupTypeList", resourceGroupTypes);
         return "admin/resourceGroup/addResourceGroup"; // sending to addForm
     }
-	
 }

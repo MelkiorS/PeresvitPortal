@@ -33,10 +33,10 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     DataSource dataSource;
 
-    @Bean
+    /*@Bean
     public TokenBasedRememberMeServices rememberMeServices() {
         return new TokenBasedRememberMeServices("remember-me-key", accountService);
-    }
+    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder() {

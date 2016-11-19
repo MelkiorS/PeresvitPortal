@@ -1,17 +1,17 @@
 package org.bionic.controller;
 
-import java.security.Principal;
-
 import org.bionic.entity.User;
 import org.bionic.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 
 @Controller
 public class HomeController {
@@ -22,7 +22,7 @@ public class HomeController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(WebRequest request ,Model model){
 		model.addAttribute("user", new User());
-		return "signIn";
+		return "admin/adminIndex";
     }
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
@@ -35,10 +35,12 @@ public class HomeController {
 	public String goToUserPage(User user, Model model, HttpServletRequest request) {
 //		return principal != null ? "workField/office" : "registration/registration";
 		HttpSession session = request.getSession();
+		System.out.println(user.getEmail());
+		System.out.println(user.getPassword());
 		User userToSignIn = userService.findUserByEmailAndPassword(user.getEmail(),user.getPassword());
 		if (userToSignIn == null)
 		{
-			return "signIn";
+			return "registration/registration";
 		}
 		else if (userToSignIn != null && userToSignIn.getRang().getRangName().equals("ROLE_ADMIN"))
 		{
@@ -47,7 +49,7 @@ public class HomeController {
 		}
 		session.setAttribute("user", userToSignIn);
 		model.addAttribute("user", userToSignIn);
-		return "workField/office";
+		return "home/workField";
 	}
 
 

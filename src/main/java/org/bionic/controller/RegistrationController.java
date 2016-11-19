@@ -8,12 +8,10 @@ import org.bionic.web.error.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -48,7 +46,7 @@ public class RegistrationController {
         model.addAttribute("user", user);
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-        return "workField/office";
+        return "home/workField";
     }
 //        if (!result.hasErrors()) {
 //            System.out.println("ADDING");

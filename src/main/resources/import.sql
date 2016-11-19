@@ -5,7 +5,7 @@ INSERT INTO  rang(rangName) VALUES ('LEVEL_1'),('LEVEL_2'),('LEVEL_3'),('ROLE_AD
 INSERT INTO  user(firstName, lastName, email, password, rangId) VALUES ('admin', 'admin', 'admin', 'admin', 4);
 INSERT INTO  resourceGroup(rangId,resourceGroupTypeId) VALUES (2,2);
 INSERT INTO  user(userId,firstName,rangId) VALUES (1,'Bruce',2);
-INSERT INTO  user(userId,firstName,rangId,email,enabled,password) VALUES (1,'Lee',2,'lalala@gmail.com',b'1','123');
+INSERT INTO  user(userId,firstName,rangId,email,enabled,password) VALUES (2,'Lee',4,'admin','1','123456');
 INSERT INTO  resource(url,title,resourceGroupId,resourceTypeId) VALUES ('some_url','some_photo1',1,2);
 INSERT INTO  resource(url,title,resourceGroupId,resourceTypeId) VALUES ('some_url','some_photo2',1,2);
 INSERT INTO  resource(url,title,resourceGroupId,resourceTypeId) VALUES ('some_url','some_doc1',1,1);

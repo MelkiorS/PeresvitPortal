@@ -16,8 +16,12 @@
         <input type="text" th:field="*{middleName}" placeholder="middleName" /><br/>
         <input type="text" th:field="*{email}" placeholder="email" /><br/>
         <input type="text" th:field="*{password}" placeholder="password" /><br/>     
- 		<input type="file" name="file" /><br/>       
-        <input type="text" th:field="*{rang.rangId}" placeholder="rang ID"/><br/>
+ 		<input type="file" name="file" /><br/>
+        <select th:field="*{rang.rangId}">
+            <option th:each="rang : ${rangList}"
+                    th:value="${rang.rangId}"
+                    th:text="${rang.rangName}"></option>
+        </select>
         <input type="submit" />
     </form>
 </body>

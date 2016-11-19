@@ -4,6 +4,7 @@ import org.bionic.dao.RangRepository;
 import org.bionic.dao.ResourceGroupRepository;
 import org.bionic.dao.ResourceGroupTypeRepository;
 import org.bionic.entity.*;
+import org.bionic.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,28 @@ public class UserResourceController {
     RangRepository rangRepository;
     @Autowired
     ResourceGroupTypeRepository resourceGroupTypeRepository;
+    @Autowired
+    private ArticleService articleRepository;
+
+
+    @RequestMapping(value = "/type/{groupName}", method = RequestMethod.GET)
+    public String getArticles(@PathVariable String groupName, Model model, HttpServletRequest request) {
+        // need to take userId from session
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        //Rang rang = user.getRang();
+        Rang rang = rangRepository.findOne(1l);
+        ResourceGroupType type = resourceGroupTypeRepository.findResourceGroupTypeByGroupName(groupName);
+        Collection<Article> articles = articleRepository.findAllByResourceGroupTypeAndRang(type,rang);
+        articles.forEach(System.out::println);
+        if (articles.size() > 1){
+            model.addAttribute("articleList", articles);
+        }
+        else {
+            model.addAttribute("article", articles);
+        }
+        return "resource/studyingMaterial";
+    }
 
     // go to myWay
     @RequestMapping(value = "/myWay", method = RequestMethod.GET)
