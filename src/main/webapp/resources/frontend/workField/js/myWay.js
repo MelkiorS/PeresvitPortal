@@ -25,7 +25,7 @@ $(function() {
             $('.main_section').load('myWay/myWayBasic');
         }
         if ($.trim($(this).html()) === 'Базові технічні комплекси') {
-            $('.main_section').load('myWay/myWayBaseComplex');
+            $('.main_section').load('');
         }
         if ($.trim($(this).html()) === 'Парна робота') {
             $('.main_section').load('myWay/myWayPairWork');

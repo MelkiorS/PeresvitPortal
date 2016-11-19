@@ -39,8 +39,8 @@ public class UserResourceController {
         // need to take userId from session
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
-        //Rang rang = user.getRang();
-        Rang rang = rangRepository.findOne(1l);
+        Rang rang = user.getRang();
+        //Rang rang = rangRepository.findOne(1l);
         ResourceGroupType type = resourceGroupTypeRepository.findResourceGroupTypeByGroupName(groupName);
         Collection<Article> articles = articleRepository.findAllByResourceGroupTypeAndRang(type,rang);
         articles.forEach(System.out::println);
