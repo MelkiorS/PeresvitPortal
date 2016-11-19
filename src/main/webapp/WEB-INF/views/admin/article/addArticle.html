@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>A Simple Page with CKEditor</title>
+    <!-- Make sure the path to CKEditor is correct. -->
+    <script src="/resources/ckeditor/ckeditor.js"></script>
+    <script>
+        function CKupdate(){
+            var val= CKEDITOR.instances['editor1'].getData();
+            alert(val);
+        }
+    </script>
+</head>
+<body>
+<form action="#" th:action="@{/admin/article/}" th:object="${article}" method="post">
+    <input type="hidden" th:field="*{articleId}" />
+
+    <label for="title">Заголовок:</label>
+    <input type="text" th:field="*{articleName}" placeholder="Введити заголовок" /><br/>
+    <label for="resourceGroupType">Тип статьи:</label>
+    <select th:field="*{resourceGroupType.resourceGroupTypeId}">
+        <option th:each="resourceGroupType : ${resourceGroupTypeList}"
+                th:value="${resourceGroupType.resourceGroupTypeId}"
+                th:text="${resourceGroupType.groupName}"></option>
+    </select>
+    <br/>
+    <label for="rangType">Кто может видеть:</label>
+    <select th:field="*{rang.rangId}">
+        <option th:each="rang : ${rangList}"
+                th:value="${rang.rangId}"
+                th:text="${rang.rangName}"></option>
+    </select>
+    <br/>
+
+    <script>
+        var data = CKEDITOR.instances.editor1.getData();
+
+        // Your code to save "data", usually through Ajax.
+    </script>
+
+    <textarea th:field="*{context}" name="editor1" id="editor1" rows="10" cols="80">
+                Вводите урок сюда.
+            </textarea>
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+
+        // instance, using default configuration.
+        CKEDITOR.replace('editor1' ,{
+            language: 'ru',
+            uiColor: '#9AB8F3', // to pick color
+            height: 600,
+            width: 1000
+        });
+    </script>
+    <br/>
+    <input type="submit" value="Добавить статью"/>
+    <!-- <a onClick="CKupdate();$('#editor1').ajaxSubmit();">Submit</a>-->
+</form>
+</body>
+</html>

@@ -92,6 +92,12 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(RESOURCES_HANDLER).addResourceLocations(RESOURCES_LOCATION);
+        registry.addResourceHandler("/css/**").addResourceLocations("/css/**");
+        registry.addResourceHandler("/img/**").addResourceLocations("/img/**");
+        registry.addResourceHandler("/js/**").addResourceLocations("/js/**");
+        registry.addResourceHandler("/sound/**").addResourceLocations("/sound/**");
+        registry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/**");
+        registry.addResourceHandler("/frontend/**").addResourceLocations("/frontend/**");
     }
 
     @Override

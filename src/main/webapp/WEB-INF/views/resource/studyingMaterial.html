@@ -2,76 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Resource List</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
+    <title>Article List</title>
+    <script src="/resources/ckeditor/ckeditor.js"></script>
 </head>
 <body>
-
-<div data-role="page"  >
-<a th:href="@{/resource/myWay}" >My Way</a>
-<br/>
-<div class="resourceList" >
-
-    <div data-role="header">
-        <h1>TEXT</h1>
-    </div>
+<div class="articleList" th:unless="${#lists.isEmpty(articleList)}">
+    <h  2 >List of Article</h2>
     <table>
         <thead>
         <tr>
             <th>Title</th>
-            <th>Description</th>
-            <th>Download</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="resource : ${resourceListText}">
-            <td ><a th:href="${resource.url}">
-                <span th:utext="${resource.title}">Title</span>
-            </a></td>
-            <td th:text="${resource.description}"> Description </td>
-            <td><a th:href="@{/admin/resource/download/} + ${resource.resourceId}">Download</a></td>
-        </tr>
-        </tbody>
-    </table>
-        <div data-role="header">
-            <h1>PHOTO</h1>
-        </div>
-        <p>Нажмите чтобы увеличить фотографию и прочитать ее описание</p>
-        <div id="pageone" data-role="main" class="ui-content" th:each="resource : ${resourceListPhoto}">
-            <a href="#myPopup" data-rel="popup" data-position-to="window">
-                <img th:src="${resource.url}" th:alt="${resource.title}" style="width:200px;"></a>
-            <div data-role="popup" id="myPopup">
-                <span th:utext="${resource.title}">Title</span>
-                <a href="#pageone" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                <img th:src="${resource.url}" style="width:800px;height:400px;" th:alt="${resource.title}">
-                <span th:utext="${resource.description}">Title</span>
-            </div>
-        </div>
-    <div data-role="header">
-        <h1>VIDEO</h1>
-    </div>
-    <table>
-        <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="resource : ${resourceListVideo}">
-            <td ><a th:href="${resource.url}">
-                <span th:utext="${resource.title}">Title</span>
-            </a></td>
-            <td th:text="${resource.description}"> Description </td>
+        <tr th:each="article : ${articleList}">
+            <td th:text="${article.articleName}"></td>
         </tr>
         </tbody>
     </table>
 </div>
+<div th:inline="html" class="article" th:unless="${#lists.isEmpty(article)}" th:each="article : ${article}" >
+    <h2 th:text="${article.articleName}">Article name</h2>
+    <textarea th:utext="${article.context}" th:remove="tag">
+    </textarea>
 </div>
 </body>
 </html>

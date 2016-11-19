@@ -1,12 +1,13 @@
 package org.bionic.config;
 
-import java.io.File;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 public class Constant {
 	
 	 // main path to download folder
-	 public static final String UPLOAD_PATH = "/home/mma/downloads";
+	 public static final String UPLOAD_PATH = "/home/serge/mma/downloads";
 	 // folder user${userId} files
 	 public static final String USR_FOLDER  = "user";
 	// folder user without id files
