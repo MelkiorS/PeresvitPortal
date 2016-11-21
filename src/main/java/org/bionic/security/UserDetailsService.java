@@ -30,7 +30,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         if (user != null) {
             List<GrantedAuthority> authorities =
                     new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ADMIN"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getRang().getRangName()));
             return new User(
                     user.getEmail(),
                     user.getPassword(),

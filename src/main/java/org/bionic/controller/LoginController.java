@@ -19,18 +19,11 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-//    @RequestMapping(value = "login")
-//    public String login() {
-//        return "registration/registration";
-//    }
-
     @RequestMapping(value = "login/success")
-    public String loginSuccess(Model model, Principal principal) {
+    public String loginSuccess() {
         if (userService.getCurrentUser().getRang().getRangName().equals("ADMIN")) {
             return "redirect:/admin";
         }
-//        User loggedInUser = userService.findUserByEmail(principal.getName());
-//        model.addAttribute("user", loggedInUser);
         return "redirect:/home/workField";
     }
 }

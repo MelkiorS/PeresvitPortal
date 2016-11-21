@@ -47,18 +47,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.jdbcAuthentication().dataSource(dataSource)
-//                .usersByUsernameQuery(
-//                        "select email, password, enabled from user where email=?");
-//                .authoritiesByUsernameQuery(
-//                        "select email, rangName from rang r, user u where u.rangId=r.rangId AND email=?");
-        auth.userDetailsService(userDetailsService).and();
-//                .inMemoryAuthentication().withUser("test@test").password("123").roles("ADMIN");
-//        auth
-//            .inMemoryAuthentication()
-//                .withUser("test").password("123").roles("ADMIN")
-//                .and()
-//                .withUser("admin").password("password").roles("ADMIN","USER");
+        auth.userDetailsService(userDetailsService);
     }
 
     @Override
@@ -70,11 +59,13 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .csrf().disable()
-            .authorizeRequests().antMatchers("/admin/**", "/**", "/workField/office", "/registration/**").permitAll()
-                .anyRequest().authenticated()
+            .authorizeRequests()
+                .antMatchers("/registration/**", "/", "/resources/**", "/favicon.ico").permitAll()
+                .antMatchers("/admin*").access("hasRole('ADMIN')")
+                .antMatchers("/home/**").authenticated()
                 .and()
             .formLogin()
-                .loginPage("/login")
+                .loginPage("/registration/registration")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .loginProcessingUrl("/login")
@@ -85,7 +76,12 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             .logout()
                 .logoutUrl("/logout")
                 .permitAll()
-                .logoutSuccessUrl("/home");
+                .logoutSuccessUrl("/home")
+                .invalidateHttpSession(true)
+                .and()
+            .rememberMe()
+                .rememberMeServices(rememberMeServices())
+                .key("remember-me-key");
 //                .and();
 //            .authorizeRequests()
 //                .antMatchers("/", "/favicon.ico", "/resources/**", "/signup").permitAll()
@@ -102,9 +98,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .permitAll()
 //                .logoutSuccessUrl("/signin?logout")
 //                .and()
-//            .rememberMe()
-//                .rememberMeServices(rememberMeServices())
-//                .key("remember-me-key");
     }
 
     @Bean(name = "authenticationManager")
