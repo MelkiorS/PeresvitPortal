@@ -2,11 +2,13 @@ package org.bionic.controller;
 
 import org.bionic.entity.Rang;
 import org.bionic.entity.User;
+import org.bionic.registration.OnRegistrationCompleteEvent;
 import org.bionic.service.RangService;
 import org.bionic.service.UserService;
 import org.bionic.web.dto.UserDto;
 import org.bionic.web.error.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Alex Sanak on 10.11.2016.
@@ -35,6 +39,9 @@ public class RegistrationController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
 
     // Show registration form
@@ -48,14 +55,14 @@ public class RegistrationController {
     // create user
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registerUserAccount(
-            @ModelAttribute("user") UserDto accountDto) {
+            @ModelAttribute("user") UserDto accountDto, final HttpServletRequest request) {
 
         User registered;
         registered = createUserAccount(accountDto);
         if (registered == null) {
             return "registration/registration";
         }
-//        model.addFlashAttribute("user", registered);
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request)));
         authenticateUser(registered);
         if (registered.getRang().getRangName().equals("ADMIN")) {
             return "redirect:/admin";
@@ -104,4 +111,7 @@ public class RegistrationController {
                         authorities));
     }
 
+    private String getAppUrl(HttpServletRequest request) {
+        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+    }
 }
