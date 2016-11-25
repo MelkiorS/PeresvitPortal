@@ -5,14 +5,18 @@
     <title>MyWay</title>
 </head>
 <body>
-<a th:href="@{/resource/type/BASE_TECHNIQUE}" >Базова техніка</a>
-<br/>
-<a th:href="@{/resource/type/BASE_TECH_COMPLEX}" >Базова техкомлекс</a>
-<br/>
-<a th:href="@{/resource/type/SPECIAL_PHYSICAL_TRAININGS}" >Базові фізичні вправи</a>
-<br/>
-<a th:href="@{/resource/type/GENERAL_PHYSICAL_TRAININGS}" >Спеціальні фізичні вправи </a>
-<br/>
+<ul id="mylist" th:each=" resourceGroupType : ${resourceGroupTypeList}">
+    <b><span th:text="${resourceGroupType.groupName}">Test</span></b>
+    <span th:each="chapter :  ${resourceGroupType.chapterList}">
+            </br>
+        <span th:text="${chapter.chapterName}" th:href="@{/resource/article/} + ${chapter.chapterId}"></span>
+        </br>
+        <span th:unless="${#lists.isEmpty(chapter.articleCollection)}" th:each="article : ${chapter.articleCollection}">
+            <a th:href="@{/resource/article/} + ${article.articleId}" th:text="${article.articleName}" >Перейти к статье</a>
+
+        </span>
+    </span>
+</ul>
 <br/>
 </body>
 </html>

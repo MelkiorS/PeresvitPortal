@@ -23,4 +23,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Article findByArticleId(String resourceGroupId);
 
     Collection<Article> findAllByResourceGroupTypeAndRang(ResourceGroupType type, Rang rang);
+
+    Article findByChapterId(long chapterId);
 }

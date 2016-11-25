@@ -3,8 +3,10 @@ package org.bionic.controller;
 import org.bionic.entity.Article;
 import org.bionic.entity.Rang;
 import org.bionic.entity.ResourceGroupType;
+import org.bionic.entity.ResourceGroupTypeChapter;
 import org.bionic.service.ArticleService;
 import org.bionic.service.RangService;
+import org.bionic.service.ResourceGroupTypeChapterService;
 import org.bionic.service.ResourceGroupTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,8 @@ public class ArticleController {
     @Autowired
     private ResourceGroupTypeService resourceGroupTypeService;
     @Autowired
+    private ResourceGroupTypeChapterService chapterService;
+    @Autowired
     private RangService rangService;
 
     //go to manage page
@@ -37,6 +41,8 @@ public class ArticleController {
     public String goToAddForm(Model model) {
         List<ResourceGroupType> resourceGroupTypes = resourceGroupTypeService.findAll();
         List<Rang> rangTypes = rangService.findAll();
+        resourceGroupTypes.stream().forEach(p->p.
+               setChapterList(chapterService.findAllByResourceGroupType(p)));
         model.addAttribute(new Article());   // addig empty object for post form
         model.addAttribute("rangList", rangTypes); // adding list of rang for select
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
@@ -46,6 +52,8 @@ public class ArticleController {
     // create article )
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String createArticle(Article article, RedirectAttributes model) {
+        long id  = article.getResourceGroupType().getResourceGroupTypeId();
+        article.setResourceGroupType(resourceGroupTypeService.findOne(id));
         articleService.save(article);
         model.addAttribute("articleId", article.getArticleId());
         model.addFlashAttribute("article", article); // adding attribute that will be alive in two requests
