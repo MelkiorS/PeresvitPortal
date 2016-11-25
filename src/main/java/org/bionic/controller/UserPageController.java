@@ -21,9 +21,6 @@ public class UserPageController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private EventService eventService;
-
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String goToReg(Model model, Principal principal) {
         if (principal != null) {
@@ -32,7 +29,7 @@ public class UserPageController {
             }
             return "redirect:/home/workField";
         }
-        return "redirect:/registration/registration";
+        return "redirect:/registration";
     }
 
     @RequestMapping(value = "/workField", method = RequestMethod.GET)

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <title>Peresvit</title>
-    <link rel="stylesheet" href="../../../resources/frontend/libraries/bootstrap.css">
-    <link rel="stylesheet" href="../../../resources/frontend/registration/css/registration_style1.css">
-    <script src="../../../resources/frontend/libraries/jquery-2.2.4.min.js"></script>
-    <script src="../../../resources/frontend/libraries/constants.js"></script>
-    <script src="../../../resources/frontend/libraries/bootstrap.min.js"></script>
-    <script  async src="../../../resources/frontend/registration/js/validator.js"></script>
-    <script  async src="../../../resources/frontend/registration/js/registration_script.js"></script>
+    <link rel="stylesheet" href="../../resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="../../resources/frontend/registration/css/registration_style1.css">
+    <script src="../../resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="../../resources/frontend/libraries/constants.js"></script>
+    <script src="../../resources/frontend/libraries/bootstrap.min.js"></script>
+    <script  async src="../../resources/frontend/registration/js/validator.js"></script>
+    <script  async src="../../resources/frontend/registration/js/registration_script.js"></script>
 </head>
 <body>
 <div class="container-fluid wrapper">
@@ -25,7 +25,9 @@
             <li id="iceMenu_300" class="iceMenuLiLevel_1 mzr-drop parent" data-hover="false"><a href="#" class=" iceMenuTitle "><span class="icemega_title icemega_nosubtitle">Напрямки</span></a><ul class="icesubMenu icemodules sub_level_1" style="width:280px"><li class="lastItem firstItem"><div style="float:left;width:280px" class="iceCols"><ul><li id="iceMenu_296" class="iceMenuLiLevel_2  firstItem"><a href="#" class=" iceMenuTitle "><span class="icemega_title icemega_nosubtitle">Фрі-файт</span></a></li><li id="iceMenu_297" class="iceMenuLiLevel_2 "><a href="#" class=" iceMenuTitle "><span class="icemega_title icemega_nosubtitle">Тайдзі-цюань</span></a></li><li id="iceMenu_298" class="iceMenuLiLevel_2 "><a href="#" class=" iceMenuTitle "><span class="icemega_title icemega_nosubtitle">Шаолінь кунг-фу</span></a></li><li id="iceMenu_299" class="iceMenuLiLevel_2  lastItem"><a href="#" class=" iceMenuTitle "><span class="icemega_title icemega_nosubtitle">Чайна традиція</span></a></li></ul></div></li></ul></li>
             <li id="iceMenu_141" class="iceMenuLiLevel_1 "><a href="https://www.facebook.com/peresvit.ua/" class=" iceMenuTitle "><span class="icemega_title icemega_nosubtitle">Блог</span></a></li>
             <li id="iceMenu_142" class="iceMenuLiLevel_1  "><a href="#" class=" iceMenuTitle "><span class="icemega_title icemega_nosubtitle">Контакти</span></a></li>
-            <li class="iceMenuLiLevel_1  lastItem"><a href="#" class=" iceMenuTitle log_in_field_main_logIn" data-toggle="modal" data-target="#myModal_log_in"><span class="icemega_title icemega_nosubtitle">Вхід</span></a></li>
+            <li sec:authorize="hasRole('ADMIN')" class="iceMenuLiLevel_1"><a href="/admin" class=" iceMenuTitle"><span class="icemega_title icemega_nosubtitle">Адмін</span></a></li>
+            <li sec:authorize="authenticated" class="iceMenuLiLevel_1 lastItem"><a href="/home/workField" class=" iceMenuTitle"><span class="icemega_title icemega_nosubtitle">Кабінет</span></a></li>
+            <li sec:authorize="!authenticated" class="iceMenuLiLevel_1  lastItem"><a href="#" class=" iceMenuTitle log_in_field_main_logIn" data-toggle="modal" data-target="#myModal_log_in"><span class="icemega_title icemega_nosubtitle">Вхід</span></a></li>
         </ul>
     </div>
     <!--<button type="button" class="btn btn-default col-xs-offset-3 col-xs-2  col-sm-offset-3 col-sm-2 log_in_field_main_logIn" data-toggle="modal" data-target="#myModal_sign_up">Реєстрація</button>-->
@@ -87,15 +89,15 @@
                         <div class="form-group using_social_networks row col-xs-12">
                             <div class="vk col-xs-offset-1  col-xs-11">
                                 <!--************Юзер нажимая эту кнопку хочет войти через Вконтакте*******-->
-                                <a role="button" class="btn btn-default vk_button" href="#"><img src="../../../resources/frontend/registration/img/vk_icon.png" alt=""> Войти через Вконтате</a>
+                                <a role="button" class="btn btn-default vk_button" href="#"><img src="../../resources/frontend/registration/img/vk_icon.png" alt=""> Войти через Вконтате</a>
                             </div>
                             <div class="fb col-xs-offset-1 col-xs-11">
                                 <!--************Юзер нажимая эту кнопку хочет войти через Фейсбук*******-->
-                                <a role="button" class="btn btn-default fb_button" href="#"><img src="../../../resources/frontend/registration/img/fb_icon.png" alt="">Войти через Facebook</a>
+                                <a role="button" class="btn btn-default fb_button" href="/registration/facebook"><img src="../../resources/frontend/registration/img/fb_icon.png" alt="">Войти через Facebook</a>
                             </div>
                             <div class="google_plus col-xs-offset-1 col-xs-11">
                                 <!--************Юзер нажимая эту кнопку хочет войти через Гугл+*******-->
-                                <a role="button" class="btn btn-default google_plus_button" href="#"><img src="../../../resources/frontend/registration/img/google_plus_icon.png" alt=""> Войти через Google+</a>
+                                <a role="button" class="btn btn-default google_plus_button" href="#"><img src="../../resources/frontend/registration/img/google_plus_icon.png" alt=""> Войти через Google+</a>
                             </div>
                         </div>
                         <div class="form-group no_account row col-xs-12">
@@ -178,15 +180,15 @@
                         <div class="form-group using_social_networks row col-xs-12">
                             <div class="vk col-xs-offset-1  col-xs-11">
                                 <!--************Юзер нажимая эту кнопку хочет войти через Вконтакте*******-->
-                                <a role="button" class="btn btn-default vk_button" href="#"><img src="../../../resources/frontend/registration/img/vk_icon.png" alt=""> Войти через Вконтате</a>
+                                <a role="button" class="btn btn-default vk_button" href="#"><img src="../../resources/frontend/registration/img/vk_icon.png" alt=""> Войти через Вконтате</a>
                             </div>
                             <div class="fb col-xs-offset-1 col-xs-11">
                                 <!--************Юзер нажимая эту кнопку хочет войти через Facebook*******-->
-                                <a role="button" class="btn btn-default fb_button" href="#"><img src="../../../resources/frontend/registration/img/fb_icon.png" alt="">Войти через Facebook</a>
+                                <a role="button" class="btn btn-default fb_button" href="#"><img src="../../resources/frontend/registration/img/fb_icon.png" alt="">Войти через Facebook</a>
                             </div>
                             <div class="google_plus col-xs-offset-1 col-xs-11">
                                 <!--************Юзер нажимая эту кнопку хочет войти через Гугл+*******-->
-                                <a role="button" class="btn btn-default google_plus_button" href="#"><img src="../../../resources/frontend/registration/img/google_plus_icon.png" alt=""> Войти через Google+</a>
+                                <a role="button" class="btn btn-default google_plus_button" href="#"><img src="../../resources/frontend/registration/img/google_plus_icon.png" alt=""> Войти через Google+</a>
                             </div>
                         </div>
                         <div class="form-group col-xs-offset-9 col-xs-3">

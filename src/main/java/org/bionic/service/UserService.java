@@ -26,9 +26,10 @@ public interface UserService {
 
 	User getCurrentUser();
 	////////////////////////////////////////////////////////////////////////
-	void createVerificationTokenForUser(User user, String token);
-	VerificationToken getVerificationToken(String VerificationToken);
-	VerificationToken generateNewVerificationToken(String token);
+//	void createVerificationTokenForUser(User user, String token);
+//	VerificationToken getVerificationToken(String VerificationToken);
+//	VerificationToken generateNewVerificationToken(String token);
 	User registerNewUserAccount(UserDto accountDto) throws UserAlreadyExistException;
+	User createUserFromDto(UserDto accountDto);
     User findUserByEmailAndPassword(String email,String password);
 }

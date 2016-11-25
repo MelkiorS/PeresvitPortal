@@ -1,9 +1,8 @@
 package org.bionic.config;
 
 import org.bionic.security.UserDetailsService;
-import org.bionic.service.UserService;
+import org.bionic.social.ExtendedSocialUserDetailsService;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,27 +12,23 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
-import org.bionic.account.AccountService;
+import org.springframework.social.UserIdSource;
+import org.springframework.social.security.AuthenticationNameUserIdSource;
+import org.springframework.social.security.SocialUserDetailsService;
 
-import javax.sql.DataSource;
 
 @Configuration
-//@ComponentScan(basePackages = { "org.bionic.security" })
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(securedEnabled = false)
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
-    @Autowired
-    DataSource dataSource;
 
     @Bean
     public TokenBasedRememberMeServices rememberMeServices() {
@@ -42,8 +37,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new StandardPasswordEncoder();
-	}
+        return NoOpPasswordEncoder.getInstance();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -74,14 +69,16 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
             .logout()
-                .logoutUrl("/logout")
-                .permitAll()
+                .logoutUrl("/logout").permitAll()
                 .logoutSuccessUrl("/home")
                 .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .and()
             .rememberMe()
                 .rememberMeServices(rememberMeServices())
-                .key("remember-me-key");
+                .key("remember-me-key")
+                .and();
+//            .apply(new SpringSocialConfigurer());
 //                .and();
 //            .authorizeRequests()
 //                .antMatchers("/", "/favicon.ico", "/resources/**", "/signup").permitAll()
@@ -105,4 +102,19 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    @Bean
+    public UserIdSource userIdSource() {
+        return new AuthenticationNameUserIdSource();
+    }
+
+    @Bean
+    public TextEncryptor textEncryptor() {
+        return Encryptors.noOpText();
+    }
+
+//    @Bean
+//    public SocialUserDetailsService socialUsersDetailService() {
+//        return new ExtendedSocialUserDetailsService(userDetailsService());
+//    }
 }

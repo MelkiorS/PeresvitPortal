@@ -60,7 +60,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     }
 
     private String createMessage(String recipientAddress, String password, final Locale locale){
-        final String message = messages.getMessage("message.regSucc", null, locale)+"\r\n"
+        final String message = messages.getMessage("message.regSucc", null, locale)+"\r\n\n"
                 +messages.getMessage("message.loginName", null, locale)+": "
                 +recipientAddress+"\n"
                 +messages.getMessage("message.passwordName", null, locale)+": "

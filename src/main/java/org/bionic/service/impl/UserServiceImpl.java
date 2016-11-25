@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.bionic.config.Constant;
 import org.bionic.dao.RangRepository;
-import org.bionic.dao.VerificationTokenRepository;
+//import org.bionic.dao.VerificationTokenRepository;
 import org.bionic.entity.User;
 import org.bionic.entity.VerificationToken;
 import org.bionic.service.UserService;
@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserRepository userRepository;
 
-    @Autowired
-    private VerificationTokenRepository tokenRepository;
+//    @Autowired
+//    private VerificationTokenRepository tokenRepository;
 
     @Autowired
     private RangRepository rangRepository;
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService{
 
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
+    /*@Override
     public void createVerificationTokenForUser(final User user, final String token) {
         final VerificationToken myToken = new VerificationToken(token, user);
         tokenRepository.save(myToken);
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService{
         vToken.updateToken(UUID.randomUUID().toString());
         vToken = tokenRepository.save(vToken);
         return vToken;
-    }
+    }*/
 
     @Transactional
     @Override
@@ -107,6 +107,18 @@ public class UserServiceImpl implements UserService{
 
         return userRepository.save(user);
     }
+
+    @Override
+    public User createUserFromDto(UserDto accountDto) {
+        final User user = new User();
+        user.setFirstName(accountDto.getFirstName());
+        user.setLastName(accountDto.getLastName());
+        user.setPassword(accountDto.getPassword());
+        user.setEmail(accountDto.getEmail());
+        user.setRang(rangRepository.findOne(4L));
+        return user;
+    }
+
     private boolean emailExist(String email) {
         User user = userRepository.findByEmail(email);
         return user != null;
