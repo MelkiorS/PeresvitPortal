@@ -1,0 +1,30 @@
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div class="btn-group-vertical btn-group-lg" role="group" aria-label="111">
+        <div class="btn-group" role="group">
+            <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                Особистий кабінет
+            </button>
+        </div>
+        <div class="btn-group " role="group">
+            <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                наші події
+            </button>
+        </div>
+        <div class="btn-group" role="group">
+            <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                мої події
+            </button>
+        </div>
+        <div class="btn-group" role="group">
+            <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                мій шлях
+            </button>
+        </div>
+        <div class="btn-group" role="group">
+            <a class="btn btn-default btn-lg dropdown-toggle control_button" th:href="@{/logout}">Вийти</a>
+            <!--<a th:href="@{/logout}"> Log out </a>-->
+        </div>
+    </div>
+</body>
+</html>
