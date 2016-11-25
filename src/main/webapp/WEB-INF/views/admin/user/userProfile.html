@@ -19,6 +19,8 @@
                   <th>Middle Name</th>
                   <th>Email</th>
                   <th>Avatar URL</th>
+                  <th>gender</th>
+                  <th>CombatArt</th>
                   <th>Rang</th>
                   <th>Edit</th>
                   <th>Delete</th>
@@ -32,6 +34,8 @@
                 <td th:text="${user.middleName}"></td>
                 <td th:text="${user.email}"></td>
                 <td th:text="${user.avatarURL}"></td>
+                <td th:text="${user.gender}"></td>
+                <td th:text="${user.combatArt.combatArtId}"></td>
                 <td><a th:href="@{/admin/rang/} + ${user.rang.rangId}">Rang</a></td>
                 <td><a th:href="@{/admin/user/edit/} + ${user.userId}">Edit</a></td>
                 <td><a th:href="@{/admin/user/delete/} + ${user.userId}">Delete</a></td>

@@ -1,0 +1,29 @@
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <form action="#" th:action="@{/home/privateOfficeEdit}" th:object="${user}" enctype="multipart/form-data" method="post">
+
+        <input type="hidden" th:field="*{userId}" />
+        <input type="hidden" th:field="*{enabled}" />
+
+        <input type="hidden" th:field="*{firstName}" />
+        <input type="hidden" th:field="*{lastName}"  />
+        <input type="hidden" th:field="*{middleName}" />
+        <input type="hidden" th:field="*{email}"  />
+        <input type="hidden" th:field="*{password}"  />
+        <input type="hidden" th:field="*{rang.rangId}"  />
+
+        <tr th:each="userInfo, rowStat : *{userInfoList}">
+            <input type="hidden" th:field="*{userInfoList[__${rowStat.index}__].userInfoId}" />
+            <input type="hidden" th:field="*{userInfoList[__${rowStat.index}__].infoName}" />
+            <!--<input type="text" 	 th:field="*{userInfoList[__${rowStat.index}__].infoValue}" th:placeholder="*{userInfoList[__${rowStat.index}__].infoName}"/><br/>-->
+        </tr>
+
+        <input type="file" name="file" /><br/>
+        <input type="submit" value="Зберегти" />
+
+    </form>
+
+</body>
+</html>

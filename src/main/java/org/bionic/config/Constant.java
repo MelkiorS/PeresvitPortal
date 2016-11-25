@@ -1,8 +1,12 @@
 package org.bionic.config;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class Constant {
 	
@@ -57,5 +61,11 @@ public class Constant {
 		}
 
 		return null;		
+	}
+
+	public static String encodeFileToBase64Binary(String fileName) throws IOException {
+		File file = new File(fileName);
+		byte[] encoded = Base64.getEncoder().encode(FileUtils.readFileToByteArray(file));
+		return new String(encoded, StandardCharsets.US_ASCII);
 	}
 }

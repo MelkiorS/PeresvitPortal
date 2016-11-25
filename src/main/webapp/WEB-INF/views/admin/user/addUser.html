@@ -15,8 +15,19 @@
         <input type="text" th:field="*{lastName}" placeholder="lastName" /><br/>
         <input type="text" th:field="*{middleName}" placeholder="middleName" /><br/>
         <input type="text" th:field="*{email}" placeholder="email" /><br/>
-        <input type="text" th:field="*{password}" placeholder="password" /><br/>     
- 		<input type="file" name="file" /><br/>       
+        <input type="text" th:field="*{password}" placeholder="password" /><br/>
+        <input type="text" th:field="*{profileVK}" placeholder="profile VK" /><br/>
+        <input type="text" th:field="*{profileFB}" placeholder="profile FB" /><br/>
+        <input type="text" th:field="*{profileIS}" placeholder="profile IS" /><br/>
+        <input type="text" th:field="*{gender}" placeholder="gender" /><br/>
+ 		<input type="file" name="file" /><br/>
+
+        <label for="combatArtList">Combat Art:</label>
+        <select th:field="*{combatArt.combatArtId}">
+            <option th:each="combatArt : ${combatArtList}" th:value="${combatArt.combatArtId}"
+                    th:text="${combatArt.combatArtName}"></option>
+        </select> <br />
+
 		<label for="rangType">Rang:</label> 
 		<select th:field="*{rang.rangId}">
 			<option th:each="rang : ${rangList}" th:value="${rang.rangId}"

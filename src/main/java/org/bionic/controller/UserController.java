@@ -3,20 +3,14 @@ package org.bionic.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bionic.entity.EnumUserInfo;
-import org.bionic.entity.Rang;
+import org.bionic.entity.*;
+import org.bionic.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import org.bionic.entity.User;
-import org.bionic.entity.UserInfo;
-import org.bionic.service.RangService;
-import org.bionic.service.UserInfoService;
-import org.bionic.service.UserService;
 
 @Controller
 @RequestMapping(value = "/admin/user")
@@ -30,7 +24,16 @@ public class UserController {
 	
 	@Autowired
 	private RangService rangService;
-	
+
+    @Autowired
+    private CombatArtService combatArtService;
+
+    @Autowired
+    private CityService cityService;
+
+    @Autowired
+    private ClubService clubService;
+
     //go to manage page
     @RequestMapping(value = "/management", method = RequestMethod.GET)
     public String goToManagement(Model model) {
@@ -41,11 +44,21 @@ public class UserController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String goToAddForm(Model model) {
     	User user = new User();
-    	
-    	initializeUserInfo(user);   
-       
+
+        userService.initializeUserInfo(user);
+
+        List<City> cities = cityService.findAll();
+        model.addAttribute("cityList", cities); // adding list of city for select
+
+        List<Club> clubs = clubService.findAll();
+        model.addAttribute("clubList", clubs); // adding list of сдги for select
+
+        List<CombatArt> combatArts = combatArtService.findAll();
+        model.addAttribute("combatArtList", combatArts); // adding list of combatArt for select
+
     	List<Rang> rangTypes = rangService.findAll();
-    	model.addAttribute("rangList", rangTypes); // adding list of rang for select    	
+    	model.addAttribute("rangList", rangTypes); // adding list of rang for select
+
         model.addAttribute(user);
         
         return "admin/user/addUser";
@@ -106,26 +119,22 @@ public class UserController {
         if (user == null) {
             // custom exception
         }
-        
-        initializeUserInfo(user);        	
-        
-        List<Rang> rangTypes = rangService.findAll();
-        model.addAttribute("rangList", rangTypes);        
-        model.addAttribute("user", user);
-        return "admin/user/addUser";
-    }
 
-	// initialize UserInfoList    
-    private void initializeUserInfo(User user){
-    	
-    	if(user == null)
-    		return;
-    	
-		if (user.getUserInfoList() == null || user.getUserInfoList().isEmpty()) {
-			user.setUserInfoList(new ArrayList<UserInfo>(EnumUserInfo.values().length));
-			for (EnumUserInfo value : EnumUserInfo.values())
-				user.addUserInfo(new UserInfo(value.name(), ""));
-		}
+        List<City> cities = cityService.findAll();
+        model.addAttribute("cityList", cities);
+
+        List<Club> clubs = clubService.findAll();
+        model.addAttribute("сдгиList", clubs);
+
+        List<CombatArt> combatArts = combatArtService.findAll();
+        model.addAttribute("combatArtList", combatArts);
+
+        List<Rang> rangTypes = rangService.findAll();
+        model.addAttribute("rangList", rangTypes);
+
+        model.addAttribute("user", user);
+
+        return "admin/user/addUser";
     }
     
 }

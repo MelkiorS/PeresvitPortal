@@ -7,7 +7,16 @@
     </div>
     <div class="row main_section_basic">
         <div class="col-xs-2 main_section_basic_avatar">
-            <img th:src="${user.avatarURL}" alt="your avatar">
+
+            <!--<img th:src="${user.avatarURL}" alt="your avatar">-->
+            <!--<img  th:src="@{'data:image/png;base64,'+${imageAvatar}}" />-->
+            <img th:src= "${imageAvatar != null} ? @{'data:image;base64,' + ${imageAvatar}} : ${user.avatarURL}" alt="your avatar">
+
+            <div>
+                <a th:href="@{/home/privateOfficeEdit/} + ${user.userId}">
+                    <button>Редагувати</button>
+                </a>
+            </div>
         </div>
         <div class="col-xs-8 col-xs-offset-1 main_section_basic_links">
             <p class="main_section_basic_links_item">
@@ -16,16 +25,16 @@
                 <a href="#"><img src="../../../resources/frontend/workField/images/Logoin.png" alt="instagram"></a>
             </p>
         </div>
-        <div class="col-xs-9 col-xs-offset-1 main_section_basic_links">
-            <p class="main_section_basic_links_item_belt row">
-                <img src="../../../resources/frontend/workField/images/yellow_belt.png" alt="belt">
-            </p>
-        </div>
-        <div class="col-xs-9 col-xs-offset-1 main_section_basic_links">
-            <p class="main_section_basic_links_item_direction row">
-                <span>Фрiфайт</span>
-            </p>
-        </div>
+        <!--<div class="col-xs-9 col-xs-offset-1 main_section_basic_links">-->
+            <!--<p class="main_section_basic_links_item_belt row">-->
+                <!--<img src="../../../resources/frontend/workField/images/yellow_belt.png" alt="belt">-->
+            <!--</p>-->
+        <!--</div>-->
+        <!--<div class="col-xs-9 col-xs-offset-1 main_section_basic_links">-->
+            <!--<p class="main_section_basic_links_item_direction row">-->
+                <!--<span>Фрiфайт</span>-->
+            <!--</p>-->
+        <!--</div>-->
         <div class="col-xs-12 main_section_basic_level">
             <p th:text="${user.rang.rangName}">Ранг</p>
         </div>
@@ -35,13 +44,20 @@
     <div class="row col-xs-9  main_section_userInf">
 
         <div class="col-xs-7 main_section_userInf_item" >
-            <p><b>Город и клуб:</b><br/><span>Киев, Пересвіт</span></p>
+            <p><b>Город и клуб:</b><br/>
+                <span th:text="${user.userInfoList == null || #lists.isEmpty(user.userInfoList) ? '--------' : user.userInfoList[__${0}__].infoValue}"></span>,
+                <span th:text="${user.userInfoList == null || #lists.isEmpty(user.userInfoList) ? '--------' : user.userInfoList[__${1}__].infoValue}"></span>
+            </p> <!-- 0 - CITY, 1 - CLUB -->
         </div>
         <div class="col-xs-7 main_section_userInf_item" >
-            <p><b>Наставник:</b><br/><span>Александр Степанович</span></p>
+            <p><b>Наставник:</b><br/>
+                <span th:text="${user.userInfoList == null || #lists.isEmpty(user.userInfoList) ? '--------' : user.userInfoList[__${2}__].infoValue}"></span>
+            </p> <!-- 2 - MENTOR-->
         </div>
         <div class="col-xs-7 main_section_userInf_item" >
-            <p><b>Про себе:</b><br/><span>Чорний пояс по Фрі-файт, чемпіон Європи</span></p>
+            <p><b>Про себе:</b><br/>
+                <span th:text="${user.userInfoList == null || #lists.isEmpty(user.userInfoList) ? '--------' : user.userInfoList[__${3}__].infoValue}"></span>
+            </p> <!-- 3 - ABOUT-->
         </div>
     </div>
     <div class=" row col-xs-12 main_section_photoGallery">

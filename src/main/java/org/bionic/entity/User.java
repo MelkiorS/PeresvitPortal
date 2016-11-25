@@ -26,6 +26,19 @@ public class User {
     private String password;
 	private String email;
 	private String avatarURL;
+
+	private String profileVK;
+	private String profileFB;
+	private String profileIS;
+
+	@Column(columnDefinition = "boolean default true")
+	private boolean gender;
+
+	@ManyToOne
+	@Cascade(CascadeType.DELETE)
+	@JoinColumn(name="combatArtId")
+	private CombatArt combatArt;
+
 	// level of user
 	@ManyToOne
 	@Cascade(CascadeType.DELETE)
@@ -43,6 +56,7 @@ public class User {
 	public User() {
 		super();
 		enabled = true;
+		gender  = true;
 	}
 
 	public void addUserInfo(UserInfo userInfo){

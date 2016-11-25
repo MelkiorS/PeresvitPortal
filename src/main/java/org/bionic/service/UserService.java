@@ -25,6 +25,8 @@ public interface UserService {
 	User findUserByEmail(String email);
 
 	User getCurrentUser();
+
+	void initializeUserInfo(User user);
 	////////////////////////////////////////////////////////////////////////
 	void createVerificationTokenForUser(User user, String token);
 	VerificationToken getVerificationToken(String VerificationToken);

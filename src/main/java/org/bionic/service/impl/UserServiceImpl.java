@@ -1,12 +1,15 @@
 package org.bionic.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.bionic.config.Constant;
 import org.bionic.dao.RangRepository;
 import org.bionic.dao.VerificationTokenRepository;
+import org.bionic.entity.EnumUserInfo;
 import org.bionic.entity.User;
+import org.bionic.entity.UserInfo;
 import org.bionic.entity.VerificationToken;
 import org.bionic.service.UserService;
 import org.bionic.dao.UserRepository;
@@ -39,7 +42,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User findOne(Long userId) {
-        return userRepository.findOne(userId);
+        User user = userRepository.findOne(userId);
+        initializeUserInfo(user);
+        return user;
     }
 
     @Override
@@ -59,7 +64,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
+        initializeUserInfo(user);
+        return user;
     }
 
     @Override
@@ -67,6 +74,18 @@ public class UserServiceImpl implements UserService{
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName(); //get logged in username
         return userRepository.findByEmail(name);
+    }
+
+    @Override
+    public void initializeUserInfo(User user) {
+        if(user == null)
+            return;
+
+        if (user.getUserInfoList() == null || user.getUserInfoList().isEmpty()) {
+            user.setUserInfoList(new ArrayList<UserInfo>(EnumUserInfo.values().length));
+            for (EnumUserInfo value : EnumUserInfo.values())
+                user.addUserInfo(new UserInfo(value.name(), "--------"));
+        }
     }
 
 
