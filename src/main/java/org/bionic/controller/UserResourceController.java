@@ -4,7 +4,7 @@ import org.bionic.dao.RangRepository;
 import org.bionic.dao.ResourceGroupRepository;
 import org.bionic.dao.ResourceGroupTypeRepository;
 import org.bionic.entity.*;
-import org.bionic.service.ArticleService;
+import org.bionic.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,24 +25,32 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/resource")
 public class UserResourceController {
     @Autowired
-    ResourceGroupRepository resourceGroupRepository;
+    ResourceGroupTypeChapterService chapterService;
     @Autowired
-    RangRepository rangRepository;
+    ResourceGroupService resourceGroupService;
     @Autowired
-    ResourceGroupTypeRepository resourceGroupTypeRepository;
+    RangService rangService;
     @Autowired
-    private ArticleService articleRepository;
+    ResourceGroupTypeService resourceGroupTypeService;
+    @Autowired
+    private ArticleService articleService;
 
-
+    // go to article
+    @RequestMapping(value = "article/{chapterId}", method = RequestMethod.GET)
+    public String showArticle(@PathVariable long chapterId, Model model) {
+        Article article = articleService.findByChapterId(chapterId);
+        model.addAttribute("article", article);
+        return "resource/studyingMaterial";
+    }
     @RequestMapping(value = "/type/{groupName}", method = RequestMethod.GET)
     public String getArticles(@PathVariable String groupName, Model model, HttpServletRequest request) {
         // need to take userId from session
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
         Rang rang = user.getRang();
-        //Rang rang = rangRepository.findOne(1l);
-        ResourceGroupType type = resourceGroupTypeRepository.findResourceGroupTypeByGroupName(groupName);
-        Collection<Article> articles = articleRepository.findAllByResourceGroupTypeAndRang(type,rang);
+        //Rang rang = rangService.findOne(1l);
+        ResourceGroupType type = resourceGroupTypeService.findResourceGroupTypeByGroupName(groupName);
+        Collection<Article> articles = articleService.findAllByResourceGroupTypeAndRang(type,rang);
         articles.forEach(System.out::println);
         if (articles.size() > 1){
             model.addAttribute("articleList", articles);
@@ -56,6 +64,14 @@ public class UserResourceController {
     // go to myWay
     @RequestMapping(value = "/myWay", method = RequestMethod.GET)
     public String goToMyWay(Model model) {
+        List<ResourceGroupType> resourceGroupTypes = resourceGroupTypeService.findAll();
+        List<Rang> rangTypes = rangService.findAll();
+        resourceGroupTypes.stream().forEach(p->p.
+                setChapterList(chapterService.findAllByResourceGroupType(p)));
+        resourceGroupTypes.stream().forEach(p->System.out.println(p.getChapterList().isEmpty()));
+        model.addAttribute(new Article());   // addig empty object for post form
+        model.addAttribute("rangList", rangTypes); // adding list of rang for select
+        model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
         return "user/myWay";
     }
     // show resources for current user depending on his name
@@ -66,8 +82,8 @@ public class UserResourceController {
             HttpSession session = request.getSession();
             User user = (User)session.getAttribute("user");
             Rang rang = user.getRang();
-            ResourceGroupType type = resourceGroupTypeRepository.findResourceGroupTypeByGroupName(groupName);
-            ResourceGroup resourceGroup = resourceGroupRepository.findResourceGroupByResourceGroupTypeAndRang(type, rang);
+            ResourceGroupType type = resourceGroupTypeService.findResourceGroupTypeByGroupName(groupName);
+            ResourceGroup resourceGroup = resourceGroupService.findResourceGroupByResourceGroupTypeAndRang(type, rang);
             Collection<Resource> resourceCollection = resourceGroup.getResourceCollection();
             groupResourceByTypes(resourceCollection, model);
         }

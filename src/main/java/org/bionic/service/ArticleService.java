@@ -20,4 +20,6 @@ public interface ArticleService {
     boolean equals(Object obj);
 
     Collection<Article> findAllByResourceGroupTypeAndRang(ResourceGroupType type, Rang rang);
+
+    Article findByChapterId(long chapterId);
 }

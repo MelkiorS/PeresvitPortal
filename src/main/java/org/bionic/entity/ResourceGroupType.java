@@ -1,12 +1,13 @@
 package org.bionic.entity;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import org.hibernate.annotations.*;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -16,4 +17,8 @@ public class ResourceGroupType {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long resourceGroupTypeId;	
 	private String groupName; // ManyToOne
+	@OneToMany(mappedBy = "resourceGroupType", fetch = FetchType.EAGER)
+	//@LazyCollection(LazyCollectionOption.FALSE)
+	//@Cascade(org.hibernate.annotations.CascadeType.DELETE)
+	private List<ResourceGroupTypeChapter> chapterList;
 }

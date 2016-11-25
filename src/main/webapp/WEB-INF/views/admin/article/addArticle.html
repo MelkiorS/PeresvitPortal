@@ -6,9 +6,9 @@
     <!-- Make sure the path to CKEditor is correct. -->
     <script src="/resources/ckeditor/ckeditor.js"></script>
     <script>
-        function CKupdate(){
-            var val= CKEDITOR.instances['editor1'].getData();
-            alert(val);
+        function myFunction(chapterName, groupName) {
+            document.getElementById("chapterId").value = chapterName;
+            document.getElementById("groupName").value = groupName;
         }
     </script>
 </head>
@@ -17,13 +17,19 @@
     <input type="hidden" th:field="*{articleId}" />
 
     <label for="title">Заголовок:</label>
+
     <input type="text" th:field="*{articleName}" placeholder="Введити заголовок" /><br/>
-    <label for="resourceGroupType">Тип статьи:</label>
-    <select th:field="*{resourceGroupType.resourceGroupTypeId}">
-        <option th:each="resourceGroupType : ${resourceGroupTypeList}"
-                th:value="${resourceGroupType.resourceGroupTypeId}"
-                th:text="${resourceGroupType.groupName}"></option>
-    </select>
+    <!--<label for="resourceGroupType">Тип статьи:</label>-->
+    <!--<select th:field="*{resourceGroupType.resourceGroupTypeId}">-->
+        <!--<option th:each="resourceGroupType : ${resourceGroupTypeList}"-->
+                <!--th:value="${resourceGroupType.resourceGroupTypeId}"-->
+                <!--th:text="${resourceGroupType.groupName}"></option>-->
+    <!--</select>-->
+    Тип ресурса:
+    <input th:field="*{resourceGroupType.resourceGroupTypeId}" type="text" id="groupName" /><br>
+    Тип статьи:
+    <input th:field="*{chapterId}" type="text" id="chapterId" /><br>
+
     <br/>
     <label for="rangType">Кто может видеть:</label>
     <select th:field="*{rang.rangId}">
@@ -32,6 +38,22 @@
                 th:text="${rang.rangName}"></option>
     </select>
     <br/>
+
+    <ul id="mylist" th:each=" resourceGroupType : ${resourceGroupTypeList}">
+        <b><span th:text="${resourceGroupType.groupName}">Test</span></b>
+        <a th:href="@{/admin/chapter/add/group/} + ${resourceGroupType.resourceGroupTypeId}">Добавить раздел</a>
+        <span th:each="chapter :  ${resourceGroupType.chapterList}">
+            </br>
+            <td th:text="${chapter.chapterName}"></td>
+            <a th:href="${'javascript:myFunction(' + chapter.chapterId + ',' + resourceGroupType.resourceGroupTypeId + ')'}") >Выбрать</a>
+            <a th:href="@{/admin/chapter/edit/} + ${chapter.chapterId}">Изменить</a>
+            <a th:href="@{/admin/chapter/delete/} + ${chapter.chapterId}">Удалить</a>
+            </span>
+        <!--<li th:each="chapter :  ${resourceGroupType.chapterList}" th:text="${chapter.chapterName}" ></li>-->
+    </ul>
+
+
+
 
     <script>
         var data = CKEDITOR.instances.editor1.getData();

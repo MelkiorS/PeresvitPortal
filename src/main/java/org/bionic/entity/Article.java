@@ -13,10 +13,13 @@ public class Article {
     private long articleId;
     private String articleName;
     private String context;
+    private long chapterId;
     // resource content type
     @ManyToOne
     @JoinColumn(name="resourceGroupTypeId")
     private ResourceGroupType resourceGroupType;
+    // resource group type block
+
     // rang of resource, it means user of which rang can see it
     @ManyToOne
     @JoinColumn(name="rangId")
