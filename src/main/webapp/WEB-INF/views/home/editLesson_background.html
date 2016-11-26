@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>edit Lesson Page</title>
+    <link rel="stylesheet" href="../../../resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="../../../resources/frontend/workField/css/workField.css"> 
+    <link rel="stylesheet" href="../../../resources/frontend/editLesson/css/editLesson.css"> 
+    <!-- <script src="../../../resources/frontend/libraries/jquery-2.2.4.min.js"></script> -->
+    <script src="../../../resources/ckeditor/ckeditor.js"></script>
+
+</head>
+<body>
+<div class="container-fluid wrapper">
+
+<!-- This is HEADER -->
+    <div class="row header">
+        <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
+        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="../../../resources/frontend/workField/images/logo_Peresvit.png" alt="логотип"></div>
+        <div class="col-xs-8  row header_nav">
+            <div class="btn-group btn-group-justified" role="group" aria-label="1">
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        обговорення </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        нашi події </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        новини </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        контент </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        керування </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row main">
+
+    <!-- This is LEFT SIDE BAR- -->
+        <div class="col-xs-3 container main_sidebar">
+            <div class="btn-group-vertical btn-group-lg" role="group" aria-label="111">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        створити урок </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        редагувати урок</button>
+                </div>
+
+            </div>
+
+        </div>
+
+<!-- This is MAIN SECTION -->
+        <div class=" col-xs-7 row well container-fluid main_section">
+        <form>
+
+            <div class="row">
+                <div class="col-xs-5 col-xs-offset-3">
+                    <label>Категорiя</label>
+                </div>
+                <div class="col-xs-4">
+                    <label>Доступ для</label>
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <select class="form-control">
+                        <option>розбивання предметiв</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="form-control">
+                        <option>тренування рук</option>
+                    </select>            
+                </div>
+                <div class="col-xs-4">
+                    <select class="form-control">
+                        <option>4-й клас</option>
+                    </select>
+                </div>    
+            </div>
+
+
+            <div class="row row_textarea">
+                <div class="col-xs-12">
+                    <textarea th:field="*{text}" name="editor1" id="editor1" rows="10" cols="80">
+                    Вводите урок сюда.
+                    </textarea>
+                    <script>
+                        // Replace the <textarea id="editor1"> with a CKEditor
+                        // instance, using default configuration.
+                        CKEDITOR.replace('editor1' ,{
+                            language: 'ru',
+                            uiColor: '#FFFFFF', // to pick color
+                            height: 400,
+                            toolbarCanCollapse: true,
+                            // customConfig: '../../../webapp/resources/ckeditor/custom/ckeditor_config.js'
+                        });
+
+
+                    </script>
+                </div>
+            </div>
+        </form>
+    </div>
+</div> 
+
+
+</body>
+</html>
