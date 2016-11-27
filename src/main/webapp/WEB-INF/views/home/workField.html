@@ -7,12 +7,11 @@
     <link rel="stylesheet" href="../../../resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="../../../resources/frontend/workField/css/workField.css">
 
-    <!--<link rel="import" class='private_office' href="../../../resources/frontend/workField/html/private_office.html">-->
     <script src="../../../resources/frontend/libraries/jquery-2.2.4.min.js"></script>
     <!--<script src="../../../resources/frontend/libraries/wm-html-include.min.js"></script>-->
     <script src="../../../resources/frontend/libraries/constants.js"></script>
-    <script type="text/javascript" src="flowplayer/flowplayer-3.2.2.min.js"></script>
-    <script  async src="../../../resources/frontend/workField/js/workField_script.js"></script>
+    <!--<script type="text/javascript" src="flowplayer/flowplayer-3.2.2.min.js"></script>-->
+    <!--<script  async src="../../../resources/frontend/workField/js/workField_script.js"></script>-->
 
 
 </head>
@@ -22,79 +21,26 @@
         <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
         <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="../../../resources/frontend/workField/images/logo_Peresvit.png" alt="логотип"></div>
         <div class="col-xs-8  row header_nav">
-            <div class="btn-group btn-group-justified" role="group" aria-label="1">
-                <div class="btn-group " role="group">
-                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                        новини </button>
-                </div>
-                <div class="btn-group " role="group">
-                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                        обговорення </button>
-                </div>
-                <div class="btn-group " role="group">
-                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                        повідомлення </button>
-                </div>
-                <div class="btn-group " role="group">
-                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                        ми </button>
-                </div>
-            </div>
+        <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
         </div>
     </div>
     <div class="row main">
         <div class="col-xs-3 container main_sidebar">
-            <div class="btn-group-vertical btn-group-lg" role="group" aria-label="111">
-                <div class="btn-group" role="group">
-                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                        Особистий кабінет </button>
-                </div>
-                <div class="btn-group " role="group">
-                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                        наші події </button>
-                </div>
-                <div class="btn-group" role="group">
-                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                        мої події </button>
-                </div>
-                <div class="btn-group" role="group">
-                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                        мій шлях </button>
-                </div>
-                <div class="btn-group" role="group">
-                    <a class="btn btn-default btn-lg dropdown-toggle control_button" href="/logout">Вийти</a>
-                </div>
+        <!--Сюда вставляем боковой бар fragments/sideBar.html-->
+
+            <div class="place_for_add_sidebar col-xs-12 row">
+                <!--Сюда вставляем наш дополнительный сайдбар если юзер нажал на кнопку "мій шлях"
+            который лежит в myWay/myWaySidebar.html-->
+                <!--**********Код ниже нужно перенести в myWay/myWaySidebar.html**********-->
+
+                <!--<a th:href="@{/resource/type/BASE_TECHNIQUE}" >Базова техніка</a>-->
+                <!--<br/>-->
+                <!--<a th:href="@{/resource/type/BASE_TECH_COMPLEX}" >Базова техкомлекс</a>-->
+                <!--<br/>-->
+                <!--<a th:href="@{/resource/type/SPECIAL_PHYSICAL_TRAININGS}" >Базові фізичні вправи</a>-->
+                <!--<br/>-->
+                <!--<a th:href="@{/resource/type/GENERAL_PHYSICAL_TRAININGS}" >Спеціальні фізичні вправи </a>-->
             </div>
-
-
-            <!--<div class="container-fluid row add_sidebar" >-->
-                <!--<div class="btn-group-vertical btn-group-lg my_way_sidebar" role="group1" aria-label="222">-->
-                    <!--<div class="btn-group my_way_sidebar_group" role="group1">-->
-                        <!--<button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">Базова техніка </button>-->
-                    <!--</div>-->
-                    <!--<div class="btn-group " role="group1">-->
-                            <!--<button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">-->
-                            <!--наші події </button>-->
-                    <!--</div>-->
-                    <!--<div class="btn-group" role="group1">-->
-                        <!--<button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">-->
-                            <!--мої події </button>-->
-                    <!--</div>-->
-                    <!--<div class="btn-group" role="group1">-->
-                        <!--<button class="btn btn-default dropdown-toggle my_way_sidebar_group_button" type="button"  aria-haspopup="true" aria-expanded="false">-->
-                            <!--мій шлях </button>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--В элемент ниже вставляем наш дополнительный сайдбар если юзер нажал на кнопку "мій шлях" -->
-            <div class="place_for_add_sidebar col-xs-12 row"></div>
-            <a th:href="@{/resource/type/BASE_TECHNIQUE}" >Базова техніка</a>
-            <br/>
-            <a th:href="@{/resource/type/BASE_TECH_COMPLEX}" >Базова техкомлекс</a>
-            <br/>
-            <a th:href="@{/resource/type/SPECIAL_PHYSICAL_TRAININGS}" >Базові фізичні вправи</a>
-            <br/>
-            <a th:href="@{/resource/type/GENERAL_PHYSICAL_TRAININGS}" >Спеціальні фізичні вправи </a>
         </div>
 
         <div class=" col-xs-7 row well container-fluid main_section">
@@ -113,10 +59,13 @@
         </footer>
     </div>
 </div>
-<br>
-<br>
-<br>
-<a th:href="@{/logout}"> Log out </a>
+<!--<br>-->
+<!--<br>-->
+<!--<br>-->
+<!--8*****************action этой ссылки перенесены в sideBar.html *****-->
+<!--<a th:href="@{/logout}"> Log out </a>-->
+
+
 <!--<div class="user">-->
     <!--<h2 >User</h2>-->
     <!--<table>-->
@@ -146,7 +95,5 @@
         <!--</tbody>-->
     <!--</table>-->
 <!--</div>-->
-
-
 </body>
 </html>
