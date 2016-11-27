@@ -1,6 +1,6 @@
 USE peresvitDB;
 INSERT INTO  resourceType(typeName) VALUES ('TEXT'),('PHOTO'),('VIDEO'),('OTHER');
-INSERT INTO  resourceGroupType(groupName) VALUES ('BASE_TECHNIQUE'),('BASE_TECH_COMPLEX'),('SPECIAL_PHYSICAL_TRAININGS'),('GENERAL_PHYSICAL_TRAININGS'),('ANOTHER_SUBJECTS'),('COMPETITION');
+INSERT INTO  resourceGroupType(groupName, caption) VALUES ('BASE_TECHNIQUE', 'Базовая техника'),('BASE_TECH_COMPLEX', 'Базовая техника комплекс'),('SPECIAL_PHYSICAL_TRAININGS', 'Специальные упражнения'),('GENERAL_PHYSICAL_TRAININGS', 'Базовые упражнения'),('ANOTHER_SUBJECTS', 'Прочее'),('COMPETITION', 'Соревнования');
 INSERT INTO  rang(rangName) VALUES ('LEVEL_1'),('LEVEL_2'),('LEVEL_3'),('USER'), ('ADMIN');
 INSERT INTO  user(firstName, lastName, email, password, avatarURL , rangId) VALUES ('test', 'test', 'admin', '123456','https://cdn3.iconfinder.com/data/icons/users-6/100/654853-user-men-2-512.png', 5);
 INSERT INTO  user(firstName, lastName, email, password, avatarURL , rangId) VALUES ('test', 'test', 'user', '123456','http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 4);
@@ -32,3 +32,7 @@ INSERT INTO  resourceGroupTypeChapter(resourceGroupTypeId,chapterName) VALUES (5
 INSERT INTO  combatArt(combatArtName) VALUES ('Фрі- Файт'),('Тайдзі- Цюань'),('Шаолінь Кунг-фу');
 INSERT INTO  city(cityName) VALUES ('Київ'),('Львів'),('Дніпро');
 INSERT INTO  club(clubName) VALUES ('Клуб1'),('Клуб2');
+
+INSERT into article(articleName, chapterId, rangId, resourceGroupTypeId, context) VALUES ('Статья 1.1', 1, 1, 1, "Содержимое статьи 1.1");
+INSERT into article(articleName, chapterId, rangId, resourceGroupTypeId, context) VALUES ('Статья 1.2', 1, 1, 1, "Содержимое статьи 1.2");
+INSERT into article(articleName, chapterId, rangId, resourceGroupTypeId, context) VALUES ('Статья 2.1', 2, 1, 1, "Содержимое статьи 2.1");

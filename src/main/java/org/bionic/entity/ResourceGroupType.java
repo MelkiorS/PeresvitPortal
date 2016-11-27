@@ -17,6 +17,7 @@ public class ResourceGroupType {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long resourceGroupTypeId;	
 	private String groupName; // ManyToOne
+	private String caption;
 	@OneToMany(mappedBy = "resourceGroupType", fetch = FetchType.EAGER)
 	//@LazyCollection(LazyCollectionOption.FALSE)
 	//@Cascade(org.hibernate.annotations.CascadeType.DELETE)

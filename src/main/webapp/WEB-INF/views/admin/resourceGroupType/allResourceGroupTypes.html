@@ -24,7 +24,8 @@
       <tr th:each="resourceGroupType : ${resourceGroupTypeList}">
         <td th:text="${resourceGroupType.resourceGroupTypeId}"></td>
         <td th:text="${resourceGroupType.groupName}"></td>
-        <td><a th:href="@{/admin/resourceGroupType/edit/} + ${resourceGroupType.resourceGroupTypeId}">Edit</a></td>   
+        <td th:text="${resourceGroupType.caption}"></td>
+        <td><a th:href="@{/admin/resourceGroupType/edit/} + ${resourceGroupType.resourceGroupTypeId}">Edit</a></td>
         <td><a th:href="@{/admin/resourceGroupType/delete/} + ${resourceGroupType.resourceGroupTypeId}">Delete</a></td>         
       </tr>
     </tbody>
