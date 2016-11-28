@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>My events</title>
@@ -8,29 +8,35 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">-->
+    <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
+    <!--<link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">-->
+    <!--<script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>-->
+    <script src="/resources/frontend/libraries/constants.js"></script>
     <script>
         $(
-            function() {
-                $( "#datepicker" ).datepicker({
-                    onSelect: function(dt, ob) {
+            function () {
+                $("#datepicker").datepicker({
+                    onSelect: function (dt, ob) {
                         $.ajax({
-                            type : "GET",
-                            url : "/panel/myeventsdata",
-                            data : {
-                                "dt" : dt,
-                                "qty" : 5
+                            type: "GET",
+                            url: "/panel/myeventsdata",
+                            data: {
+                                "dt": dt,
+                                "qty": 5
                             },
-                            success: function(data){
+                            success: function (data) {
                                 $('#closest').html(data);
                             }
                         });
                         $.ajax({
-                            type : "GET",
-                            url : "/panel/myeventsdatanext",
-                            data : {
-                                "dt" : dt
+                            type: "GET",
+                            url: "/panel/myeventsdatanext",
+                            data: {
+                                "dt": dt
                             },
-                            success: function(data){
+                            success: function (data) {
                                 $('#next').html(data);
                             }
                         });
@@ -42,11 +48,47 @@
     </script>
 </head>
 <body>
+<div class="container-fluid wrapper">
+    <div class="row header">
+        <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
+        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img'
+                                                  src="/resources/frontend/workField/images/logo_Peresvit.png"
+                                                  alt="логотип"></div>
+        <div class="col-xs-8  row header_nav">
+            <div th:replace="home/fragments/headBar :: headBar"></div>
+            <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
+        </div>
+    </div>
+    <div class="row main">
+        <div class="col-xs-3 container main_sidebar">
+            <!--Сюда вставляем боковой бар fragments/sideBar.html-->
 
-<h1>HELLO</h1>
-Date: <div id="datepicker"></div>
-<div id="closest"></div>
-<div id="next"></div>
+            <div class="place_for_add_sidebar col-xs-12 row">
+                <!--Сюда вставляем наш дополнительный сайдбар если юзер нажал на кнопку "мій шлях"
+            который лежит в myWay/myWaySidebar.html-->
+                <div th:replace="home/fragments/sideBar :: sideBar"></div>
+
+            </div>
+        </div>
+        <div class=" col-xs-7 row well container-fluid main_section">
+            <h1>HELLO</h1>
+            Date:
+            <div id="datepicker"></div>
+            <div id="closest"></div>
+            <div id="next"></div>
+        </div>
+        <footer>
+            <div class="row container-fluid">
+                <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">Гугл реклама</div>
+                <div class="col-xs-2 col-md-2 row">
+                    <img src="/resources/frontend/workField/images/Logovk.png" alt="vk">
+                    <img src="/resources/frontend/workField/images/Logofc.png" alt="fs">
+                    <img src="/resources/frontend/workField/images/Logoin.png" alt="instagram">
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
 
 </body>
 </html>

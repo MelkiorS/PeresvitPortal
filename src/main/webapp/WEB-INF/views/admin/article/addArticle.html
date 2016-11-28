@@ -1,83 +1,142 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <title>A Simple Page with CKEditor</title>
-    <!-- Make sure the path to CKEditor is correct. -->
-    <script src="/resources/ckeditor/ckeditor.js"></script>
-    <script>
-        function myFunction(chapterName, groupName) {
-            document.getElementById("chapterId").value = chapterName;
-            document.getElementById("groupName").value = groupName;
-        }
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>edit Lesson Page</title>
+    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
+    <link rel="stylesheet" href="/resources/frontend/editLesson/css/editLesson.css">
+    <!-- <script src="../../../resources/frontend/libraries/jquery-2.2.4.min.js"></script> -->
+    <script src="../../../resources/ckeditor/ckeditor.js"></script>
+
 </head>
 <body>
-<form action="#" th:action="@{/admin/article/}" th:object="${article}" method="post">
-    <input type="hidden" th:field="*{articleId}" />
+<div class="container-fluid wrapper">
 
-    <label for="title">Заголовок:</label>
+    <!-- This is HEADER -->
+    <div class="row header">
+        <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
+        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="../../../resources/frontend/workField/images/logo_Peresvit.png" alt="логотип"></div>
+        <div class="col-xs-8  row header_nav">
+            <div class="btn-group btn-group-justified" role="group" aria-label="1">
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        обговорення </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        нашi події </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        новини </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        контент </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        керування </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <input type="text" th:field="*{articleName}" placeholder="Введити заголовок" /><br/>
-    <!--<label for="resourceGroupType">Тип статьи:</label>-->
-    <!--<select th:field="*{resourceGroupType.resourceGroupTypeId}">-->
-        <!--<option th:each="resourceGroupType : ${resourceGroupTypeList}"-->
-                <!--th:value="${resourceGroupType.resourceGroupTypeId}"-->
-                <!--th:text="${resourceGroupType.groupName}"></option>-->
-    <!--</select>-->
-    Тип ресурса:
-    <input th:field="*{resourceGroupType.resourceGroupTypeId}" type="text" id="groupName" /><br>
-    Тип статьи:
-    <input th:field="*{chapterId}" type="text" id="chapterId" /><br>
+    <div class="row main">
 
-    <br/>
-    <label for="rangType">Кто может видеть:</label>
-    <select th:field="*{rang.rangId}">
-        <option th:each="rang : ${rangList}"
-                th:value="${rang.rangId}"
-                th:text="${rang.rangName}"></option>
-    </select>
-    <br/>
+        <!-- This is LEFT SIDE BAR- -->
+        <div class="col-xs-3 container main_sidebar">
+            <div class="btn-group-vertical btn-group-lg" role="group" aria-label="111">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        створити урок </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        редагувати урок</button>
+                </div>
 
-    <ul id="mylist" th:each=" resourceGroupType : ${resourceGroupTypeList}">
-        <b><span th:text="${resourceGroupType.groupName}">Test</span></b>
-        <a th:href="@{/admin/chapter/add/group/} + ${resourceGroupType.resourceGroupTypeId}">Добавить раздел</a>
-        <span th:each="chapter :  ${resourceGroupType.chapterList}">
+            </div>
+
+        </div>
+
+        <!-- This is MAIN SECTION -->
+        <div class=" col-xs-7 row well container-fluid main_section">
+            <form action="#" th:action="@{/admin/article/}" th:object="${article}" method="post">
+                <div class="row">
+                    <div class="col-xs-4 ">
+                        <label>Категорiя</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <label>Роздiл</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <label>Доступ для</label>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <input th:field="*{resourceGroupType.resourceGroupTypeId}" type="text" id="groupName" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input th:field="*{chapterId}" type="text" id="chapterId" />
+                    </div>
+                    <div class="col-xs-4">
+                        <select th:field="*{rang.rangId}">
+                            <option th:each="rang : ${rangList}"
+                                    th:value="${rang.rangId}"
+                                    th:text="${rang.rangName}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <input type="hidden" th:field="*{articleId}" />
+                <label for="title">Заголовок:</label>
+                <input type="text" th:field="*{articleName}" placeholder="Введити заголовок" />
+                <ul id="mylist" th:each=" resourceGroupType : ${resourceGroupTypeList}">
+                    <b><span th:text="${resourceGroupType.groupName}">Test</span></b>
+                    <a th:href="@{/admin/chapter/add/group/} + ${resourceGroupType.resourceGroupTypeId}">Добавить раздел</a>
+                    <span th:each="chapter :  ${resourceGroupType.chapterList}">
             </br>
-            <td th:text="${chapter.chapterName}"></td>
-            <a th:href="${'javascript:myFunction(' + chapter.chapterId + ',' + resourceGroupType.resourceGroupTypeId + ')'}") >Выбрать</a>
+                        <td th:text="${chapter.chapterName}"></td>
+            <a th:href="${'javascript:myFunction('+ chapter.chapterId + ',' + resourceGroupType.resourceGroupTypeId + ')'}") >Выбрать</a>
             <a th:href="@{/admin/chapter/edit/} + ${chapter.chapterId}">Изменить</a>
             <a th:href="@{/admin/chapter/delete/} + ${chapter.chapterId}">Удалить</a>
             </span>
-        <!--<li th:each="chapter :  ${resourceGroupType.chapterList}" th:text="${chapter.chapterName}" ></li>-->
-    </ul>
-
-
-
-
-    <script>
-        var data = CKEDITOR.instances.editor1.getData();
-
-        // Your code to save "data", usually through Ajax.
-    </script>
-
-    <textarea th:field="*{context}" name="editor1" id="editor1" rows="10" cols="80">
+                </ul>
+                <script>
+                    var data = CKEDITOR.instances.editor1.getData();
+                </script>
+                <div class="row row_textarea">
+                <textarea th:field="*{context}" name="editor1" id="editor1" rows="10" cols="80">
                 Вводите урок сюда.
             </textarea>
-    <script>
-        // Replace the <textarea id="editor1"> with a CKEditor
+                    <script>
+                        CKEDITOR.replace('editor1' ,{
+                            language: 'ru',
+                            uiColor: '#9AB8F3', // to pick color
+                            height: 600,
+                            width: 680
+                        });
+                    </script>
+                    <br/>
+                    <input type="submit" value="Добавить статью"/>
+                </div>
 
-        // instance, using default configuration.
-        CKEDITOR.replace('editor1' ,{
-            language: 'ru',
-            uiColor: '#9AB8F3', // to pick color
-            height: 600,
-            width: 1000
-        });
-    </script>
-    <br/>
-    <input type="submit" value="Добавить статью"/>
-    <!-- <a onClick="CKupdate();$('#editor1').ajaxSubmit();">Submit</a>-->
-</form>
+            </form>
+        </div>
+    </div>
+
+</div>
+<script>
+    function myFunction(chapterName, groupName) {
+        document.getElementById("chapterId").value = chapterName;
+        document.getElementById("groupName").value = groupName;
+    }
+</script>
 </body>
 </html>
