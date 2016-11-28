@@ -64,55 +64,66 @@
 
 <!-- This is MAIN SECTION -->
         <div class=" col-xs-7 row well container-fluid main_section">
-        <form>
-
-            <div class="row">
-                <div class="col-xs-5 col-xs-offset-3">
-                    <label>Категорiя</label>
+            <form action="#" th:action="@{/admin/article/}" th:object="${article}" method="post">
+                <div class="row">
+                    <div class="col-xs-5 col-xs-offset-3">
+                        <label>Категорiя</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <label>Роздiл</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <label>Доступ для</label>
+                    </div>
                 </div>
-                <div class="col-xs-4">
-                    <label>Доступ для</label>
-                </div>                
-            </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <select class="form-control">
-                        <option>розбивання предметiв</option>
-                    </select>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <input th:field="*{resourceGroupType.resourceGroupTypeId}" type="text" id="groupName" />
+                    </div>
+                    <div class="col-xs-4">
+                        <input th:field="*{chapterId}" type="text" id="chapterId" />
+                    </div>
+                    <div class="col-xs-4">
+                        <select th:field="*{rang.rangId}">
+                            <option th:each="rang : ${rangList}"
+                                    th:value="${rang.rangId}"
+                                    th:text="${rang.rangName}"></option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-xs-4">
-                    <select class="form-control">
-                        <option>тренування рук</option>
-                    </select>            
+
+                <input type="hidden" th:field="*{articleId}" />
+                <label for="title">Заголовок:</label>
+                <ul id="mylist" th:each=" resourceGroupType : ${resourceGroupTypeList}">
+                    <b><span th:text="${resourceGroupType.groupName}">Test</span></b>
+                    <a th:href="@{/admin/chapter/add/group/} + ${resourceGroupTyp.resourceGroupTypeId}">Добавить раздел</a>
+                    <span th:each="chapter :  ${resourceGroupType.chapterList}">
+            </br>
+                        <td th:text="${chapter.chapterName}"></td>
+            <a th:href="${'javascript:myFunction(' + chapter.chapterId + ',' + resourceGroupType.resourceGroupTypeId + ')'}") >Выбрать</a>
+            <a th:href="@{/admin/chapter/edit/} + ${chapter.chapterId}">Изменить</a>
+            <a th:href="@{/admin/chapter/delete/} + ${chapter.chapterId}">Удалить</a>
+            </span>
+                </ul>
+                <script>
+                    var data = CKEDITOR.instances.editor1.getData();
+                </script>
+                <div class="row row_textarea">
+                <textarea th:field="*{context}" name="editor1" id="editor1" rows="10" cols="80">
+                Вводите урок сюда.
+            </textarea>
+                <script>
+                    CKEDITOR.replace('editor1' ,{
+                        language: 'ru',
+                        uiColor: '#9AB8F3', // to pick color
+                        height: 600,
+                        width: 1000
+                    });
+                </script>
+                <br/>
+                <input type="submit" value="Добавить статью"/>
                 </div>
-                <div class="col-xs-4">
-                    <select class="form-control">
-                        <option>4-й клас</option>
-                    </select>
-                </div>    
-            </div>
 
-
-            <div class="row row_textarea">
-                <div class="col-xs-12">
-                    <textarea th:field="*{text}" name="editor1" id="editor1" rows="10" cols="80">
-                    Вводите урок сюда.
-                    </textarea>
-                    <script>
-                        // Replace the <textarea id="editor1"> with a CKEditor
-                        // instance, using default configuration.
-                        CKEDITOR.replace('editor1' ,{
-                            language: 'ru',
-                            uiColor: '#FFFFFF', // to pick color
-                            height: 400,
-                            toolbarCanCollapse: true,
-                            // customConfig: '../../../webapp/resources/ckeditor/custom/ckeditor_config.js'
-                        });
-
-
-                    </script>
-                </div>
-            </div>
         </form>
     </div>
 </div> 

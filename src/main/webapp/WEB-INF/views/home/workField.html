@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Peresvit</title>
-    <link rel="stylesheet" href="../../../resources/frontend/libraries/bootstrap.css">
-    <link rel="stylesheet" href="../../../resources/frontend/workField/css/workField.css">
-
-    <script src="../../../resources/frontend/libraries/jquery-2.2.4.min.js"></script>
-    <!--<script src="../../../resources/frontend/libraries/wm-html-include.min.js"></script>-->
-    <script src="../../../resources/frontend/libraries/constants.js"></script>
-    <!--<script type="text/javascript" src="flowplayer/flowplayer-3.2.2.min.js"></script>-->
-    <!--<script  async src="../../../resources/frontend/workField/js/workField_script.js"></script>-->
+    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
+    <link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">
+    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="/resources/frontend/libraries/constants.js"></script>
 
 
 </head>
@@ -19,81 +16,108 @@
 <div class="container-fluid wrapper">
     <div class="row header">
         <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
-        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="../../../resources/frontend/workField/images/logo_Peresvit.png" alt="логотип"></div>
+        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img'
+                                                  src="/resources/frontend/workField/images/logo_Peresvit.png"
+                                                  alt="логотип"></div>
         <div class="col-xs-8  row header_nav">
-        <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
+            <div th:replace="home/fragments/headBar :: headBar"></div>
+            <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
         </div>
     </div>
     <div class="row main">
         <div class="col-xs-3 container main_sidebar">
-        <!--Сюда вставляем боковой бар fragments/sideBar.html-->
+            <!--Сюда вставляем боковой бар fragments/sideBar.html-->
 
             <div class="place_for_add_sidebar col-xs-12 row">
                 <!--Сюда вставляем наш дополнительный сайдбар если юзер нажал на кнопку "мій шлях"
             который лежит в myWay/myWaySidebar.html-->
-                <!--**********Код ниже нужно перенести в myWay/myWaySidebar.html**********-->
-
-                <!--<a th:href="@{/resource/type/BASE_TECHNIQUE}" >Базова техніка</a>-->
-                <!--<br/>-->
-                <!--<a th:href="@{/resource/type/BASE_TECH_COMPLEX}" >Базова техкомлекс</a>-->
-                <!--<br/>-->
-                <!--<a th:href="@{/resource/type/SPECIAL_PHYSICAL_TRAININGS}" >Базові фізичні вправи</a>-->
-                <!--<br/>-->
-                <!--<a th:href="@{/resource/type/GENERAL_PHYSICAL_TRAININGS}" >Спеціальні фізичні вправи </a>-->
+                <div th:replace="home/fragments/sideBar :: sideBar"></div>
             </div>
         </div>
 
         <div class=" col-xs-7 row well container-fluid main_section">
             <!--Сюда вставляем содержимое страниц в соответствии с нажатыми кнопками-->
-        </div>
+            <div class="show user">
+                <div>
+                    <p class="text-left h2 main_section_name"><span th:text="${user.firstName}"></span> <span
+                            th:text="${user.lastName}"></span></p>
+                </div>
+                <div class="row main_section_basic">
+                    <div class="col-xs-2 main_section_basic_avatar">
+                        <!--Сюда вставляем ссылку на аватар юзера-->
+                        <img th:src="${user.avatarURL}" alt="your avatar">
+                    </div>
+                    <div class="col-xs-8 col-xs-offset-1 main_section_basic_links">
+                        <p class="main_section_basic_links_item">
+                            <!--Сюда вставляем ссылки на профиль юзера в соцсетях vk, fb, g+, если они есть-->
+                            <a href="#"><img src="/resources/frontend/workField/images/Logovk.png" alt="vk"></a>
+                            <a href="#"><img src="/resources/frontend/workField/images/Logofc.png" alt="fs"></a>
+                            <a href="#"><img src="/resources/frontend/workField/images/Logoin.png" alt="instagram"></a>
+                        </p>
+                    </div>
+                    <div class="col-xs-9 col-xs-offset-1 main_section_basic_links">
+                        <p class="main_section_basic_links_item_belt row">
+                            <!--Сюда вставляем на картинку, какой пояс есть у юзера-->
+                            <img src="/resources/frontend/workField/images/yellow_belt.png" alt="belt">
+                        </p>
+                    </div>
+                    <div class="col-xs-9 col-xs-offset-1 main_section_basic_links">
+                        <p class="main_section_basic_links_item_direction row">
+                            <!--Сюда вставляем направление юзера -->
+                            <span>Фрiфайт</span>
+                        </p>
+                    </div>
+                    <div class="col-xs-12 main_section_basic_level">
+                        <!--Сюда вставляем ранг юзера (юзер, админ и тд.)-->
+                        <p th:text="${user.rang.rangName}">Ранг</p>
+                    </div>
+                </div>
 
-        <footer>
-            <div class="row container-fluid">
-                <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">Гугл реклама</div>
-                <div class="col-xs-2 col-md-2 row">
-                    <img src="../../../resources/frontend/workField/images/Logovk.png" alt="vk">
-                    <img src="../../../resources/frontend/workField/images/Logofc.png" alt="fs">
-                    <img src="../../../resources/frontend/workField/images/Logoin.png" alt="instagram">
+            </div>
+            <div class="row col-xs-9  main_section_userInf">
+                <!--Сюда вставляем личную информацию о юзере-->
+                <div class="col-xs-7 main_section_userInf_item">
+                    <!--Сюда вставляем город в котором живет юзер-->
+                    <p><b>Город:</b><br/><span>Киев</span></p>
+                </div>
+                <div class="col-xs-7 main_section_userInf_item">
+                    <!--Сюда вставляем клуб в котором занимается юзер-->
+                    <p><b>Клуб:</b><br/><span>Пересвіт</span></p>
+                </div>
+                <div class="col-xs-7 main_section_userInf_item">
+                    <!--Сюда вставляем ФИО наставника-->
+                    <p><b>Наставник:</b><br/><span>Александр Степанович</span></p>
+                </div>
+                <div class="col-xs-7 main_section_userInf_item">
+                    <!--Сюда вставляем информацию юзера о себе-->
+                    <p><b>Про себе:</b><br/><span>Чорний пояс по Фрі-файт, чемпіон Європи</span></p>
                 </div>
             </div>
-        </footer>
+            <div class=" row col-xs-12 main_section_photoGallery">
+                <div>
+                    <p class="lead main_section_photoGallery_head">Фотоальбом</p>
+                </div>
+                <div class="col-xs-12  main_section_photoGallery_images">
+                    <!--Сюда вставляем фотоальбом юзера-->
+                    <img src="/resources/frontend/workField/images/basile.jpg" alt="judo">
+                    <img src="/resources/frontend/workField/images/sambo.jpg" alt="sambo">
+                </div>
+            </div>
+        </div>
     </div>
+
+    <footer>
+        <div class="row container-fluid">
+            <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">Гугл реклама</div>
+            <div class="col-xs-2 col-md-2 row">
+                <img src="/resources/frontend/workField/images/Logovk.png" alt="vk">
+                <img src="/resources/frontend/workField/images/Logofc.png" alt="fs">
+                <img src="/resources/frontend/workField/images/Logoin.png" alt="instagram">
+            </div>
+        </div>
+    </footer>
 </div>
-<!--<br>-->
-<!--<br>-->
-<!--<br>-->
-<!--8*****************action этой ссылки перенесены в sideBar.html *****-->
-<!--<a th:href="@{/logout}"> Log out </a>-->
+</div>
 
-
-<!--<div class="user">-->
-    <!--<h2 >User</h2>-->
-    <!--<table>-->
-        <!--<thead>-->
-        <!--<tr>-->
-            <!--<th>userId</th>-->
-            <!--<th>First Name</th>-->
-            <!--<th>Last Name</th>-->
-            <!--<th>Middle Name</th>-->
-            <!--<th>Email</th>-->
-            <!--<th>Avatar URL</th>-->
-            <!--<th>Rang</th>-->
-            <!--<th>Edit</th>-->
-            <!--<th>Delete</th>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-        <!--<tr>-->
-            <!--<td th:text="${user.userId}"></td>-->
-            <!--<td th:text="${user.firstName}"></td>-->
-            <!--<td th:text="${user.lastName}"></td>-->
-            <!--<td th:text="${user.middleName}"></td>-->
-            <!--<td th:text="${user.email}"></td>-->
-            <!--<td th:text="${user.avatarURL}"></td>-->
-            <!--<td th:text="${user.rang.rangName}"></td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-    <!--</table>-->
-<!--</div>-->
 </body>
 </html>
