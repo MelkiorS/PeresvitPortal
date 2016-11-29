@@ -23,8 +23,12 @@ import java.util.Properties;
 class ApplicationConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
+    private final Environment env;
+
     @Autowired
-    private Environment env;
+    public ApplicationConfig(Environment env) {
+        this.env = env;
+    }
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {

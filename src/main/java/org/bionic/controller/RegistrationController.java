@@ -1,5 +1,6 @@
 package org.bionic.controller;
 
+import com.sun.deploy.net.HttpResponse;
 import org.bionic.entity.User;
 import org.bionic.registration.OnRegistrationCompleteEvent;
 import org.bionic.security.PasswordGenerator;
@@ -16,15 +17,22 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UserProfile;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.connect.FacebookConnectionFactory;
+import org.springframework.social.oauth2.AccessGrant;
+import org.springframework.social.oauth2.OAuth2Operations;
+import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,25 +118,51 @@ public class RegistrationController {
 //        return "redirect:/home/workField";
 //    }
 
-    @RequestMapping(value="/facebook", method=RequestMethod.GET)
-    public String facebook(WebRequest request, final HttpServletRequest httpServletRequest) {
-        Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Facebook.class);
-        if (connection == null) {
-            return "redirect:/connect/facebook";
-        }
-        UserDto userDto = createSocialUserDto(connection);
-
-        User registered = createUserAccount(userDto);
-
-        if (registered == null) {
-            registered = userService.findUserByEmail(userDto.getEmail());
-            authenticateUser(registered);
-            return "redirect:/home/workField";
-        }
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(httpServletRequest)));
-        authenticateUser(registered);
-        return "redirect:/home/workField";
-    }
+//    @RequestMapping(value="/facebook", method=RequestMethod.GET)
+//    public String facebook(WebRequest request, final HttpServletRequest httpServletRequest) {
+//        Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Facebook.class);
+//        if (connection == null) {
+//            return "redirect:/connect/facebook";
+//        }
+//        UserDto userDto = createSocialUserDto(connection);
+//
+//        User registered = createUserAccount(userDto);
+//
+//        if (registered == null) {
+//            registered = userService.findUserByEmail(userDto.getEmail());
+//            authenticateUser(registered);
+//            return "redirect:/home/workField";
+//        }
+//        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(httpServletRequest)));
+//        authenticateUser(registered);
+//        return "redirect:/home/workField";
+//    }
+//
+//    @RequestMapping(value = "/facebook/connect", method = RequestMethod.GET)
+//    public String connectToFB(HttpServletResponse response) throws IOException {
+//        FacebookConnectionFactory connectionFactory =
+//                new FacebookConnectionFactory("clientId", "clientSecret");
+//        OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
+//        OAuth2Parameters params = new OAuth2Parameters();
+//        params.setRedirectUri("http://localhost:8080/registration/facebook/response");
+//        String authorizeUrl = oauthOperations.buildAuthorizeUrl(params);
+////        response.sendRedirect(authorizeUrl);
+//        return "redirect:"+authorizeUrl;
+//    }
+//
+//    @RequestMapping(value = "/facebook/response", method = RequestMethod.GET)
+//    public String connectToFBSuccess(HttpServletResponse response) throws IOException {
+//        FacebookConnectionFactory connectionFactory =
+//                new FacebookConnectionFactory("clientId", "clientSecret");
+//        OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
+//        OAuth2Parameters params = new OAuth2Parameters();
+//        params.setRedirectUri("http://localhost:8080/registration/facebook/response");
+//        String authorizeUrl = oauthOperations.buildAuthorizeUrl(params);
+////        response.sendRedirect(authorizeUrl);
+////        AccessGrant accessGrant = oauthOperations.exchangeForAccess(authorizationCode, "http://localhost:8080/registration/facebook/response", null);
+////        Connection<Facebook> connection = connectionFactory.createConnection(accessGrant);
+//        return "redirect:"+authorizeUrl;
+//    }
 
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String showPersPage() {

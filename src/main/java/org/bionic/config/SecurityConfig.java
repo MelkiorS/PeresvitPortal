@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -21,14 +22,23 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 import org.springframework.social.UserIdSource;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SocialUserDetailsService;
+import org.springframework.social.security.SpringSocialConfigurer;
+
+import javax.sql.DataSource;
 
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserDetailsService userDetailsService;
+    private final javax.sql.DataSource dataSource;
+
     @Autowired
-    private UserDetailsService userDetailsService;
+    public SecurityConfig(UserDetailsService userDetailsService, DataSource dataSource) {
+        this.userDetailsService = userDetailsService;
+        this.dataSource = dataSource;
+    }
 
     @Bean
     public TokenBasedRememberMeServices rememberMeServices() {
@@ -42,7 +52,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -113,8 +124,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         return Encryptors.noOpText();
     }
 
-//    @Bean
-//    public SocialUserDetailsService socialUsersDetailService() {
-//        return new ExtendedSocialUserDetailsService(userDetailsService());
-//    }
+    @Bean
+    public SocialUserDetailsService socialUsersDetailService() {
+        return new ExtendedSocialUserDetailsService(userDetailsService);
+    }
 }

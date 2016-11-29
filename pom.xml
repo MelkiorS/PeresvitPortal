@@ -13,7 +13,7 @@
 		<!-- Override Spring version -->
 		<spring.version>4.3.3.RELEASE</spring.version>
         <spring.social.version>1.1.4.RELEASE</spring.social.version>
-        <spring.social.facebook.version>2.0.3.RELEASE</spring.social.facebook.version>
+        <spring.social.facebook.version>2.0.0.RELEASE</spring.social.facebook.version>
 		<!-- AssertJ is not a part of Spring IO platform, so the version must be 
 			provided explicitly -->
 		<assertj-core-version>3.4.1</assertj-core-version>
@@ -68,6 +68,11 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -115,16 +120,6 @@
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-facebook</artifactId>
             <version>${spring.social.facebook.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-social-core</artifactId>
-                    <groupId>org.springframework.social</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-social-config</artifactId>
-                    <groupId>org.springframework.social</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!--VK-->
         <dependency>

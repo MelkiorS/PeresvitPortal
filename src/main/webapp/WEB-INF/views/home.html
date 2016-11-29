@@ -123,7 +123,7 @@
                 </div>
                 <div class="modal_signUp_section row">
                     <!--*******************Сюда записывать form action при регистрации****************-->
-                    <form class='col-xs-offset-1 col-xs-10 modal_signUp_section_form' data-toggle="validator" role="form" th:action="@{/registration/registration}" th:object="${user}" method="post">
+                    <form class='col-xs-offset-1 col-xs-10 modal_signUp_section_form' data-toggle="validator" role="form" th:action="@{/registration}" th:object="${user}" method="post">
                         <div class="form-group row modal_signUp_section_form_name has-feedback">
                             <label for="inputName" class="control-label ">Ім'я</label>
                             <div class="input-group">
@@ -184,7 +184,7 @@
                             </div>
                             <div class="fb col-xs-offset-1 col-xs-11">
                                 <!--************Юзер нажимая эту кнопку хочет войти через Facebook*******-->
-                                <a role="button" class="btn btn-default fb_button" href="#"><img src="../../resources/frontend/registration/img/fb_icon.png" alt="">Войти через Facebook</a>
+                                <a role="button" class="btn btn-default fb_button" href="/registration/facebook/connect"><img src="../../resources/frontend/registration/img/fb_icon.png" alt="">Войти через Facebook</a>
                             </div>
                             <div class="google_plus col-xs-offset-1 col-xs-11">
                                 <!--************Юзер нажимая эту кнопку хочет войти через Гугл+*******-->
