@@ -29,13 +29,13 @@
             <!--Сюда вставляем боковой бар fragments/sideBar.html-->
 
             <div class="place_for_add_sidebar col-xs-12 row">
-            <div th:each="group: ${groups}" class = "col-xs-12 row">
-                <a th:href="@{'/home/myWay/myWayChapters/' + ${group.groupName}}" th:text="${group.caption}"></a>
-                <br/>
-            </div>
                 <!--Сюда вставляем наш дополнительный сайдбар если юзер нажал на кнопку "мій шлях"
             который лежит в myWay/myWaySidebar.html-->
                 <div th:replace="home/fragments/sideBar :: sideBar"></div>
+            </div>
+            <div th:each="group: ${groups}" class = "col-xs-12 row">
+                <a th:href="@{'/home/myWay/myWayChapters/' + ${group.groupName}}" th:text="${group.caption}"></a>
+                <br/>
             </div>
         </div>
 
