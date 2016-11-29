@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
+import java.io.IOException;
 import java.util.List;
 
 @Data
@@ -24,7 +25,7 @@ public class GenericResponse {
         this.error = error;
     }
 
-    public GenericResponse(final List<FieldError> fieldErrors, final List<ObjectError> globalErrors) {
+    public GenericResponse(final List<FieldError> fieldErrors, final List<ObjectError> globalErrors) throws IOException {
         super();
         final ObjectMapper mapper = new ObjectMapper();
         try {

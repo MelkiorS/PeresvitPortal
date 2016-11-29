@@ -19,13 +19,15 @@ import java.util.Properties;
 @PropertySource("classpath:persistence-mysql.properties")
 @PropertySource("classpath:application.properties")
 @PropertySource("classpath:email.properties")
+@PropertySource("classpath:social.properties")
 @ComponentScan(basePackageClasses = Application.class)
+//@ComponentScan(basePackages = "org.bionic", excludeFilters = { @ComponentScan.Filter(Configuration.class) })
 class ApplicationConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     private final Environment env;
 
-    @Autowired
+    @Autowired(required = true)
     public ApplicationConfig(Environment env) {
         this.env = env;
     }

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="../../../resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="../../../resources/frontend/registration/css/registration_style1.css">
+    <script src="../../../resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="../../../resources/frontend/libraries/constants.js"></script>
+    <script src="../../../resources/frontend/libraries/bootstrap.min.js"></script>
+    <script  async src="../../../resources/frontend/registration/js/validator.js"></script>
+    <script  async src="../../../resources/frontend/registration/js/registration_script.js"></script>
+</head>
+<body>
+    <div class="modal fade" id="myModal_sign_up" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_sign_up">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content ">
+                <div class="modal_header_signUp row">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <div class="modal_header_signUp_title col-xs-offset-1 col-xs-10" id="myModalLabel_sign_up"><p>Реєстрація</p></div>
+                </div>
+                <div class="modal_signUp_section row">
+                    <!--*******************Сюда записывать form action при регистрации****************-->
+                    <form class='col-xs-offset-1 col-xs-10 modal_signUp_section_form' data-toggle="validator" role="form" th:action="@{/registration}" th:object="${user}" method="post">
+                        <div class="form-group row modal_signUp_section_form_name has-feedback">
+                            <label for="inputName" class="control-label ">Ім'я</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><div class="glyphicon glyphicon-user"></div></span>
+                                <!--****************Сюда юзер вставляет свое имя ******************-->
+                                <input type="text" th:field="*{firstName}" class="form-control col-xs-12" id="inputName" placeholder="Введіть Ваше ім'я" required>
+                            </div>
+                            <i class="glyphicon form-control-feedback " aria-hidden="true" ></i>
+                            <div class="help-block"><p>Це поле є обов`язковим для заповнення</p></div>
+                        </div>
+                        <div class="form-group row modal_signUp_section_form_surname has-feedback">
+                            <label for="inputSurname" class="control-label ">Прізвище</label>
+                            <div class="input-group">
+                                <!--****************Сюда юзер вставляет свою фамилию ******************-->
+                                <span class="input-group-addon"><div class="glyphicon glyphicon-user"></div></span>
+                                <input type="text" th:field="*{lastName}" class="form-control col-xs-12" id="inputSurname" placeholder="Введіть Вашe прізвище" required>
+                            </div>
+                            <i class="glyphicon form-control-feedback " aria-hidden="true" ></i>
+                            <div class="help-block"><p>Це поле є обов`язковим для заповнення</p></div>
+                        </div>
+                        <div class="form-group row has-feedback modal_signUp_section_form_email ">
+                            <label for="inputEmail_signUp" class="control-label">Введіть Ваш email</label>
+
+                            <div class="input-group col-xs-12">
+                                <span class="input-group-addon">@</span>
+                                <!--****************** Сюда юзер вставляет свой email, на который потом будет отправлено письмо с подтверждением о регистрации***********************-->
+                                <input type="email" th:field="*{email}" class="form-control "  id="inputEmail_signUp" placeholder="email" data-error="Ваш email невірний" required>
+                            </div>
+                            <i class="glyphicon form-control-feedback" aria-hidden="true"></i>
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <div class="form-group has-feedback col-xs-8 row modal_logIn_section_form_pass">
+                            <label for="inputPassword_signUp" class="control-label">Введіть Ваш пароль</label>
+                            <div class="input-group col-xs-12 modal_logIn_section_form_pass_input">
+                                <span class="input-group-addon"><div class="glyphicon glyphicon-lock"></div></span>
+                                <!--***************Сюда юзер вставляет свой пароль***************-->
+                                <input type="password" th:field="*{password}" data-minlength="6" class="form-control" id="inputPassword_signUp" placeholder="Password" required>
+                            </div>
+                            <i class="glyphicon form-control-feedback " aria-hidden="true" ></i>
+                            <div class="help-block"><p>Довжина має бути не менше 6 символів</p></div>
+                        </div>
+
+                        <div class="form-group col-xs-12 row modal_signUp_section_form_confirm has-feedback ">
+                            <label for="inputPasswordConfirm" class="control-label">Введіть Ваш пароль</label>
+                            <div class="input-group col-xs-12 pass_confirm">
+                                <span class="input-group-addon"><div class="glyphicon glyphicon-lock"></div></span>
+                                <!--***************Сюда юзер повторно вводит пароль для проверки***************-->
+                                <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword_signUp" data-match-error="Паролі не співпадають" placeholder="Confirm" required>
+                            </div>
+                            <i class="glyphicon form-control-feedback " aria-hidden="true" ></i>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="form-group using_social_networks row col-xs-12">
+                            <div class="vk col-xs-offset-1  col-xs-11">
+                                <!--************Юзер нажимая эту кнопку хочет войти через Вконтакте*******-->
+                                <a role="button" class="btn btn-default vk_button" href="#"><img src="../../../resources/frontend/registration/img/vk_icon.png" alt=""> Войти через Вконтате</a>
+                            </div>
+                            <div class="fb col-xs-offset-1 col-xs-11">
+                                <!--************Юзер нажимая эту кнопку хочет войти через Facebook*******-->
+                                <a role="button" class="btn btn-default fb_button" href="/registration/facebook/connect"><img src="../../../resources/frontend/registration/img/fb_icon.png" alt="">Войти через Facebook</a>
+                            </div>
+                            <div class="google_plus col-xs-offset-1 col-xs-11">
+                                <!--************Юзер нажимая эту кнопку хочет войти через Гугл+*******-->
+                                <a role="button" class="btn btn-default google_plus_button" href="#"><img src="../../../resources/frontend/registration/img/google_plus_icon.png" alt=""> Войти через Google+</a>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-offset-9 col-xs-3">
+                            <!--****Нажимая эту кнопку юзер юзер регистрируется и ему отображается информация, что для подтверждения регистрации ему необходимо зайти на свою почту и подтвердить регистрацию****-->
+                            <button type="submit" class="btn btn-success">Зареєструватися</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

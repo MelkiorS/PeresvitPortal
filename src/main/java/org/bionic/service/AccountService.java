@@ -21,7 +21,7 @@
 //
 //@Service
 //@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
-//public class AccountService implements UserDetailsService {
+//public class AccountService implements UserDetailsServiceImpl {
 //
 //	@Autowired
 //	private AccountRepository accountRepository;

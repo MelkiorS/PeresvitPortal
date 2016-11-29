@@ -1,6 +1,5 @@
 package org.bionic.controller;
 
-import com.sun.deploy.net.HttpResponse;
 import org.bionic.entity.User;
 import org.bionic.registration.OnRegistrationCompleteEvent;
 import org.bionic.security.PasswordGenerator;
@@ -15,24 +14,16 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.connect.UserProfile;
 import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.facebook.connect.FacebookConnectionFactory;
-import org.springframework.social.oauth2.AccessGrant;
-import org.springframework.social.oauth2.OAuth2Operations;
-import org.springframework.social.oauth2.OAuth2Parameters;
+import org.springframework.social.vkontakte.api.VKontakte;
+import org.springframework.social.vkontakte.api.VKontakteProfile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,18 +34,22 @@ import java.util.List;
 @RequestMapping(value = "/registration")
 public class RegistrationController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final ApplicationEventPublisher eventPublisher;
+
+    private final ConnectionRepository connectionRepository;
 
     @Autowired
-    private ApplicationEventPublisher eventPublisher;
-
-    @Inject
-    private ConnectionRepository connectionRepository;
+    public RegistrationController(UserService userService, ApplicationEventPublisher eventPublisher, ConnectionRepository connectionRepository) {
+        this.userService = userService;
+        this.eventPublisher = eventPublisher;
+        this.connectionRepository = connectionRepository;
+    }
 
     // Show registration form
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String showRegistrationForm(WebRequest request, Model model) {
+    public String showRegistrationForm(Model model) {
         UserDto userDto = new UserDto();
         model.addAttribute("user", userDto);
         return "home";
@@ -73,6 +68,35 @@ public class RegistrationController {
         authenticateUser(registered);
         return "redirect:/home/workField";
     }
+
+//    FaceBook registration
+    @RequestMapping(value="/facebook", method=RequestMethod.GET)
+    public String facebook(final HttpServletRequest request) {
+        Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Facebook.class);
+        if (connection == null) {
+            return "redirect:/connect/facebook";
+        }
+        UserDto userDtoFB = createSocialUserDtoForFB(connection);
+        User user = createUserAccount(userDtoFB);
+        if (user == null) {
+            authenticateUser(userService.findUserByEmail(userDtoFB.getEmail()));
+            return "redirect:/home/workField";
+        }
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), getAppUrl(request)));
+        authenticateUser(user);
+        return "redirect:/home/workField";
+    }
+
+
+    //    VK registration
+    @RequestMapping(value="/vkontakte", method=RequestMethod.GET)
+    public String vkontakte() {
+        Connection<VKontakte> connection = connectionRepository.findPrimaryConnection(VKontakte.class);
+        if (connection == null) {
+            return "redirect:/connect/vkontakte";
+        }
+        return "redirect:/registration/finishRegistration";
+    }
 //        if (!result.hasErrors()) {
 //            System.out.println("ADDING");
 //            registered = createUserAccount(accountDto, result);
@@ -89,85 +113,18 @@ public class RegistrationController {
 //            model.addAttribute("userId", registered.getUserId());
 //            return "redirect:/registration/success/{userId}";
 //        }
-//    @RequestMapping(value = "/facebookRequest", method = RequestMethod.GET)
-//    public String verifyFacebookUser(WebRequest request, final HttpServletRequest httpServletRequest){
-//        FacebookConnectionFactory facebookConnectionFactory = (FacebookConnectionFactory) connectionFactoryRegistry
-//                .getConnectionFactory("facebook");
-//        OAuth2Operations oauthOperations = facebookConnectionFactory
-//                .getOAuthOperations();
-//        oAuth2Parameters.setState("recivedfromfacebooktoken");
-//        String authorizeUrl = oauthOperations.buildAuthorizeUrl(
-//                GrantType.AUTHORIZATION_CODE, oAuth2Parameters);
-//        return authorizeUrl;
-//    }
 //
-//    @RequestMapping(value = "/facebookResponse", method = RequestMethod.GET)
-//    public String registerFacebookUser(WebRequest request, final HttpServletRequest httpServletRequest){
-//        Connection<?> connection = providerSignInUtils.getConnectionFromSession(request);
-//        UserDto userDto = createSocialUserDto(connection);
-//
-//        User registered = createUserAccount(userDto);
-//
-//        if (registered == null) {
-//            registered = userService.findUserByEmail(userDto.getEmail());
-//            authenticateUser(registered);
-//            return "redirect:/home/workField";
-//        }
-//        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(httpServletRequest)));
-//        authenticateUser(registered);
-//        return "redirect:/home/workField";
-//    }
 
-//    @RequestMapping(value="/facebook", method=RequestMethod.GET)
-//    public String facebook(WebRequest request, final HttpServletRequest httpServletRequest) {
-//        Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Facebook.class);
-//        if (connection == null) {
-//            return "redirect:/connect/facebook";
-//        }
-//        UserDto userDto = createSocialUserDto(connection);
-//
-//        User registered = createUserAccount(userDto);
-//
-//        if (registered == null) {
-//            registered = userService.findUserByEmail(userDto.getEmail());
-//            authenticateUser(registered);
-//            return "redirect:/home/workField";
-//        }
-//        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(httpServletRequest)));
-//        authenticateUser(registered);
-//        return "redirect:/home/workField";
-//    }
-//
-//    @RequestMapping(value = "/facebook/connect", method = RequestMethod.GET)
-//    public String connectToFB(HttpServletResponse response) throws IOException {
-//        FacebookConnectionFactory connectionFactory =
-//                new FacebookConnectionFactory("clientId", "clientSecret");
-//        OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
-//        OAuth2Parameters params = new OAuth2Parameters();
-//        params.setRedirectUri("http://localhost:8080/registration/facebook/response");
-//        String authorizeUrl = oauthOperations.buildAuthorizeUrl(params);
-////        response.sendRedirect(authorizeUrl);
-//        return "redirect:"+authorizeUrl;
-//    }
-//
-//    @RequestMapping(value = "/facebook/response", method = RequestMethod.GET)
-//    public String connectToFBSuccess(HttpServletResponse response) throws IOException {
-//        FacebookConnectionFactory connectionFactory =
-//                new FacebookConnectionFactory("clientId", "clientSecret");
-//        OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
-//        OAuth2Parameters params = new OAuth2Parameters();
-//        params.setRedirectUri("http://localhost:8080/registration/facebook/response");
-//        String authorizeUrl = oauthOperations.buildAuthorizeUrl(params);
-////        response.sendRedirect(authorizeUrl);
-////        AccessGrant accessGrant = oauthOperations.exchangeForAccess(authorizationCode, "http://localhost:8080/registration/facebook/response", null);
-////        Connection<Facebook> connection = connectionFactory.createConnection(accessGrant);
-//        return "redirect:"+authorizeUrl;
-//    }
-
-    @RequestMapping(value = "/success", method = RequestMethod.GET)
-    public String showPersPage() {
-        return "redirect:/home/workField";
+//    Redirect page after VK getting access to fulfill User's info
+    @RequestMapping(value = "/finishRegistration", method = RequestMethod.GET)
+    public String finishVkRegistration(Model model) {
+        Connection<VKontakte> connection = connectionRepository.findPrimaryConnection(VKontakte.class);
+        UserDto userDto = createSocialUserDtoForVK(connection);
+        model.addAttribute("user", userDto);
+        return "registration/registration";
     }
+
+//    -----------------------------------------------------------------------------------------------------------------
 
     private User createUserAccount(UserDto accountDto) {
         User registered;
@@ -179,13 +136,36 @@ public class RegistrationController {
         return registered;
     }
 
-    private UserDto createSocialUserDto(Connection<?> connection) {
+//Creation DTO from connection with FB
+    private UserDto createSocialUserDtoForFB(Connection<Facebook> connection) {
         if(connection != null) {
-            UserProfile facebookUser = connection.fetchUserProfile();
+            Facebook facebook = connection.getApi();
+//            Here we can get fields from FB connection
+            String [] fields = { "id", "email",  "first_name", "last_name" , };
+            org.springframework.social.facebook.api.User userProfile = facebook.fetchObject("me", org.springframework.social.facebook.api.User.class, fields);
             UserDto userDto = new UserDto();
-            userDto.setEmail(facebookUser.getEmail());
-            userDto.setFirstName(facebookUser.getFirstName());
-            userDto.setLastName(facebookUser.getLastName());
+            userDto.setEmail(userProfile.getEmail());
+            userDto.setFirstName(userProfile.getFirstName());
+            userDto.setLastName(userProfile.getLastName());
+            String password = PasswordGenerator.generateRandomPassword();
+            userDto.setPassword(password);
+
+            return userDto;
+        }
+        return null;
+    }
+
+//Creation DTO from connection with VK
+    private UserDto createSocialUserDtoForVK(Connection<VKontakte> connection) {
+        if(connection != null) {
+            VKontakte vKontakte = connection.getApi();
+//            Here we can get fields from VK connection
+            VKontakteProfile userProfile = vKontakte.usersOperations().getProfile();
+            UserDto userDto = new UserDto();
+//            VK user has no email
+//            userDto.setEmail(userProfile.getEmail());
+            userDto.setFirstName(userProfile.getFirstName());
+            userDto.setLastName(userProfile.getLastName());
             String password = PasswordGenerator.generateRandomPassword();
             userDto.setPassword(password);
 
@@ -208,3 +188,5 @@ public class RegistrationController {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 }
+//Fields available for FB
+//{ "id", "about", "age_range", "birthday", "context", "cover", "currency", "devices", "education", "email", "favorite_athletes", "favorite_teams", "first_name", "gender", "hometown", "inspirational_people", "installed", "install_type", "is_verified", "languages", "last_name", "link", "locale", "location", "meeting_for", "middle_name", "name", "name_format", "political", "quotes", "payment_pricepoints", "relationship_status", "religion", "security_settings", "significant_other", "sports", "test_group", "timezone", "third_party_id", "updated_time", "verified", "video_upload_limits", "viewer_can_send_gift", "website", "work"}

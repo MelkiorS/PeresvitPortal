@@ -1,7 +1,8 @@
 package org.bionic.config;
 
-import org.bionic.security.UserDetailsService;
-import org.bionic.social.ExtendedSocialUserDetailsService;
+import org.bionic.dao.UserRepository;
+import org.bionic.security.UserDetailsServiceImpl;
+import org.bionic.social.SimpleSocialUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -24,41 +25,37 @@ import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
 
-import javax.sql.DataSource;
-
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
-    private final javax.sql.DataSource dataSource;
+    private final UserRepository userRepository;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
-    @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService, DataSource dataSource) {
-        this.userDetailsService = userDetailsService;
-        this.dataSource = dataSource;
+
+    @Autowired(required = true)
+    public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl, UserRepository userRepository) {
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
+        this.userRepository = userRepository;
     }
 
     @Bean
     public TokenBasedRememberMeServices rememberMeServices() {
-        return new TokenBasedRememberMeServices("remember-me-key", userDetailsService);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new TokenBasedRememberMeServices("remember-me-key", userDetailsServiceImpl);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
+        auth.userDetailsService(userDetailsServiceImpl)
             .passwordEncoder(passwordEncoder());
     }
 
     @Override
     public void configure(final WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/resources/**");
+        web
+           .ignoring()
+                .antMatchers("/resources/**");
     }
 
     @Override
@@ -69,43 +66,25 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration/**", "/", "/resources/**", "/favicon.ico").permitAll()
                 .antMatchers("/admin*").access("hasRole('ADMIN')")
                 .antMatchers("/home/**").authenticated()
-                .and()
-            .formLogin()
-                .loginPage("/registration/registration")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/login/success")
-                .failureUrl("/login")
-                .permitAll()
-                .and()
-            .logout()
-                .logoutUrl("/logout").permitAll()
-                .logoutSuccessUrl("/home")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .and()
-            .rememberMe()
-                .rememberMeServices(rememberMeServices())
-                .key("remember-me-key")
-                .and();
-//            .apply(new SpringSocialConfigurer());
-//                .and();
-//            .authorizeRequests()
-//                .antMatchers("/", "/favicon.ico", "/resources/**", "/signup").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//            .formLogin()
-//                .loginPage("/signin")
-//                .permitAll()
-//                .failureUrl("/signin?error=1")
-//                .loginProcessingUrl("/authenticate")
-//                .and()
-//            .logout()
-//                .logoutUrl("/logout")
-//                .permitAll()
-//                .logoutSuccessUrl("/signin?logout")
-//                .and()
+            .and()
+                .formLogin()
+                    .loginPage("/registration/registration")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/login/success")
+                    .failureUrl("/login")
+                    .permitAll()
+            .and()
+                .logout()
+                    .logoutUrl("/logout").permitAll()
+                    .logoutSuccessUrl("/home")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
+            .and()
+                .rememberMe()
+            .and()
+                .apply(new SpringSocialConfigurer());
     }
 
     @Bean(name = "authenticationManager")
@@ -125,7 +104,12 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SocialUserDetailsService socialUsersDetailService() {
-        return new ExtendedSocialUserDetailsService(userDetailsService);
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsServiceImpl(userRepository);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
 }
