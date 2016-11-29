@@ -55,7 +55,7 @@ body{
     padding: 13px 0 0 0;
 }
 .modal_logIn_section_form_email .form-control-feedback{
-    margin: 16px 91px 0 0 ;
+    margin-top: 16px;
 }
 .modal_logIn_section_form_pass{
     padding:0 15px 0 0 ;
@@ -71,7 +71,7 @@ body{
     margin: 5px 0 3px 0;
 }
 .modal_logIn_section_form_pass .help-block p {
-   margin: 0;
+    margin: 0;
 }
 .modal_logIn_section_form_rememberMe{
     padding:0;
@@ -198,13 +198,13 @@ body{
 }
 .modal_signUp_section_form_name .form-control-feedback,
 .modal_signUp_section_form_surname .form-control-feedback{
-    margin: 3px 0 0 0;
+    margin-top: 3px;
 }
 .modal_signUp_section_form_email {
     margin-bottom:0;
 }
 .modal_signUp_section_form_email .form-control-feedback{
-    margin: 3px 88px 0 0;
+    margin: 3px 0 0 0;
 }
 .modal_signUp_section_form_confirm{
     padding:0;

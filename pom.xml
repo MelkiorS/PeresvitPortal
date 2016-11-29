@@ -12,6 +12,8 @@
 		<java-version>1.8</java-version>
 		<!-- Override Spring version -->
 		<spring.version>4.3.3.RELEASE</spring.version>
+        <spring.social.version>1.1.4.RELEASE</spring.social.version>
+        <spring.social.facebook.version>2.0.0.RELEASE</spring.social.facebook.version>
 		<!-- AssertJ is not a part of Spring IO platform, so the version must be 
 			provided explicitly -->
 		<assertj-core-version>3.4.1</assertj-core-version>
@@ -66,6 +68,11 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -82,6 +89,50 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 		</dependency>
+        <!--Spring Social-->
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-config</artifactId>
+            <version>${spring.social.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-core</artifactId>
+            <version>${spring.social.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-security</artifactId>
+            <version>${spring.social.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-web</artifactId>
+            <version>${spring.social.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scribe</groupId>
+            <artifactId>scribe</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <!-- Spring Social Facebook -->
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-facebook</artifactId>
+            <version>${spring.social.facebook.version}</version>
+        </dependency>
+        <!--VK-->
+        <dependency>
+            <groupId>com.github.weekens</groupId>
+            <artifactId>spring-social-vkontakte</artifactId>
+            <version>1.1.1.RELEASE</version>
+        </dependency>
+        <!-- Spring Social Google -->
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-google</artifactId>
+            <version>1.0.0.RELEASE</version>
+        </dependency>
 		<!-- Email sender -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -252,7 +303,12 @@
 			<artifactId>gson</artifactId>
 			<version>2.8.0</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-core</artifactId>
+            <version>1.1.4.RELEASE</version>
+        </dependency>
+    </dependencies>
 	<build>
 		<plugins>
 			<plugin>
