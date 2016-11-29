@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Peresvit</title>
-    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
-    <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
-    <link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">
-    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
-    <script src="/resources/frontend/libraries/constants.js"></script>
+    <link rel="stylesheet" href="../../../resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="../../../resources/frontend/workField/css/workField.css">
+
+    <!--<link rel="import" class='private_office' href="../../../resources/frontend/workField/html/private_office.html">-->
+    <script src="../../../resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <!--<script src="../../../resources/frontend/libraries/wm-html-include.min.js"></script>-->
+    <script src="../../../resources/frontend/libraries/constants.js"></script>
+    <script type="text/javascript" src="flowplayer/flowplayer-3.2.2.min.js"></script>
+    <script  async src="../../../resources/frontend/workField/js/workField_script.js"></script>
 
 
 </head>
@@ -16,9 +20,7 @@
 <div class="container-fluid wrapper">
     <div class="row header">
         <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
-        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img'
-                                                  src="/resources/frontend/workField/images/logo_Peresvit.png"
-                                                  alt="логотип"></div>
+        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="../../../resources/frontend/workField/images/logo_Peresvit.png" alt="логотип"></div>
         <div class="col-xs-8  row header_nav">
             <div th:replace="home/fragments/headBar :: headBar"></div>
             <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
@@ -32,10 +34,6 @@
                 <!--Сюда вставляем наш дополнительный сайдбар если юзер нажал на кнопку "мій шлях"
             который лежит в myWay/myWaySidebar.html-->
                 <div th:replace="home/fragments/sideBar :: sideBar"></div>
-            </div>
-            <div th:each="group: ${groups}" class = "col-xs-12 row">
-                <a th:href="@{'/home/myWay/myWayChapters/' + ${group.groupName}}" th:text="${group.caption}"></a>
-                <br/>
             </div>
         </div>
 
@@ -110,18 +108,52 @@
         </div>
     </div>
 
-    <footer>
-        <div class="row container-fluid">
-            <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">Гугл реклама</div>
-            <div class="col-xs-2 col-md-2 row">
-                <img src="/resources/frontend/workField/images/Logovk.png" alt="vk">
-                <img src="/resources/frontend/workField/images/Logofc.png" alt="fs">
-                <img src="/resources/frontend/workField/images/Logoin.png" alt="instagram">
+        <footer>
+            <div class="row container-fluid">
+                <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">Гугл реклама</div>
+                <div class="col-xs-2 col-md-2 row">
+                    <img src="../../../resources/frontend/workField/images/Logovk.png" alt="vk">
+                    <img src="../../../resources/frontend/workField/images/Logofc.png" alt="fs">
+                    <img src="../../../resources/frontend/workField/images/Logoin.png" alt="instagram">
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 </div>
-</div>
+<br>
+<br>
+<br>
+<a th:href="@{/logout}"> Log out </a>
+<!--<div class="user">-->
+    <!--<h2 >User</h2>-->
+    <!--<table>-->
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th>userId</th>-->
+            <!--<th>First Name</th>-->
+            <!--<th>Last Name</th>-->
+            <!--<th>Middle Name</th>-->
+            <!--<th>Email</th>-->
+            <!--<th>Avatar URL</th>-->
+            <!--<th>Rang</th>-->
+            <!--<th>Edit</th>-->
+            <!--<th>Delete</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr>-->
+            <!--<td th:text="${user.userId}"></td>-->
+            <!--<td th:text="${user.firstName}"></td>-->
+            <!--<td th:text="${user.lastName}"></td>-->
+            <!--<td th:text="${user.middleName}"></td>-->
+            <!--<td th:text="${user.email}"></td>-->
+            <!--<td th:text="${user.avatarURL}"></td>-->
+            <!--<td th:text="${user.rang.rangName}"></td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+    <!--</table>-->
+<!--</div>-->
+
 
 </body>
 </html>
