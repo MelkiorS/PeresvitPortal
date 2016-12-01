@@ -4,7 +4,7 @@ import org.bionic.dao.RangRepository;
 import org.bionic.dao.ResourceGroupRepository;
 import org.bionic.dao.ResourceGroupTypeRepository;
 import org.bionic.entity.*;
-import org.bionic.service.ArticleService;
+import org.bionic.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,39 +45,54 @@ public class UserResourceController {
         model.addAttribute("article", article);
         return "resource/studyingMaterial";
     }
-    @RequestMapping(value = "/type/{groupName}", method = RequestMethod.GET)
-    public String getArticles(@PathVariable String groupName, Model model, HttpServletRequest request) {
-        // need to take userId from session
-        HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        Rang rang = user.getRang();
-        //Rang rang = rangService.findOne(1l);
-        ResourceGroupType type = resourceGroupTypeService.findResourceGroupTypeByGroupName(groupName);
-        Collection<Article> articles = articleService.findAllByResourceGroupTypeAndRang(type,rang);
-        articles.forEach(System.out::println);
-        if (articles.size() > 1){
-            model.addAttribute("articleList", articles);
-        }
-        else {
-            model.addAttribute("article", articles);
-        }
-        return "resource/studyingMaterial";
-    }
+//    @RequestMapping(value = "/type/{groupName}", method = RequestMethod.GET)
+//    public String getArticles(@PathVariable String groupName, Model model, HttpServletRequest request) {
+//        // need to take userId from session
+//        HttpSession session = request.getSession();
+//        User user = (User)session.getAttribute("user");
+////        Rang rang = user.getRang();
+//        //Rang rang = rangService.findOne(1l);
+//        ResourceGroupType type = resourceGroupTypeService.findResourceGroupTypeByGroupName(groupName);
+//        Collection<Article> articles = articleService.findAllByResourceGroupTypeAndRang(type,rang);
+//        articles.forEach(System.out::println);
+//        if (articles.size() > 1){
+//            model.addAttribute("articleList", articles);
+//        }
+//        else {
+//            model.addAttribute("article", articles);
+//        }
+//        return "resource/studyingMaterial";
+//    }
 
     // go to myWay
-    @RequestMapping(value = "/myWay", method = RequestMethod.GET)
-    public String goToMyWay(Model model) {
-        List<ResourceGroupType> resourceGroupTypes = resourceGroupTypeService.findAll();
+    @RequestMapping(value = "/myWay/{id}", method = RequestMethod.GET)
+    public String goToMyWay(@PathVariable long id, Model model) {
+        ResourceGroupType resourceGroupTypes = resourceGroupTypeService.findOne(id);
         List<Rang> rangTypes = rangService.findAll();
-        resourceGroupTypes.forEach(p->p.setChapterList(chapterService.findAllByResourceGroupType(p)));
-        resourceGroupTypes.forEach(r->r.getChapterList().forEach(c->c.setArticleCollection(articleService.findAllByChapterIdAndResourceGroupTypeAndRang(
-                c.getChapterId(), r, userService.getCurrentUser().getRang()
-        ))));
+        resourceGroupTypes.setChapterList(chapterService.findAllByResourceGroupType(resourceGroupTypes));
+        resourceGroupTypes.getChapterList().forEach(c->c.setArticleCollection(articleService.findAllByChapterIdAndResourceGroupTypeAndRang(
+                c.getChapterId(), resourceGroupTypes, userService.getCurrentUser().getRang()
+        )));
         model.addAttribute(new Article());   // addig empty object for post form
         model.addAttribute("rangList", rangTypes); // adding list of rang for select
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
         return "user/myWay";
     }
+
+//    // go to myWay
+//    @RequestMapping(value = "/myWay", method = RequestMethod.GET)
+//    public String goToMyWay(Model model) {
+//        List<ResourceGroupType> resourceGroupTypes = resourceGroupTypeService.findAll();
+//        List<Rang> rangTypes = rangService.findAll();
+//        resourceGroupTypes.forEach(p->p.setChapterList(chapterService.findAllByResourceGroupType(p)));
+//        resourceGroupTypes.forEach(r->r.getChapterList().forEach(c->c.setArticleCollection(articleService.findAllByChapterIdAndResourceGroupTypeAndRang(
+//                c.getChapterId(), r, userService.getCurrentUser().getRang()
+//        ))));
+//        model.addAttribute(new Article());   // addig empty object for post form
+//        model.addAttribute("rangList", rangTypes); // adding list of rang for select
+//        model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
+//        return "user/myWay";
+//    }
     // show resources for current user depending on his name
     @RequestMapping(value = "/{groupName}", method = RequestMethod.GET)
     public String getResourceGroup(@PathVariable String groupName, Model model, HttpServletRequest request) {
