@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,14 +32,16 @@ public class UserResourceController {
     @Autowired
     RangService rangService;
     @Autowired
+    UserService userService;
+    @Autowired
     ResourceGroupTypeService resourceGroupTypeService;
     @Autowired
     private ArticleService articleService;
 
     // go to article
-    @RequestMapping(value = "article/{chapterId}", method = RequestMethod.GET)
-    public String showArticle(@PathVariable long chapterId, Model model) {
-        Article article = articleService.findByChapterId(chapterId);
+    @RequestMapping(value = "article/{articlerId}", method = RequestMethod.GET)
+    public String showArticle(@PathVariable long articlerId, Model model) {
+        Article article = articleService.findOne(articlerId);
         model.addAttribute("article", article);
         return "resource/studyingMaterial";
     }
@@ -66,9 +69,10 @@ public class UserResourceController {
     public String goToMyWay(Model model) {
         List<ResourceGroupType> resourceGroupTypes = resourceGroupTypeService.findAll();
         List<Rang> rangTypes = rangService.findAll();
-        resourceGroupTypes.stream().forEach(p->p.
-                setChapterList(chapterService.findAllByResourceGroupType(p)));
-        resourceGroupTypes.stream().forEach(p->System.out.println(p.getChapterList().isEmpty()));
+        resourceGroupTypes.forEach(p->p.setChapterList(chapterService.findAllByResourceGroupType(p)));
+        resourceGroupTypes.forEach(r->r.getChapterList().forEach(c->c.setArticleCollection(articleService.findAllByChapterIdAndResourceGroupTypeAndRang(
+                c.getChapterId(), r, userService.getCurrentUser().getRang()
+        ))));
         model.addAttribute(new Article());   // addig empty object for post form
         model.addAttribute("rangList", rangTypes); // adding list of rang for select
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
