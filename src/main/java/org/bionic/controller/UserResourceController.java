@@ -80,19 +80,19 @@ public class UserResourceController {
     }
 
 //    // go to myWay
-//    @RequestMapping(value = "/myWay", method = RequestMethod.GET)
-//    public String goToMyWay(Model model) {
-//        List<ResourceGroupType> resourceGroupTypes = resourceGroupTypeService.findAll();
-//        List<Rang> rangTypes = rangService.findAll();
-//        resourceGroupTypes.forEach(p->p.setChapterList(chapterService.findAllByResourceGroupType(p)));
-//        resourceGroupTypes.forEach(r->r.getChapterList().forEach(c->c.setArticleCollection(articleService.findAllByChapterIdAndResourceGroupTypeAndRang(
-//                c.getChapterId(), r, userService.getCurrentUser().getRang()
-//        ))));
-//        model.addAttribute(new Article());   // addig empty object for post form
-//        model.addAttribute("rangList", rangTypes); // adding list of rang for select
-//        model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
-//        return "user/myWay";
-//    }
+    @RequestMapping(value = "/myWay", method = RequestMethod.GET)
+    public String goToMyWay(Model model) {
+        List<ResourceGroupType> resourceGroupTypes = resourceGroupTypeService.findAll();
+        List<Rang> rangTypes = rangService.findAll();
+        resourceGroupTypes.forEach(p->p.setChapterList(chapterService.findAllByResourceGroupType(p)));
+        resourceGroupTypes.forEach(r->r.getChapterList().forEach(c->c.setArticleCollection(articleService.findAllByChapterIdAndResourceGroupTypeAndRang(
+                c.getChapterId(), r, userService.getCurrentUser().getRang()
+        ))));
+        model.addAttribute(new Article());   // addig empty object for post form
+        model.addAttribute("rangList", rangTypes); // adding list of rang for select
+        model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
+        return "user/myWay";
+    }
     // show resources for current user depending on his name
     @RequestMapping(value = "/{groupName}", method = RequestMethod.GET)
     public String getResourceGroup(@PathVariable String groupName, Model model, HttpServletRequest request) {
