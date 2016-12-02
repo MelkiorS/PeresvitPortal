@@ -10,6 +10,7 @@
     <form action="#" th:action="@{/admin/user/}" th:object="${user}" enctype="multipart/form-data" method="post">
         <input type="hidden" th:field="*{userId}" />
         <input type="hidden" th:field="*{enabled}" />
+        <input type="hidden" th:field="*{avatarURL}"/>
 
         <input type="text" th:field="*{firstName}" placeholder="firstName" /><br/>
         <input type="text" th:field="*{lastName}" placeholder="lastName" /><br/>
@@ -19,28 +20,50 @@
         <input type="text" th:field="*{profileVK}" placeholder="profile VK" /><br/>
         <input type="text" th:field="*{profileFB}" placeholder="profile FB" /><br/>
         <input type="text" th:field="*{profileIS}" placeholder="profile IS" /><br/>
-        <input type="text" th:field="*{gender}" placeholder="gender" /><br/>
  		<input type="file" name="file" /><br/>
 
-        <label for="combatArtList">Combat Art:</label>
-        <select th:field="*{combatArt.combatArtId}">
-            <option th:each="combatArt : ${combatArtList}" th:value="${combatArt.combatArtId}"
-                    th:text="${combatArt.combatArtName}"></option>
-        </select> <br />
-
-		<label for="rangType">Rang:</label> 
+		<label for="rangType">Rang:</label>
 		<select th:field="*{rang.rangId}">
 			<option th:each="rang : ${rangList}" th:value="${rang.rangId}"
 				th:text="${rang.rangName}"></option>
 		</select> <br />
         
 		<br/> User info <br/>
-	    <tr th:each="userInfo, rowStat : *{userInfoList}">
-	    	<input type="hidden" th:field="*{userInfoList[__${rowStat.index}__].userInfoId}" />
-	    	<input type="hidden" th:field="*{userInfoList[__${rowStat.index}__].infoName}" />
-	        <input type="text" 	 th:field="*{userInfoList[__${rowStat.index}__].infoValue}" th:placeholder="*{userInfoList[__${rowStat.index}__].infoName}"/><br/>
-	    </tr><br/>
-                    				
+        <label for="gender">Gender:</label>
+        <div><input type="radio" th:name="male" th:value="true"  th:field="*{gender}" checked="checked" />Male</div>
+        <div><input type="radio" th:name="female" th:value="false"  th:field="*{gender}" />Female</div>
+
+        <label for="combatArtList">Combat Art:</label>
+        <select th:field="*{combatArt.combatArtId}">
+            <option value="" th:text="''"></option>
+            <option th:each="combatArt : ${combatArtList}" th:value="${combatArt.combatArtId}"
+                    th:text="${combatArt.combatArtName}"></option>
+        </select> <br />
+
+        <label for="cityList">City:</label>
+        <select th:field="*{city.cityId}">
+            <option value="" th:text="''"></option>
+            <option th:each="city : ${cityList}" th:value="${city.cityId}"
+                    th:text="${city.cityName}"></option>
+        </select> <br />
+
+        <label for="clubList">Club:</label>
+        <select th:field="*{club.clubId}">
+            <option value="" th:text="''"></option>
+            <option th:each="club : ${clubList}" th:value="${club.clubId}"
+                    th:text="${club.clubName}"></option>
+        </select> <br />
+
+        <label for="mentorList">Mentor:</label>
+        <select th:field="*{mentor.userId}">
+            <option value="" th:text="''"></option>
+            <option th:each="mentor : ${mentorList}" th:value="${mentor.userId}"
+                    th:text="${mentor.firstName} + ' ' + ${mentor.lastName}"></option>
+        </select> <br />
+
+        <label for="about">About:</label>
+        <textarea th:text="*{about}" /> <br />
+
 		<input type="submit" />
     </form>      
 </body>

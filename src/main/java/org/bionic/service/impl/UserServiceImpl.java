@@ -7,10 +7,7 @@ import java.util.UUID;
 import org.bionic.config.Constant;
 import org.bionic.dao.RangRepository;
 //import org.bionic.dao.VerificationTokenRepository;
-import org.bionic.entity.EnumUserInfo;
-import org.bionic.entity.User;
-import org.bionic.entity.UserInfo;
-import org.bionic.entity.VerificationToken;
+import org.bionic.entity.*;
 import org.bionic.service.UserService;
 import org.bionic.dao.UserRepository;
 import org.bionic.web.dto.UserDto;
@@ -50,6 +47,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> findByRang(Rang rang) {
+        return userRepository.findByRang(rang);
     }
 
     @Override
@@ -145,9 +147,10 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public String saveFile(User user, MultipartFile inputFile) {
-		
+
+        // return old avatar
 		if(inputFile.isEmpty())
-			return "";
+			return user.getAvatarURL();
 			
 		if(user.getUserId() == null)
 			save(user);

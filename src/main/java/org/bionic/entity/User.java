@@ -35,15 +35,28 @@ public class User {
 	private boolean gender;
 
 	@ManyToOne
-	@Cascade(CascadeType.DELETE)
+	@JoinColumn(name="cityId")
+	private City city;
+
+	@ManyToOne
+	@JoinColumn(name="clubId")
+	private Club club;
+
+	@ManyToOne
 	@JoinColumn(name="combatArtId")
 	private CombatArt combatArt;
+
+	@ManyToOne
+	private User mentor;
+
+	private String about;
 
 	// level of user
 	@ManyToOne
 	@Cascade(CascadeType.DELETE)
 	@JoinColumn(name="rangId")
 	private Rang rang;
+
     // Account verification status
 	@Column(columnDefinition = "boolean default true")
     private boolean enabled = true;

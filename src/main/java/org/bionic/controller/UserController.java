@@ -48,16 +48,19 @@ public class UserController {
         userService.initializeUserInfo(user);
 
         List<City> cities = cityService.findAll();
-        model.addAttribute("cityList", cities); // adding list of city for select
+        model.addAttribute("cityList", cities);          // adding list of city for select
 
         List<Club> clubs = clubService.findAll();
-        model.addAttribute("clubList", clubs); // adding list of сдги for select
+        model.addAttribute("clubList", clubs);           // adding list of club for select
 
         List<CombatArt> combatArts = combatArtService.findAll();
         model.addAttribute("combatArtList", combatArts); // adding list of combatArt for select
 
+        List<User> mentors = userService.findByRang( rangService.findOne(4l));
+        model.addAttribute("mentorList", mentors);       // adding list of mentor for select
+
     	List<Rang> rangTypes = rangService.findAll();
-    	model.addAttribute("rangList", rangTypes); // adding list of rang for select
+    	model.addAttribute("rangList", rangTypes);       // adding list of rang for select
 
         model.addAttribute(user);
         
@@ -69,11 +72,23 @@ public class UserController {
     public String createUser(User user, RedirectAttributes model, @RequestParam("file") MultipartFile file) {
     	   
     	user.setAvatarURL(userService.saveFile(user, file));
+
+        // check fields
+        if (user.getCity().getCityId() == null)
+            user.setCity(null);
+        if (user.getClub().getClubId() == null)
+            user.setClub(null);
+        if (user.getCombatArt().getCombatArtId() == null)
+            user.setCombatArt(null);
+        if (user.getMentor().getUserId() == null)
+            user.setMentor(null);
+
         userService.save(user);
         
     	// UserInfo saving
-    	for(UserInfo userInfo : user.getUserInfoList())
-    		userInfoService.save(userInfo, user.getUserId());
+        if (user.getUserInfoList() != null)
+    	    for(UserInfo userInfo : user.getUserInfoList())
+    		    userInfoService.save(userInfo, user.getUserId());
     	
         model.addAttribute("userId", user.getUserId());
         model.addFlashAttribute("user", user);
@@ -124,10 +139,13 @@ public class UserController {
         model.addAttribute("cityList", cities);
 
         List<Club> clubs = clubService.findAll();
-        model.addAttribute("сдгиList", clubs);
+        model.addAttribute("clubList", clubs);
 
         List<CombatArt> combatArts = combatArtService.findAll();
         model.addAttribute("combatArtList", combatArts);
+
+        List<User> mentors = userService.findByRang( rangService.findOne(4l));
+        model.addAttribute("mentorList", mentors);
 
         List<Rang> rangTypes = rangService.findAll();
         model.addAttribute("rangList", rangTypes);
