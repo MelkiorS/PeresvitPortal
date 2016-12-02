@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
-    <link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">
+    <!--<link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">-->
     <link rel="stylesheet" href="/resources/frontend/bars.css">
     <link rel="stylesheet" href="/resources/frontend/myevents.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -40,16 +40,15 @@
         </div>
         <div class=" col-xs-7 row well container-fluid main_section">
             <h2>Мої події</h2>
-            <div class="col-xs-7 calendar ">
+            <div class="col-xs-6 calendar ">
                 <h4>Календар</h4>
                 <div id="datepicker"></div>
             </div>
-            <div class="col-xs-3">
-                <h4>ближайшие события </h4>
-                <div id="closest" ></div>
+            <div class="col-xs-5 upcomEvents">
+                <div id="closest" ><h4>Ближайшие события</h4></div>
             </div>
-            <div>
-                <div id="next" class="col-xs-4">следующее</div>
+            <div class="col-xs-7 nextEvents">
+                <div id="next" class="col-xs-11"><h4>Следующее событие</h4></div>
             </div>
         </div>
         <footer>

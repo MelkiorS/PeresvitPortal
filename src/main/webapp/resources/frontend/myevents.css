@@ -7,3 +7,15 @@
 #datepicker{
     font-size: 18px;
 }
+.upcomEvents{
+    margin-top:35px;
+    font-size: 17px;
+}
+/*.upcomEvents dt:first-child{*/
+    /*font: bolder 17px sans-serif;*/
+/*}*/
+.nextEvents{
+    padding:0;
+    margin-top: 10px;
+    font: 17px sans-serif;
+}
