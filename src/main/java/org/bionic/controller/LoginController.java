@@ -3,11 +3,15 @@ package org.bionic.controller;
 import org.bionic.entity.User;
 import org.bionic.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.facebook.api.Facebook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.inject.Inject;
 import java.security.Principal;
 
 /**
@@ -19,18 +23,13 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-//    @RequestMapping(value = "login")
-//    public String login() {
-//        return "registration/registration";
-//    }
-
     @RequestMapping(value = "login/success")
-    public String loginSuccess(Model model, Principal principal) {
+    public String loginSuccess() {
         if (userService.getCurrentUser().getRang().getRangName().equals("ADMIN")) {
             return "redirect:/admin";
         }
-//        User loggedInUser = userService.findUserByEmail(principal.getName());
-//        model.addAttribute("user", loggedInUser);
         return "redirect:/home/workField";
     }
+
+
 }

@@ -2,16 +2,13 @@ package org.bionic.controller;
 
 import org.apache.commons.io.FileUtils;
 import org.bionic.config.Constant;
+import org.bionic.entity.ResourceGroupType;
 import org.bionic.entity.User;
-import org.bionic.service.EventService;
-import org.bionic.service.UserService;
+import org.bionic.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -34,6 +31,15 @@ public class UserPageController {
     @Autowired
     private EventService eventService;
 
+    @Autowired
+    private ResourceGroupTypeService rgtService;
+
+    @Autowired
+    private ResourceGroupTypeChapterService rgtcService;
+
+    @Autowired
+    private ArticleService aService;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String goToReg(Model model, Principal principal) {
         if (principal != null) {
@@ -42,13 +48,14 @@ public class UserPageController {
             }
             return "redirect:/home/workField";
         }
-        return "redirect:/registration/registration";
+        return "redirect:/registration";
     }
 
     @RequestMapping(value = "/workField", method = RequestMethod.GET)
     public String showStartOffice(Model model, Principal principal) {
         User loggedUser = userService.findUserByEmail(principal.getName());
         model.addAttribute("user", loggedUser);
+        model.addAttribute("groups", rgtService.findAll());
 
         return "home/workField";
     }
@@ -89,55 +96,22 @@ public class UserPageController {
 
     @RequestMapping(value = "/ourEvents", method = RequestMethod.GET)
     public String showOurEvents(Model model, Principal principal) {
-        User loggedUser = userService.findUserByEmail(principal.getName());
-        model.addAttribute("user", loggedUser);
+        model.addAttribute("user", userService.getCurrentUser());
         return "home/ourEvents";
     }
 
-    @RequestMapping(value = "/myWay/myWaySidebar", method = RequestMethod.GET)
-    public String myWaySidebar(Model model, Principal principal) {
-        User loggedUser = userService.findUserByEmail(principal.getName());
-        model.addAttribute("user", loggedUser);
-        return "home/myWay/myWaySidebar";
+    @RequestMapping(value = "/myWay/myWayChapters/{groupName}")
+    public String myWayChapters(Model model, @PathVariable(value = "groupName") String groupName) {
+        model.addAttribute("user", userService.getCurrentUser());
+        ResourceGroupType rgt = rgtService.findResourceGroupTypeByGroupName(groupName);
+        model.addAttribute("chapters", rgt.getChapterList());
+        return "home/myWay/myWayChapters";
     }
 
-    @RequestMapping(value = "/myWay/myWayBasic", method = RequestMethod.GET)
-    public String myWayBasic(Model model, Principal principal) {
-        User loggedUser = userService.findUserByEmail(principal.getName());
-        model.addAttribute("user", loggedUser);
-        return "home/myWay/myWayBasic";
-    }
-
-    @RequestMapping(value = "/myWay/myWayBaseComplex", method = RequestMethod.GET)
-    public String myWayBaseComplex(Model model, Principal principal) {
-        User loggedUser = userService.findUserByEmail(principal.getName());
-        model.addAttribute("user", loggedUser);
-        return "home/myWay/myWayBaseComplex";
-    }
-
-    @RequestMapping(value = "/myWay/myWayPairWork", method = RequestMethod.GET)
-    public String myWayPairWork(Model model, Principal principal) {
-        User loggedUser = userService.findUserByEmail(principal.getName());
-        model.addAttribute("user", loggedUser);
-        return "home/myWay/myWayPairWork";
-    }
-    @RequestMapping(value = "/myWay/myWaySpecPhysical", method = RequestMethod.GET)
-    public String myWaySpecPhysical(Model model, Principal principal) {
-        User loggedUser = userService.findUserByEmail(principal.getName());
-        model.addAttribute("user", loggedUser);
-        return "home/myWay/myWaySpecPhysical";
-    }
-
-    @RequestMapping(value = "/myWay/myWayGeneralPhysical", method = RequestMethod.GET)
-    public String myWayGeneralPhysical(Model model, Principal principal) {
-        User loggedUser = userService.findUserByEmail(principal.getName());
-        model.addAttribute("user", loggedUser);
-        return "home/myWay/myWayGeneralPhysical";
-    }
-    @RequestMapping(value = "/myWay/myWayBreakingObj", method = RequestMethod.GET)
-    public String myWayBreakingObj(Model model, Principal principal) {
-        User loggedUser = userService.findUserByEmail(principal.getName());
-        model.addAttribute("user", loggedUser);
-        return "home/myWay/myWayBreakingObj";
+    @RequestMapping(value = "/myWay/myWayChapters/{groupName}/{articleId}")
+    public String myWayChapters(Model model, @PathVariable(value = "groupName") String groupName, @PathVariable(value = "articleId") long articleId) {
+        model.addAttribute("user", userService.getCurrentUser());
+        model.addAttribute("article", aService.findOne(articleId));
+        return "home/myWay/myWayArticle";
     }
 }

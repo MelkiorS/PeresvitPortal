@@ -3,9 +3,14 @@ package org.bionic.controller.mvc;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.bionic.dao.EventRepository;
+import org.bionic.dao.UserRepository;
 import org.bionic.entity.Event;
+import org.bionic.entity.User;
 import org.bionic.service.EventService;
+import org.bionic.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -26,6 +31,9 @@ public class MyEventsController {
 
     @Autowired
     private EventService es;
+
+    @Autowired
+    private UserService us;
 
     @RequestMapping(value="/panel/myevents", method = RequestMethod.GET)
     public String getEvents(){
