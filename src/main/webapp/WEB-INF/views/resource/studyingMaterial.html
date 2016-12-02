@@ -6,6 +6,7 @@
     <title>Peresvit</title>
     <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
+    <link rel="stylesheet" href="/resources/frontend/bars.css">
     <!--<link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">-->
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
     <script src="/resources/frontend/libraries/constants.js"></script>
@@ -29,11 +30,11 @@
     <div class="row main">
         <div class="col-xs-3 container main_sidebar">
             <!--Сюда вставляем боковой бар fragments/sideBar.html-->
-
+            <div th:replace="home/fragments/sideBar :: sideBar"></div>
             <div class="place_for_add_sidebar col-xs-12 row">
                 <!--Сюда вставляем наш дополнительный сайдбар если юзер нажал на кнопку "мій шлях"
             который лежит в myWay/myWaySidebar.html-->
-                <div th:replace="home/fragments/sideBar :: sideBar"></div>
+
             </div>
         </div>
 

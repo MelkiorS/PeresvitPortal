@@ -1,51 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My events</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
+    <link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">
+    <link rel="stylesheet" href="/resources/frontend/bars.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--<link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">-->
-    <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
-    <!--<link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">-->
-    <!--<script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>-->
     <script src="/resources/frontend/libraries/constants.js"></script>
-    <script>
-        $(
-            function () {
-                $("#datepicker").datepicker({
-                    onSelect: function (dt, ob) {
-                        $.ajax({
-                            type: "GET",
-                            url: "/panel/myeventsdata",
-                            data: {
-                                "dt": dt,
-                                "qty": 5
-                            },
-                            success: function (data) {
-                                $('#closest').html(data);
-                            }
-                        });
-                        $.ajax({
-                            type: "GET",
-                            url: "/panel/myeventsdatanext",
-                            data: {
-                                "dt": dt
-                            },
-                            success: function (data) {
-                                $('#next').html(data);
-                            }
-                        });
-                    }
-                });
-            }
-        );
-
-    </script>
+    <script src="/resources/frontend/myevents.js"></script>
 </head>
 <body>
 <div class="container-fluid wrapper">
@@ -62,11 +29,11 @@
     <div class="row main">
         <div class="col-xs-3 container main_sidebar">
             <!--Сюда вставляем боковой бар fragments/sideBar.html-->
-
+            <div th:replace="home/fragments/sideBar :: sideBar"></div>
             <div class="place_for_add_sidebar col-xs-12 row">
                 <!--Сюда вставляем наш дополнительный сайдбар если юзер нажал на кнопку "мій шлях"
             который лежит в myWay/myWaySidebar.html-->
-                <div th:replace="home/fragments/sideBar :: sideBar"></div>
+
 
             </div>
         </div>
