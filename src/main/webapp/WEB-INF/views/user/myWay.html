@@ -6,7 +6,7 @@
     <title>MyWay</title>
     <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
-    <link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">
+    <!--<link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">-->
     <link rel="stylesheet" href="/resources/frontend/bars.css">
     <link rel="stylesheet" href="/resources/frontend/myWay/myWay.css">
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
@@ -45,7 +45,7 @@
                 <li th:each=" resourceGroupType : ${resourceGroupTypeList}">
                     <a href="#" th:text="${resourceGroupType.groupName}">Test</a>
                 <ul th:each="chapter :  ${resourceGroupType.chapterList}">
-                    <li><a href="#" th:text="${chapter.chapterName}" th:href="@{/resource/article/} + ${chapter.chapterId}"></a>
+                    <li><a href="#" th:text="${chapter.chapterName}" ></a>
                     <ul th:unless="${#lists.isEmpty(chapter.articleCollection)}" th:each="article : ${chapter.articleCollection}">
                         <li><a th:href="@{/resource/article/} + ${article.articleId}" th:text="${article.articleName}" >Перейти к статье</a>
                         </li>
@@ -54,46 +54,7 @@
                 </ul>
                 </li>
             </ul>
-            <ul id="tree3">
-                <li><a href="#">TECH</a>
-
-                    <ul>
-                        <li>Company Maintenance</li>
-                        <li>Employees
-                            <ul>
-                                <li>Reports
-                                    <ul>
-                                        <li>Report1</li>
-                                        <li>Report2</li>
-                                        <li>Report3</li>
-                                    </ul>
-                                </li>
-                                <li>Employee Maint.</li>
-                            </ul>
-                        </li>
-                        <li>Human Resources</li>
-                    </ul>
-                </li>
-                <li>XRP
-                    <ul>
-                        <li>Company Maintenance</li>
-                        <li>Employees
-                            <ul>
-                                <li>Reports
-                                    <ul>
-                                        <li>Report1</li>
-                                        <li>Report2</li>
-                                        <li>Report3</li>
-                                    </ul>
-                                </li>
-                                <li>Employee Maint.</li>
-                            </ul>
-                        </li>
-                        <li>Human Resources</li>
-                    </ul>
-                </li>
-            </ul>
-    </div>
+        </div>
 
     <footer>
         <div class="row container-fluid">

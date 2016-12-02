@@ -6,12 +6,11 @@
     <title>Peresvit</title>
     <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
-    <link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">
+    <!--<link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">-->
     <link rel="stylesheet" href="/resources/frontend/bars.css">
+    <link rel="stylesheet" href="/resources/frontend/myWay/myWayChapters.css">
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
     <script src="/resources/frontend/libraries/constants.js"></script>
-    <!--<script  async src="/resources/frontend/workField/js/workField_script.js"></script>-->
-
 
 </head>
 <body>
@@ -41,6 +40,9 @@
 
         <div class=" col-xs-7 row well container-fluid main_section">
             <!--Сюда вставляем содержимое страниц в соответствии с нажатыми кнопками-->
+            <div class="comeBack">
+                    <a href="javascript:history.back();"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"> </span><span>Назад</span></a>
+            </div>
             <div class="panel-group">
                 <div class="panel panel-default" th:each="chapter : ${chapters}">
                     <div class="panel-heading">

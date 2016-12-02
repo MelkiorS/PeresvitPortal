@@ -91,6 +91,8 @@ public class UserResourceController {
         model.addAttribute(new Article());   // addig empty object for post form
         model.addAttribute("rangList", rangTypes); // adding list of rang for select
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
+        model.addAttribute("user", userService.getCurrentUser());
+        model.addAttribute("groups", resourceGroupTypeService.findAll());
         return "user/myWay";
     }
     // show resources for current user depending on his name

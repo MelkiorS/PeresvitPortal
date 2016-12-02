@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
     <link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">
     <link rel="stylesheet" href="/resources/frontend/bars.css">
+    <link rel="stylesheet" href="/resources/frontend/myevents.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/resources/frontend/libraries/constants.js"></script>
@@ -38,11 +39,18 @@
             </div>
         </div>
         <div class=" col-xs-7 row well container-fluid main_section">
-            <h1>HELLO</h1>
-            Date:
-            <div id="datepicker"></div>
-            <div id="closest"></div>
-            <div id="next"></div>
+            <h2>Мої події</h2>
+            <div class="col-xs-7 calendar ">
+                <h4>Календар</h4>
+                <div id="datepicker"></div>
+            </div>
+            <div class="col-xs-3">
+                <h4>ближайшие события </h4>
+                <div id="closest" ></div>
+            </div>
+            <div>
+                <div id="next" class="col-xs-4">следующее</div>
+            </div>
         </div>
         <footer>
             <div class="row container-fluid">

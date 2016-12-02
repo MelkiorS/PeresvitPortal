@@ -1,0 +1,9 @@
+.calendar{
+    padding:0;
+}
+.calendar h4{
+    margin: 10px 0;
+}
+#datepicker{
+    font-size: 18px;
+}

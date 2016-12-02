@@ -31,14 +31,12 @@
             <div class="place_for_add_sidebar col-xs-12 row">
                 <!--Сюда вставляем наш дополнительный сайдбар если юзер нажал на кнопку "мій шлях"
             который лежит в myWay/myWaySidebar.html-->
-                <div th:each="group: ${groups}" >-->
-                    <a th:href="@{'/home/myWay/myWayChapters/' + ${group.groupName}}" th:text="${group.caption}"></a>
-                    <br/>
-                </div>
+                <!--<div th:each="group: ${groups}" >&ndash;&gt;-->
+                    <!--<a th:href="@{'/home/myWay/myWayChapters/' + ${group.groupName}}" th:text="${group.caption}"></a>-->
+                    <!--<br/>-->
+                <!--</div>-->
             </div>
-
         </div>
-
         <div class=" col-xs-7 row well container-fluid main_section">
             <!--Сюда вставляем содержимое страниц в соответствии с нажатыми кнопками-->
             <div class="show user">
