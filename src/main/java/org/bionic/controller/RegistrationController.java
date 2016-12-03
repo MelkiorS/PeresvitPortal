@@ -98,11 +98,11 @@ public class RegistrationController {
         if (connection == null) {
             return "redirect:/connect/vkontakte";
         }
-        connection.fetchUserProfile();
+//        connection.fetchUserProfile();
         return "redirect:/registration/finishRegistration";
     }
 
-//    FaceBook registration
+//    Google registration
     @RequestMapping(value="/google", method=RequestMethod.GET)
     public String googlePlus(final HttpServletRequest request) {
         Connection<Google> connection = connectionRepository.findPrimaryConnection(Google.class);
@@ -121,15 +121,15 @@ public class RegistrationController {
     }
 
 //    Redirection if connection is got
-    @RequestMapping(value="/connected", method=RequestMethod.GET)
-    public String connected() {
-
-        Connection<VKontakte> connection = connectionRepository.findPrimaryConnection(VKontakte.class);
-        if (connection == null) {
-            return "redirect:/connect/vkontakte";
-        }
-        return "redirect:/registration/finishRegistration";
-    }
+//    @RequestMapping(value="/vkontakteFinish", method=RequestMethod.GET)
+//    public String vkontakteConnected() {
+//
+//        Connection<VKontakte> connection = connectionRepository.findPrimaryConnection(VKontakte.class);
+//        if (connection == null) {
+//            return "redirect:/connect/vkontakte";
+//        }
+//        return "redirect:/registration/finishRegistration";
+//    }
 
 //        if (!result.hasErrors()) {
 //            System.out.println("ADDING");
