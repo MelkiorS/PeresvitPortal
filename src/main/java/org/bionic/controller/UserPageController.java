@@ -2,8 +2,7 @@ package org.bionic.controller;
 
 import org.apache.commons.io.FileUtils;
 import org.bionic.config.Constant;
-import org.bionic.entity.ResourceGroupType;
-import org.bionic.entity.User;
+import org.bionic.entity.*;
 import org.bionic.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +16,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * Created by Alex Sanak on 17.11.2016.
@@ -39,6 +39,18 @@ public class UserPageController {
 
     @Autowired
     private ArticleService aService;
+
+    @Autowired
+    private CityService cityService;
+
+    @Autowired
+    private ClubService clubService;
+
+    @Autowired
+    private CombatArtService combatArtService;
+
+    @Autowired
+    private RangService rangService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String goToReg(Model model, Principal principal) {
@@ -64,6 +76,22 @@ public class UserPageController {
     @RequestMapping(value = "/privateOfficeEdit/{userId}", method = RequestMethod.GET)
     public String editUser(@PathVariable("userId")  long userId, Model model) {
         User user = userService.findOne(userId);
+
+        List<City> cities = cityService.findAll();
+        model.addAttribute("cityList", cities);          // adding list of city for select
+
+        List<Club> clubs = clubService.findAll();
+        model.addAttribute("clubList", clubs);           // adding list of club for select
+
+        List<CombatArt> combatArts = combatArtService.findAll();
+        model.addAttribute("combatArtList", combatArts); // adding list of combatArt for select
+
+        List<User> mentors = userService.findByRang( rangService.findOne(4l));
+        model.addAttribute("mentorList", mentors);       // adding list of mentor for select
+
+        List<Rang> rangTypes = rangService.findAll();
+        model.addAttribute("rangList", rangTypes);       // adding list of rang for select
+
         model.addAttribute(user);
 
          return "home/privateOfficeEdit";
@@ -74,6 +102,17 @@ public class UserPageController {
     public String editUser(User user, Model model, @RequestParam("file") MultipartFile file) {
 
         user.setAvatarURL(userService.saveFile(user, file));
+
+        // check fields
+        if (user.getCity().getCityId() == null)
+            user.setCity(null);
+        if (user.getClub().getClubId() == null)
+            user.setClub(null);
+        if (user.getCombatArt().getCombatArtId() == null)
+            user.setCombatArt(null);
+        if (user.getMentor().getUserId() == null)
+            user.setMentor(null);
+
         userService.save(user);
 
         model.addAttribute("user", user);

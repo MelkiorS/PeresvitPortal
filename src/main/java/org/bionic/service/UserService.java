@@ -1,11 +1,14 @@
 package org.bionic.service;
 
 
+import org.bionic.entity.Rang;
 import org.bionic.entity.User;
 import org.bionic.entity.VerificationToken;
 import org.bionic.web.dto.UserDto;
 import org.bionic.web.error.UserAlreadyExistException;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 public interface UserService {
@@ -16,7 +19,9 @@ public interface UserService {
 	
 	User findOne(Long userId);
 
-	java.util.List<User> findAll();
+	List<User> findAll();
+
+	List<User> findByRang(Rang rang);
 
 	void delete(User user);
 

@@ -2,10 +2,10 @@ package org.bionic.entity;
 
 public enum EnumUserInfo {
 
-	CITY(1L),
-	CLUB(2L),
-	MENTOR(3L),
-	ABOUT(4L);
+	ADITTIONAL(1L);
+//	CLUB(2L),
+//	MENTOR(3L),
+//	ABOUT(4L);
 	
 	private final Long value;
 	
