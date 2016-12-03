@@ -5,7 +5,7 @@
     <title>Article List</title>
 </head>
 <body>
-<a th:hreaf="@{/admin/article/management}" >Article Management</a>
+<a th:href="@{/admin/article/management}" >Article Management</a>
 <br/>
 <div class="articleList" th:unless="${#lists.isEmpty(articleList)}">
 

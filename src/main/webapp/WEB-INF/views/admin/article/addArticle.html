@@ -75,8 +75,6 @@
                     <div class="col-xs-4">
                         <label>Доступ для</label>
                     </div>
-
-
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
@@ -93,21 +91,26 @@
                         </select>
                     </div>
                 </div>
-
-                <input type="hidden" th:field="*{articleId}" />
-                <label for="title">Заголовок:</label>
-                <input type="text" th:field="*{articleName}" placeholder="Введити заголовок" />
-                <ul id="mylist" th:each=" resourceGroupType : ${resourceGroupTypeList}">
-                    <b><span th:text="${resourceGroupType.groupName}">Test</span></b>
-                    <a th:href="@{/admin/chapter/add/group/} + ${resourceGroupType.resourceGroupTypeId}">Добавить раздел</a>
-                    <span th:each="chapter :  ${resourceGroupType.chapterList}">
-            </br>
-                        <td th:text="${chapter.chapterName}"></td>
-            <a th:href="${'javascript:myFunction('+ chapter.chapterId + ',' + resourceGroupType.resourceGroupTypeId + ')'}") >Выбрать</a>
-            <a th:href="@{/admin/chapter/edit/} + ${chapter.chapterId}">Изменить</a>
-            <a th:href="@{/admin/chapter/delete/} + ${chapter.chapterId}">Удалить</a>
-            </span>
-                </ul>
+                <br/>
+                <input type="hidden" th:field="*{articleId}" placeholder="bfsdkjhbvdj"/>
+                <div>
+                    <label for="title">Заголовок:</label>
+                    <input type="text" th:field="*{articleName}" placeholder="Введіть заголовок" />
+                </div>
+                <br/>
+                <div>
+                    <ul class="mylist" th:each=" resourceGroupType : ${resourceGroupTypeList}">
+                        <b><span th:text="${resourceGroupType.groupName}">Test</span></b>
+                        <a th:href="@{/admin/chapter/add/group/} + ${resourceGroupType.resourceGroupTypeId}">Добавить раздел</a>
+                        <span th:each="chapter :  ${resourceGroupType.chapterList}">
+                            </br>
+                                        <td th:text="${chapter.chapterName}"></td>
+                            <a th:href="${'javascript:myFunction('+ chapter.chapterId + ',' + resourceGroupType.resourceGroupTypeId + ')'}") >Выбрать</a>
+                            <a th:href="@{/admin/chapter/edit/} + ${chapter.chapterId}">Изменить</a>
+                            <a th:href="@{/admin/chapter/delete/} + ${chapter.chapterId}">Удалить</a>
+                            </span>
+                    </ul>
+                </div>
                 <script>
                     var data = CKEDITOR.instances.editor1.getData();
                 </script>
