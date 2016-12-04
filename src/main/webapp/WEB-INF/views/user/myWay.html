@@ -6,11 +6,12 @@
     <title>MyWay</title>
     <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
-    <link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">
+    <!--<link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">-->
+    <link rel="stylesheet" href="/resources/frontend/bars.css">
+    <link rel="stylesheet" href="/resources/frontend/myWay/myWay.css">
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
     <script src="/resources/frontend/libraries/constants.js"></script>
-
-
+    <script src="/resources/frontend/myWay/trees.js"></script>
 </head>
 <body>
 <div class="container-fluid wrapper">
@@ -27,28 +28,33 @@
     <div class="row main">
         <div class="col-xs-3 container main_sidebar">
             <!--Сюда вставляем боковой бар fragments/sideBar.html-->
-
+            <div th:replace="home/fragments/sideBar :: sideBar"></div>
             <div class="place_for_add_sidebar col-xs-12 row">
                 <!--Сюда вставляем наш дополнительный сайдбар если юзер нажал на кнопку "мій шлях"
             который лежит в myWay/myWaySidebar.html-->
-                <div th:replace="home/fragments/sideBar :: sideBar"></div>
+                <div th:each="group: ${groups}" >-->
+                    <a th:href="@{'/home/myWay/myWayChapters/' + ${group.groupName}}" th:text="${group.caption}"></a>
+                    <br/>
+                </div>
             </div>
         </div>
 
         <div class=" col-xs-7 row well container-fluid main_section">
             <!--Сюда вставляем содержимое страниц в соответствии с нажатыми кнопками-->
-            <ul id="mylist"  th:each=" resourceGroupType : ${resourceGroupTypeList}">
-                <b><span th:text="${resourceGroupType.groupName}">Test</span></b>
-                <span th:each="chapter :  ${resourceGroupType.chapterList}">
-</br>
-                    <span th:text="${chapter.chapterName}" th:href="@{/resource/article/} + ${chapter.chapterId}"></span>
-                    </br>
-                    <span th:unless="${#lists.isEmpty(chapter.articleCollection)}" th:each="article : ${chapter.articleCollection}">
-                        <a th:href="@{/resource/article/} + ${article.articleId}" th:text="${article.articleName}" >Перейти к статье</a>
-                    </span>
-                </span>
+            <ul id="tree2">
+                <li th:each=" resourceGroupType : ${resourceGroupTypeList}">
+                    <a href="#" th:text="${resourceGroupType.groupName}">Test</a>
+                <ul th:each="chapter :  ${resourceGroupType.chapterList}">
+                    <li><a href="#" th:text="${chapter.chapterName}" ></a>
+                    <ul th:unless="${#lists.isEmpty(chapter.articleCollection)}" th:each="article : ${chapter.articleCollection}">
+                        <li><a th:href="@{/resource/article/} + ${article.articleId}" th:text="${article.articleName}" >Перейти к статье</a>
+                        </li>
+                    </ul>
+                    </li>
+                </ul>
+                </li>
             </ul>
-    </div>
+        </div>
 
     <footer>
         <div class="row container-fluid">
