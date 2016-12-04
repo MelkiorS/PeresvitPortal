@@ -125,8 +125,14 @@ public class UserServiceImpl implements UserService{
         user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
         user.setRang(rangRepository.findOne(4L));
+        user.setAvatarURL("http://image.flaticon.com/icons/svg/126/126486.svg");
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public void authenticateUser(User user) {
+
     }
 
     @Override

@@ -85,6 +85,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe()
             .and()
                 .apply(new SpringSocialConfigurer());
+//                    .connectionAddedRedirectUrl("/registration/connected"));
     }
 
     @Bean(name = "authenticationManager")
