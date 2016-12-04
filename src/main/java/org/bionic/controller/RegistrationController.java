@@ -15,6 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.google.api.Google;
+import org.springframework.social.google.api.impl.GoogleTemplate;
+import org.springframework.social.google.api.plus.Person;
 import org.springframework.social.vkontakte.api.VKontakte;
 import org.springframework.social.vkontakte.api.VKontakteProfile;
 import org.springframework.stereotype.Controller;
@@ -88,15 +91,46 @@ public class RegistrationController {
     }
 
 
-    //    VK registration
+    //    VK registration with redirect to registration page to finish registration
     @RequestMapping(value="/vkontakte", method=RequestMethod.GET)
     public String vkontakte() {
         Connection<VKontakte> connection = connectionRepository.findPrimaryConnection(VKontakte.class);
         if (connection == null) {
             return "redirect:/connect/vkontakte";
         }
+//        connection.fetchUserProfile();
         return "redirect:/registration/finishRegistration";
     }
+
+//    Google registration
+    @RequestMapping(value="/google", method=RequestMethod.GET)
+    public String googlePlus(final HttpServletRequest request) {
+        Connection<Google> connection = connectionRepository.findPrimaryConnection(Google.class);
+        if (connection == null) {
+            return "redirect:/connect/google";
+        }
+        UserDto userDtoFB = createSocialUserDtoForGoogle(connection);
+        User user = createUserAccount(userDtoFB);
+        if (user == null) {
+            authenticateUser(userService.findUserByEmail(userDtoFB.getEmail()));
+            return "redirect:/home/workField";
+        }
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), getAppUrl(request)));
+        authenticateUser(user);
+        return "redirect:/home/workField";
+    }
+
+//    Redirection if connection is got
+//    @RequestMapping(value="/vkontakteFinish", method=RequestMethod.GET)
+//    public String vkontakteConnected() {
+//
+//        Connection<VKontakte> connection = connectionRepository.findPrimaryConnection(VKontakte.class);
+//        if (connection == null) {
+//            return "redirect:/connect/vkontakte";
+//        }
+//        return "redirect:/registration/finishRegistration";
+//    }
+
 //        if (!result.hasErrors()) {
 //            System.out.println("ADDING");
 //            registered = createUserAccount(accountDto, result);
@@ -124,6 +158,8 @@ public class RegistrationController {
         return "registration/registration";
     }
 
+
+
 //    -----------------------------------------------------------------------------------------------------------------
 
     private User createUserAccount(UserDto accountDto) {
@@ -138,40 +174,49 @@ public class RegistrationController {
 
 //Creation DTO from connection with FB
     private UserDto createSocialUserDtoForFB(Connection<Facebook> connection) {
-        if(connection != null) {
-            Facebook facebook = connection.getApi();
+        Facebook facebook = connection.getApi();
 //            Here we can get fields from FB connection
-            String [] fields = { "id", "email",  "first_name", "last_name" , };
-            org.springframework.social.facebook.api.User userProfile = facebook.fetchObject("me", org.springframework.social.facebook.api.User.class, fields);
-            UserDto userDto = new UserDto();
-            userDto.setEmail(userProfile.getEmail());
-            userDto.setFirstName(userProfile.getFirstName());
-            userDto.setLastName(userProfile.getLastName());
-            String password = PasswordGenerator.generateRandomPassword();
-            userDto.setPassword(password);
+        String [] fields = { "id", "email",  "first_name", "last_name" , };
+        org.springframework.social.facebook.api.User userProfile = facebook.fetchObject("me", org.springframework.social.facebook.api.User.class, fields);
+        UserDto userDto = new UserDto();
+        userDto.setEmail(userProfile.getEmail());
+        userDto.setFirstName(userProfile.getFirstName());
+        userDto.setLastName(userProfile.getLastName());
+        String password = PasswordGenerator.generateRandomPassword();
+        userDto.setPassword(password);
 
-            return userDto;
-        }
-        return null;
+        return userDto;
     }
 
 //Creation DTO from connection with VK
     private UserDto createSocialUserDtoForVK(Connection<VKontakte> connection) {
-        if(connection != null) {
-            VKontakte vKontakte = connection.getApi();
+        VKontakte vKontakte = connection.getApi();
 //            Here we can get fields from VK connection
-            VKontakteProfile userProfile = vKontakte.usersOperations().getProfile();
-            UserDto userDto = new UserDto();
+        VKontakteProfile userProfile = vKontakte.usersOperations().getProfile();
+        UserDto userDto = new UserDto();
 //            VK user has no email
 //            userDto.setEmail(userProfile.getEmail());
-            userDto.setFirstName(userProfile.getFirstName());
-            userDto.setLastName(userProfile.getLastName());
-            String password = PasswordGenerator.generateRandomPassword();
-            userDto.setPassword(password);
+        userDto.setFirstName(userProfile.getFirstName());
+        userDto.setLastName(userProfile.getLastName());
 
-            return userDto;
-        }
-        return null;
+        return userDto;
+    }
+
+//Creation DTO from connection with FB
+    private UserDto createSocialUserDtoForGoogle(Connection<Google> connection) {
+        Google google = connection.getApi();
+//            Here we can get fields from FB connection
+//        String [] fields = { "id", "email",  "first_name", "last_name" , };
+//        org.springframework.social.facebook.api.User userProfile = google.fetchObject("me", org.springframework.social.facebook.api.User.class, fields);
+        Person googleProfile = google.plusOperations().getGoogleProfile();
+        UserDto userDto = new UserDto();
+        userDto.setEmail(googleProfile.getAccountEmail());
+        userDto.setFirstName(googleProfile.getGivenName());
+        userDto.setLastName(googleProfile.getFamilyName());
+        String password = PasswordGenerator.generateRandomPassword();
+        userDto.setPassword(password);
+
+        return userDto;
     }
 
     private void authenticateUser(User user) {

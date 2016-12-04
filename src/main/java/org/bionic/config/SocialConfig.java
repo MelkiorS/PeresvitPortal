@@ -20,6 +20,7 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.facebook.web.DisconnectController;
 import org.springframework.social.google.api.Google;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.vkontakte.api.VKontakte;
 import org.springframework.social.vkontakte.connect.VKontakteConnectionFactory;
 
@@ -45,9 +46,9 @@ public class SocialConfig implements SocialConfigurer {
         cfConfig.addConnectionFactory(new FacebookConnectionFactory(
                 env.getProperty("facebook.app.id"),
                 env.getProperty("facebook.app.secret")));
-//        cfConfig.addConnectionFactory(new GoogleConnectionFactory(
-//                env.getProperty("google.clientId"),
-//                env.getProperty("google.clientSecret")));
+        cfConfig.addConnectionFactory(new GoogleConnectionFactory(
+                env.getProperty("google.clientId"),
+                env.getProperty("google.clientSecret")));
         cfConfig.addConnectionFactory(new VKontakteConnectionFactory(
                 env.getProperty("vk.app.id"),
                 env.getProperty("vk.app.secret")));
