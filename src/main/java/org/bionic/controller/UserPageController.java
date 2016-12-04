@@ -66,6 +66,11 @@ public class UserPageController {
     @RequestMapping(value = "/workField", method = RequestMethod.GET)
     public String showStartOffice(Model model, Principal principal) {
         User loggedUser = userService.findUserByEmail(principal.getName());
+        String imagePath = loggedUser.getAvatarURL();
+        model.addAttribute("imageAvatar", null);
+        try {
+            model.addAttribute("imageAvatar", Constant.encodeFileToBase64Binary(imagePath));
+        }catch (IOException ex){}
         model.addAttribute("user", loggedUser);
         model.addAttribute("groups", rgtService.findAll());
 
