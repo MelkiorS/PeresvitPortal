@@ -95,7 +95,7 @@
                 </div>
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем информацию юзера о себе-->
-                    <p><b>Про себе:</b><br/><span>Чорний пояс по Фрі-файт, чемпіон Європи</span></p>
+                    <p><b>Про себе:</b><br/><span th:text="${user.about == null ? '' : user.about}">Чорний пояс по Фрі-файт, чемпіон Європи</span></p>
                 </div>
             </div>
             <div class=" row col-xs-12 main_section_photoGallery">
