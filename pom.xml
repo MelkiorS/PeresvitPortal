@@ -23,7 +23,7 @@
 		<groupId>io.spring.platform</groupId>
 		<artifactId>platform-bom</artifactId>
 		<version>2.0.3.RELEASE</version>
-		<relativePath />
+		<relativePath/>
 	</parent>
 	<dependencies>
 		<!-- for basic data source -->
