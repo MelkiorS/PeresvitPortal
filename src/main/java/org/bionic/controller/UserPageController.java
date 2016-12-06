@@ -78,7 +78,7 @@ public class UserPageController {
     }
 
      // go to Edit user form
-    @RequestMapping(value = "/privateOfficeEdit/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/profileEdit/{userId}", method = RequestMethod.GET)
     public String editUser(@PathVariable("userId")  long userId, Model model) {
         User user = userService.findOne(userId);
 
@@ -99,11 +99,11 @@ public class UserPageController {
 
         model.addAttribute(user);
 
-         return "home/privateOfficeEdit";
+         return "home/profileEdit";
     }
 
     // Edit User
-    @RequestMapping(value = "/privateOfficeEdit", method = RequestMethod.POST)
+    @RequestMapping(value = "/profileEdit", method = RequestMethod.POST)
     public String editUser(User user, Model model, @RequestParam("file") MultipartFile file) {
 
         user.setAvatarURL(userService.saveFile(user, file));
