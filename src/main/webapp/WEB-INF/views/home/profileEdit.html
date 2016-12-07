@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Peresvit</title>
+    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
+    <link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">
+    <link rel="stylesheet" href="/resources/frontend/bars.css">
+    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="/resources/frontend/libraries/constants.js"></script>
+    <!--<script  async src="/resources/frontend/workField/js/workField_script.js"></script>-->
+
+
+</head>
+<body>
+<div class="container-fluid wrapper">
+    <div class="row header">
+        <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
+        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="/resources/frontend/workField/images/logo_Peresvit.png" alt="логотип"></div>
+        <div class="col-xs-8  row header_nav">
+            <div th:replace="home/fragments/headBar :: headBar"></div>
+            <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
+        </div>
+    </div>
+    <div class="row main">
+        <div class="col-xs-3 container main_sidebar">
+            <!--Сюда вставляем боковой бар fragments/sideBar.html-->
+            <div th:replace="home/fragments/sideBar :: sideBar"></div>
+            <div class="place_for_add_sidebar col-xs-12 row">
+
+            </div>
+        </div>
+        <div class=" col-xs-7 row well container-fluid main_section">
+
+        <form th:action="@{/home/profileEdit}" th:object="${user}" enctype="multipart/form-data" method="post">
+
+            <input type="hidden" th:field="*{userId}" />
+            <input type="hidden" th:field="*{enabled}" />
+            <input type="hidden" th:field="*{rang.rangId}" />
+
+            <label for="avatar">Змінити аватар:</label>
+            <input id="avatar" type="file" name="file" /><br/>
+
+            <input type="text" th:field="*{firstName}" placeholder="Імя" /><br/>
+            <input type="text" th:field="*{lastName}" placeholder="Фамілія" /><br/>
+            <input type="text" th:field="*{middleName}" placeholder="Прізвище" /><br/>
+            <input type="text" th:field="*{email}" placeholder="e-mail" /><br/>
+            <input type="hidden" th:field="*{password}" placeholder="password" />
+            <input type="hidden" th:field="*{avatarURL}"/><br/>
+            <input type="text" th:field="*{profileVK}" placeholder="профіль vk" /><br/>
+            <input type="text" th:field="*{profileFB}" placeholder="профіль facebook" /><br/>
+            <input type="text" th:field="*{profileIS}" placeholder="профіль instagram" /><br/>
+
+            <label for="gender">Стать:</label>
+            <div><input type="radio" th:name="male" th:value="true"  th:field="*{gender}" checked="checked" />Чоловік</div>
+            <div><input type="radio" th:name="female" th:value="false"  th:field="*{gender}" />Жінка</div>
+
+            <label for="combatArtList">Бойове мистецтво:</label>
+            <select th:field="*{combatArt.combatArtId}">
+                <option value="" th:text="''"></option>
+                <option th:each="combatArt : ${combatArtList}" th:value="${combatArt.combatArtId}"
+                        th:text="${combatArt.combatArtName}"></option>
+            </select> <br />
+
+            <label for="cityList">Місто:</label>
+            <select th:field="*{city.cityId}">
+                <option value="" th:text="''"></option>
+                <option th:each="city : ${cityList}" th:value="${city.cityId}"
+                        th:text="${city.cityName}"></option>
+            </select> <br />
+
+            <label for="clubList">Клуб:</label>
+            <select id="clubList" th:field="*{club.clubId}">
+                <option value="" th:text="''"></option>
+                <option th:each="club : ${clubList}" th:value="${club.clubId}"
+                        th:text="${club.clubName}"></option>
+            </select> <br />
+
+            <label for="mentorList">Наставник:</label>
+            <select th:field="*{mentor.userId}">
+                <option value="" th:text="''"></option>
+                <option th:each="mentor : ${mentorList}" th:value="${mentor.userId}"
+                        th:text="${mentor.firstName} + ' ' + ${mentor.lastName}"></option>
+            </select> <br />
+
+            <label for="about">Про мене:</label>
+            <textarea th:field="*{about}" /> <br />
+
+            <input type="submit" value="Зберегти" />
+            <form th:action="@{/home/workField}"></form>
+            <button type="reset">Отмена</button>
+
+        </form>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="row container-fluid">
+            <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">
+                <p>Гугл реклама</p>
+
+            </div>
+            <div class="col-xs-2 col-md-2 row">
+                <img src="/resources/frontend/workField/images/Logovk.png" alt="vk">
+                <img src="/resources/frontend/workField/images/Logofc.png" alt="fs">
+                <img src="/resources/frontend/workField/images/Logoin.png" alt="instagram">
+            </div>
+        </div>
+    </footer>
+</div>
+</div>
+</body>
+</html>
