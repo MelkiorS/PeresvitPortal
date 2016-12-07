@@ -45,7 +45,7 @@
 
             <input type="text" th:field="*{firstName}" placeholder="Імя" /><br/>
             <input type="text" th:field="*{lastName}" placeholder="Фамілія" /><br/>
-            <input type="text" th:field="*{middleName}" placeholder="Прізвище" /><br/>
+            <input type="text" th:field="*{middleName}" placeholder="По батькові" /><br/>
             <input type="text" th:field="*{email}" placeholder="e-mail" /><br/>
             <input type="hidden" th:field="*{password}" placeholder="password" />
             <input type="hidden" th:field="*{avatarURL}"/><br/>
@@ -90,7 +90,7 @@
 
             <input type="submit" value="Зберегти" />
             <form th:action="@{/home/workField}"></form>
-            <button type="reset">Отмена</button>
+           <a href="javascript:history.back();"><input type="reset" value="Скасувати"></a>
 
         </form>
         </div>
