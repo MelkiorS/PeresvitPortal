@@ -1,6 +1,6 @@
 .main_section_name{
     margin:0 0 2% 0;
-    padding: 0 0 0 2%;
+    padding: 0;
 }
 .main_section_basic{
     margin: 5px 0 5px 2px;
@@ -66,6 +66,12 @@
     border-radius: 10px;
     margin: 1%;
 }
+.cogwheel-name{
+    color:#000;
+    font-size: 20px;
+    opacity:0.1;
+    transition: 0.5s;
+}
 .pencil{
     opacity:0.1;
     transition: 0.5s;
@@ -83,6 +89,7 @@
     font-size: 15px;
     margin-left:6px;
 }
+.cogwheel-name:hover,
 .pencil:hover{
     transition: 0.5s;
     opacity:0.6;

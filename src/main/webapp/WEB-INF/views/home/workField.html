@@ -36,7 +36,13 @@
             <!--Сюда вставляем содержимое страниц в соответствии с нажатыми кнопками-->
             <div class="show user">
                 <div>
-                    <p class="text-left h2 main_section_name"><span th:text="${user.firstName}"></span> <span th:text="${user.lastName}"></span><a th:href="@{/home/profileEdit/} + ${user.userId}"><span class="glyphicon glyphicon-pencil pencil pencil-name" aria-hidden="true"></span></a></p>
+                    <p class="text-left h2 main_section_name">
+                        <a th:href="@{/home/profileEdit/} + ${user.userId}"><span class="glyphicon glyphicon-cog cogwheel-name" aria-hidden="true"></span></a>
+                        <span th:text="${user.firstName}"></span>
+                        <span th:text="${user.lastName}"></span>
+                        <span th:text="${user.middleName}"></span>
+                        <span class="glyphicon glyphicon-pencil pencil pencil-name" aria-hidden="true"></span>
+                    </p>
                 </div>
                 <div class="row main_section_basic">
                     <div class="col-xs-2 main_section_basic_avatar">
@@ -48,8 +54,7 @@
                             <!--Сюда вставляем ссылки на профиль юзера в соцсетях vk, fb, g+, если они есть-->
                             <a href="#"><img src="/resources/frontend/workField/images/Logovk.png" alt="vk"></a>
                             <a href="#"><img src="/resources/frontend/workField/images/Logofc.png" alt="fs"></a>
-                            <a  href="#"><img src="/resources/frontend/workField/images/Logoin.png" alt="instagram"></a>
-                            <a th:href="@{/home/profileEdit/} + ${user.userId}"><span class="glyphicon glyphicon-pencil pencil pencil-links" aria-hidden="true"></span></a>
+                            <a href="#"><img src="/resources/frontend/workField/images/Logoin.png" alt="instagram"></a>
                         </p>
                     </div>
                     <div class="col-xs-9 col-xs-offset-1 main_section_basic_links">
@@ -82,14 +87,15 @@
                     <p>
                         <b>Місто: </b>
                         <span th:text="${user.city == null ? '' : user.city.cityName}">Киев</span>
-                        <a th:href="@{/home/profileEdit/} + ${user.userId}"><span class="glyphicon glyphicon-pencil pencil pencil-info" aria-hidden="true"></span></a></p>
+                        <span class="glyphicon glyphicon-pencil pencil pencil-info" aria-hidden="true"></span>
+                    </p>
                 </div>
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем клуб в котором занимается юзер-->
                     <p>
                         <b>Клуб: </b>
                         <span th:text="${user.club == null ? '' : user.club.clubName}">Пересвіт</span>
-                        <a th:href="@{/home/profileEdit/} + ${user.userId}"><span class="glyphicon glyphicon-pencil pencil pencil-info" aria-hidden="true"></span></a>
+                        <span class="glyphicon glyphicon-pencil pencil pencil-info" aria-hidden="true"></span>
                     </p>
                 </div>
                 <div class="col-xs-7 main_section_userInf_item">
@@ -97,14 +103,14 @@
                     <p>
                         <b>Направлення: </b>
                         <span th:text="${user.combatArt == null ? '' : user.combatArt.combatArtName}">Фрійфайт</span>
-                        <a th:href="@{/home/profileEdit/} + ${user.userId}"><span class="glyphicon glyphicon-pencil pencil pencil-info" aria-hidden="true"></span></a></p>
+                        <span class="glyphicon glyphicon-pencil pencil pencil-info" aria-hidden="true"></span></p>
                 </div>
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем информацию юзера о себе-->
                     <p>
                         <b>Про себе: </b>
                         <span th:text="${user.about == null ? '' : user.about}">Чорний пояс по Фрі-файт, чемпіон Європи</span>
-                        <a th:href="@{/home/profileEdit/} + ${user.userId}"><span class="glyphicon glyphicon-pencil pencil pencil-info" aria-hidden="true"></span></a></p>
+                        <span class="glyphicon glyphicon-pencil pencil pencil-info" aria-hidden="true"></span></p>
                 </div>
             </div>
             <div class=" row col-xs-12 main_section_photoGallery">
@@ -129,7 +135,7 @@
         <footer>
             <div class="row container-fluid">
                 <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">
-                    <p>Гугл реклама<a th:href="@{/home/profileEdit/} + ${user.userId}"><span class="glyphicon glyphicon-pencil pencil" aria-hidden="true"></span></a></p>
+                    <p>Гугл реклама<span class="glyphicon glyphicon-pencil pencil" aria-hidden="true"></span></p>
 
                 </div>
                 <div class="col-xs-2 col-md-2 row">
