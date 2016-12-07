@@ -64,20 +64,20 @@ public class UserResourceController {
 //        return "resource/studyingMaterial";
 //    }
 
-    // go to myWay
-//    @RequestMapping(value = "/myWay/{id}", method = RequestMethod.GET)
-//    public String goToMyWay(@PathVariable long id, Model model) {
-//        ResourceGroupType resourceGroupTypes = resourceGroupTypeService.findOne(id);
-//        List<Rang> rangTypes = rangService.findAll();
-//        resourceGroupTypes.setChapterList(chapterService.findAllByResourceGroupType(resourceGroupTypes));
-//        resourceGroupTypes.getChapterList().forEach(c->c.setArticleCollection(articleService.findAllByChapterIdAndResourceGroupTypeAndRang(
-//                c.getChapterId(), resourceGroupTypes, userService.getCurrentUser().getRang()
-//        )));
-//        model.addAttribute(new Article());   // addig empty object for post form
-//        model.addAttribute("rangList", rangTypes); // adding list of rang for select
-//        model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
-//        return "user/myWay";
-//    }
+//     go to myWay
+    @RequestMapping(value = "/myWay/{id}", method = RequestMethod.GET)
+    public String goToMyWay(@PathVariable long id, Model model) {
+        ResourceGroupType resourceGroupTypes = resourceGroupTypeService.findOne(id);
+        List<Rang> rangTypes = rangService.findAll();
+        resourceGroupTypes.setChapterList(chapterService.findAllByResourceGroupType(resourceGroupTypes));
+        resourceGroupTypes.getChapterList().forEach(c->c.setArticleCollection(articleService.findAllByChapterIdAndResourceGroupTypeAndRang(
+                c.getChapterId(), resourceGroupTypes, userService.getCurrentUser().getRang()
+        )));
+        model.addAttribute(new Article());   // addig empty object for post form
+        model.addAttribute("rangList", rangTypes); // adding list of rang for select
+        model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
+        return "user/myWay";
+    }
 
 //    // go to myWay
     @RequestMapping(value = "/myWay", method = RequestMethod.GET)
