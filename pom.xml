@@ -14,7 +14,7 @@
 		<spring.version>4.3.3.RELEASE</spring.version>
         <spring.social.version>1.1.4.RELEASE</spring.social.version>
         <spring.social.facebook.version>2.0.3.RELEASE</spring.social.facebook.version>
-		<!-- AssertJ is not a part of Spring IO platform, so the version must be 
+		<!-- AssertJ is not a part of Spring IO platform,   so the version must be
 			provided explicitly -->
 		<assertj-core-version>3.4.1</assertj-core-version>
 		<hibernate-version>5.2.3.Final</hibernate-version>
@@ -23,7 +23,7 @@
 		<groupId>io.spring.platform</groupId>
 		<artifactId>platform-bom</artifactId>
 		<version>2.0.3.RELEASE</version>
-		<relativePath />
+		<relativePath/>
 	</parent>
 	<dependencies>
 		<!-- for basic data source -->
