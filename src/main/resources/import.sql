@@ -44,3 +44,7 @@ INSERT INTO  resourceGroupTypeChapter(resourceGroupTypeId,chapterName) VALUES (5
 INSERT into article(articleName, chapterId, rangId, resourceGroupTypeId, context) VALUES ('Статья 1.1', 1, 1, 1, "Содержимое статьи 1.1");
 INSERT into article(articleName, chapterId, rangId, resourceGroupTypeId, context) VALUES ('Статья 1.2', 1, 1, 1, "Содержимое статьи 1.2");
 INSERT into article(articleName, chapterId, rangId, resourceGroupTypeId, context) VALUES ('Статья 2.1', 2, 1, 1, "Содержимое статьи 2.1");
+
+INSERT into event(id, name, start, finish) VALUES (1, 'Новый год', '2016-12-31','2016-12-31')
+INSERT into event(id, name, start, finish) VALUES (2, '8 марта', '2017-03-08','2017-03-08')
+INSERT into event(id, name, start, finish) VALUES (3, '1 мая', '2017-05-01','2017-05-01')
