@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/resources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css"/>
     <link rel="stylesheet" href="/resources/dhtmlx/skins/dhtmlxscheduler_flat.css" type="text/css" media="screen" charset="utf-8"/>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="/resources/dhtmlx/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
@@ -14,9 +14,29 @@
             height:100%;
             overflow:hidden;
         }
+        #my_form {
+            position: absolute;
+            top: 100px;
+            left: 200px;
+            z-index: 10001;
+            display: none;
+            background-color: white;
+            border: 2px outset gray;
+            padding: 20px;
+            font-family: Tahoma;
+            font-size: 10pt;
+        }
+
+        #my_form label {
+            width: 200px;
+        }
     </style>
     <script type="text/javascript" charset="utf-8">
         function init() {
+
+            scheduler.config.details_on_dblclick = true;
+            scheduler.config.details_on_create = true;
+
             scheduler.init('scheduler_here', new Date(),"month");
             scheduler.config.xml_date="%Y%m%d %H%i";
             scheduler.templates.xml_date = function(value){ return new Date(value); };
@@ -29,7 +49,12 @@
                     data : {
                         "start_date" : ev.start_date.getTime(),
                         "end_date" : ev.end_date.getTime(),
-                        "text" : ev.text
+                        "place" : ev.place,
+                        "title" : ev.title,
+                        "description":  ev.description,
+                        "connectall":   ev.connectall,
+                        "groups":   ev.groups,
+                        "friends":  ev.friends
                     },
                     success: function(data){
                         scheduler.load('/admin/myeventsperiod?start=20161101&finish=20161130','json');
@@ -46,7 +71,12 @@
                         "id" : ev.id,
                         "start_date" : ev.start_date.getTime(),
                         "end_date" : ev.end_date.getTime(),
-                        "text" : ev.text
+                        "place" : ev.place,
+                        "title" : ev.title,
+                        "description":  ev.description,
+                        "connectall":   ev.connectall,
+                        "groups":   ev.groups,
+                        "friends":  ev.friends
                     },
                     success: function(data){
                     }
@@ -63,10 +93,78 @@
                     }
                 });
             });
+
         }
+
+        var html = function(id) { return document.getElementById(id); };
+
+
+        scheduler.showLightbox = function(id) {
+            var ev = scheduler.getEvent(id);
+            scheduler.startLightbox(id, html("my_form"));
+
+            html("place").focus();
+        };
+
+        function close_form() {
+            scheduler.endLightbox(false, html("my_form"));
+        }
+
+        function save_form() {
+            var ev = scheduler.getEvent(scheduler.getState().lightbox_id);
+
+            ev.place = html("place").value;
+            ev.date = html("date").value;
+            ev.author = html("author").value;
+            ev.from = html("from").value;
+            ev.to = html("to").value;
+            ev.title = html("title").value;
+            ev.description = html("description").value;
+            ev.connectall = html("connectall").value;
+            ev.groups = html("groups").value;
+            ev.friends = html("friends").value;
+            scheduler.endLightbox(true, html("my_form"));
+        }
+
+        function delete_event() {
+            scheduler.endLightbox(false, html("my_form"));
+        }
+
     </script>
 </head>
 <body onload="init();">
+
+<div id="my_form">
+    <label for="place">Мысце проведення</label><input type="text" name="place" value="" id="place">
+    <label for="date">Дата</label><input type="date" name="date" value="" id="date"><br>
+
+    <label for="author">Автор</label><input type="text" name="author" th:value="${me.toString()}" th:authorid="${me.userId}" id="author" disabled>
+    <label for="from">Длтельность</label><input type="time" name="from" value="" id="from"><input type="time" name="to" value="" id="to"> <br>
+
+    <label for="title">Заголовок</label><input type="text" name="title" value="" id="title"> <br>
+    <label for="description">Опис</label><input type="text" name="description" value="" id="description"> <br>
+
+    <label for="connectall">Хто може приднатись</label><select name="connectall" value="" id="connectall">
+        <option value="true">Усі</option>
+        <option value="false">За запрошенням</option>
+    </select>
+    <br>
+    <label for="groups">Надіслати запрошення группам</label><select name="groups" value="" id="groups" >
+        <option th:each="group : ${groups}" th:text="${group.toString()}" th:value="${group.userId}"></option>
+    </select>
+    <br>
+    <label for="friends">Надіслати запрошення друзям</label><select name="friends" value="" id="friends">
+        <option th:each="friend : ${friends}" th:text="${friend.toString()}" th:value="${friend.userId}"></option>
+    </select>
+    <br>
+
+    <!--<label for="custom1">Custom 1 </label><input type="text" name="custom1" value="" id="custom1"><br>-->
+    <!--<label for="custom2">Custom 2 </label><input type="text" name="custom2" value="" id="custom2"><br><br>-->
+    <input type="button" name="save" value="Save" id="save" style='width:100px;' onclick="save_form()">
+    <input type="button" name="close" value="Close" id="close" style='width:100px;' onclick="close_form()">
+    <input type="button" name="delete" value="Delete" id="delete" style='width:100px;' onclick="delete_event()">
+</div>
+
 
 <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
     <div class="dhx_cal_navline">

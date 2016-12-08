@@ -31,6 +31,11 @@ public class Event {
     private Date created;
     private String eventUrl;
 
+    private String description;
+    private String place;
+    @Column(columnDefinition = "boolean not null default 0")
+    private boolean connectAll;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_events", joinColumns = {
             @JoinColumn(name = "event_id", nullable = false, updatable = false) },

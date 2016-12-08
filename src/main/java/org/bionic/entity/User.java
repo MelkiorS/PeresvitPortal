@@ -96,4 +96,9 @@ public class User {
 	public void addUserInfo(UserInfo userInfo){
 		userInfoList.add(userInfo);
 	}
+
+	@Override
+	public String toString() {
+		return "" + firstName.trim() + " " + lastName.trim();
+	}
 }

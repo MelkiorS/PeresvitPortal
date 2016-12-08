@@ -70,22 +70,42 @@ public class MyEventsController {
     @RequestMapping(value = "/admin/addEvent", method = RequestMethod.POST)
     @ResponseBody
 //    public String updEvent(@RequestParam("start_date") String start, @RequestParam("end_date") String end, @RequestParam("text") String text, @RequestParam("!nativeeditor_status") String status) throws URISyntaxException {
-    public String addEvent(@RequestParam("start_date") Long start, @RequestParam("end_date") Long end, @RequestParam("text") String text) throws URISyntaxException {
+    public String addEvent(@RequestParam("start_date") Long start, @RequestParam("end_date") Long end,
+                           @RequestParam("place") String place,
+                           @RequestParam("title") String title,
+                           @RequestParam("description") String description,
+                           @RequestParam("connectall") boolean connectall,
+                           @RequestParam("groups") String groups,
+                           @RequestParam("friends") String friends) throws URISyntaxException {
         Event ev = new Event();
-        ev.setName(text);
+        ev.setName(title);
         ev.setStart(new Date(start));
         ev.setFinish(new Date(end));
+
+        ev.setPlace(place);
+        ev.setDescription(description);
+        ev.setConnectAll(connectall);
 
         return String.valueOf(es.create(ev));
     }
 
     @RequestMapping(value = "/admin/updEvent", method = RequestMethod.POST)
     @ResponseBody
-    public String updEvent(@RequestParam("id") long id, @RequestParam("start_date") Long start, @RequestParam("end_date") Long end, @RequestParam("text") String text) {
+    public String updEvent(@RequestParam("id") long id, @RequestParam("start_date") Long start, @RequestParam("end_date") Long end,
+                           @RequestParam("place") String place,
+                           @RequestParam("title") String title,
+                           @RequestParam("description") String description,
+                           @RequestParam("connectall") boolean connectall,
+                           @RequestParam("groups") String groups,
+                           @RequestParam("friends") String friends) {
         Event ev = es.findById(id);
-        ev.setName(text);
+        ev.setName(title);
         ev.setStart(new Date(start));
         ev.setFinish(new Date(end));
+
+        ev.setPlace(place);
+        ev.setDescription(description);
+        ev.setConnectAll(connectall);
         return String.valueOf(es.update(ev));
     }
 
@@ -96,7 +116,10 @@ public class MyEventsController {
     }
 
     @RequestMapping(value = "/admin/event_edit", method = RequestMethod.GET)
-    public String editEvents(){
+    public String editEvents(Model model){
+        model.addAttribute("friends", us.findAll());
+        model.addAttribute("groups", us.findAll());
+        model.addAttribute("me", us.getCurrentUser());
         return "/admin/event_edit";
     }
 
