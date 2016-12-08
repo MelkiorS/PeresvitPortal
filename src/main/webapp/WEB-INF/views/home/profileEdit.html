@@ -134,16 +134,19 @@
                 <input type="submit" value="Зберегти" >
                 <input type="reset" value="Скасувати"  >
             </div>
-
+            <!--Нельзя комментировать - выдает ошибку-->
+            <!--С этгого поля-->
             <input type="hidden" th:field="*{password}" placeholder="password" >
             <input type="hidden" th:field="*{avatarURL}">
-            <!--Нельзя комментировать - выдает ошибку-->
+
             <select th:field="*{mentor.userId}" style="display:none;">
                 <option value="" th:text="''"></option>
                 <option th:each="mentor : ${mentorList}" th:value="${mentor.userId}"
                         th:text="${mentor.firstName} + ' ' + ${mentor.lastName}"></option>
             </select>
-            <!--<a href="javascript:history.back();">Скасувати</a>-->
+            <!--И до вот этого, но их нужно убрать, ведь юзер может увидеть и изменить-->
+            <!-- эти данные не тем путем который разрешен и реализован-->
+
 
             </form>
             </main>
