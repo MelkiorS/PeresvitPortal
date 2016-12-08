@@ -38,10 +38,12 @@
                 <div>
                     <p class="text-left h2 main_section_name">
                         <a th:href="@{/home/profileEdit/} + ${user.userId}"><span class="glyphicon glyphicon-cog cogwheel-name" aria-hidden="true"></span></a>
-                        <span th:text="${user.lastName}"></span>
-                        <span th:text="${user.firstName}"></span>
-                        <span th:text="${user.middleName}"></span>
-                        <span class="glyphicon glyphicon-pencil pencil pencil-name" aria-hidden="true"></span>
+                        <span class="variable">
+                            <span th:text="${user.lastName}"></span>
+                            <span th:text="${user.firstName}"></span>
+                            <span th:text="${user.middleName}"></span>
+                            <span class="glyphicon glyphicon-pencil pencil pencil-name" aria-hidden="true"></span>
+                        </span>
                     </p>
                 </div>
                 <div class="row main_section_basic">
