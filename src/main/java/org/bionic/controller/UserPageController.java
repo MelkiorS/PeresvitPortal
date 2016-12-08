@@ -160,7 +160,7 @@ public class UserPageController {
         return eventService.assignToMe(ev);
     }
 
-    @RequestMapping(value = "/myWay/isAassignedToMe", method = RequestMethod.GET)
+    @RequestMapping(value = "/myWay/isAssignedToMe", method = RequestMethod.GET)
     public boolean isAssignedToMe(Model model, @RequestParam(value = "eventId") long eventid) {
         Event ev = eventService.findById(eventid);
         return eventService.isAssignedToMe(ev);
