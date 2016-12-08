@@ -21,4 +21,7 @@ public interface EventService {
     Event findNext(Date date);
     List<Event> getPeriod(Date start, Date finish);
 
+    boolean isAssignedToMe(Event e);
+    boolean assignToMe(Event e);
+
 }

@@ -12,6 +12,7 @@ public class Article {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long articleId;
     private String articleName;
+    @Lob
     private String context;
     private long chapterId;
     // resource content type

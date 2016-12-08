@@ -66,6 +66,11 @@ public class UserPageController {
     @RequestMapping(value = "/workField", method = RequestMethod.GET)
     public String showStartOffice(Model model, Principal principal) {
         User loggedUser = userService.findUserByEmail(principal.getName());
+        String imagePath = loggedUser.getAvatarURL();
+        model.addAttribute("imageAvatar", null);
+        try {
+            model.addAttribute("imageAvatar", Constant.encodeFileToBase64Binary(imagePath));
+        }catch (IOException ex){}
         model.addAttribute("user", loggedUser);
         model.addAttribute("groups", rgtService.findAll());
 
@@ -73,7 +78,7 @@ public class UserPageController {
     }
 
      // go to Edit user form
-    @RequestMapping(value = "/privateOfficeEdit/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/profileEdit/{userId}", method = RequestMethod.GET)
     public String editUser(@PathVariable("userId")  long userId, Model model) {
         User user = userService.findOne(userId);
 
@@ -94,11 +99,11 @@ public class UserPageController {
 
         model.addAttribute(user);
 
-         return "home/privateOfficeEdit";
+         return "home/profileEdit";
     }
 
     // Edit User
-    @RequestMapping(value = "/privateOfficeEdit", method = RequestMethod.POST)
+    @RequestMapping(value = "/profileEdit", method = RequestMethod.POST)
     public String editUser(User user, Model model, @RequestParam("file") MultipartFile file) {
 
         user.setAvatarURL(userService.saveFile(user, file));
@@ -152,5 +157,20 @@ public class UserPageController {
         model.addAttribute("user", userService.getCurrentUser());
         model.addAttribute("article", aService.findOne(articleId));
         return "home/myWay/myWayArticle";
+    }
+
+    //TODO: front - сделать авто пересчет в случае успеха - автоматом отражать новое состояние, в случае неудачи - показывать сообщение о фейле
+    //TODO: back - добавить функцию удаления unassign
+    //TODO: сделать рекфакторинг EventService isAssignedToMe - переделать на обращение к методу сущности. дописать тесты
+    @RequestMapping(value = "/myWay/assignToMe", method = RequestMethod.POST)
+    public boolean assignToMe(Model model, @RequestParam(value = "eventId") long eventid) {
+        Event ev = eventService.findById(eventid);
+        return eventService.assignToMe(ev);
+    }
+
+    @RequestMapping(value = "/myWay/isAssignedToMe", method = RequestMethod.GET)
+    public boolean isAssignedToMe(Model model, @RequestParam(value = "eventId") long eventid) {
+        Event ev = eventService.findById(eventid);
+        return eventService.isAssignedToMe(ev);
     }
 }

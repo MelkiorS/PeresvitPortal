@@ -1,0 +1,64 @@
+.main_section{
+    padding-left: 20px;
+}
+.main_section h2{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+main p{
+    clear:both;
+}
+main label,
+.passwords > p{
+    font-size: 19px;
+}
+main select,
+main .gender,
+main input[type='text'],
+main input[type='file'],
+main input[type='password'],
+textarea{
+    float:right;
+    margin-right:50px;
+    width: 250px;
+    font-size: 17px;
+}
+textarea{
+    height: 80px;
+    width: 300px;
+    margin:0 50px 10px 0;
+}
+main input[type='file']{
+    width: 301px;
+}
+.passwords > p{
+    color: #1A237E;
+    font-weight: bolder;
+    cursor: pointer;
+}
+.passwords fieldset{
+    display: none;
+}
+.checkOldPass{
+    clear: both;
+    float: right;
+    margin: 2px 54px 10px 0;
+    font-size: 16px;
+    color:red
+}
+.checkNewPass{
+    clear: both;
+    float: right;
+    margin: 2px 54px 10px 0;
+    font-size: 16px;
+}
+.buttons{
+    float:right;
+    font-size:18px;
+    margin-right:50px;
+}
+.buttons input{
+    border-radius: 5px;
+    margin: 0 10px 0 10px;
+}
