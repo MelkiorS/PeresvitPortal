@@ -154,6 +154,9 @@ public class UserPageController {
         return "home/myWay/myWayArticle";
     }
 
+    //TODO: front - сделать авто пересчет в случае успеха - автоматом отражать новое состояние, в случае неудачи - показывать сообщение о фейле
+    //TODO: back - добавить функцию удаления unassign
+    //TODO: сделать рекфакторинг EventService isAssignedToMe - переделать на обращение к методу сущности. дописать тесты
     @RequestMapping(value = "/myWay/assignToMe", method = RequestMethod.POST)
     public boolean assignToMe(Model model, @RequestParam(value = "eventId") long eventid) {
         Event ev = eventService.findById(eventid);

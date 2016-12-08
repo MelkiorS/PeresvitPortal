@@ -31,7 +31,7 @@ public class Event {
     private Date created;
     private String eventUrl;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_events", joinColumns = {
             @JoinColumn(name = "event_id", nullable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "user_id",
@@ -43,5 +43,9 @@ public class Event {
         String startDate = (new SimpleDateFormat("dd.MM.yyyy")).format(start);
         String finishDate = (new SimpleDateFormat("dd.MM.yyyy")).format(finish);
         return (startDate.equals(finishDate)) ? "" + startDate + " " + name : "" + startDate + " - " + finishDate + " "  + name;
+    }
+
+    public boolean isAssigned(User u){
+        return users.contains(u);
     }
 }

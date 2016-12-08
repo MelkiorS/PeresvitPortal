@@ -70,11 +70,27 @@ public class User {
 
 //	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
 //	private Set<Event> events = new HashSet<Event>();
-	
+
 	public User() {
 		super();
 		enabled = true;
 		gender  = true;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		User user = (User) o;
+
+		return userId.equals(user.userId);
+
+	}
+
+	@Override
+	public int hashCode() {
+		return userId.hashCode();
 	}
 
 	public void addUserInfo(UserInfo userInfo){
