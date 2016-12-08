@@ -44,6 +44,7 @@ public class MyEventsController {
     public String getDateEvents(@RequestParam("dt") String date, @RequestParam("qty") int qty, Model model) throws ParseException {
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         model.addAttribute("events", es.findClosest(dt, qty));
+        model.addAttribute("me", us.getCurrentUser());
         return "panel/events_soon";
     }
 
@@ -51,6 +52,7 @@ public class MyEventsController {
     public String getDateEventsNext(@RequestParam("dt") String date, Model model) throws ParseException {
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         model.addAttribute("event", es.findNext(dt));
+        model.addAttribute("me", us.getCurrentUser());
         return "panel/events_next";
     }
 

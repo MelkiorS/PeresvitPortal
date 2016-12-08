@@ -1,6 +1,8 @@
 package org.bionic.entity;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -65,11 +67,30 @@ public class User {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@Cascade(CascadeType.DELETE)	
 	private List<UserInfo> userInfoList;
-	
+
+//	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+//	private Set<Event> events = new HashSet<Event>();
+
 	public User() {
 		super();
 		enabled = true;
 		gender  = true;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		User user = (User) o;
+
+		return userId.equals(user.userId);
+
+	}
+
+	@Override
+	public int hashCode() {
+		return userId.hashCode();
 	}
 
 	public void addUserInfo(UserInfo userInfo){
