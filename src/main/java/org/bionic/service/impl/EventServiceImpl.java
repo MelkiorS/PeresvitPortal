@@ -1,5 +1,7 @@
 package org.bionic.service.impl;
 
+import org.bionic.service.UserService;
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.bionic.entity.Event;
 import org.bionic.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -22,6 +25,9 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventRepository dao;
+
+    @Autowired
+    private UserService us;
 
     @Override
     public List<Event> findAll() {
@@ -67,5 +73,31 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> getPeriod(Date start, Date finish) {
         return dao.getPeriod(start, finish);
+    }
+
+    @Override
+    @Transactional
+    public boolean isAssignedToMe(Event e) {
+        Event ev = dao.findOne(e.getId());
+        return ev.getUsers().contains(us.getCurrentUser());
+    }
+
+    @Override
+    @Transactional
+    public boolean assignToMe(Event e) {
+        if (!isAssignedToMe(e)) {
+            Event ev = dao.findOne(e.getId());
+            ev.getUsers().add(us.getCurrentUser());
+            try {
+                dao.save(ev);
+                return true;
+            }
+            catch (Exception excp) {
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
     }
 }
