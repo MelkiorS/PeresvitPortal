@@ -10,14 +10,18 @@ $(function(){
         //Тут создаем форму и на нее нужно навесить какой то action для имени
         var formForChange = $('<form action="#" class="formForChange"></form>');
 
-        var InputName = $('<input type="text" class="form-control" placeholder="Введіть Ваше ПІБ">');
-        var userName = (children.eq(0).html()+' '+children.eq(1).html()+children.eq(2).html()).toString();
-        InputName.attr('value',userName);
+        var InputFirstName = $('<input type="text" class="form-control" placeholder="Iм`я">');
+        var InputLastName = $('<input type="text" class="form-control" placeholder="Прізвище">');
+        var InputMiddleName = $('<input type="text" class="form-control" placeholder="По батькові">');
+        // var userName = (children.eq(0).html()+' '+children.eq(1).html()+children.eq(2).html()).toString();
+        InputLastName.attr('value',children.eq(0).html());
+        InputFirstName.attr('value',children.eq(1).html());
+        InputMiddleName.attr('value',children.eq(2).html());
 
-        formForChange.append(InputName,$agreeButton,$disagreeButton);
+        formForChange.append(InputLastName, InputFirstName,InputMiddleName,$agreeButton,$disagreeButton);
 
-        $('.allName').append(formForChange);
-        InputName.on('keyup',function(){
+        $name.append(formForChange);
+        InputLastName.on('keyup',function(){
             if($(this).val() == ''){
                 $agreeButton.attr('disabled',true);
             }else{
