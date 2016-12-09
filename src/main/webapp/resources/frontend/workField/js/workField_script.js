@@ -120,7 +120,7 @@ $(function(){
         city.append(formForChange);
         $disagreeButton.on('click',function(){
             formForChange.remove();
-            children.css('display','inline');
+            children.css('display','inline' );
         });
     });
 
