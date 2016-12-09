@@ -85,7 +85,10 @@
    font-size: 18px;
     /*margin-left:3px;*/
 }
-.pencil-info{
+.pencil-info-city,
+.pencil-info-direct,
+.pencil-info-club,
+.pencil-info-me{
     font-size: 15px;
     margin-left:6px;
 }
@@ -93,4 +96,25 @@
 .pencil:hover{
     transition: 0.5s;
     opacity:0.6;
+}
+.formForChange{
+    display:inline-block;
+    font-size: 20px;
+}
+.formForChange .form-control{
+    display: inline;
+    width: auto;
+    font-size:16px;
+}
+.aboutMe form {
+    width: 300px;
+}
+.aboutMe form button{
+    float:right;
+}
+.pensil-button{
+    padding: 6px 10px;
+    margin: 0 2px 0 5px;
+    /* border-radius: 2px; */
+    height: 33px;
 }

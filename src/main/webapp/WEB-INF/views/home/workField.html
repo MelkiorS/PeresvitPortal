@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/resources/frontend/bars.css">
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
     <script src="/resources/frontend/libraries/constants.js"></script>
-    <!--<script  async src="/resources/frontend/workField/js/workField_script.js"></script>-->
+    <script  async src="/resources/frontend/workField/js/workField_script.js"></script>
 
 
 </head>
@@ -38,7 +38,7 @@
                 <div>
                     <p class="text-left h2 main_section_name">
                         <a th:href="@{/home/profileEdit/} + ${user.userId}"><span class="glyphicon glyphicon-cog cogwheel-name" aria-hidden="true"></span></a>
-                        <span class="variable">
+                        <span class="allName">
                             <span th:text="${user.lastName}"></span>
                             <span th:text="${user.firstName}"></span>
                             <span th:text="${user.middleName}"></span>
@@ -87,32 +87,42 @@
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем город в котором живет юзер-->
                     <p>
-                        <b>Місто: </b>
-                        <span th:text="${user.city == null ? '' : user.city.cityName}">Киев</span>
-                        <span class="glyphicon glyphicon-pencil pencil pencil-info" aria-hidden="true"></span>
+                        <span class="city">
+                            <b>Місто: </b>
+                            <span th:text="${user.city == null ? '' : user.city.cityName}">Киев</span>
+                            <span class="glyphicon glyphicon-pencil pencil pencil-info-city" aria-hidden="true"></span>
+                        </span>
                     </p>
                 </div>
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем клуб в котором занимается юзер-->
                     <p>
-                        <b>Клуб: </b>
-                        <span th:text="${user.club == null ? '' : user.club.clubName}">Пересвіт</span>
-                        <span class="glyphicon glyphicon-pencil pencil pencil-info" aria-hidden="true"></span>
+                        <span class="club">
+                            <b>Клуб: </b>
+                            <span th:text="${user.club == null ? '' : user.club.clubName}">Пересвіт</span>
+                            <span class="glyphicon glyphicon-pencil pencil pencil-info-club" aria-hidden="true"></span>
+                        </span>
                     </p>
                 </div>
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем направление юзера -->
                     <p>
-                        <b>Направлення: </b>
-                        <span th:text="${user.combatArt == null ? '' : user.combatArt.combatArtName}">Фрійфайт</span>
-                        <span class="glyphicon glyphicon-pencil pencil pencil-info" aria-hidden="true"></span></p>
+                        <span class="direction">
+                            <b>Направлення: </b>
+                            <span th:text="${user.combatArt == null ? '' : user.combatArt.combatArtName}">Фрійфайт</span>
+                            <span class="glyphicon glyphicon-pencil pencil pencil-info-direct" aria-hidden="true"></span>
+                        </span>
+                    </p>
                 </div>
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем информацию юзера о себе-->
                     <p>
-                        <b>Про себе: </b>
-                        <span th:text="${user.about == null ? '' : user.about}">Чорний пояс по Фрі-файт, чемпіон Європи</span>
-                        <span class="glyphicon glyphicon-pencil pencil pencil-info" aria-hidden="true"></span></p>
+                        <span class="aboutMe">
+                            <b>Про себе: </b>
+                            <span th:text="${user.about == null ? '' : user.about}">Чорний пояс по Фрі-файт, чемпіон Європи</span>
+                            <span class="glyphicon glyphicon-pencil pencil pencil-info-me" aria-hidden="true"></span>
+                        </span>
+                    </p>
                 </div>
             </div>
             <div class=" row col-xs-12 main_section_photoGallery">

@@ -1,5 +1,6 @@
 .main_section{
     padding-left: 20px;
+    font-family: inherit;
 }
 .main_section h2{
     margin-top: 10px;
@@ -9,30 +10,46 @@
 main p{
     clear:both;
 }
-main label,
-.passwords > p{
-    font-size: 19px;
+main label{
+    margin-top: 4px;
+    font-size: 18px;
+}
+.form-group {
+    margin-bottom: 5px;
 }
 main select,
-main .gender,
 main input[type='text'],
-main input[type='file'],
-main input[type='password'],
-textarea{
+main input[type='password']{
     float:right;
     margin-right:50px;
     width: 250px;
-    font-size: 17px;
+    font-size: 16px;
 }
 textarea{
-    height: 80px;
-    width: 300px;
-    margin:0 50px 10px 0;
+    float:right;
+    margin-right:50px;
+    margin-bottom:10px;
 }
+main .gender{
+    float: right;
+    margin: 9px 48px 0 50px;
+    width: 250px;
+    font-size: 17px;
+}
+.form-control{
+    width: 250px;
+    display: inline;
+    /*width: auto;*/
+    font-size:16px;
+}
+/*avatar*/
 main input[type='file']{
-    width: 301px;
+    float: right;
+    width: 299px;
+    font-size: 17px;
 }
 .passwords > p{
+    font-size: 19px;
     color: #1A237E;
     font-weight: bolder;
     cursor: pointer;
@@ -55,10 +72,10 @@ main input[type='file']{
 }
 .buttons{
     float:right;
-    font-size:18px;
     margin-right:50px;
 }
 .buttons input{
+    font-size:15px;
     border-radius: 5px;
     margin: 0 10px 0 10px;
 }

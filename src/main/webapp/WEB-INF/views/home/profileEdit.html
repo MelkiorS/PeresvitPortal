@@ -35,104 +35,104 @@
             <input type="hidden" th:field="*{userId}" >
             <input type="hidden" th:field="*{enabled}" >
             <input type="hidden" th:field="*{rang.rangId}" >
-            <p>
+            <p class="form-group">
                 <label for="lastName">Прізвище</label>
-                <input type="text" th:field="*{lastName}" id="lastName" placeholder="Прізвище" >
+                <input class="form-control" type="text" th:field="*{lastName}" id="lastName" placeholder="Прізвище" >
             </p>
 
-            <p>
+            <p class="form-group">
                 <label for="firstName">Імя</label>
-                <input type="text" th:field="*{firstName}" id="firstName" placeholder="Імя" >
+                <input class="form-control" type="text" th:field="*{firstName}" id="firstName" placeholder="Імя" >
             </p>
 
-            <p>
+            <p class="form-group">
                 <label for="middleName">По батькові</label>
-                <input type="text" th:field="*{middleName}" id='middleName' placeholder="По батькові" >
+                <input class="form-control" type="text" th:field="*{middleName}" id='middleName' placeholder="По батькові" >
             </p>
 
-            <p>
-                <label >Стать: </label>
+            <p class="form-group">
+                <label>Стать: </label>
                 <span class="gender">
                     <input type="radio" th:name="male" th:value="true"  th:field="*{gender}" checked ><span>Чоловіча</span>
                     <input type="radio" th:name="female" th:value="false"  th:field="*{gender}" ><span>Жіноча</span>
                 </span>
             </p>
 
-            <p>
+            <p class="form-group">
                 <label for="cityList">Місто: </label>
-                <select th:field="*{city.cityId}" id="cityList">
+                <select th:field="*{city.cityId}" id="cityList" class="form-control">
                     <option disabled value="" th:text="'Ваше місто'"></option>
                     <option th:each="city : ${cityList}" th:value="${city.cityId}"
                             th:text="${city.cityName}"></option>
                 </select>
             </p>
 
-            <p>
+            <p class="form-group">
                 <label for="clubList">Клуб: </label>
-                <select id="clubList" th:field="*{club.clubId}">
+                <select id="clubList" th:field="*{club.clubId}" class="form-control">
                     <option disabled value="" th:text="'Ваш клуб'"></option>
                     <option th:each="club : ${clubList}" th:value="${club.clubId}"
                             th:text="${club.clubName}"></option>
                 </select>
             </p>
 
-            <p>
+            <p class="form-group">
                 <label for="combatArtList">Направлення: </label>
-                <select th:field="*{combatArt.combatArtId}" id="combatArtList">
+                <select th:field="*{combatArt.combatArtId}" id="combatArtList" class="form-control">
                     <option disabled value="" th:text="'Бойове мистецтво'"></option>
                     <option th:each="combatArt : ${combatArtList}" th:value="${combatArt.combatArtId}"
                             th:text="${combatArt.combatArtName}"></option>
                 </select>
             </p>
-            <p>
+            <p class="form-group">
                 <label for="email">Ваш Email: </label>
-                <input type="text" th:field="*{email}" id='email' placeholder="e-mail" >
+                <input class="form-control" type="text" th:field="*{email}" id='email' placeholder="e-mail" >
             </p>
-            <p>
+            <p class="form-group">
                 <label for="fb">Ваш профiль у фейсбуцi: </label>
-                <input type="text" th:field="*{profileFB}" id='fb' placeholder="Профіль facebook" >
+                <input class="form-control" type="text" th:field="*{profileFB}" id='fb' placeholder="Профіль facebook" >
             </p>
-            <p>
+            <p class="form-group">
                 <label for="vk">Ваш профiль у Вконтакте: </label>
-                <input type="text" th:field="*{profileVK}" id='vk' placeholder="Профіль Vk" >
+                <input class="form-control" type="text" th:field="*{profileVK}" id='vk' placeholder="Профіль Vk" >
             </p>
-            <p>
+            <p class="form-group">
                 <label for="insta">Ваш профiль в Iнстаграмi: </label>
-                <input type="text" th:field="*{profileIS}" id='insta' placeholder="Профіль Instagram" >
+                <input class="form-control" type="text" th:field="*{profileIS}" id='insta' placeholder="Профіль Instagram" >
             </p>
-            <p>
+            <p class="form-group">
                 <label for="about">Про мене:</label>
-                <textarea th:field="*{about}" id="about"></textarea>
+                <textarea th:field="*{about}" id="about" class="form-control" rows="3"></textarea>
             </p>
-            <p class="avatar">
+            <p class="avatar ">
                 <label for="avatar">Оновити аватар:</label>
                 <input id="avatar" type="file" name="file" accept="image/*">
             </p>
-            <section class="passwords">
+            <section class="passwords form-group">
                 <p>Оновити пароль</p>
                 <fieldset>
                     <p>
                         <label for="oldPasswd">Введіть старий пароль</label>
-                        <input type="password" id="oldPasswd" placeholder="Старий пароль">
+                        <input class="form-control" type="password" id="oldPasswd" placeholder="Старий пароль">
                         <span class="checkOldPass">Щоб змінити, підтвердіть старий пароль</span>
                     </p>
                     <p>
                         <label for="newPasswd">Введіть новий пароль</label>
-                        <input disabled type="password" id="newPasswd" placeholder="Новий пароль">
+                        <input class="form-control" disabled type="password" id="newPasswd" placeholder="Новий пароль">
                     </p>
                     <p>
                         <label for="confirmPasswd">Підтвердіть пароль</label>
                         <!--В этот инпут нужно вставить тег для изменения пароля-->
-                        <input disabled type="password" id="confirmPasswd" placeholder="Підтвердіть пароль">
+                        <input class="form-control" disabled type="password" id="confirmPasswd" placeholder="Підтвердіть пароль">
                         <span class="checkNewPass"></span>
                     </p>
 
                 </fieldset>
             </section>
 
-            <div class="buttons">
-                <input type="submit" value="Зберегти" >
-                <input type="reset" value="Скасувати"  >
+            <div class="buttons form-group">
+                <input class="btn btn-success" type="submit" value="Зберегти" >
+                <input class="btn btn-danger" type="reset" value="Скасувати"  >
             </div>
             <!--Нельзя комментировать - выдает ошибку-->
             <!--С этгого поля-->
