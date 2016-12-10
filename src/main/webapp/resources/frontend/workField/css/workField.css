@@ -32,6 +32,9 @@ body{
 .main_sidebar{
     margin: 0 0 0 4%;
 }
+.main_sidebar .control_button{
+    text-align:left;
+}
 .btn-group-vertical{
     width:  97%;
 }

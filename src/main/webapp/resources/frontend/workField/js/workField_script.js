@@ -9,7 +9,7 @@ $(function(){
         children.css('display','none');
         //Тут создаем форму и на нее нужно навесить какой то action для имени
         var formForChange = $('<form action="#" class="formForChange"></form>');
-
+        var textName = $('<span>Ваше ПІБ</span>');
         var InputFirstName = $('<input type="text" class="form-control" placeholder="Iм`я">');
         var InputLastName = $('<input type="text" class="form-control" placeholder="Прізвище">');
         var InputMiddleName = $('<input type="text" class="form-control" placeholder="По батькові">');
@@ -18,7 +18,7 @@ $(function(){
         InputFirstName.attr('value',children.eq(1).html());
         InputMiddleName.attr('value',children.eq(2).html());
 
-        formForChange.append(InputLastName, InputFirstName,InputMiddleName,$agreeButton,$disagreeButton);
+        formForChange.append(textName, InputLastName, InputFirstName,InputMiddleName,$agreeButton,$disagreeButton);
 
         $name.append(formForChange);
         InputLastName.on('keyup',function(){
@@ -127,9 +127,6 @@ $(function(){
             children.css('display','inline' );
         });
     });
-
-
-
 
 });
 
