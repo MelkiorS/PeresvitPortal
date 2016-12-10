@@ -12,12 +12,14 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
     private final String appUrl;
     private final Locale locale;
     private final User user;
+    private final boolean isWithToken;
 
-    public OnRegistrationCompleteEvent(final User user, final Locale locale, final String appUrl) {
+    public OnRegistrationCompleteEvent(final User user, final Locale locale, final String appUrl, boolean isWithToken) {
         super(user);
         this.user = user;
         this.locale = locale;
         this.appUrl = appUrl;
+        this.isWithToken = isWithToken;
     }
 
     //
@@ -34,4 +36,7 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
         return user;
     }
 
+    public boolean getIsWithToken() {
+        return isWithToken;
+    }
 }

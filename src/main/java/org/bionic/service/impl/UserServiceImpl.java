@@ -1,12 +1,14 @@
 package org.bionic.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
 import org.bionic.config.Constant;
 import org.bionic.dao.RangRepository;
 //import org.bionic.dao.VerificationTokenRepository;
+import org.bionic.dao.VerificationTokenRepository;
 import org.bionic.entity.*;
 import org.bionic.service.UserService;
 import org.bionic.dao.UserRepository;
@@ -25,12 +27,15 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserRepository userRepository;
 
-//    @Autowired
-//    private VerificationTokenRepository tokenRepository;
+    @Autowired
+    private VerificationTokenRepository tokenRepository;
 
     @Autowired
     private RangRepository rangRepository;
 
+    public static final String TOKEN_INVALID = "invalidToken";
+    public static final String TOKEN_EXPIRED = "expired";
+    public static final String TOKEN_VALID = "valid";
 
     @Override
     public <S extends User> S save(S arg0) {
@@ -56,6 +61,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void delete(User user) {
+        final VerificationToken verificationToken = tokenRepository.findByUser(user);
+
+        if (verificationToken != null) {
+            tokenRepository.delete(verificationToken);
+        }
+
         userRepository.delete(user);
     }
 
@@ -93,10 +104,19 @@ public class UserServiceImpl implements UserService{
 
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    /*@Override
+    @Override
     public void createVerificationTokenForUser(final User user, final String token) {
         final VerificationToken myToken = new VerificationToken(token, user);
         tokenRepository.save(myToken);
+    }
+
+    @Override
+    public User getUser(String verificationToken) {
+        final VerificationToken token = tokenRepository.findByToken(verificationToken);
+        if (token != null) {
+            return token.getUser();
+        }
+        return null;
     }
 
     @Override
@@ -105,12 +125,32 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public String validateVerificationToken(String token) {
+        final VerificationToken verificationToken = tokenRepository.findByToken(token);
+        if (verificationToken == null) {
+            return TOKEN_INVALID;
+        }
+
+        final User user = verificationToken.getUser();
+        final Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            tokenRepository.delete(verificationToken);
+            return TOKEN_EXPIRED;
+        }
+
+        user.setEnabled(true);
+        // tokenRepository.delete(verificationToken);
+        userRepository.save(user);
+        return TOKEN_VALID;
+    }
+
+    @Override
     public VerificationToken generateNewVerificationToken(final String existingVerificationToken) {
         VerificationToken vToken = tokenRepository.findByToken(existingVerificationToken);
         vToken.updateToken(UUID.randomUUID().toString());
         vToken = tokenRepository.save(vToken);
         return vToken;
-    }*/
+    }
 
     @Transactional
     @Override
@@ -126,6 +166,15 @@ public class UserServiceImpl implements UserService{
         user.setEmail(accountDto.getEmail());
         user.setRang(rangRepository.findOne(4L));
         user.setAvatarURL("http://image.flaticon.com/icons/svg/126/126486.svg");
+        if (accountDto.getProfileFB() != null) {
+            user.setProfileFB(accountDto.getProfileFB());
+        }
+        if (accountDto.getProfileVK() != null) {
+            user.setProfileVK(accountDto.getProfileVK());
+        }
+        if (accountDto.getProfileGoogle() != null) {
+            user.setProfileGoogle(accountDto.getProfileGoogle());
+        }
 
         return userRepository.save(user);
     }

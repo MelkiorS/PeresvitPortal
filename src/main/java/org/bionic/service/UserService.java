@@ -33,9 +33,11 @@ public interface UserService {
 
 	void initializeUserInfo(User user);
 	////////////////////////////////////////////////////////////////////////
-//	void createVerificationTokenForUser(User user, String token);
-//	VerificationToken getVerificationToken(String VerificationToken);
-//	VerificationToken generateNewVerificationToken(String token);
+	void createVerificationTokenForUser(User user, String token);
+	User getUser(String verificationToken);
+	VerificationToken getVerificationToken(String VerificationToken);
+	String validateVerificationToken(String token);
+	VerificationToken generateNewVerificationToken(String token);
 	User registerNewUserAccount(UserDto accountDto) throws UserAlreadyExistException;
 	void authenticateUser(User user);
 	User createUserFromDto(UserDto accountDto);

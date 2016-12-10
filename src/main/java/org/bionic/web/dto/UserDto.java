@@ -30,6 +30,9 @@ public class UserDto {
     @NotNull
     @NotEmpty
     private String matchingPassword;
+    private String profileVK;
+    private String profileFB;
+    private String profileGoogle;
 
     @NotNull
     @NotEmpty

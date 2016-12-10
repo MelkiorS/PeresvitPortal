@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:social="http://spring.io/springsocial"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="layout">
-	<head>
-		<title>Spring Social Showcase</title>
-	</head>
-	<body>
-		<div id="content" layout:fragment="content">
-			<h3>Connect to Facebook</h3>
-			
-			<form th:action="@{/connect/facebook}" method="POST">
-				<!--<input type="hidden" name="_csrf" th:value="${_csrf.token}" />-->
-				<input type="hidden" name="scope" value="public_profile, email" />
-				<div class="formInfo">
-					<p>You aren't connected to Facebook yet. Click the button to connect Spring Social Showcase with your Facebook account.</p>
-				</div>
-				<p><button type="submit"><img th:src="@{/resources/social/facebook/connect_light_medium_short.gif}"/></button></p>
-				<label for="postToWall"><input id="postToWall" type="checkbox" name="postToWall" /> Tell your friends about Spring Social Showcase on your Facebook wall</label>
-			</form>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Connect to Facebook</title>
+	<link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css" th:href="@{/resources/frontend/libraries/bootstrap.css}">
+	<script src="/resources/frontend/libraries/jquery-2.2.4.min.js" th:src="@{/resources/frontend/libraries/jquery-2.2.4.min.js}"></script>
+</head>
+<body>
+<div class="col-xs-offset-3 col-xs-6">
+<div class="container-fluid well page-header jumbotron center-block">
+	<h3 class="center-block">Приєднання до Facebook</h3>
+
+	<form class="modal-dialog container-fluid" th:action="@{/connect/facebook}" method="POST">
+		<!--<input type="hidden" name="_csrf" th:value="${_csrf.token}" />-->
+		<input type="hidden" name="scope" value="public_profile, email" />
+		<div class="alert alert-info">
+			<p>Ви не приєднані до Facebook. Натисність кнопку, щоб приєднатися до вашого акаунту у Facebook.</p>
 		</div>
-	</body>
+		<button class="center-block" type="submit"><img th:src="@{/resources/social/facebook/connect_light_medium_short.gif}"/></button>
+	</form>
+</div>
+</div>
+</body>
 </html>

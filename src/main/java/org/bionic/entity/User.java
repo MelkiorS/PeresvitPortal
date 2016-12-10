@@ -31,6 +31,7 @@ public class User {
 
 	private String profileVK;
 	private String profileFB;
+	private String profileGoogle;
 	private String profileIS;
 
 	@Column(columnDefinition = "boolean default true")
@@ -73,7 +74,7 @@ public class User {
 
 	public User() {
 		super();
-		enabled = true;
+		enabled = false;
 		gender  = true;
 	}
 
@@ -85,7 +86,6 @@ public class User {
 		User user = (User) o;
 
 		return userId.equals(user.userId);
-
 	}
 
 	@Override

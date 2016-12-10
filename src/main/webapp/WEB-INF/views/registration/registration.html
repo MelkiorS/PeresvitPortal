@@ -12,6 +12,12 @@
     <script  async src="/resources/frontend/registration/js/registration_script.js"></script>
 </head>
 <body>
+<div class="col-xs-offset-3 col-xs-4 icemegamenu">
+    <ul id="icemegamenu" class="meganizr mzr-slide mzr-responsive">
+    <li class="iceMenuLiLevel_1  lastItem"><a href="#" class=" iceMenuTitle log_in_field_main_logIn" data-toggle="modal" data-target="#myModal_sign_up"><span class="icemega_title icemega_nosubtitle">Закінчити реєстрацію</span></a></li>
+    </ul>
+</div>
+<div class="container-fluid wrapper">
     <div class="modal fade" id="myModal_sign_up" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_sign_up">
         <div class="modal-dialog" role="document">
             <div class="modal-content ">
@@ -21,7 +27,7 @@
                 </div>
                 <div class="modal_signUp_section row">
                     <!--*******************Сюда записывать form action при регистрации****************-->
-                    <form class='col-xs-offset-1 col-xs-10 modal_signUp_section_form' data-toggle="validator" role="form" th:action="@{/registration}" th:object="${user}" method="post">
+                    <form class='col-xs-offset-1 col-xs-10 modal_signUp_section_form' data-toggle="validator" role="form" th:action="@{/registration/social}" th:object="${user}" method="post">
                         <div class="form-group row modal_signUp_section_form_name has-feedback">
                             <label for="inputName" class="control-label ">Ім'я</label>
                             <div class="input-group">
@@ -75,20 +81,6 @@
                             <i class="glyphicon form-control-feedback " aria-hidden="true" ></i>
                             <div class="help-block with-errors"></div>
                         </div>
-                        <div class="form-group using_social_networks row col-xs-12">
-                            <div class="vk col-xs-offset-1  col-xs-11">
-                                <!--************Юзер нажимая эту кнопку хочет войти через Вконтакте*******-->
-                                <a role="button" class="btn btn-default vk_button" href="#"><img src="/resources/frontend/registration/img/vk_icon.png" alt=""> Войти через Вконтате</a>
-                            </div>
-                            <div class="fb col-xs-offset-1 col-xs-11">
-                                <!--************Юзер нажимая эту кнопку хочет войти через Facebook*******-->
-                                <a role="button" class="btn btn-default fb_button" href="/registration/facebook/connect"><img src="/resources/frontend/registration/img/fb_icon.png" alt="">Войти через Facebook</a>
-                            </div>
-                            <div class="google_plus col-xs-offset-1 col-xs-11">
-                                <!--************Юзер нажимая эту кнопку хочет войти через Гугл+*******-->
-                                <a role="button" class="btn btn-default google_plus_button" href="#"><img src="/resources/frontend/registration/img/google_plus_icon.png" alt=""> Войти через Google+</a>
-                            </div>
-                        </div>
                         <div class="form-group col-xs-offset-9 col-xs-3">
                             <!--****Нажимая эту кнопку юзер юзер регистрируется и ему отображается информация, что для подтверждения регистрации ему необходимо зайти на свою почту и подтвердить регистрацию****-->
                             <button type="submit" class="btn btn-success">Зареєструватися</button>
@@ -98,6 +90,12 @@
             </div>
         </div>
     </div>
+</div>
+<script>
+    $('#myModal_sign_up').modal({
+        backdrop:'static'
+    })
+</script>
 </div>
 </body>
 </html>
