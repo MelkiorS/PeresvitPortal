@@ -108,6 +108,7 @@
 }
 .allName form input[type='text']{
     width:130px;
+    margin: 0 3px;
 }
 .aboutMe form {
     width: 300px;

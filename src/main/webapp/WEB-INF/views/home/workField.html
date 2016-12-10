@@ -87,8 +87,8 @@
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем город в котором живет юзер-->
                     <p>
+                        <b>Місто: </b>
                         <span class="city">
-                            <b>Місто: </b>
                             <span th:text="${user.city == null ? '' : user.city.cityName}">Киев</span>
                             <span class="glyphicon glyphicon-pencil pencil pencil-info-city" aria-hidden="true"></span>
                         </span>
@@ -97,8 +97,8 @@
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем клуб в котором занимается юзер-->
                     <p>
+                        <b>Клуб: </b>
                         <span class="club">
-                            <b>Клуб: </b>
                             <span th:text="${user.club == null ? '' : user.club.clubName}">Пересвіт</span>
                             <span class="glyphicon glyphicon-pencil pencil pencil-info-club" aria-hidden="true"></span>
                         </span>
@@ -107,8 +107,8 @@
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем направление юзера -->
                     <p>
+                        <b>Направлення: </b>
                         <span class="direction">
-                            <b>Направлення: </b>
                             <span th:text="${user.combatArt == null ? '' : user.combatArt.combatArtName}">Фрійфайт</span>
                             <span class="glyphicon glyphicon-pencil pencil pencil-info-direct" aria-hidden="true"></span>
                         </span>
@@ -117,8 +117,8 @@
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем информацию юзера о себе-->
                     <p>
+                        <b>Про себе: </b>
                         <span class="aboutMe">
-                            <b>Про себе: </b>
                             <span th:text="${user.about == null ? '' : user.about}">Чорний пояс по Фрі-файт, чемпіон Європи</span>
                             <span class="glyphicon glyphicon-pencil pencil pencil-info-me" aria-hidden="true"></span>
                         </span>
@@ -159,5 +159,6 @@
         </footer>
     </div>
 </div>
+
 </body>
 </html>
