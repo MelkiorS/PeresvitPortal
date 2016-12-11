@@ -1,2 +1,0 @@
-'use strict';
-const server = 'http://localhost:8080/';

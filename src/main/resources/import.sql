@@ -15,7 +15,7 @@ USE peresvitDB;
 # create unique index UserConnectionRank on UserConnection(userId, providerId, rank);
 INSERT INTO  resourceType(typeName) VALUES ('TEXT'),('PHOTO'),('VIDEO'),('OTHER');
 INSERT INTO  resourceGroupType(groupName, caption) VALUES ('BASE_TECHNIQUE', 'Базовая техника'),('BASE_TECH_COMPLEX', 'Базовая техника комплекс'),('SPECIAL_PHYSICAL_TRAININGS', 'Специальные упражнения'),('GENERAL_PHYSICAL_TRAININGS', 'Базовые упражнения'),('ANOTHER_SUBJECTS', 'Прочее'),('COMPETITION', 'Соревнования');
-INSERT INTO  rang(rangName) VALUES ('LEVEL_1'),('LEVEL_2'),('LEVEL_3'),('USER'), ('ADMIN');
+INSERT INTO  role(rangName) VALUES ('LEVEL_1'),('LEVEL_2'),('LEVEL_3'),('USER'), ('ADMIN');
 INSERT INTO  combatArt(combatArtName) VALUES ('Фрі-Файт'),('Тайдзі-Цюань'),('Шаолінь Кунг-фу');
 INSERT INTO  city(cityName) VALUES ('Київ'),('Львів'),('Дніпро');
 INSERT INTO  club(clubName) VALUES ('Клуб1'),('Клуб2');
