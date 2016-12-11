@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public interface EventRepository extends JpaRepository<Event, Long> {
+public interface EventRepository extends JpaRepository<Event, Long>  {
 
     @Query("Select e from Event e where start >= :start order by start asc")
     List<Event> getClosest(@Param("start") Date start, Pageable pageable);
