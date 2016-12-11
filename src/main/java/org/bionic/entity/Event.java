@@ -1,12 +1,18 @@
 package org.bionic.entity;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -15,12 +21,13 @@ import java.util.Set;
 /**
  * Event entity by MMaximov 03.11.2016
  */
+
 @Entity
 @Data
 public class Event {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @SerializedName("text")
     private String name;
@@ -31,10 +38,13 @@ public class Event {
     private Date created;
     private String eventUrl;
 
+    @SerializedName("description")
     private String description;
+    @SerializedName("place")
     private String place;
-    @Column(columnDefinition = "boolean not null default 0")
-    private boolean connectAll;
+    @SerializedName("connectall")
+    @Column(columnDefinition = "boolean default true")
+    private boolean connectAll = true;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_events", joinColumns = {

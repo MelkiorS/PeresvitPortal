@@ -40,39 +40,43 @@
             scheduler.init('scheduler_here', new Date(),"month");
             scheduler.config.xml_date="%Y%m%d %H%i";
             scheduler.templates.xml_date = function(value){ return new Date(value); };
-            scheduler.load('/admin/myeventsperiod?start=20161101&finish=20161130','json');
+            scheduler.load('/admin/myeventsperiod?' + current_month_period(),'json');
 
             scheduler.attachEvent("onEventAdded", function(id,ev){
+                dtFrom = new Date(ev.date + ' ' + ev.from);
+                dtTo = new Date(ev.date + ' ' + ev.to);
                 $.ajax({
                     type : "POST",
                     url : "/admin/addEvent",
                     data : {
-                        "start_date" : ev.start_date.getTime(),
-                        "end_date" : ev.end_date.getTime(),
+                        "start_date" : dtFrom.getTime(),
+                        "end_date" : dtTo.getTime(),
                         "place" : ev.place,
-                        "title" : ev.title,
+                        "title" : ev.text,
                         "description":  ev.description,
                         "connectall":   ev.connectall,
                         "groups":   ev.groups,
                         "friends":  ev.friends
                     },
                     success: function(data){
-                        scheduler.load('/admin/myeventsperiod?start=20161101&finish=20161130','json');
+                        scheduler.load('/admin/myeventsperiod?' + current_month_period(),'json');
                         scheduler.deleteEvent(id);
                     }
                 });
             });
 
             scheduler.attachEvent("onEventChanged", function(id, ev) {
+                dtFrom = new Date(ev.date + ' ' + ev.from);
+                dtTo = new Date(ev.date + ' ' + ev.to);
                 $.ajax({
                     type : "POST",
                     url : "/admin/updEvent",
                     data : {
                         "id" : ev.id,
-                        "start_date" : ev.start_date.getTime(),
-                        "end_date" : ev.end_date.getTime(),
+                        "start_date" : dtFrom.getTime(),
+                        "end_date" : dtTo.getTime(),
                         "place" : ev.place,
-                        "title" : ev.title,
+                        "title" : ev.text,
                         "description":  ev.description,
                         "connectall":   ev.connectall,
                         "groups":   ev.groups,
@@ -97,6 +101,8 @@
         }
 
         var html = function(id) { return document.getElementById(id); };
+        var t = function (v, def) { return v === undefined ? def : v }
+        var n = function (v, def) { return v === null ? def : v }
 
 
         scheduler.showLightbox = function(id) {
@@ -104,6 +110,17 @@
             scheduler.startLightbox(id, html("my_form"));
 
             html("place").focus();
+            html("place").value =  t(ev.place, "");
+            html("description").value = t(ev.description, "");
+            html("connectall").value = t(ev.connectall, true);
+            html("text").value = t(ev.text, "");
+
+            html("from").value = t(ev.from, fmtTime(ev.start_date));
+            html("to").value = t(ev.to, fmtTime(ev.end_date));
+            html("date").value = t(ev.date, fmtDateScheduler(ev.start_date));
+
+            $("#groups").val([]);
+            $("#friends").val([]);
         };
 
         function close_form() {
@@ -118,11 +135,12 @@
             ev.author = html("author").value;
             ev.from = html("from").value;
             ev.to = html("to").value;
-            ev.title = html("title").value;
+            ev.text = html("text").value;
             ev.description = html("description").value;
             ev.connectall = html("connectall").value;
+            ev.friends = n($("#friends").val(), []);
             ev.groups = html("groups").value;
-            ev.friends = html("friends").value;
+            console.log(ev);
             scheduler.endLightbox(true, html("my_form"));
         }
 
@@ -130,36 +148,61 @@
             scheduler.endLightbox(false, html("my_form"));
         }
 
+        function fmtNum(num, size) {
+            var s = num+"";
+            while (s.length < size) s = "0" + s;
+            return s;
+        }
+
+        function fmtDate(dt) {
+            return '' + dt.getFullYear() + fmtNum(dt.getMonth()+1, 2) + fmtNum(dt.getDate(), 2);
+        }
+
+        function fmtDateScheduler(dt) {
+            return "" + dt.getFullYear() + "-" + fmtNum(dt.getMonth()+1, 2) + "-" + fmtNum(dt.getDate(), 2);
+        }
+
+        function fmtTime(tm) {
+            return "" + fmtNum(tm.getHours(), 2) + ":" + fmtNum(tm.getMinutes(), 2);
+        }
+
+        function current_month_period() {
+            var date = new Date();
+            var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+            return "start=" + fmtDate(firstDay) + "&finish=" + fmtDate(lastDay);
+        }
+
     </script>
 </head>
 <body onload="init();">
 
 <div id="my_form">
+
     <label for="place">Мысце проведення</label><input type="text" name="place" value="" id="place">
     <label for="date">Дата</label><input type="date" name="date" value="" id="date"><br>
 
     <label for="author">Автор</label><input type="text" name="author" th:value="${me.toString()}" th:authorid="${me.userId}" id="author" disabled>
     <label for="from">Длтельность</label><input type="time" name="from" value="" id="from"><input type="time" name="to" value="" id="to"> <br>
 
-    <label for="title">Заголовок</label><input type="text" name="title" value="" id="title"> <br>
+    <label for="text">Заголовок</label><input type="text" name="text" value="" id="text"> <br>
     <label for="description">Опис</label><input type="text" name="description" value="" id="description"> <br>
 
     <label for="connectall">Хто може приднатись</label><select name="connectall" value="" id="connectall">
-        <option value="true">Усі</option>
-        <option value="false">За запрошенням</option>
+        <option value=true>Усі</option>
+        <option value=false>За запрошенням</option>
     </select>
     <br>
-    <label for="groups">Надіслати запрошення группам</label><select name="groups" value="" id="groups" >
+    <label for="groups">Надіслати запрошення группам</label><select multiple="multiple" name="groups" value="" id="groups" >
         <option th:each="group : ${groups}" th:text="${group.toString()}" th:value="${group.userId}"></option>
     </select>
     <br>
-    <label for="friends">Надіслати запрошення друзям</label><select name="friends" value="" id="friends">
+    <label for="friends">Надіслати запрошення друзям</label><select name="friends" value="" id="friends" multiple="multiple">
         <option th:each="friend : ${friends}" th:text="${friend.toString()}" th:value="${friend.userId}"></option>
     </select>
     <br>
 
-    <!--<label for="custom1">Custom 1 </label><input type="text" name="custom1" value="" id="custom1"><br>-->
-    <!--<label for="custom2">Custom 2 </label><input type="text" name="custom2" value="" id="custom2"><br><br>-->
     <input type="button" name="save" value="Save" id="save" style='width:100px;' onclick="save_form()">
     <input type="button" name="close" value="Close" id="close" style='width:100px;' onclick="close_form()">
     <input type="button" name="delete" value="Delete" id="delete" style='width:100px;' onclick="delete_event()">

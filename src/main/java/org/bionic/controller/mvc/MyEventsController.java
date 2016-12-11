@@ -76,7 +76,7 @@ public class MyEventsController {
                            @RequestParam("description") String description,
                            @RequestParam("connectall") boolean connectall,
                            @RequestParam("groups") String groups,
-                           @RequestParam("friends") String friends) throws URISyntaxException {
+                           @RequestParam(value = "friends[]", required = false) String[] friends) throws URISyntaxException {
         Event ev = new Event();
         ev.setName(title);
         ev.setStart(new Date(start));
@@ -97,7 +97,7 @@ public class MyEventsController {
                            @RequestParam("description") String description,
                            @RequestParam("connectall") boolean connectall,
                            @RequestParam("groups") String groups,
-                           @RequestParam("friends") String friends) {
+                           @RequestParam("friends[]") String[] friends) {
         Event ev = es.findById(id);
         ev.setName(title);
         ev.setStart(new Date(start));
