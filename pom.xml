@@ -94,7 +94,7 @@
             <artifactId>spring-security-web</artifactId>
         </dependency>
 
-        <!--Spring Social-->
+        <!--Spring Social -->
         <dependency>
             <groupId>org.springframework.social</groupId>
             <artifactId>spring-social-config</artifactId>
