@@ -35,7 +35,7 @@
         <td th:text="${user.email}"></td>
         <td th:text="${user.avatarURL}"></td>
         <td th:text="${user.enabled}"></td>
-        <td><a th:href="@{/admin/rang/} + ${user.rang.rangId}">Rang</a></td>
+        <td><a th:href="@{/admin/rang/} + ${user.role.roleId}">Rang</a></td>
         <td><a th:href="@{/admin/user/edit/} + ${user.userId}">Edit</a></td>
         <td><a th:href="@{/admin/user/delete/} + ${user.userId}">Delete</a></td>
       </tr>

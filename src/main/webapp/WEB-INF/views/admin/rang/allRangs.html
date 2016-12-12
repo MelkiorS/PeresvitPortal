@@ -22,12 +22,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr th:each="rang : ${rangList}">
-        <td th:text="${rang.rangId}"></td>
-        <td th:text="${rang.rangName}"></td>
-        <td><a th:href="@{/admin/user/rang/} + ${rang.rangId}">Users</a></td>   
-        <td><a th:href="@{/admin/rang/edit/} + ${rang.rangId}">Edit</a></td>   
-        <td><a th:href="@{/admin/rang/delete/} + ${rang.rangId}">Delete</a></td>         
+      <tr th:each="role : ${rangList}">
+        <td th:text="${role.roleId}"></td>
+        <td th:text="${role.roleName}"></td>
+        <td><a th:href="@{/admin/user/rang/} + ${role.roleId}">Users</a></td>
+        <td><a th:href="@{/admin/rang/edit/} + ${role.roleId}">Edit</a></td>
+        <td><a th:href="@{/admin/rang/delete/} + ${role.roleId}">Delete</a></td>
       </tr>
     </tbody>
   </table>

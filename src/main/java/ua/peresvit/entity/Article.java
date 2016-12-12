@@ -23,7 +23,7 @@ public class Article {
 
     // role of resource, it means user of which role can see it
     @ManyToOne
-    @JoinColumn(name="rangId")
+    @JoinColumn(name="roleId")
     private Role role;
     // @OneToMany(mappedBy = "role")
   //  @LazyCollection(LazyCollectionOption.FALSE)

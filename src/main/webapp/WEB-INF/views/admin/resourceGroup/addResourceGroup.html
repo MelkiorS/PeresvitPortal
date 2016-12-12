@@ -20,10 +20,10 @@
 </select>
   <br/>
   <label for="rangType">Rang:</label>
- <select th:field="*{rang.rangId}">
+ <select th:field="*{role.roleId}">
   <option th:each="rang : ${rangList}" 
-          th:value="${rang.rangId}" 
-          th:text="${rang.rangName}"></option>
+          th:value="${rang.roleId}"
+          th:text="${rang.roleName}"></option>
 </select>
   <br/>
  <input type="submit" />

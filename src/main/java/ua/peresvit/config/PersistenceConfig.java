@@ -36,7 +36,7 @@ public class PersistenceConfig {
     private static final String PROP_HIBERNATE_DIALECT = "hibernate.dialect";
     private static final String PROP_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
     private static final String PROP_ENTITYMANAGER_PACKAGES_TO_SCAN = "db.entitymanager.packages.to.scan";
-    private static final String PROP_HIBERNATE_HBM2DDL = "hibernate.hbm2ddl";
+    private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
 
     @Autowired
     private Environment env;
@@ -99,7 +99,7 @@ public class PersistenceConfig {
             {
                 setProperty(PROP_HIBERNATE_DIALECT, env.getRequiredProperty(PROP_HIBERNATE_DIALECT));
                 setProperty(PROP_HIBERNATE_SHOW_SQL, env.getRequiredProperty(PROP_HIBERNATE_SHOW_SQL));
-                setProperty(PROP_HIBERNATE_HBM2DDL, env.getRequiredProperty(PROP_HIBERNATE_HBM2DDL));
+                setProperty(PROP_HIBERNATE_HBM2DDL_AUTO, env.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
             }
         };
     }
