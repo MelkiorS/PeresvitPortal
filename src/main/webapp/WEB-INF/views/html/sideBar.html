@@ -1,0 +1,33 @@
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div class="btn-group-vertical btn-group-lg" role="group" aria-label="111" th:fragment="sideBar">
+        <div class="btn-group" role="group">
+            <form th:action="@{/home/workField}">
+            <button class="btn btn-default btn-lg dropdown-toggle control_button sideFirst" type="submit"  aria-haspopup="true" aria-expanded="false">Особистий кабінет</button>
+            </form>
+        </div>
+        <div class="btn-group " role="group">
+            <form action="#">
+            <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">наші подї</button>
+            </form>
+        </div>
+        <div class="btn-group" role="group">
+            <form th:action="@{/panel/myevents}">
+            <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">мої події</button>
+            </form>
+        </div>
+        <div class="btn-group myWayButton" role="group">
+            <form th:action="@{/resource/myWay/1}">
+            <button class="btn btn-default btn-lg dropdown-toggle control_button " type="submit"  aria-haspopup="true" aria-expanded="false">мій шлях</button>
+            </form>
+        </div>
+        <div class="btn-group" role="group">
+            <form th:action="@{/logout}">
+                <button class="btn btn-default btn-lg dropdown-toggle control_button " type="submit"  aria-haspopup="true" aria-expanded="false">Вийти</button>
+            </form>
+            <!--<a class="btn btn-default btn-lg dropdown-toggle control_button sideLast" th:href="@{/logout}">Вийти</a>-->
+        </div>
+    </div>
+
+</body>
+</html>
