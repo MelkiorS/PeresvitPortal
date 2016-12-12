@@ -17,5 +17,5 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	boolean equals(Object obj);
 
-	List<Role> findByRangId(Long rangId);
+	List<Role> findByRoleId(Long rangId);
 }

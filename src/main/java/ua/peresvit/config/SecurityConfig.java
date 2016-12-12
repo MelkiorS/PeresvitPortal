@@ -29,7 +29,7 @@ import org.springframework.social.security.SpringSocialConfigurer;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan("ua.peresvit")
+@ComponentScan(basePackages = "ua.peresvit")
 
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 

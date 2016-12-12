@@ -35,7 +35,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     public Collection<Article> findAllByResourceGroupTypeAndRang(ResourceGroupType type, Role role){
-        return articleRepository.findAllByResourceGroupTypeAndRang(type, role);
+        return articleRepository.findAllByResourceGroupTypeAndRole(type, role);
     }
 
     public Article findByChapterId(long chapterId) {
@@ -43,6 +43,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     public Collection<Article> findAllByChapterIdAndResourceGroupTypeAndRang(long chapterId, ResourceGroupType type, Role role) {
-        return articleRepository.findAllByChapterIdAndResourceGroupTypeAndRang(chapterId,type,role);
+        return articleRepository.findAllByChapterIdAndResourceGroupTypeAndRole(chapterId,type,role);
     }
 }

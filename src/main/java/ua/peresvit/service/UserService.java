@@ -21,7 +21,7 @@ public interface UserService {
 
 	List<User> findAll();
 
-	List<User> findByRang(Role role);
+	List<User> findByRole(Role role);
 
 	void delete(User user);
 

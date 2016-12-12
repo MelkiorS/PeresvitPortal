@@ -45,7 +45,7 @@ public  class ResourceGroupServiceImpl implements ResourceGroupService {
 
 	@Override
 	public
-	ResourceGroup findResourceGroupByResourceGroupTypeAndRang(ResourceGroupType type, Role role){
-		return resourceGroupRepository.findResourceGroupByResourceGroupTypeAndRang(type,role);
+	ResourceGroup findResourceGroupByResourceGroupTypeAndRole(ResourceGroupType type, Role role){
+		return resourceGroupRepository.findResourceGroupByResourceGroupTypeAndRole(type,role);
 	}
 }

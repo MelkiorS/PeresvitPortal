@@ -87,7 +87,7 @@ public class UserPageController {
         List<CombatArt> combatArts = combatArtService.findAll();
         model.addAttribute("combatArtList", combatArts); // adding list of combatArt for select
 
-        List<User> mentors = userService.findByRang( roleService.findOne(4l));
+        List<User> mentors = userService.findByRole( roleService.findOne(4l));
         model.addAttribute("mentorList", mentors);       // adding list of mentor for select
 
         List<Role> roleList = roleService.findAll();

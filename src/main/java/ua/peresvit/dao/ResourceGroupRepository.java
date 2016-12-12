@@ -19,5 +19,5 @@ public interface ResourceGroupRepository extends JpaRepository<ResourceGroup, Lo
 
 	ResourceGroup findByResourceGroupId(String resourceGroupId);
 
-    ResourceGroup findResourceGroupByResourceGroupTypeAndRang(ResourceGroupType type, Role role);
+    ResourceGroup findResourceGroupByResourceGroupTypeAndRole(ResourceGroupType type, Role role);
 }

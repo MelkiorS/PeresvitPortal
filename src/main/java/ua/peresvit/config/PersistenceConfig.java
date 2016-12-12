@@ -23,10 +23,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //import com.google.common.base.Preconditions;
 
 @Configuration
-@EnableJpaRepositories("ua.peresvit")
+@EnableJpaRepositories(basePackages = "ua.peresvit")
 @EnableTransactionManagement
 @PropertySource({ "classpath:persistence-mysql.properties" })
-@ComponentScan({ "ua.peresvit.entity" })
+@ComponentScan( basePackages = { "ua.peresvit.entity" })
 public class PersistenceConfig {
 
     private static String PROP_DATABASE_DRIVER = "dataSource.driverClassName";
