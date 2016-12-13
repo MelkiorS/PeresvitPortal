@@ -1,0 +1,40 @@
+body{
+	font-family: inherit;
+	/*font:bolder 17px inherit sans-serif;*/
+	font-size: 15px;
+
+}
+#title{
+	width: 450px;
+}
+.category{
+	font: bolder 23px sans-serif;
+}
+.category-name{
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.category-item{
+	display:none;
+	padding-left: 33px;
+}
+.section{
+	font: bolder 20px sans-serif;
+	margin: 5px 10px;
+}
+.category-item li{
+
+	margin: 4px 0;
+}.category-item li span{
+	font-size: 16px;
+	margin: 1px 0 1px 5px;
+ }
+.row_textarea {
+	margin: 15px auto 5px;
+
+}
+input[type='submit']{
+	/*margin-left: 40px;*/
+}
+

@@ -1,0 +1,18 @@
+.comeBack{
+    margin:2px 2px 5px 2px;
+}
+.comeBack a{
+    text-decoration: none;
+}
+.panel-body{
+    padding: 5px 20px;
+}
+.panel-body a{
+    font-size: 18px;
+    font-weight: 500;
+    color: #303F9F;
+}
+.headOfArticle{
+    font-size:21px;
+    margin-left:10px;
+}
