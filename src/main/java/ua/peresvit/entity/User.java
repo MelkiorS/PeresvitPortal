@@ -2,6 +2,7 @@ package ua.peresvit.entity;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.util.Collection;
 
 
 @Entity
@@ -44,6 +45,13 @@ public class User {
 	@ManyToOne
 	@JoinColumn(name="roleId")
 	private Role role;
+
+	@OneToMany(mappedBy = "author")
+	private Collection<Message> receivedMessages;
+	@OneToMany(mappedBy = "receiver")
+	private Collection<Message> sentMessages;
+	@ManyToMany(mappedBy = "receivers")
+	private Collection<Chat> chats;
 
 	private String aboutMe;
 
