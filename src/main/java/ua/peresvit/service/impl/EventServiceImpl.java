@@ -78,6 +78,17 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public Event findNextByUser(Date date, User u) {
+        List<Event> lst = findClosestByUser(date, u, 1);
+        return (lst.size()==0) ? null : lst.get(0);
+    }
+
+    @Override
+    public Event findNextByCurrentUser(Date date) {
+        return findNextByUser(date, us.getCurrentUser());
+    }
+
+    @Override
     public List<Event> getPeriod(Date start, Date finish) {
         return dao.getPeriod(start, finish);
     }
