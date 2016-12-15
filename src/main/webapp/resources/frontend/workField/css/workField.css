@@ -1,0 +1,94 @@
+html {
+    height: 100%;
+}
+body{
+    height:100%;
+
+}
+.wrapper{
+    background: url('../images/background.jpg');
+    background-repeat: repeat;
+    position: relative;
+    height:auto;
+    width: 80%;
+    margin:0 auto;
+    padding: 2% 0 0 0;
+}
+.header{
+    margin-bottom: 4%;
+}
+.header_logo{
+    margin:0;
+}
+.header_logo_img{
+    height: 125%;
+    width: 120%;
+    margin: 0;
+}
+.header_nav{
+    margin-top:1%;
+    margin-left:5%;
+}
+.main_sidebar{
+    margin: 0 0 0 4%;
+}
+.main_sidebar .control_button{
+    text-align:left;
+}
+.btn-group-vertical{
+    width:  97%;
+}
+.active_button,
+.active_button:hover,
+.active_button:focus{
+    background: rgb(189,189,189);
+}
+.no_active_buttons{
+    background: rgb(255,255,255);
+}
+.no_active_buttons:hover{
+    background: rgb(238,238,238);
+}
+.add_sidebar{
+    margin-top: 20px;
+}
+
+.main_section{
+    margin:0 0 6% 2.5%;
+    min-height: 600px;
+    padding-left:5px;
+    width: 64%;
+}
+footer {
+    /*display:none;*/
+    padding: 0.85%;
+    position: absolute;
+    /*top:0;*/
+    left: 0;
+    bottom: 0.3%;
+    width: 100%;
+    height: 50px;
+    font-size:  2rem ;
+    margin: 0 auto;
+    background:url('../images/shum.png'); /* Цвет фона */
+
+}
+.header_commercial,
+.footer_commercial {
+    text-align: center;
+    color: #fff;
+}
+footer img{
+    height: 30px;
+    width: 30px;
+    border-radius: 4px;
+}
+/***********************add_sidebar*******************/
+
+.my_way_sidebar_group_button{
+    padding-left: 10% ;
+    text-align: left;
+    border: 1px solid #1b6f8c;
+    color: #fff;
+background: #0a3f51;
+}
