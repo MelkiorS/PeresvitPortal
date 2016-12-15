@@ -3,6 +3,7 @@ package ua.peresvit.service;
 
 
 import ua.peresvit.entity.Event;
+import ua.peresvit.entity.User;
 
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,8 @@ public interface EventService {
     Event findById(long id);
 
     List<Event> findClosest(Date date, int count);
+    List<Event> findClosestByUser(Date date, User u, int count);
+    List<Event> findClosestByCurrentUser(Date date, int count);
     Event findNext(Date date);
     List<Event> getPeriod(Date start, Date finish);
 
