@@ -23,9 +23,9 @@
  		<input type="file" name="file" /><br/>
 
 		<label for="rangType">Rang:</label>
-		<select th:field="*{rang.rangId}">
-			<option th:each="rang : ${rangList}" th:value="${rang.rangId}"
-				th:text="${rang.rangName}"></option>
+		<select th:field="*{role.roleId}">
+			<option th:each="role : ${rangList}" th:value="${role.roleId}"
+				th:text="${role.roleName}"></option>
 		</select> <br />
         
 		<br/> User info <br/>

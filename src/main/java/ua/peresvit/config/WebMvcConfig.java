@@ -2,6 +2,7 @@ package ua.peresvit.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -29,6 +30,8 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 import java.util.Locale;
 
 @Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = "ua.peresvit.controller")
 class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";

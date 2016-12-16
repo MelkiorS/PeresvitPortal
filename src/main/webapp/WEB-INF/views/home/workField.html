@@ -66,7 +66,7 @@
                     <div class="col-xs-12 main_section_basic_level">
                         <!--Сюда вставляем ранг юзера (юзер, админ и тд.)-->
                         <div class="col-xs-4">
-                            <span  th:text="${user.rang.rangName}">Ранг</span>
+                            <span  th:text="${user.role.roleName}">Ранг</span>
                         </div>
 
                     </div>
@@ -117,7 +117,7 @@
                     <p>
                         <b>Про себе: </b>
                         <span class="aboutMe">
-                            <span th:text="${user.about == null ? '' : user.about}">Чорний пояс по Фрі-файт, чемпіон Європи</span>
+                            <span th:text="${user.aboutMe == null ? '' : user.aboutMe}">Чорний пояс по Фрі-файт, чемпіон Європи</span>
                             <span class="glyphicon glyphicon-pencil pencil pencil-info-me" aria-hidden="true"></span>
                         </span>
                     </p>

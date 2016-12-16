@@ -98,7 +98,7 @@ public class UserResourceController {
             User user = (User)session.getAttribute("user");
             Role role = user.getRole();
             ResourceGroupType type = resourceGroupTypeService.findResourceGroupTypeByGroupName(groupName);
-            ResourceGroup resourceGroup = resourceGroupService.findResourceGroupByResourceGroupTypeAndRang(type, role);
+            ResourceGroup resourceGroup = resourceGroupService.findResourceGroupByResourceGroupTypeAndRole(type, role);
             Collection<Resource> resourceCollection = resourceGroup.getResourceCollection();
             groupResourceByTypes(resourceCollection, model);
         }

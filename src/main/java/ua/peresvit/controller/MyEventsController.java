@@ -34,6 +34,14 @@ public class MyEventsController {
     }
 
     @RequestMapping(value = "/panel/myeventsdata", method = RequestMethod.GET)
+    public String getDateMyEvents(@RequestParam("dt") String date, @RequestParam("qty") int qty, Model model) throws ParseException {
+        Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
+        model.addAttribute("events", es.findClosestByCurrentUser(dt, qty));
+        model.addAttribute("me", us.getCurrentUser());
+        return "panel/events_soon";
+    }
+
+    @RequestMapping(value = "/panel/eventsdata", method = RequestMethod.GET)
     public String getDateEvents(@RequestParam("dt") String date, @RequestParam("qty") int qty, Model model) throws ParseException {
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         model.addAttribute("events", es.findClosest(dt, qty));
@@ -42,6 +50,14 @@ public class MyEventsController {
     }
 
     @RequestMapping(value = "/panel/myeventsdatanext", method = RequestMethod.GET)
+    public String getDateMyEventsNext(@RequestParam("dt") String date, Model model) throws ParseException {
+        Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
+        model.addAttribute("event", es.findNextByCurrentUser(dt));
+        model.addAttribute("me", us.getCurrentUser());
+        return "panel/events_next";
+    }
+
+    @RequestMapping(value = "/panel/eventsdatanext", method = RequestMethod.GET)
     public String getDateEventsNext(@RequestParam("dt") String date, Model model) throws ParseException {
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         model.addAttribute("event", es.findNext(dt));

@@ -1,26 +1,40 @@
 <html lang="ukr" xmlns:th="http://www.thymeleaf.org">
 <body >
-    <div class="btn-group btn-group-justified" role="group" aria-label="1"  th:fragment="headBar">
-        <div class="btn-group " role="group">
-            <button class="btn btn-default btn-lg dropdown-toggle control_button headFirst" type="button"  aria-haspopup="true" aria-expanded="false">
-                новини
-            </button>
-        </div>
-        <div class="btn-group " role="group">
-            <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                обговорення
-            </button>
-        </div>
-        <div class="btn-group " role="group">
-            <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
-                повідомлення
-            </button>
-        </div>
-        <div class="btn-group " role="group">
-            <button class="btn btn-default btn-lg dropdown-toggle control_button headLast" type="button"  aria-haspopup="true" aria-expanded="false">
-                ми
-            </button>
-        </div>
+<header th:fragment="headBar">
+
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-4 h4 header_commercial">Гугл реклама</div>
     </div>
+    <div class="row">
+        <div class="col-xs-3 h2 header_logo">
+            <img class='header_logo_img' src="/resources/frontend/workField/images/logo_Peresvit.png" alt="логотип">
+        </div>
+
+        <div class="col-xs-9">
+            <div class="col-xs-9 btn-group btn-group-justified" role="group" aria-label="1">
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button headFirst" type="button"  aria-haspopup="true" aria-expanded="false">
+                        новини
+                    </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        обговорення
+                    </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="button"  aria-haspopup="true" aria-expanded="false">
+                        повідомлення
+                    </button>
+                </div>
+                <div class="btn-group " role="group">
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button headLast" type="button"  aria-haspopup="true" aria-expanded="false">
+                        ми
+                    </button>
+                </div>
+            </div>
+        </div>
+     </div>
+</header>
 </body>
 </html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Peresvit</title>
+    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
+    <link rel="stylesheet" href="/resources/frontend/editProfile/profileEdit.css">
+    <link rel="stylesheet" href="/resources/frontend/bars.css">
+    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script async src="/resources/frontend/libraries/constants.js"></script>
+    <script async src="/resources/frontend/editProfile/profileEdit.js"></script>
+</head>
+<body>
+<div class="container-fluid wrapper">
+    <div class="row header">
+        <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
+        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="/resources/frontend/workField/images/logo_Peresvit.png" alt="логотип"></div>
+        <div class="col-xs-8  row header_nav">
+            <div th:replace="home/fragments/headBar :: headBar"></div>
+            <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
+        </div>
+    </div>
+    <div class="row main">
+        <div class="col-xs-3 container main_sidebar">
+            <!--Сюда вставляем боковой бар fragments/sideBar.html-->
+            <div th:replace="home/fragments/sideBar :: sideBar"></div>
+        </div>
+        <div class=" col-xs-7 row well container-fluid main_section">
+            <h2>Редагування профілю</h2>
+            <main>
+        <form th:action="@{/home/profileEdit}" th:object="${user}" enctype="multipart/form-data" method="post">
+
+            <input type="hidden" th:field="*{userId}" >
+            <input type="hidden" th:field="*{enabled}" >
+            <input type="hidden" th:field="*{role.roleId}" >
+            <p class="form-group">
+                <label for="lastName">Прізвище</label>
+                <input class="form-control" type="text" th:field="*{lastName}" id="lastName" placeholder="Прізвище" >
+            </p>
+
+            <p class="form-group">
+                <label for="firstName">Імя</label>
+                <input class="form-control" type="text" th:field="*{firstName}" id="firstName" placeholder="Імя" >
+            </p>
+
+            <p class="form-group">
+                <label for="middleName">По батькові</label>
+                <input class="form-control" type="text" th:field="*{middleName}" id='middleName' placeholder="По батькові" >
+            </p>
+
+            <p class="form-group">
+                <label>Стать: </label>
+                <span class="gender">
+                    <input type="radio" th:name="male" th:value="true"  th:field="*{gender}" checked ><span>Чоловіча</span>
+                    <input type="radio" th:name="female" th:value="false"  th:field="*{gender}" ><span>Жіноча</span>
+                </span>
+            </p>
+
+            <p class="form-group">
+                <label for="cityList">Місто: </label>
+                <select th:field="*{city.cityId}" id="cityList" class="form-control">
+                    <option disabled value="" th:text="'Ваше місто'"></option>
+                    <option th:each="city : ${cityList}" th:value="${city.cityId}"
+                            th:text="${city.cityName}"></option>
+                </select>
+            </p>
+
+            <p class="form-group">
+                <label for="clubList">Клуб: </label>
+                <select id="clubList" th:field="*{club.clubId}" class="form-control">
+                    <option disabled value="" th:text="'Ваш клуб'"></option>
+                    <option th:each="club : ${clubList}" th:value="${club.clubId}"
+                            th:text="${club.clubName}"></option>
+                </select>
+            </p>
+
+            <p class="form-group">
+                <label for="combatArtList">Направлення: </label>
+                <select th:field="*{combatArt.combatArtId}" id="combatArtList" class="form-control">
+                    <option disabled value="" th:text="'Бойове мистецтво'"></option>
+                    <option th:each="combatArt : ${combatArtList}" th:value="${combatArt.combatArtId}"
+                            th:text="${combatArt.combatArtName}"></option>
+                </select>
+            </p>
+            <p class="form-group">
+                <label for="email">Ваш Email: </label>
+                <input class="form-control" type="text" th:field="*{email}" id='email' placeholder="e-mail" >
+            </p>
+            <p class="form-group">
+                <label for="fb">Ваш профiль у фейсбуцi: </label>
+                <input class="form-control" type="text" th:field="*{profileFB}" id='fb' placeholder="Профіль facebook" >
+            </p>
+            <p class="form-group">
+                <label for="vk">Ваш профiль у Вконтакте: </label>
+                <input class="form-control" type="text" th:field="*{profileVK}" id='vk' placeholder="Профіль Vk" >
+            </p>
+            <p class="form-group">
+                <label for="insta">Ваш профiль в Iнстаграмi: </label>
+                <input class="form-control" type="text" th:field="*{profileIS}" id='insta' placeholder="Профіль Instagram" >
+            </p>
+            <p class="form-group">
+                <label for="about">Про мене:</label>
+                <textarea th:field="*{about}" id="about" class="form-control" rows="3"></textarea>
+            </p>
+            <p class="avatar ">
+                <label for="avatar">Оновити аватар:</label>
+                <input id="avatar" type="file" name="file" accept="image/*">
+            </p>
+            <section class="passwords form-group">
+                <p>Оновити пароль</p>
+                <fieldset>
+                    <p>
+                        <label for="oldPasswd">Введіть старий пароль</label>
+                        <input class="form-control" type="password" id="oldPasswd" placeholder="Старий пароль">
+                        <span class="checkOldPass">Щоб змінити, підтвердіть старий пароль</span>
+                    </p>
+                    <p>
+                        <label for="newPasswd">Введіть новий пароль</label>
+                        <input class="form-control" disabled type="password" id="newPasswd" placeholder="Новий пароль">
+                    </p>
+                    <p>
+                        <label for="confirmPasswd">Підтвердіть пароль</label>
+                        <!--В этот инпут нужно вставить тег для изменения пароля-->
+                        <input class="form-control" disabled type="password" id="confirmPasswd" placeholder="Підтвердіть пароль">
+                        <span class="checkNewPass"></span>
+                    </p>
+
+                </fieldset>
+            </section>
+
+            <div class="buttons form-group">
+                <input class="btn btn-success" type="submit" value="Зберегти" >
+                <input class="btn btn-danger" type="reset" value="Скасувати"  >
+            </div>
+            <!--Нельзя комментировать - выдает ошибку-->
+            <!--С этгого поля-->
+            <input type="hidden" th:field="*{password}" placeholder="password" >
+            <input type="hidden" th:field="*{avatarURL}">
+
+            <select th:field="*{mentor.userId}" style="display:none;">
+                <option value="" th:text="''"></option>
+                <option th:each="mentor : ${mentorList}" th:value="${mentor.userId}"
+                        th:text="${mentor.firstName} + ' ' + ${mentor.lastName}"></option>
+            </select>
+            <!--И до вот этого, но их нужно убрать, ведь юзер может увидеть и изменить-->
+            <!-- эти данные не тем путем который разрешен и реализован-->
+
+
+            </form>
+            </main>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="row container-fluid">
+            <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">
+                <p>Гугл реклама</p>
+
+            </div>
+            <div class="col-xs-2 col-md-2 row">
+                <img src="/resources/frontend/workField/images/Logovk.png" alt="vk">
+                <img src="/resources/frontend/workField/images/Logofc.png" alt="fs">
+                <img src="/resources/frontend/workField/images/Logoin.png" alt="instagram">
+            </div>
+        </div>
+    </footer>
+</div>
+</div>
+</body>
+</html>

@@ -8,9 +8,9 @@
 <a th:href="@{/admin/rang/management}" >Rang Management</a>
 <br/>
 <form action="#" th:action="@{/admin/rang/}" th:object="${rang}" method="post">
-	<input type="hidden" th:field="*{rangId}" />
+	<input type="hidden" th:field="*{roleId}" />
  <label for="groupName">Group name:</label>
- <input type="text" th:field="*{rangName}" />
+ <input type="text" th:field="*{roleName}" />
  <input type="submit" />
 </form>
 </body>

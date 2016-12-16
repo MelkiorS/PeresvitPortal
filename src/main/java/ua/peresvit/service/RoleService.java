@@ -15,5 +15,5 @@ public interface RoleService {
 
 	boolean equals(Object obj);
 
-	List<Role> findByRangId(Long rangId);
+	List<Role> findByRoleId(Long roleId);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.peresvit.dao.EventRepository;
 import ua.peresvit.entity.Event;
+import ua.peresvit.entity.User;
 import ua.peresvit.service.EventService;
 import ua.peresvit.service.UserService;
 
@@ -60,9 +61,31 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> findClosestByUser(Date date, User u, int count) {
+        Pageable pg = new PageRequest(0,count);
+        return dao.getClosestByUser(date, u.getUserId(), pg);
+    }
+
+    @Override
+    public List<Event> findClosestByCurrentUser(Date date, int count) {
+        return findClosestByUser(date, us.getCurrentUser(), count);
+    }
+
+    @Override
     public Event findNext(Date date) {
         List<Event> lst = findClosest(date, 1);
         return (lst.size()==0) ? null : lst.get(0);
+    }
+
+    @Override
+    public Event findNextByUser(Date date, User u) {
+        List<Event> lst = findClosestByUser(date, u, 1);
+        return (lst.size()==0) ? null : lst.get(0);
+    }
+
+    @Override
+    public Event findNextByCurrentUser(Date date) {
+        return findNextByUser(date, us.getCurrentUser());
     }
 
     @Override

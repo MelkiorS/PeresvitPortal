@@ -34,7 +34,7 @@
 
             <input type="hidden" th:field="*{userId}" >
             <input type="hidden" th:field="*{enabled}" >
-            <input type="hidden" th:field="*{rang.rangId}" >
+            <input type="hidden" th:field="*{role.roleId}" >
             <p class="form-group">
                 <label for="lastName">Прізвище</label>
                 <input class="form-control" type="text" th:field="*{lastName}" id="lastName" placeholder="Прізвище" >
@@ -53,8 +53,8 @@
             <p class="form-group">
                 <label>Стать: </label>
                 <span class="gender">
-                    <input type="radio" th:name="male" th:value="true"  th:field="*{gender}" checked ><span>Чоловіча</span>
-                    <input type="radio" th:name="female" th:value="false"  th:field="*{gender}" ><span>Жіноча</span>
+                    <input type="radio" th:name="male" th:value="M"  th:field="*{sex}" checked ><span>Чоловіча</span>
+                    <input type="radio" th:name="female" th:value="F"  th:field="*{sex}" ><span>Жіноча</span>
                 </span>
             </p>
 
@@ -98,11 +98,11 @@
             </p>
             <p class="form-group">
                 <label for="insta">Ваш профiль в Iнстаграмi: </label>
-                <input class="form-control" type="text" th:field="*{profileIS}" id='insta' placeholder="Профіль Instagram" >
+                <input class="form-control" type="text" th:field="*{profileInstagram}" id='insta' placeholder="Профіль Instagram" >
             </p>
             <p class="form-group">
                 <label for="about">Про мене:</label>
-                <textarea th:field="*{about}" id="about" class="form-control" rows="3"></textarea>
+                <textarea th:field="*{aboutMe}" id="about" class="form-control" rows="3"></textarea>
             </p>
             <p class="avatar ">
                 <label for="avatar">Оновити аватар:</label>

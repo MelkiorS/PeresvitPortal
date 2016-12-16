@@ -75,10 +75,10 @@
                     </div>
                     <div class="col-xs-4 form-group">
                         <label>Доступ для</label><br/>
-                        <select class="form-control" th:field="*{rang.rangId}">
+                        <select class="form-control" th:field="*{role.roleId}">
                             <option th:each="rang : ${rangList}"
-                                    th:value="${rang.rangId}"
-                                    th:text="${rang.rangName}"></option>
+                                    th:value="${role.roleId}"
+                                    th:text="${role.roleName}"></option>
                         </select>
                     </div>
                 </div >

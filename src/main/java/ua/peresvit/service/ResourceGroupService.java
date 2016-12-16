@@ -17,5 +17,5 @@ public interface ResourceGroupService {
 
 	boolean equals(Object obj);
 
-	ResourceGroup findResourceGroupByResourceGroupTypeAndRang(ResourceGroupType type, Role role);
+	ResourceGroup findResourceGroupByResourceGroupTypeAndRole(ResourceGroupType type, Role role);
 }
