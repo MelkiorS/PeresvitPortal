@@ -13,6 +13,7 @@ public class Message {
     private long messageId;
     private String content;
     private long chapterId;
+    private double createdAt;
     private boolean read;
 
     @ManyToOne
