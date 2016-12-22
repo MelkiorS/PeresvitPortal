@@ -71,6 +71,17 @@ public class User {
 //	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
 //	private Set<Event> events = new HashSet<Event>();
 
+	@ManyToMany(
+			fetch = FetchType.EAGER,
+			targetEntity = Mark.class
+	)
+	@JoinTable(
+			name="user_mark",
+			joinColumns={@JoinColumn(name="userId")},
+			inverseJoinColumns={@JoinColumn(name="markId")}
+	)
+	private Set<Mark> marks = new HashSet<>();
+
 	public User() {
 		super();
 		enabled = true;

@@ -61,6 +61,13 @@
                     th:text="${mentor.firstName} + ' ' + ${mentor.lastName}"></option>
         </select> <br />
 
+        <label for="markList">Mark:</label>
+        <select th:field="*{marks}" multiple="multiple">
+            <!--<option value="" th:text="''"></option>-->
+            <option th:each="mark : ${markList}" th:value="${mark.markId}"
+                    th:text="${mark.markName}"></option>
+        </select> <br />
+
         <label for="about">About:</label>
         <textarea th:text="*{about}" /> <br />
 

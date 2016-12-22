@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">
     <link rel="stylesheet" href="/resources/frontend/bars.css">
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
     <script src="/resources/frontend/libraries/constants.js"></script>
-    <script  async src="/resources/frontend/workField/js/workField_script.js"></script>
+    <!--<script th:src="@{//resources/frontend/workField/js/workField_script.js}" th:inline="javascript"></script>-->
+    <!--<script th:src="@{//scriptserver.example.net/myscript.js}">...</script>-->
+    <script src="/resources/frontend/workField/js/workField_script.js"></script>
 
 
 </head>
@@ -94,6 +97,52 @@
                         </span>
                     </p>
                 </div>
+
+                <div class="col-xs-7 main_section_userInf_item">
+                    <p class="form-group">
+                        <label for="cityList">Місто: </label>
+                        <select th:field="${user.city.cityId}" id="cityList1" class="form-control">
+                            <option disabled value="" th:text="'Ваше місто'"></option>
+                            <option th:each="city : ${cityList}" th:value="${city.cityId}"
+                                    th:text="${city.cityName}"></option>
+                        </select>
+                    </p>
+                </div>
+
+                <p id="demo">Click me to change my text color.</p>
+
+                <script th:inline="javascript">
+//                    $('#demo').on('click',function(){
+//                        var cityList = [[${cityList}]]; //[[${cityList}]];
+//                        console.log(cityList);
+//                    });
+                    //function myFunction() {
+//                        document.getElementById("demo").textContent = "red";
+
+                        //var cityList = [[${cityList}]];
+                        //console.log(cityList);
+
+
+
+//                        var self =$(this),club = self.parent(),children = club.children();
+//                        var $agreeButton = $('<button type="submit" class="btn btn-success pensil-button"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>');
+//                        var $disagreeButton = $('<button type="reset" class="btn btn-danger pensil-button"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></input>');
+//
+//                        var formForChange = $('<form th:action="#" class="formForChange"  method="post"></form>');
+//
+//                        var select = $('<select class="form-control"><option value="">club</option><option value="123456">qwerty11</option></select>');
+//
+//                        children.css('display','none');
+//                        formForChange.append(select,$agreeButton,$disagreeButton);
+//                        club.append(formForChange);
+//                        $disagreeButton.on('click',function(){
+//                            formForChange.remove();
+//                            children.css('display','inline');
+//                        });
+//
+                    //}
+                </script>
+
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем клуб в котором занимается юзер-->
                     <p>

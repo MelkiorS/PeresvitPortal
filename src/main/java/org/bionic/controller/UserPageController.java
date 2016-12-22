@@ -71,6 +71,16 @@ public class UserPageController {
         try {
             model.addAttribute("imageAvatar", Constant.encodeFileToBase64Binary(imagePath));
         }catch (IOException ex){}
+
+        List<City> cities = cityService.findAll();
+        model.addAttribute("cityList", cities);          // adding list of city for select
+
+        List<Club> clubs = clubService.findAll();
+        model.addAttribute("clubList", clubs);           // adding list of club for select
+
+        List<CombatArt> combatArts = combatArtService.findAll();
+        model.addAttribute("combatArtList", combatArts); // adding list of combatArt for select
+
         model.addAttribute("user", loggedUser);
         model.addAttribute("groups", rgtService.findAll());
 

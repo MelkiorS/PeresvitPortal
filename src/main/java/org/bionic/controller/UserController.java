@@ -34,6 +34,9 @@ public class UserController {
     @Autowired
     private ClubService clubService;
 
+    @Autowired
+    private MarkService markService;
+
     //go to manage page
     @RequestMapping(value = "/management", method = RequestMethod.GET)
     public String goToManagement(Model model) {
@@ -47,21 +50,7 @@ public class UserController {
 
         userService.initializeUserInfo(user);
 
-        List<City> cities = cityService.findAll();
-        model.addAttribute("cityList", cities);          // adding list of city for select
-
-        List<Club> clubs = clubService.findAll();
-        model.addAttribute("clubList", clubs);           // adding list of club for select
-
-        List<CombatArt> combatArts = combatArtService.findAll();
-        model.addAttribute("combatArtList", combatArts); // adding list of combatArt for select
-
-        List<User> mentors = userService.findByRang( rangService.findOne(4l));
-        model.addAttribute("mentorList", mentors);       // adding list of mentor for select
-
-    	List<Rang> rangTypes = rangService.findAll();
-    	model.addAttribute("rangList", rangTypes);       // adding list of rang for select
-
+        initializeModelLists(model);
         model.addAttribute(user);
         
         return "admin/user/addUser";
@@ -135,24 +124,32 @@ public class UserController {
             // custom exception
         }
 
-        List<City> cities = cityService.findAll();
-        model.addAttribute("cityList", cities);
-
-        List<Club> clubs = clubService.findAll();
-        model.addAttribute("clubList", clubs);
-
-        List<CombatArt> combatArts = combatArtService.findAll();
-        model.addAttribute("combatArtList", combatArts);
-
-        List<User> mentors = userService.findByRang( rangService.findOne(4l));
-        model.addAttribute("mentorList", mentors);
-
-        List<Rang> rangTypes = rangService.findAll();
-        model.addAttribute("rangList", rangTypes);
-
+        initializeModelLists(model);
         model.addAttribute("user", user);
 
         return "admin/user/addUser";
     }
-    
+
+    // init Lists of entities for model
+    private void initializeModelLists(Model model){
+
+        List<City> cities = cityService.findAll();
+        model.addAttribute("cityList", cities);          // adding list of city for select
+
+        List<Club> clubs = clubService.findAll();
+        model.addAttribute("clubList", clubs);           // adding list of club for select
+
+        List<Mark> marks = markService.findAll();
+        model.addAttribute("markList", marks);           // adding list of mark for select
+
+        List<CombatArt> combatArts = combatArtService.findAll();
+        model.addAttribute("combatArtList", combatArts); // adding list of combatArt for select
+
+        List<User> mentors = userService.findByRang( rangService.findOne(4l));
+        model.addAttribute("mentorList", mentors);       // adding list of mentor for select
+
+        List<Rang> rangTypes = rangService.findAll();
+        model.addAttribute("rangList", rangTypes);       // adding list of rang for select
+    }
+
 }

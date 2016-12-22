@@ -19,6 +19,7 @@ INSERT INTO  rang(rangName) VALUES ('LEVEL_1'),('LEVEL_2'),('LEVEL_3'),('USER'),
 INSERT INTO  combatArt(combatArtName) VALUES ('Фрі-Файт'),('Тайдзі-Цюань'),('Шаолінь Кунг-фу');
 INSERT INTO  city(cityName) VALUES ('Київ'),('Львів'),('Дніпро');
 INSERT INTO  club(clubName) VALUES ('Клуб1'),('Клуб2');
+INSERT INTO  mark(markName) VALUES ('Пояс101'),('Пояс202'),('Награда303'),('Призер2016');
 INSERT INTO  user(firstName, lastName, email, password, avatarURL , rangId, combatArtId) VALUES ('Admin', 'Peresvit', 'admin@mail', '123456','https://cdn3.iconfinder.com/data/icons/users-6/100/654853-user-men-2-512.png', 5, 1);
 INSERT INTO  user(firstName, lastName, email, password, avatarURL , rangId, combatArtId) VALUES ('Степан', 'Степаненко', 'user1@mail', '123456','http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 4, 1);
 INSERT INTO  user(firstName, lastName, email, password, avatarURL , rangId, combatArtId, cityId, clubId, mentor_userId) VALUES ('Василь', 'Петренко', 'user@mail', '123456','http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 4, 1, 1, 1, 2);

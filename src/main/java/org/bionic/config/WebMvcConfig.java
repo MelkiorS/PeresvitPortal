@@ -1,13 +1,13 @@
 package org.bionic.config;
 
+import org.bionic.converter.StringToMarkConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.web.ProviderSignInController;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -20,9 +20,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
-import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -31,8 +31,11 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 import java.util.Locale;
 
 @Configuration
+@ComponentScan(basePackages = "org.bionic")
 class WebMvcConfig extends WebMvcConfigurationSupport {
 
+    @Autowired
+    StringToMarkConverter stringToMarkConverter;
     private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
     private static final String VIEWS = "/WEB-INF/views/";
 
@@ -89,7 +92,7 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
         thymeleafViewResolver.setCharacterEncoding("UTF-8");
         return thymeleafViewResolver;
     }
-    
+
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver commonsMultipartResolver(){
     	CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
@@ -119,6 +122,11 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
+    }
+
+    @Override
+    protected void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(stringToMarkConverter);
     }
 
     /**
