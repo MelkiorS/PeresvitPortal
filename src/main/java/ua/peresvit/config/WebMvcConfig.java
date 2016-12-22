@@ -34,6 +34,8 @@ import java.util.Locale;
 @ComponentScan(basePackages = "ua.peresvit.controller")
 class WebMvcConfig extends WebMvcConfigurerAdapter {
 
+    @Autowired
+    StringToMarkConverter stringToMarkConverter;
     private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
     private static final String VIEWS = "/WEB-INF/views/";
 
@@ -108,6 +110,11 @@ class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
+    }
+
+    @Override
+    protected void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(stringToMarkConverter);
     }
 
     /**

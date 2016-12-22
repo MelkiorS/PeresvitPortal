@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Mark</title>
+</head>
+<body>
+<a th:href="@{/admin/mark/management}" >Mark Management</a>
+<br/>
+<form action="#" th:action="@{/admin/mark/}" th:object="${mark}" method="post">
+    <input type="hidden" th:field="*{markId}" />
+
+    <input type="text" th:field="*{markName}" placeholder="mark" /><br/>
+    <input type="text" th:field="*{imageURL}" placeholder="image" /><br/>
+
+    <input type="submit" />
+</form>
+</body>
+</html>
