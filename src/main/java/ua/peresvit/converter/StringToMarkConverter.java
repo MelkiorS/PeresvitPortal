@@ -1,7 +1,7 @@
-package org.bionic.converter;
+package ua.peresvit.converter;
 
-import org.bionic.entity.Mark;
-import org.bionic.service.MarkService;
+import ua.peresvit.entity.Mark;
+import ua.peresvit.service.MarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

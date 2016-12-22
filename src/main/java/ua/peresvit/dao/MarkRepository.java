@@ -1,7 +1,6 @@
-package org.bionic.dao;
+package ua.peresvit.dao;
 
-import org.bionic.entity.Mark;
-import org.bionic.entity.User;
+import ua.peresvit.entity.Mark;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

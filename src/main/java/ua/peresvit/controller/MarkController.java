@@ -1,7 +1,7 @@
-package org.bionic.controller;
+package ua.peresvit.controller;
 
-import org.bionic.entity.Mark;
-import org.bionic.service.MarkService;
+import ua.peresvit.entity.Mark;
+import ua.peresvit.service.MarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

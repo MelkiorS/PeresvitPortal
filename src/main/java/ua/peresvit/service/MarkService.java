@@ -1,6 +1,6 @@
-package org.bionic.service;
+package ua.peresvit.service;
 
-import org.bionic.entity.Mark;
+import ua.peresvit.entity.Mark;
 
 import java.util.List;
 

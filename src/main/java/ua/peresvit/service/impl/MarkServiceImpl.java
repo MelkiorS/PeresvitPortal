@@ -1,9 +1,8 @@
-package org.bionic.service.impl;
+package ua.peresvit.service.impl;
 
-import org.bionic.dao.MarkRepository;
-import org.bionic.entity.Mark;
-import org.bionic.service.MarkService;
-import org.hibernate.Hibernate;
+import ua.peresvit.dao.MarkRepository;
+import ua.peresvit.entity.Mark;
+import ua.peresvit.service.MarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

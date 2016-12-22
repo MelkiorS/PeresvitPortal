@@ -19,7 +19,8 @@
         <input type="text" th:field="*{password}" placeholder="password" /><br/>
         <input type="text" th:field="*{profileVK}" placeholder="profile VK" /><br/>
         <input type="text" th:field="*{profileFB}" placeholder="profile FB" /><br/>
-        <input type="text" th:field="*{profileIS}" placeholder="profile IS" /><br/>
+        <input type="text" th:field="*{profileGoogle}" placeholder="profile Google" /><br/>
+        <input type="text" th:field="*{profileInstagram}" placeholder="profile Instagram" /><br/>
  		<input type="file" name="file" /><br/>
 
 		<label for="rangType">Rang:</label>
@@ -30,8 +31,8 @@
         
 		<br/> User info <br/>
         <label for="gender">Gender:</label>
-        <div><input type="radio" th:name="male" th:value="true"  th:field="*{gender}" checked="checked" />Male</div>
-        <div><input type="radio" th:name="female" th:value="false"  th:field="*{gender}" />Female</div>
+        <div><input type="radio" th:name="male" th:value="M"  th:field="*{sex}" checked="checked" />Male</div>
+        <div><input type="radio" th:name="female" th:value="F"  th:field="*{sex}" />Female</div>
 
         <label for="combatArtList">Combat Art:</label>
         <select th:field="*{combatArt.combatArtId}">
@@ -69,7 +70,7 @@
         </select> <br />
 
         <label for="about">About:</label>
-        <textarea th:text="*{about}" /> <br />
+        <textarea th:text="*{aboutMe}" /> <br />
 
 		<input type="submit" />
     </form>      
