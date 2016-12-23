@@ -1,6 +1,7 @@
 package ua.peresvit.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.peresvit.entity.UserGroup;
 import ua.peresvit.dao.UserGroupRepository;
 import ua.peresvit.service.UserGroupService;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Created by maximmaximov_2 on 15.12.16.
  */
+@Service
 public class UserGroupServiceImpl implements UserGroupService {
 
     @Autowired

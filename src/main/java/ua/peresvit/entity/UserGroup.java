@@ -19,7 +19,7 @@ public class UserGroup {
 
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_groups", joinColumns = {
             @JoinColumn(name = "usergroup_id", nullable = false, updatable = false)},
             inverseJoinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) }
