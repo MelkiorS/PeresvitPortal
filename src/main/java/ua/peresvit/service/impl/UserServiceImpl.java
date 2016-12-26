@@ -14,6 +14,7 @@ import ua.peresvit.dao.VerificationTokenRepository;
 import ua.peresvit.dto.UserDto;
 import ua.peresvit.entity.Role;
 import ua.peresvit.entity.User;
+import ua.peresvit.entity.UserGroup;
 import ua.peresvit.entity.VerificationToken;
 import ua.peresvit.error.UserAlreadyExistException;
 import ua.peresvit.service.UserService;
@@ -199,7 +200,12 @@ public class UserServiceImpl implements UserService {
         return user != null;
     }
 
-	@Override
+    @Override
+    public List<UserGroup> getUserGroups(User user) {
+        return userRepository.getUserGroups(user);
+    }
+
+    @Override
 	public String saveFile(User user, MultipartFile inputFile) {
 
         // return old avatar
@@ -224,5 +230,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByEmailAndPassword(String email,String password){
         return userRepository.findUserByEmailAndPassword(email, password);
+    }
+
+    @Override
+    public List<User> getGroupsUsers(UserGroup[] ug) {
+        return userRepository.getGroupsUsers(ug);
     }
 }

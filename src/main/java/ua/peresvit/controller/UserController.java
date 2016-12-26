@@ -14,6 +14,7 @@ import ua.peresvit.entity.*;
 import ua.peresvit.service.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/admin/user")
@@ -21,6 +22,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+    @Autowired
+    private UserGroupService userGroupService;
 
 	@Autowired
 	private RoleService rangService;
@@ -149,5 +153,17 @@ public class UserController {
 
         return "admin/user/addUser";
     }
-    
+
+    @RequestMapping(value = "/groupsUsers", method = RequestMethod.GET)
+    public List<User> getGroupsUsers(String[] sug){
+        UserGroup[] ug = new UserGroup[sug.length];
+        for (int i=0;i<sug.length;i++) ug[i] = userGroupService.findById(Long.parseLong(sug[i]));
+        return userService.getGroupsUsers(ug);
+    }
+
+    @RequestMapping(value = "/userGroups", method = RequestMethod.GET)
+    public List<UserGroup> getUserGroups(@RequestParam("userId") Long userId){
+        return userService.getUserGroups(userService.findOne(userId));
+    }
+
 }

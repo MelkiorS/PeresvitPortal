@@ -87,6 +87,4 @@ public class UserGroupController {
         return "redirect:/admin/userGroup/";
     }
 
-
-
 }

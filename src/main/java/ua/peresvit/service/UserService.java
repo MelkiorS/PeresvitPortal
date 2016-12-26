@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ua.peresvit.dto.UserDto;
 import ua.peresvit.entity.Role;
 import ua.peresvit.entity.User;
+import ua.peresvit.entity.UserGroup;
 import ua.peresvit.entity.VerificationToken;
 import ua.peresvit.error.UserAlreadyExistException;
 
@@ -42,4 +43,7 @@ public interface UserService {
 	void authenticateUser(User user);
 	User createUserFromDto(UserDto accountDto);
     User findUserByEmailAndPassword(String email, String password);
+
+	List<User> getGroupsUsers(UserGroup[] ug);
+	List<UserGroup> getUserGroups(User user);
 }
