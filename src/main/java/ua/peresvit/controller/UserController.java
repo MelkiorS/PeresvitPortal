@@ -1,7 +1,6 @@
 package ua.peresvit.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import ua.peresvit.entity.*;
 import ua.peresvit.service.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/admin/user")
@@ -163,12 +161,18 @@ public class UserController {
         return userService.getUserGroups(userService.findOne(userId));
     }
 
-    @RequestMapping(value = "/we", method = RequestMethod.GET)
-    public String getWe(Model model){
-        List<UserGroup> ug = userService.getUserGroups(userService.getCurrentUser());
+    @RequestMapping(value = {"/we/{groupId}", "/we"}, method = RequestMethod.GET)
+    public String getWe(@PathVariable("groupId") Optional<Long> groupId, Model model){
 
-        UserGroup[] uga = new UserGroup[ug.size()];
-        uga = ug.toArray(uga);
+        List<UserGroup> ug = userService.getUserGroups(userService.getCurrentUser());
+        UserGroup[] uga;
+        if (groupId.isPresent()) {
+            uga = new UserGroup[1];
+            uga[0] = userGroupService.findById(groupId.get().longValue());
+        } else {
+            uga = new UserGroup[ug.size()];
+            uga = ug.toArray(uga);
+        }
 
         model.addAttribute("groups", ug);
         model.addAttribute("userList", userService.getGroupsUsers(uga));

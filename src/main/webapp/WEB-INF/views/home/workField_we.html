@@ -28,18 +28,19 @@
                 <div class="container-fluid">
 
                     <div>
-                        <span th:each="group: ${groups}"> <a th:text="${'   #' + group.name}"></a> </span>
+                        <span> <a th:text="${'   #Все'}" th:href="@{/admin/user/we}"></a> </span>
+                        <span th:each="group: ${groups}"> <a th:text="${'   #' + group.name}" th:href="@{/admin/user/we/{id}(id=${group.id}) }"></a> </span>
                     </div>
                     <br>
 
                     <div class="row" th:each="user : ${userList}">
                         <div class="col-xs-2">
-                            <img src="/resources/frontend/workField/images/avatar.png" alt="photo" height="42" width="42">
+                            <img th:src="${user.avatarURL}" alt="photo" height="42" width="42">
                         </div>
                         <div class="col-xs-6">
                             <div class="row" th:text="${user.firstName + ' ' + user.lastName}"></div>
                             <div class="row" th:text="${user.combatArt.combatArtName}">Фрі-файт</div>
-                            <div class="row" th:text="${user.city}">Чорний пояс</div>
+                            <div class="row"> <span th:each="mark: ${user.marks}" th:text="${'  ' + mark.markName}"></span> </div>
                             <div class="row" th:text="${user.role.roleName}">Наставник 2-го класу</div>
                         </div>
                         <div class="col-xs-4">
