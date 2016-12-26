@@ -2,6 +2,8 @@ package ua.peresvit.entity;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -50,6 +52,17 @@ public class User {
 	// Account verification status
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled = true;
+
+	@ManyToMany(
+			fetch = FetchType.EAGER,
+			targetEntity = Mark.class
+	)
+	@JoinTable(
+			name="user_mark",
+			joinColumns={@JoinColumn(name="userId")},
+			inverseJoinColumns={@JoinColumn(name="markId")}
+	)
+	private Set<Mark> marks = new HashSet<>();
 
 	@Override
 	public String toString() {

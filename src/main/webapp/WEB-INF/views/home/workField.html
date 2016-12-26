@@ -40,7 +40,7 @@
                             <span th:text="${user.lastName}"></span>
                             <span th:text="${user.firstName}"></span>
                             <span th:text="${user.middleName}"></span>
-                            <span class="glyphicon glyphicon-pencil pencil pencil-name" aria-hidden="true"></span>
+                            <!--<span class="glyphicon glyphicon-pencil pencil pencil-name" aria-hidden="true"></span>-->
                         </span>
                     </p>
                 </div>
@@ -80,7 +80,7 @@
                     <p>
                         <b>Наставник: </b>
                         <span th:text="${user.mentor == null ? '' : user.mentor.firstName + ' ' + user.mentor.lastName}">Александр Степанович</span>
-                        </p>
+                    </p>
                 </div>
                 <div class="col-xs-7 main_section_userInf_item">
                     <!--Сюда вставляем город в котором живет юзер-->
@@ -88,7 +88,7 @@
                         <b>Місто: </b>
                         <span class="city">
                             <span th:text="${user.city == null ? '' : user.city.cityName}">Киев</span>
-                            <span class="glyphicon glyphicon-pencil pencil pencil-info-city" aria-hidden="true"></span>
+                            <!--<span class="glyphicon glyphicon-pencil pencil pencil-info-city" aria-hidden="true"></span>-->
                         </span>
                     </p>
                 </div>
@@ -98,7 +98,7 @@
                         <b>Клуб: </b>
                         <span class="club">
                             <span th:text="${user.club == null ? '' : user.club.clubName}">Пересвіт</span>
-                            <span class="glyphicon glyphicon-pencil pencil pencil-info-club" aria-hidden="true"></span>
+                            <!--<span class="glyphicon glyphicon-pencil pencil pencil-info-club" aria-hidden="true"></span>-->
                         </span>
                     </p>
                 </div>
@@ -108,7 +108,7 @@
                         <b>Направлення: </b>
                         <span class="direction">
                             <span th:text="${user.combatArt == null ? '' : user.combatArt.combatArtName}">Фрійфайт</span>
-                            <span class="glyphicon glyphicon-pencil pencil pencil-info-direct" aria-hidden="true"></span>
+                            <!--<span class="glyphicon glyphicon-pencil pencil pencil-info-direct" aria-hidden="true"></span>-->
                         </span>
                     </p>
                 </div>
@@ -118,7 +118,7 @@
                         <b>Про себе: </b>
                         <span class="aboutMe">
                             <span th:text="${user.aboutMe == null ? '' : user.aboutMe}">Чорний пояс по Фрі-файт, чемпіон Європи</span>
-                            <span class="glyphicon glyphicon-pencil pencil pencil-info-me" aria-hidden="true"></span>
+                            <!--<span class="glyphicon glyphicon-pencil pencil pencil-info-me" aria-hidden="true"></span>-->
                         </span>
                     </p>
                 </div>
@@ -142,20 +142,20 @@
         </div>
     </div>
 
-        <footer>
-            <div class="row container-fluid">
-                <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">
-                    <p>Гугл реклама<span class="glyphicon glyphicon-pencil pencil" aria-hidden="true"></span></p>
+    <footer>
+        <div class="row container-fluid">
+            <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">
+                <p>Гугл реклама<span class="glyphicon glyphicon-pencil pencil" aria-hidden="true"></span></p>
 
-                </div>
-                <div class="col-xs-2 col-md-2 row">
-                    <img src="/resources/frontend/workField/images/Logovk.png" alt="vk">
-                    <img src="/resources/frontend/workField/images/Logofc.png" alt="fs">
-                    <img src="/resources/frontend/workField/images/Logoin.png" alt="instagram">
-                </div>
             </div>
-        </footer>
-    </div>
+            <div class="col-xs-2 col-md-2 row">
+                <img src="/resources/frontend/workField/images/Logovk.png" alt="vk">
+                <img src="/resources/frontend/workField/images/Logofc.png" alt="fs">
+                <img src="/resources/frontend/workField/images/Logoin.png" alt="instagram">
+            </div>
+        </div>
+    </footer>
+</div>
 </div>
 
 </body>
