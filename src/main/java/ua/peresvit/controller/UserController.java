@@ -166,4 +166,16 @@ public class UserController {
         return userService.getUserGroups(userService.findOne(userId));
     }
 
+    @RequestMapping(value = "/we", method = RequestMethod.GET)
+    public String getWe(Model model){
+        List<UserGroup> ug = userService.getUserGroups(userService.getCurrentUser());
+
+        UserGroup[] uga = new UserGroup[ug.size()];
+        uga = ug.toArray(uga);
+
+        model.addAttribute("groups", ug);
+        model.addAttribute("userList", userService.getGroupsUsers(uga));
+        return "home/workField_we";
+    }
+
 }
