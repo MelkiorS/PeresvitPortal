@@ -4,7 +4,8 @@
 
 # BlueJ files
 *.ctxt
-mma.iml
+*.iml
+workspace.xml
 .idea/
 target/
 .gitignore
