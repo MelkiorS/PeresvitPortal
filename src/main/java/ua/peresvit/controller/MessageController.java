@@ -27,13 +27,13 @@ public class MessageController {
 
     @RequestMapping(value = "inbox")
     public String getInbox(Model model) {
-        model.addAttribute(userService.getCurrentUser().getReceivedMessages());
+        model.addAttribute("inbox", userService.getCurrentUser().getReceivedMessages());
         return "message/inbox";
     }
 
     @RequestMapping(value = "sent")
     public String getSent(Model model) {
-        model.addAttribute(userService.getCurrentUser().getSentMessages());
+        model.addAttribute("sent", userService.getCurrentUser().getSentMessages());
         return "message/sent";
     }
 

@@ -2,15 +2,16 @@ package ua.peresvit.service.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.peresvit.dao.MessageRepository;
 import ua.peresvit.entity.Message;
 import ua.peresvit.entity.User;
 import ua.peresvit.service.MessageService;
 
-import javax.persistence.OneToMany;
 import java.util.LinkedList;
 import java.util.List;
 
+@Service
 public class MessageServiceImpl implements MessageService{
 
     @Autowired
