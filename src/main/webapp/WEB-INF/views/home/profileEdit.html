@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/resources/frontend/editProfile/profileEdit.css">
     <link rel="stylesheet" href="/resources/frontend/bars.css">
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="/resources/frontend/libraries/bootstrap.min.js"></script>
     <script async src="/resources/frontend/libraries/constants.js"></script>
     <script async src="/resources/frontend/editProfile/profileEdit.js"></script>
 </head>
@@ -35,19 +36,19 @@
             <input type="hidden" th:field="*{userId}" >
             <input type="hidden" th:field="*{enabled}" >
             <input type="hidden" th:field="*{role.roleId}" >
-            <p class="form-group">
+            <p th:class="${'form-group' + ( #fields.hasErrors('lastName') ? ' has-error' : '') }">
                 <label for="lastName">Прізвище</label>
-                <input class="form-control" type="text" th:field="*{lastName}" id="lastName" placeholder="Прізвище" >
+                <input class="form-control" type="text" th:field="*{lastName}" id="lastName" placeholder="Прізвище" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('lastName')} " th:data-trigger="${ #fields.hasErrors('lastName') ? 'hover' : 'manual'}" data-placement="top">
             </p>
 
-            <p class="form-group">
+            <p th:class="${'form-group' + ( #fields.hasErrors('firstName') ? ' has-error' : '') }">
                 <label for="firstName">Імя</label>
-                <input class="form-control" type="text" th:field="*{firstName}" id="firstName" placeholder="Імя" >
+                <input class="form-control" type="text" th:field="*{firstName}" id="firstName" placeholder="Імя" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('firstName')} " th:data-trigger="${ #fields.hasErrors('firstName') ? 'hover' : 'manual'}" data-placement="top">
             </p>
 
-            <p class="form-group">
+            <p th:class="${'form-group' + ( #fields.hasErrors('middleName') ? ' has-error' : '') }">
                 <label for="middleName">По батькові</label>
-                <input class="form-control" type="text" th:field="*{middleName}" id='middleName' placeholder="По батькові" >
+                <input class="form-control" type="text" th:field="*{middleName}" id='middleName' placeholder="По батькові" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('middleName')} " th:data-trigger="${ #fields.hasErrors('middleName') ? 'hover' : 'manual'}" data-placement="top">
             </p>
 
             <p class="form-group">
@@ -170,5 +171,11 @@
     </footer>
 </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
 </body>
 </html>

@@ -4,6 +4,7 @@ package ua.peresvit.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +14,7 @@ import ua.peresvit.config.Constant;
 import ua.peresvit.entity.*;
 import ua.peresvit.service.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
@@ -126,7 +128,9 @@ public class UserPageController {
 
     // Edit User
     @RequestMapping(value = "/profileEdit", method = RequestMethod.POST)
-    public String editUser(User user, Model model, @RequestParam("file") MultipartFile file) {
+    public String editUser(@Valid User user, BindingResult bindingResult, Model model, @RequestParam("file") MultipartFile file) {
+
+        if (bindingResult.hasErrors()) return "home/profileEdit";
 
         user.setAvatarURL(userService.saveFile(user, file));
 
