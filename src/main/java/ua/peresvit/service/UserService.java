@@ -10,6 +10,7 @@ import ua.peresvit.entity.VerificationToken;
 import ua.peresvit.error.UserAlreadyExistException;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface UserService {
@@ -46,4 +47,7 @@ public interface UserService {
 
 	List<User> getGroupsUsers(UserGroup[] ug);
 	List<UserGroup> getUserGroups(User user);
+
+	User[] getArrayFromStringArray(String[] users);
+	Set<User> getSetFromStringArray(String[] users);
 }

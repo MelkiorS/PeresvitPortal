@@ -8,18 +8,10 @@
     <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="/resources/dhtmlx/skins/dhtmlxscheduler_flat.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/resources/dhtmlx/event_edit.css" type="text/css" media="screen" charset="utf-8"/>
-    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css"/>
-    <link rel="stylesheet" href="/resources/dhtmlx/skins/dhtmlxscheduler_flat.css" type="text/css" media="screen" charset="utf-8"/>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="/resources/dhtmlx/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
     <script src="/resources/dhtmlx/event_edit.js" type="text/javascript" charset="utf-8"></script>
     <style type="text/css" media="screen">
-        html, body{
-            margin:0px;
-            padding:0px;
-            height:100%;
-            overflow:hidden;
-        }
         #my_form {
             position: absolute;
             top: 100px;
@@ -38,96 +30,10 @@
         }
     </style>
     <script type="text/javascript" charset="utf-8">
-        function init() {
-
-            scheduler.config.details_on_dblclick = true;
-            scheduler.config.details_on_create = true;
-
-            scheduler.init('scheduler_here', new Date(),"month");
-            scheduler.config.xml_date="%Y%m%d %H%i";
-            scheduler.templates.xml_date = function(value){ return new Date(value); };
-            scheduler.load('/admin/myeventsperiod?' + current_month_period(),'json');
-
-            scheduler.attachEvent("onEventAdded", function(id,ev){
-                dtFrom = new Date(ev.date + ' ' + ev.from);
-                dtTo = new Date(ev.date + ' ' + ev.to);
-                $.ajax({
-                    type : "POST",
-                    url : "/admin/addEvent",
-                    data : {
-                        "start_date" : dtFrom.getTime(),
-                        "end_date" : dtTo.getTime(),
-                        "place" : ev.place,
-                        "title" : ev.text,
-                        "description":  ev.description,
-                        "connectall":   ev.connectall,
-                        "groups":   ev.groups,
-                        "friends":  ev.friends
-                    },
-                    success: function(data){
-                        scheduler.load('/admin/myeventsperiod?' + current_month_period(),'json');
-                        scheduler.deleteEvent(id);
-                    }
-                });
-            });
-
-            scheduler.attachEvent("onEventChanged", function(id, ev) {
-                dtFrom = new Date(ev.date + ' ' + ev.from);
-                dtTo = new Date(ev.date + ' ' + ev.to);
-                $.ajax({
-                    type : "POST",
-                    url : "/admin/updEvent",
-                    data : {
-                        "id" : ev.id,
-                        "start_date" : dtFrom.getTime(),
-                        "end_date" : dtTo.getTime(),
-                        "place" : ev.place,
-                        "title" : ev.text,
-                        "description":  ev.description,
-                        "connectall":   ev.connectall,
-                        "groups":   ev.groups,
-                        "friends":  ev.friends
-                    },
-                    success: function(data){
-                    }
-                });
-            });
-            scheduler.attachEvent("onEventDeleted", function(id) {
-                $.ajax({
-                    type : "POST",
-                    url : "/admin/delEvent",
-                    data : {
-                        "id" : id
-                    },
-                    success: function(data){
-                    }
-                });
-            });
-
-        }
 
         var html = function(id) { return document.getElementById(id); };
         var t = function (v, def) { return v === undefined ? def : v }
         var n = function (v, def) { return v === null ? def : v }
-
-
-        scheduler.showLightbox = function(id) {
-            var ev = scheduler.getEvent(id);
-            scheduler.startLightbox(id, html("my_form"));
-
-            html("place").focus();
-            html("place").value =  t(ev.place, "");
-            html("description").value = t(ev.description, "");
-            html("connectall").value = t(ev.connectall, true);
-            html("text").value = t(ev.text, "");
-
-            html("from").value = t(ev.from, fmtTime(ev.start_date));
-            html("to").value = t(ev.to, fmtTime(ev.end_date));
-            html("date").value = t(ev.date, fmtDateScheduler(ev.start_date));
-
-            $("#groups").val([]);
-            $("#friends").val([]);
-        };
 
         function close_form() {
             scheduler.endLightbox(false, html("my_form"));
@@ -145,41 +51,15 @@
             ev.description = html("description").value;
             ev.connectall = html("connectall").value;
             ev.friends = n($("#friends").val(), []);
-            ev.groups = html("groups").value;
-            console.log(ev);
+            ev.groups = n($("#groups").val(), []);
             scheduler.endLightbox(true, html("my_form"));
         }
 
         function delete_event() {
+            var event_id = scheduler.getState().lightbox_id;
             scheduler.endLightbox(false, html("my_form"));
+            scheduler.deleteEvent(event_id);
         }
-
-        function fmtNum(num, size) {
-            var s = num+"";
-            while (s.length < size) s = "0" + s;
-            return s;
-        }
-
-        function fmtDate(dt) {
-            return '' + dt.getFullYear() + fmtNum(dt.getMonth()+1, 2) + fmtNum(dt.getDate(), 2);
-        }
-
-        function fmtDateScheduler(dt) {
-            return "" + dt.getFullYear() + "-" + fmtNum(dt.getMonth()+1, 2) + "-" + fmtNum(dt.getDate(), 2);
-        }
-
-        function fmtTime(tm) {
-            return "" + fmtNum(tm.getHours(), 2) + ":" + fmtNum(tm.getMinutes(), 2);
-        }
-
-        function current_month_period() {
-            var date = new Date();
-            var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-
-            return "start=" + fmtDate(firstDay) + "&finish=" + fmtDate(lastDay);
-        }
-
     </script>
 </head>
 <body>
@@ -201,7 +81,7 @@
     </select>
     <br>
     <label for="groups">Надіслати запрошення группам</label><select multiple="multiple" name="groups" value="" id="groups" >
-        <option th:each="group : ${groups}" th:text="${group.toString()}" th:value="${group.userId}"></option>
+        <option th:each="group : ${groups}" th:text="${group.toString()}" th:value="${group.id}"></option>
     </select>
     <br>
     <label for="friends">Надіслати запрошення друзям</label><select name="friends" value="" id="friends" multiple="multiple">

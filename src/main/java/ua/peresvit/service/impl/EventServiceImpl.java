@@ -2,8 +2,11 @@ package ua.peresvit.service.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.peresvit.dao.EventRepository;
@@ -12,9 +15,40 @@ import ua.peresvit.entity.User;
 import ua.peresvit.service.EventService;
 import ua.peresvit.service.UserService;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+
+class AttendMessage extends SimpleMailMessage{
+    @Autowired
+    private Environment env;
+
+    public AttendMessage(Event ev, User u, String from) {
+        super();
+        this.setTo(u.getEmail());
+        this.setSubject("Інформація о події");
+        this.setText("Шановний(а) " + u.toString() +"!\n" +
+                "Запрошуємо Вас о " + (new SimpleDateFormat("dd.MM.yyyy HH:mm")).format(ev.getStart()) + " на " + ev.getName() + " \"\n");
+        this.setFrom(from);
+    }
+}
+
+class CancelMessage extends SimpleMailMessage {
+    @Autowired
+    private Environment env;
+
+    public CancelMessage(Event ev, User u, String from) {
+        super();
+        this.setTo(u.getEmail());
+        this.setSubject("Подія відмінена");
+        this.setText("Шановний(а) " + u.toString() +"!\n" +
+                "Інформуємо Вас о відміні " + ev.getName() + " \"\n");
+        this.setFrom(from);
+    }
+}
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -25,20 +59,46 @@ public class EventServiceImpl implements EventService {
     @Autowired
     private UserService us;
 
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Autowired
+    private Environment env;
+
     @Override
     public List<Event> findAll() {
         return dao.findAll();
     }
 
+    private void inform(Event e) {
+
+        if (e == null) return;
+
+        Set<User> newUsers = e.getUserSet();
+        Event persisted = findById(e.getId());
+        Set<User> oldUsers = new HashSet<>();
+        if (persisted!=null) oldUsers = persisted.getUserSet();
+
+        Set<User> attendUsers = (HashSet)((HashSet)newUsers).clone();
+        attendUsers.removeAll(oldUsers);
+        Set<User> cancelUsers = (HashSet)((HashSet)oldUsers).clone();
+        cancelUsers.removeAll(newUsers);
+
+        for (User u: attendUsers) mailSender.send(new AttendMessage(e, u, env.getRequiredProperty("support.email")));
+        for (User u: cancelUsers) mailSender.send(new CancelMessage(e, u, env.getRequiredProperty("support.email")));
+    }
+
     @Override
     @Transactional
     public Event create(Event e) {
+        inform(e);
         return dao.save(e);
     }
 
     @Override
     @Transactional
     public Event delete(Event e) {
+        inform(e);
         dao.delete(e);
         return e;
     }
@@ -46,6 +106,7 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public Event update(Event e) {
+        inform(e);
         return dao.save(e);
     }
 

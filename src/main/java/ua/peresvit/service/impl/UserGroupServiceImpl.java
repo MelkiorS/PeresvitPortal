@@ -6,7 +6,9 @@ import ua.peresvit.entity.UserGroup;
 import ua.peresvit.dao.UserGroupRepository;
 import ua.peresvit.service.UserGroupService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by maximmaximov_2 on 15.12.16.
@@ -36,6 +38,15 @@ public class UserGroupServiceImpl implements UserGroupService {
     @Override
     public UserGroup update(UserGroup e) {
         return dao.save(e);
+    }
+
+    @Override
+    public Set<UserGroup> getSetFromStringArray(String[] groups) {
+        Set<UserGroup> res = new HashSet<>();
+        if (groups != null && groups.length > 0)
+            for(int i=0; i < groups.length; i++)
+                res.add(dao.findOne(Long.parseLong(groups[i])));
+        return res;
     }
 
     @Override

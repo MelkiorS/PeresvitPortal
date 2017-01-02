@@ -46,12 +46,19 @@ public class Event {
     @Column(columnDefinition = "boolean default true")
     private boolean connectAll = true;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_events", joinColumns = {
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "events_users", joinColumns = {
             @JoinColumn(name = "event_id", nullable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "user_id",
                     nullable = false, updatable = false) })
     private Set<User> users = new HashSet<User>();
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "events_groups", joinColumns = {
+            @JoinColumn(name = "event_id", nullable = false, updatable = false) },
+            inverseJoinColumns = { @JoinColumn(name = "group_id",
+                    nullable = false, updatable = false) })
+    private Set<UserGroup> groups = new HashSet<UserGroup>();
 
     @Override
     public String toString() {
@@ -62,5 +69,15 @@ public class Event {
 
     public boolean isAssigned(User u){
         return users.contains(u);
+    }
+
+    public Set<User> getUserSet() {
+        Set<User> res = new HashSet<User>();
+
+        res.addAll(users);
+        for (UserGroup ug: groups) {
+            res.addAll(ug.getUsers());
+        }
+        return res;
     }
 }

@@ -19,9 +19,7 @@ import ua.peresvit.entity.VerificationToken;
 import ua.peresvit.error.UserAlreadyExistException;
 import ua.peresvit.service.UserService;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 //import org.bionic.dao.VerificationTokenRepository;
 
@@ -203,6 +201,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserGroup> getUserGroups(User user) {
         return userRepository.getUserGroups(user);
+    }
+
+    @Override
+    public Set<User> getSetFromStringArray(String[] users) {
+        Set<User> res = new HashSet<>();
+        if (users != null && users.length > 0) res.addAll(Arrays.asList(getArrayFromStringArray(users)));
+        return res;
+    }
+
+    @Override
+    public User[] getArrayFromStringArray(String[] users) {
+        int len = users == null ? 0 : users.length;
+        User[] res = new User[len];
+        for(int i = 0; i < len;i++)
+            res[i] = userRepository.findOne(Long.parseLong(users[i]));
+        return res;
     }
 
     @Override
