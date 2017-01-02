@@ -175,7 +175,8 @@ public class UserController {
         }
 
         model.addAttribute("groups", ug);
-        model.addAttribute("userList", userService.getGroupsUsers(uga));
+        //TODO how to do it in more correct way?
+        model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsers(uga));
         return "home/workField_we";
     }
 

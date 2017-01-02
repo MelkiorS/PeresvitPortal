@@ -64,12 +64,15 @@ public class UserPageController {
 
     @RequestMapping(value = "/workField", method = RequestMethod.GET)
     public String showStartOffice(Model model, Principal principal) {
-        User loggedUser = userService.findUserByEmail(principal.getName());
+        User loggedUser = userService.getCurrentUser();
         String imagePath = loggedUser.getAvatarURL();
         model.addAttribute("imageAvatar", null);
-        try {
-            model.addAttribute("imageAvatar", Constant.encodeFileToBase64Binary(imagePath));
-        }catch (IOException ex){}
+        if (imagePath != null) {
+            try {
+                model.addAttribute("imageAvatar", Constant.encodeFileToBase64Binary(imagePath));
+            } catch (IOException ex) {
+            }
+        }
 
         // Achievements
         Map<Long, String> achiveList = new HashMap<>();
