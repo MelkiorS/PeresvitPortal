@@ -15,8 +15,7 @@ import ua.peresvit.service.*;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/home")
@@ -49,6 +48,9 @@ public class UserPageController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private AchievementService achievementService;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String goToReg(Model model, Principal principal) {
         if (principal != null) {
@@ -68,6 +70,16 @@ public class UserPageController {
         try {
             model.addAttribute("imageAvatar", Constant.encodeFileToBase64Binary(imagePath));
         }catch (IOException ex){}
+
+        // Achievements
+        Map<Long, String> achiveList = new HashMap<>();
+        List<Achievement> achievements = achievementService.findByUser(loggedUser);
+        for (Achievement achievement:achievements) {
+            try {
+                achiveList.put(achievement.getAchievementId(), Constant.encodeFileToBase64Binary(achievement.getImageURL()));
+            } catch (IOException ex){achiveList.put(achievement.getAchievementId(), null);}
+        }
+        model.addAttribute("achieveList", achiveList);
 
         List<City> cities = cityService.findAll();
         model.addAttribute("cityList", cities);          // adding list of city for select

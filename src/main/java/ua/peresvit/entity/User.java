@@ -64,6 +64,9 @@ public class User {
 	)
 	private Set<Mark> marks = new HashSet<>();
 
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private Set<Achievement> achievements = new HashSet<>();
+
 	@Override
 	public String toString() {
 		return "" + firstName.trim() + " " + lastName.trim();

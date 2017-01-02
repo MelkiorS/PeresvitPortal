@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/resources/frontend/bars.css">
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
     <script src="/resources/frontend/libraries/constants.js"></script>
-    <script  async src="/resources/frontend/workField/js/workField_script.js"></script>
+    <!--<script  async src="/resources/frontend/workField/js/workField_script.js"></script>-->
 </head>
 <body>
 <div class="container-fluid wrapper">
@@ -60,7 +60,7 @@
                     <div class="col-xs-9 col-xs-offset-1 main_section_basic_links">
                         <p class="main_section_basic_links_item_belt row">
                             <!--Сюда вставляем на картинку, какой пояс есть у юзера-->
-                            <img src="/resources/frontend/workField/images/yellow_belt.png" alt="belt">
+                            <!--<img src="/resources/frontend/workField/images/yellow_belt.png" alt="belt">-->
                         </p>
                     </div>
                     <div class="col-xs-12 main_section_basic_level">
@@ -129,14 +129,21 @@
                 </div>
                 <div class="col-xs-12  main_section_photoGallery_images">
                     <!--Сюда вставляем фотоальбом юзера-->
-                    <figure class="col-xs-6">
-                        <figcaption>Описание этой картинки</figcaption>
-                        <img src="/resources/frontend/workField/images/basile.jpg" alt="judo">
-                    </figure>
-                    <figure class="col-xs-6">
-                        <figcaption>Описание второй картинки</figcaption>
-                        <img src="/resources/frontend/workField/images/sambo.jpg" alt="sambo">
-                    </figure>
+                    <!--<figure class="col-xs-6">-->
+                        <!--<figcaption>Описание этой картинки</figcaption>-->
+                        <!--<img src="/resources/frontend/workField/images/basile.jpg" alt="judo">-->
+                    <!--</figure>-->
+                    <!--<figure class="col-xs-6">-->
+                        <!--<figcaption>Описание второй картинки</figcaption>-->
+                        <!--<img src="/resources/frontend/workField/images/sambo.jpg" alt="sambo">-->
+                    <!--</figure>-->
+
+                    <tr th:each="achievement, iter : ${user.achievements}">
+                        <td th:text="${achievement.achievementId}">1</td>
+                        <td th:text="${achievement.achievementName}">Text</td>
+                        <img th:src= "@{'data:image;base64,' + ${achieveList.get(achievement.achievementId)}}" alt="achievement">
+                    </tr>
+
                 </div>
             </div>
         </div>

@@ -72,6 +72,37 @@
         <label for="about">About:</label>
         <textarea th:text="*{aboutMe}" /> <br />
 
+        <!--ACHIEVEMENT LIST-->
+        <br/>
+        <a th:href="@{/admin/achievement/add/} + *{userId}">Add Achievement</a>
+        <div class="achievementList" >
+
+            <h3 >List of Achievement</h3>
+
+            <table class=".table" th:fragment="allAchievements">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>URL</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="achievement : *{achievements}">
+                    <td th:text="${achievement.achievementName}"></td>
+                    <td th:text="${achievement.description}"></td>
+                    <td th:text="${achievement.imageURL}"></td>
+
+                    <td><a th:href="@{/admin/achievement/edit/} + ${achievement.achievementId}">Edit</a></td>
+                    <td><a th:href="@{/admin/achievement/delete/} + ${achievement.achievementId}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <br/>
+
 		<input type="submit" />
     </form>      
 </body>

@@ -18,7 +18,7 @@
       <tr>
         <th>Id</th>
         <th>ResourceGroupName</th>
-        <th>Rang</th>
+        <th>Role</th>
         <th>TypeName</th>
         <th>TypeId</th>
         <th>Edit</th>
@@ -32,7 +32,7 @@
       <tr th:each="resourceGroup : ${resourceGroupList}">
         <td th:text="${resourceGroup.resourceGroupId}"></td>
         <td th:text="${resourceGroup.resourceGroupName}"></td>
-        <td th:text="${resourceGroup.rang.rangName}"></td>
+        <td th:text="${resourceGroup.role.roleName}"></td>
         <td th:text="${resourceGroup.resourceGroupType.groupName}"></td>      
         <td th:text="${resourceGroup.typeId}"></td>
         <td><a th:href="@{/admin/resourceGroup/edit/} + ${resourceGroup.resourceGroupId}">Edit</a></td>   
