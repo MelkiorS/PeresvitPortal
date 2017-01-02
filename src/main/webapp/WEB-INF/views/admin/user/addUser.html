@@ -19,19 +19,20 @@
         <input type="text" th:field="*{password}" placeholder="password" /><br/>
         <input type="text" th:field="*{profileVK}" placeholder="profile VK" /><br/>
         <input type="text" th:field="*{profileFB}" placeholder="profile FB" /><br/>
-        <input type="text" th:field="*{profileIS}" placeholder="profile IS" /><br/>
+        <input type="text" th:field="*{profileGoogle}" placeholder="profile Google" /><br/>
+        <input type="text" th:field="*{profileInstagram}" placeholder="profile Instagram" /><br/>
  		<input type="file" name="file" /><br/>
 
 		<label for="rangType">Rang:</label>
-		<select th:field="*{rang.rangId}">
-			<option th:each="rang : ${rangList}" th:value="${rang.rangId}"
-				th:text="${rang.rangName}"></option>
+		<select th:field="*{role.roleId}">
+			<option th:each="role : ${rangList}" th:value="${role.roleId}"
+				th:text="${role.roleName}"></option>
 		</select> <br />
         
 		<br/> User info <br/>
         <label for="gender">Gender:</label>
-        <div><input type="radio" th:name="male" th:value="true"  th:field="*{gender}" checked="checked" />Male</div>
-        <div><input type="radio" th:name="female" th:value="false"  th:field="*{gender}" />Female</div>
+        <div><input type="radio" th:name="male" th:value="M"  th:field="*{sex}" checked="checked" />Male</div>
+        <div><input type="radio" th:name="female" th:value="F"  th:field="*{sex}" />Female</div>
 
         <label for="combatArtList">Combat Art:</label>
         <select th:field="*{combatArt.combatArtId}">
@@ -61,8 +62,15 @@
                     th:text="${mentor.firstName} + ' ' + ${mentor.lastName}"></option>
         </select> <br />
 
+        <label for="markList">Mark:</label>
+        <select th:field="*{marks}" multiple="multiple">
+            <!--<option value="" th:text="''"></option>-->
+            <option th:each="mark : ${markList}" th:value="${mark.markId}"
+                    th:text="${mark.markName}"></option>
+        </select> <br />
+
         <label for="about">About:</label>
-        <textarea th:text="*{about}" /> <br />
+        <textarea th:text="*{aboutMe}" /> <br />
 
 		<input type="submit" />
     </form>      

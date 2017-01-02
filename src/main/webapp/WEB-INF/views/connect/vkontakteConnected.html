@@ -1,39 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:social="http://spring.io/springsocial"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Social Showcase</title>
-    <!--<link rel="stylesheet" th:href="@{/resources/page.css}" type="text/css" media="screen"></link>-->
-    <!--<link rel="stylesheet" th:href="@{/resources/form.css}" type="text/css" media="screen"></link>-->
-    <!--<link rel="stylesheet" th:href="@{/resources/messages/messages.css}" type="text/css" media="screen"></link>-->
+    <title>Connect to VK</title>
+    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css" th:href="@{/resources/frontend/libraries/bootstrap.css}">
+    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js" th:src="@{/resources/frontend/libraries/jquery-2.2.4.min.js}"></script>
+
 </head>
 <body>
-<div id="header">
-    <h1><a th:href="@{/}">Spring Social Showcase</a></h1>
-</div>
-
-<div id="leftNav">
-    Left nav menu
-</div>
-
-<div id="content" layout:fragment="content">
-    <h3>Connected to VKontakte</h3>
-
-    <form id="disconnect" method="post">
-        <!--<input type="hidden" name="_csrf" th:value="${_csrf.token}" />-->
-        <div class="formInfo">
-            <p>The Spring Social Showcase sample application is already connected to your VKontakte account.
-                Click the button if you wish to disconnect</p>
+    <h1 class="col-xs-offset-5 col-xs-2"><a th:href="@{/}" class="center-block btn btn-secondary">На головну сторінку</a></h1>
+    <div class="col-xs-offset-3 col-xs-6">
+        <div class="container-fluid well page-header jumbotron center-block">
+            <h3 class="center-block">Ви приєдналися до VKontakte</h3>
+            <a href="/registration/vkontakte/finishRegistration" type="button" class="btn btn-success col-xs-offset-5 col-xs-3">Завершити реєстрацію</a>
         </div>
-
-        <button type="submit">Disconnect</button>
-        <input type="hidden" name="_method" value="delete" />
-    </form>
-
-    <!--<p><a th:href="@{/vkontakte}">View your VKontakte profile</a></p>-->
-</div>
+    </div>
 </body>
 </html>
 

@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>ResourceGroup List</title>
+  <meta charset="UTF-8">
+  <title>ResourceGroup List</title>
+  <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
+
 </head>
 <body>
 <a th:href="@{/admin/resourceGroup/management}" >ResourceGroup Management</a>
@@ -11,7 +13,7 @@
     
   <h2 >List of ResourceGroups</h2>
   
-  <table>
+  <table class=".table">
     <thead>
       <tr>
         <th>Id</th>

@@ -6,13 +6,11 @@
     <title>Peresvit</title>
     <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
-    <link rel="stylesheet" href="/resources/frontend/workField/css/privateOffice.css">
+    <link rel="stylesheet" href="/resources/frontend/editProfile/profileEdit.css">
     <link rel="stylesheet" href="/resources/frontend/bars.css">
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
-    <script src="/resources/frontend/libraries/constants.js"></script>
-    <!--<script  async src="/resources/frontend/workField/js/workField_script.js"></script>-->
-
-
+    <script async src="/resources/frontend/libraries/constants.js"></script>
+    <script async src="/resources/frontend/editProfile/profileEdit.js"></script>
 </head>
 <body>
 <div class="container-fluid wrapper">
@@ -28,71 +26,131 @@
         <div class="col-xs-3 container main_sidebar">
             <!--Сюда вставляем боковой бар fragments/sideBar.html-->
             <div th:replace="home/fragments/sideBar :: sideBar"></div>
-            <div class="place_for_add_sidebar col-xs-12 row">
-
-            </div>
         </div>
         <div class=" col-xs-7 row well container-fluid main_section">
-
+            <h2>Редагування профілю</h2>
+            <main>
         <form th:action="@{/home/profileEdit}" th:object="${user}" enctype="multipart/form-data" method="post">
 
-            <input type="hidden" th:field="*{userId}" />
-            <input type="hidden" th:field="*{enabled}" />
-            <input type="hidden" th:field="*{rang.rangId}" />
+            <input type="hidden" th:field="*{userId}" >
+            <input type="hidden" th:field="*{enabled}" >
+            <input type="hidden" th:field="*{role.roleId}" >
+            <p class="form-group">
+                <label for="lastName">Прізвище</label>
+                <input class="form-control" type="text" th:field="*{lastName}" id="lastName" placeholder="Прізвище" >
+            </p>
 
-            <label for="avatar">Змінити аватар:</label>
-            <input id="avatar" type="file" name="file" /><br/>
+            <p class="form-group">
+                <label for="firstName">Імя</label>
+                <input class="form-control" type="text" th:field="*{firstName}" id="firstName" placeholder="Імя" >
+            </p>
 
-            <input type="text" th:field="*{firstName}" placeholder="Імя" /><br/>
-            <input type="text" th:field="*{lastName}" placeholder="Фамілія" /><br/>
-            <input type="text" th:field="*{middleName}" placeholder="По батькові" /><br/>
-            <input type="text" th:field="*{email}" placeholder="e-mail" /><br/>
-            <input type="hidden" th:field="*{password}" placeholder="password" />
-            <input type="hidden" th:field="*{avatarURL}"/><br/>
-            <input type="text" th:field="*{profileVK}" placeholder="профіль vk" /><br/>
-            <input type="text" th:field="*{profileFB}" placeholder="профіль facebook" /><br/>
-            <input type="text" th:field="*{profileIS}" placeholder="профіль instagram" /><br/>
+            <p class="form-group">
+                <label for="middleName">По батькові</label>
+                <input class="form-control" type="text" th:field="*{middleName}" id='middleName' placeholder="По батькові" >
+            </p>
 
-            <label for="gender">Стать:</label>
-            <div><input type="radio" th:name="male" th:value="true"  th:field="*{gender}" checked="checked" />Чоловік</div>
-            <div><input type="radio" th:name="female" th:value="false"  th:field="*{gender}" />Жінка</div>
+            <p class="form-group">
+                <label>Стать: </label>
+                <span class="gender">
+                    <input type="radio" th:name="male" th:value="M"  th:field="*{sex}" checked ><span>Чоловіча</span>
+                    <input type="radio" th:name="female" th:value="F"  th:field="*{sex}" ><span>Жіноча</span>
+                </span>
+            </p>
 
-            <label for="combatArtList">Бойове мистецтво:</label>
-            <select th:field="*{combatArt.combatArtId}">
-                <option value="" th:text="''"></option>
-                <option th:each="combatArt : ${combatArtList}" th:value="${combatArt.combatArtId}"
-                        th:text="${combatArt.combatArtName}"></option>
-            </select> <br />
+            <p class="form-group">
+                <label for="cityList">Місто: </label>
+                <select th:field="*{city.cityId}" id="cityList" class="form-control">
+                    <option disabled value="" th:text="'Ваше місто'"></option>
+                    <option th:each="city : ${cityList}" th:value="${city.cityId}"
+                            th:text="${city.cityName}"></option>
+                </select>
+            </p>
 
-            <label for="cityList">Місто:</label>
-            <select th:field="*{city.cityId}">
-                <option value="" th:text="''"></option>
-                <option th:each="city : ${cityList}" th:value="${city.cityId}"
-                        th:text="${city.cityName}"></option>
-            </select> <br />
+            <p class="form-group">
+                <label for="clubList">Клуб: </label>
+                <select id="clubList" th:field="*{club.clubId}" class="form-control">
+                    <option disabled value="" th:text="'Ваш клуб'"></option>
+                    <option th:each="club : ${clubList}" th:value="${club.clubId}"
+                            th:text="${club.clubName}"></option>
+                </select>
+            </p>
 
-            <label for="clubList">Клуб:</label>
-            <select id="clubList" th:field="*{club.clubId}">
-                <option value="" th:text="''"></option>
-                <option th:each="club : ${clubList}" th:value="${club.clubId}"
-                        th:text="${club.clubName}"></option>
-            </select> <br />
+            <p class="form-group">
+                <label for="combatArtList">Направлення: </label>
+                <select th:field="*{combatArt.combatArtId}" id="combatArtList" class="form-control">
+                    <option disabled value="" th:text="'Бойове мистецтво'"></option>
+                    <option th:each="combatArt : ${combatArtList}" th:value="${combatArt.combatArtId}"
+                            th:text="${combatArt.combatArtName}"></option>
+                </select>
+            </p>
+            <p class="form-group">
+                <label for="email">Ваш Email: </label>
+                <input class="form-control" type="text" th:field="*{email}" id='email' placeholder="e-mail" >
+            </p>
+            <p class="form-group">
+                <label for="fb">Ваш профiль у фейсбуцi: </label>
+                <input class="form-control" type="text" th:field="*{profileFB}" id='fb' placeholder="Профіль facebook" >
+            </p>
+            <p class="form-group">
+                <label for="vk">Ваш профiль у Вконтакте: </label>
+                <input class="form-control" type="text" th:field="*{profileVK}" id='vk' placeholder="Профіль Vk" >
+            </p>
+            <p class="form-group">
+                <label for="insta">Ваш профiль в Iнстаграмi: </label>
+                <input class="form-control" type="text" th:field="*{profileInstagram}" id='insta' placeholder="Профіль Instagram" >
+            </p>
+            <p class="form-group">
+                <label for="about">Про мене:</label>
+                <textarea th:field="*{aboutMe}" id="about" class="form-control" rows="3"></textarea>
+            </p>
+            <p class="avatar ">
+                <label for="avatar">Оновити аватар:</label>
+                <input id="avatar" type="file" name="file" accept="image/*">
+            </p>
+            <section class="passwords form-group">
+                <p>Оновити пароль</p>
+                <fieldset>
+                    <p>
+                        <label for="oldPasswd">Введіть старий пароль</label>
+                        <input class="form-control" type="password" id="oldPasswd" placeholder="Старий пароль">
+                        <span class="checkOldPass">Щоб змінити, підтвердіть старий пароль</span>
+                    </p>
+                    <p>
+                        <label for="newPasswd">Введіть новий пароль</label>
+                        <input class="form-control" disabled type="password" id="newPasswd" placeholder="Новий пароль">
+                    </p>
+                    <p>
+                        <label for="confirmPasswd">Підтвердіть пароль</label>
+                        <!--В этот инпут нужно вставить тег для изменения пароля-->
+                        <input class="form-control" disabled type="password" id="confirmPasswd" placeholder="Підтвердіть пароль">
+                        <span class="checkNewPass"></span>
+                    </p>
 
-            <label for="mentorList">Наставник:</label>
-            <select th:field="*{mentor.userId}">
+                </fieldset>
+            </section>
+
+            <div class="buttons form-group">
+                <input class="btn btn-success" type="submit" value="Зберегти" >
+                <input class="btn btn-danger" type="reset" value="Скасувати"  >
+            </div>
+            <!--Нельзя комментировать - выдает ошибку-->
+            <!--С этгого поля-->
+            <input type="hidden" th:field="*{password}" placeholder="password" >
+            <input type="hidden" th:field="*{avatarURL}">
+
+            <select th:field="*{mentor.userId}" style="display:none;">
                 <option value="" th:text="''"></option>
                 <option th:each="mentor : ${mentorList}" th:value="${mentor.userId}"
                         th:text="${mentor.firstName} + ' ' + ${mentor.lastName}"></option>
-            </select> <br />
+            </select>
+            <!--И до вот этого, но их нужно убрать, ведь юзер может увидеть и изменить-->
+            <!-- эти данные не тем путем который разрешен и реализован-->
 
-            <label for="about">Про мене:</label>
-            <textarea th:field="*{about}" /> <br />
 
-            <input type="submit" value="Зберегти" />
-            <form th:action="@{/home/workField}"></form>
-           <a href="javascript:history.back();"><input type="reset" value="Скасувати"></a>
+            </form>
+            </main>
 
-        </form>
         </div>
 
     </div>
