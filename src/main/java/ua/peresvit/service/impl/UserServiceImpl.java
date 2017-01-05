@@ -162,6 +162,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(accountDto.getLastName());
         user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
+        // Here ID of Role is marked, where 4 - id of USER
         user.setRole(roleRepository.findOne(4L));
         user.setAvatarURL("http://image.flaticon.com/icons/svg/126/126486.svg");
         if (accountDto.getProfileFB() != null) {
