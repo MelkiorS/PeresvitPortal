@@ -30,8 +30,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean equals(Object obj);
 
-    User findUserByEmailAndPassword(String email, String password);
-
     @Query("select distinct u from UserGroup ug INNER JOIN ug.users u where ug in :uglist order by u.role.id desc")
     List<User> getGroupsUsers(@Param("uglist") UserGroup[] ug);
 

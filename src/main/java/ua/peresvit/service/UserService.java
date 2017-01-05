@@ -41,9 +41,6 @@ public interface UserService {
 	String validateVerificationToken(String token);
 	VerificationToken generateNewVerificationToken(String token);
 	User registerNewUserAccount(UserDto accountDto) throws UserAlreadyExistException;
-	void authenticateUser(User user);
-	User createUserFromDto(UserDto accountDto);
-    User findUserByEmailAndPassword(String email, String password);
 
 	List<User> getGroupsUsers(UserGroup[] ug);
 	List<UserGroup> getUserGroups(User user);

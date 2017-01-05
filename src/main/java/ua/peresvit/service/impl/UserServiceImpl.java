@@ -162,8 +162,8 @@ public class UserServiceImpl implements UserService {
         user.setLastName(accountDto.getLastName());
         user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
-        // Here ID of Role is marked, where 4 - id of USER
-        user.setRole(roleRepository.findOne(4L));
+        // Here the role USER is set to new user AS DEFAULT
+        user.setRole(roleRepository.findByRoleName("USER"));
         user.setAvatarURL("http://image.flaticon.com/icons/svg/126/126486.svg");
         if (accountDto.getProfileFB() != null) {
             user.setProfileFB(accountDto.getProfileFB());
@@ -176,22 +176,6 @@ public class UserServiceImpl implements UserService {
         }
 
         return userRepository.save(user);
-    }
-
-    @Override
-    public void authenticateUser(User user) {
-
-    }
-
-    @Override
-    public User createUserFromDto(UserDto accountDto) {
-        final User user = new User();
-        user.setFirstName(accountDto.getFirstName());
-        user.setLastName(accountDto.getLastName());
-        user.setPassword(accountDto.getPassword());
-        user.setEmail(accountDto.getEmail());
-        user.setRole(roleRepository.findOne(4L)); //TODO what is this magic number doing?
-        return user;
     }
 
     private boolean emailExist(String email) {
@@ -242,10 +226,7 @@ public class UserServiceImpl implements UserService {
 			
 		return fileURL;
 	}
-    @Override
-    public User findUserByEmailAndPassword(String email,String password){
-        return userRepository.findUserByEmailAndPassword(email, password);
-    }
+
 
     @Override
     public List<User> getGroupsUsers(UserGroup[] ug) {
