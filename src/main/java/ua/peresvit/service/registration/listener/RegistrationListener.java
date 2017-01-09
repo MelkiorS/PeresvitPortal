@@ -77,7 +77,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     private String createMessageWithToken(final OnRegistrationCompleteEvent event, String recipientAddress, final Locale locale, String token){
         final String message = messages.getMessage("message.regSucc", null, locale)+" "
                 +recipientAddress+"\n"
-                +messages.getMessage("token.message", null, locale)+" " +event.getAppUrl() + "/registration/registrationConfirm/"
+                +messages.getMessage("token.message", null, locale)+" " +event.getAppUrl() + "/registration/registrationConfirm.html?token="
                 +token;
         return message;
     }

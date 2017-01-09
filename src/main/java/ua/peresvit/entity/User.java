@@ -56,7 +56,7 @@ public class User {
 
 	// Account verification status
 	@Column(columnDefinition = "boolean default true")
-	private boolean enabled = true;
+	private boolean enabled;
 
 	@ManyToMany(
 			fetch = FetchType.EAGER,
@@ -78,7 +78,8 @@ public class User {
 	}
 
 	public User() {
-
+		super();
+		this.setEnabled(false);
 	}
 
 	@Override

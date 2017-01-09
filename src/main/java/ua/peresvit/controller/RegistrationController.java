@@ -2,6 +2,7 @@ package ua.peresvit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,10 +16,7 @@ import org.springframework.social.vkontakte.api.VKontakte;
 import org.springframework.social.vkontakte.api.VKontakteProfile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import ua.peresvit.dto.UserDto;
 import ua.peresvit.entity.User;
 import ua.peresvit.error.UserAlreadyExistException;
@@ -41,11 +39,14 @@ public class RegistrationController {
 
     private final ConnectionRepository connectionRepository;
 
+    private final MessageSource messages;
+
     @Autowired
-    public RegistrationController(UserService userService, ApplicationEventPublisher eventPublisher, ConnectionRepository connectionRepository) {
+    public RegistrationController(UserService userService, ApplicationEventPublisher eventPublisher, ConnectionRepository connectionRepository, MessageSource messages) {
         this.userService = userService;
         this.eventPublisher = eventPublisher;
         this.connectionRepository = connectionRepository;
+        this.messages = messages;
     }
 
     // Show registration form
@@ -71,15 +72,21 @@ public class RegistrationController {
     }
 
 //    validate token
-    @RequestMapping(value = "/registrationConfirm/{token}", method = RequestMethod.GET)
-    public String confirmRegistration(final Locale locale, final Model model, @PathVariable("token") final String token) throws UnsupportedEncodingException {
+    @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
+    public String confirmRegistration(final Locale locale, final Model model, @RequestParam("token") final String token) throws UnsupportedEncodingException {
         final String result = userService.validateVerificationToken(token);
         if (result.equals("valid")) {
             final User user = userService.getUser(token);
-            System.out.println(user);
+//            Here info about successful verification added to message attribute)
+//            model.addAttribute("message", messages.getMessage("message.accountVerified", null, locale));
             authenticateUser(user);
             return "redirect:/home/workField";
         }
+//        Show unsuccessful operation on the main page
+//        TODO add attribute message on the main and personal pages
+        model.addAttribute("message", messages.getMessage("auth.message." + result, null, locale));
+//        model.addAttribute("expired", "expired".equals(result));
+//        model.addAttribute("token", token);
         return "home";
     }
 
@@ -221,8 +228,6 @@ public class RegistrationController {
         userDto.setFirstName(userProfile.getFirstName());
         userDto.setLastName(userProfile.getLastName());
         userDto.setProfileFB(userProfile.getLink());
-//        String password = PasswordGenerator.generateRandomPassword();
-//        userDto.setPassword(password);
 
         return userDto;
     }
@@ -255,8 +260,6 @@ public class RegistrationController {
         userDto.setFirstName(googleProfile.getGivenName());
         userDto.setLastName(googleProfile.getFamilyName());
         userDto.setProfileGoogle(googleProfile.getUrl());
-//        String password = PasswordGenerator.generateRandomPassword();
-//        userDto.setPassword(password);
 
         return userDto;
     }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ua.peresvit.config.Constant;
+import ua.peresvit.dao.CombatArtReppository;
 import ua.peresvit.dao.RoleRepository;
 import ua.peresvit.dao.UserRepository;
 import ua.peresvit.dao.VerificationTokenRepository;
@@ -34,6 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private CombatArtReppository combatArtReppository;
 
     public static final String TOKEN_INVALID = "invalidToken";
     public static final String TOKEN_EXPIRED = "expired";
@@ -175,6 +179,7 @@ public class UserServiceImpl implements UserService {
             user.setProfileGoogle(accountDto.getProfileGoogle());
         }
 
+        user.setCombatArt(combatArtReppository.findOne(1L));
         return userRepository.save(user);
     }
 
