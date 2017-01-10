@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
             user.setProfileGoogle(accountDto.getProfileGoogle());
         }
 
-        user.setCombatArt(combatArtReppository.findOne(1L));
+//        user.setCombatArt(combatArtReppository.findOne(1L));
         return userRepository.save(user);
     }
 
