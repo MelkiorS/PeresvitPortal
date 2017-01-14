@@ -170,13 +170,13 @@ public class UserPageController {
         return "home/ourEvents";
     }
 
-    @RequestMapping(value = "/myWay/myWayChapters/{groupName}")
-    public String myWayChapters(Model model, @PathVariable(value = "groupName") String groupName) {
-        model.addAttribute("user", userService.getCurrentUser());
-        ResourceGroupType rgt = rgtService.findResourceGroupTypeByGroupName(groupName);
-        model.addAttribute("chapters", rgt.getChapterList());
-        return "home/myWay/myWayChapters";
-    }
+//    @RequestMapping(value = "/myWay/myWayChapters/{groupName}")
+//    public String myWayChapters(Model model, @PathVariable(value = "groupName") String groupName) {
+//        model.addAttribute("user", userService.getCurrentUser());
+//        ResourceGroupType rgt = rgtService.findResourceGroupTypeByGroupName(groupName);
+//        model.addAttribute("chapters", rgt.getChapterList());
+//        return "home/myWay/myWayChapters";
+//    }
 
     @RequestMapping(value = "/myWay/myWayChapters/{groupName}/{articleId}")
     public String myWayChapters(Model model, @PathVariable(value = "groupName") String groupName, @PathVariable(value = "articleId") long articleId) {
