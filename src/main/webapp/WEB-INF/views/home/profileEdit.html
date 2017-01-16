@@ -6,15 +6,13 @@
     <title>Peresvit</title>
     <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="/resources/frontend/workField.css">
-    <!--<link rel="stylesheet" href="/resources/frontend/editProfile/profileEdit.css">-->
-    <!--<link rel="stylesheet" href="/resources/frontend/bars.css">-->
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
     <script src="/resources/frontend/libraries/bootstrap.min.js"></script>
     <script async src="/resources/frontend/libraries/constants.js"></script>
     <script async src="/resources/frontend/editProfile/profileEdit.js"></script>
 </head>
 <body>
-<div class="container-fluid wrapper">
+<div class="container-fluid wrapper profileEdit">
     <div class="row header">
         <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
         <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="/resources/frontend/images/logo_Peresvit.png" alt="логотип"></div>
@@ -38,17 +36,17 @@
             <input type="hidden" th:field="*{role.roleId}" >
             <p th:class="${'form-group' + ( #fields.hasErrors('lastName') ? ' has-error' : '') }">
                 <label for="lastName">Прізвище</label>
-                <input class="form-control" type="text" th:field="*{lastName}" id="lastName" placeholder="Прізвище" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('lastName')} " th:data-trigger="${ #fields.hasErrors('lastName') ? 'hover' : 'manual'}" data-placement="top">
+                <input class="form-control" type="text" th:field="*{lastName}" id="lastName" maxlength="30" placeholder="Прізвище" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('lastName')} " th:data-trigger="${ #fields.hasErrors('lastName') ? 'hover' : 'manual'}" data-placement="top">
             </p>
 
             <p th:class="${'form-group' + ( #fields.hasErrors('firstName') ? ' has-error' : '') }">
                 <label for="firstName">Імя</label>
-                <input class="form-control" type="text" th:field="*{firstName}" id="firstName" placeholder="Імя" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('firstName')} " th:data-trigger="${ #fields.hasErrors('firstName') ? 'hover' : 'manual'}" data-placement="top">
+                <input class="form-control" type="text" th:field="*{firstName}" id="firstName" maxlength="30" placeholder="Імя" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('firstName')} " th:data-trigger="${ #fields.hasErrors('firstName') ? 'hover' : 'manual'}" data-placement="top">
             </p>
 
             <p th:class="${'form-group' + ( #fields.hasErrors('middleName') ? ' has-error' : '') }">
                 <label for="middleName">По батькові</label>
-                <input class="form-control" type="text" th:field="*{middleName}" id='middleName' placeholder="По батькові" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('middleName')} " th:data-trigger="${ #fields.hasErrors('middleName') ? 'hover' : 'manual'}" data-placement="top">
+                <input class="form-control" type="text" th:field="*{middleName}" id='middleName' maxlength="30" placeholder="По батькові" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('middleName')} " th:data-trigger="${ #fields.hasErrors('middleName') ? 'hover' : 'manual'}" data-placement="top">
             </p>
 
             <p class="form-group">
@@ -87,23 +85,23 @@
             </p>
             <p class="form-group">
                 <label for="email">Ваш Email: </label>
-                <input class="form-control" type="text" th:field="*{email}" id='email' placeholder="e-mail" >
+                <input class="form-control" type="text" th:field="*{email}" maxlength="50" id='email' placeholder="e-mail" >
             </p>
             <p class="form-group">
                 <label for="fb">Ваш профiль у фейсбуцi: </label>
-                <input class="form-control" type="text" th:field="*{profileFB}" id='fb' placeholder="Профіль facebook" >
+                <input class="form-control" type="text" th:field="*{profileFB}" maxlength="50" id='fb' placeholder="Профіль facebook" >
             </p>
             <p class="form-group">
                 <label for="vk">Ваш профiль у Вконтакте: </label>
-                <input class="form-control" type="text" th:field="*{profileVK}" id='vk' placeholder="Профіль Vk" >
+                <input class="form-control" type="text" th:field="*{profileVK}" maxlength="50" id='vk' placeholder="Профіль Vk" >
             </p>
             <p class="form-group">
                 <label for="insta">Ваш профiль в Iнстаграмi: </label>
-                <input class="form-control" type="text" th:field="*{profileInstagram}" id='insta' placeholder="Профіль Instagram" >
+                <input class="form-control" type="text" th:field="*{profileInstagram}" maxlength="50" id='insta' placeholder="Профіль Instagram" >
             </p>
             <p class="form-group">
                 <label for="about">Про мене:</label>
-                <textarea th:field="*{aboutMe}" id="about" class="form-control" rows="3"></textarea>
+                <textarea th:field="*{aboutMe}" id="about" maxlength="250" class="form-control" rows="3"></textarea>
             </p>
             <p class="avatar ">
                 <label for="avatar">Оновити аватар:</label>
@@ -114,17 +112,17 @@
                 <fieldset>
                     <p>
                         <label for="oldPasswd">Введіть старий пароль</label>
-                        <input class="form-control" type="password" id="oldPasswd" placeholder="Старий пароль">
+                        <input class="form-control" type="password" id="oldPasswd" maxlength="30" placeholder="Старий пароль">
                         <span class="checkOldPass">Щоб змінити, підтвердіть старий пароль</span>
                     </p>
                     <p>
                         <label for="newPasswd">Введіть новий пароль</label>
-                        <input class="form-control" disabled type="password" id="newPasswd" placeholder="Новий пароль">
+                        <input class="form-control" disabled type="password" id="newPasswd" maxlength="30" placeholder="Новий пароль">
                     </p>
                     <p>
                         <label for="confirmPasswd">Підтвердіть пароль</label>
                         <!--В этот инпут нужно вставить тег для изменения пароля-->
-                        <input class="form-control" disabled type="password" id="confirmPasswd" placeholder="Підтвердіть пароль">
+                        <input class="form-control" disabled type="password" id="confirmPasswd" maxlength="30" placeholder="Підтвердіть пароль">
                         <span class="checkNewPass"></span>
                     </p>
 

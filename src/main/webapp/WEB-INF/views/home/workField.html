@@ -37,7 +37,6 @@
                             <span th:text="${user.lastName}"></span>
                             <span th:text="${user.firstName}"></span>
                             <span th:text="${user.middleName}"></span>
-                            <!--<span class="glyphicon glyphicon-pencil pencil pencil-name" aria-hidden="true"></span>-->
                         </span>
                     </p>
                 </div>
@@ -54,12 +53,12 @@
                             <a th:href="@{'https://www.instagram.com/' + ${user.profileInstagram}}" target="_blank"><img src="/resources/frontend/images/Logoin.png" alt="instagram"></a>
                         </p>
                     </div>
-                    <div class="col-xs-9 col-xs-offset-1 main_section_basic_links">
-                        <p class="main_section_basic_links_item_belt row">
-                            <!--Сюда вставляем на картинку, какой пояс есть у юзера-->
-                            <!--<img src="/resources/frontend/workField/images/yellow_belt.png" alt="belt">-->
-                        </p>
-                    </div>
+                    <!--<div class="col-xs-9 col-xs-offset-1 main_section_basic_links">-->
+                        <!--<p class="main_section_basic_links_item_belt row">-->
+                            <!--&lt;!&ndash;Сюда вставляем на картинку, какой пояс есть у юзера&ndash;&gt;-->
+                            <!--&lt;!&ndash;<img src="/resources/frontend/workField/images/yellow_belt.png" alt="belt">&ndash;&gt;-->
+                        <!--</p>-->
+                    <!--</div>-->
                     <div class="col-xs-12 main_section_basic_level">
                         <!--Сюда вставляем ранг юзера (юзер, админ и тд.)-->
                         <div class="col-xs-4">
@@ -125,16 +124,6 @@
                     <p class="lead main_section_photoGallery_head">Мої досягнення</p>
                 </div>
                 <div class="col-xs-12  main_section_photoGallery_images">
-                    <!--Сюда вставляем фотоальбом юзера-->
-                    <!--<figure class="col-xs-6">-->
-                        <!--<figcaption>Описание этой картинки</figcaption>-->
-                        <!--<img src="/resources/frontend/workField/images/basile.jpg" alt="judo">-->
-                    <!--</figure>-->
-                    <!--<figure class="col-xs-6">-->
-                        <!--<figcaption>Описание второй картинки</figcaption>-->
-                        <!--<img src="/resources/frontend/workField/images/sambo.jpg" alt="sambo">-->
-                    <!--</figure>-->
-
                     <tr th:each="achievement, iter : ${user.achievements}">
                         <td th:text="${achievement.achievementId}">1</td>
                         <td th:text="${achievement.achievementName}">Text</td>

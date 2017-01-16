@@ -1,9 +1,9 @@
 @font-face {
     font-family: Ubuntu; /* Имя шрифта */
-    src: url(../../libraries/fonts/Ubuntu-C.ttf); /* Путь к файлу со шрифтом */
+    src: url(../libraries/fonts/Ubuntu-C.ttf); /* Путь к файлу со шрифтом */
 }
 body{
-    background: url('../img/glavn-001.jpg');
+    background: url('img/glavn-001.jpg');
     font-family: Ubuntu;
     background-repeat: no-repeat;
     padding: 0;

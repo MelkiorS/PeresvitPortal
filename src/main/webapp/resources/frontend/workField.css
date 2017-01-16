@@ -112,6 +112,8 @@ footer img{
 .main_section_name{
     margin:0 0 2% 0;
     padding: 0;
+    width: 100%;
+    word-wrap: break-word;
 }
 .main_section_basic{
     margin: 5px 0 5px 2px;
@@ -217,10 +219,10 @@ footer img{
     width: auto;
     font-size:16px;
 }
-.allName form input[type='text']{
-    width:130px;
-    margin: 0 3px;
-}
+/*.allName form input[type='text']{*/
+    /*width:130px;*/
+    /*margin: 0 3px;*/
+/*}*/
 .aboutMe form {
     width: 300px;
 }
@@ -271,4 +273,82 @@ footer img{
 .headOfArticle{
     font-size:21px;
     margin-left:10px;
+}
+/****************studyingMaterial*******************/
+.articleName{
+
+}
+.techComplexity{
+    margin-top: 10px ;
+}
+.articleMain{
+    margin-top: 5px;
+}
+.comeBack{
+    margin:2px 2px 5px 2px;
+}
+.comeBack a{
+    text-decoration: none;
+}
+/*********************ourEvents*****************/
+.responsive-iframe-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+}
+
+.responsive-iframe-container iframe,
+.vresponsive-iframe-container object,
+.vresponsive-iframe-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+/********************editLesson_background******************/
+.editLesson{
+    font-family: inherit;
+    /*font:bolder 17px inherit sans-serif;*/
+    font-size: 15px;
+
+}
+.editLesson #title{
+    width: 450px;
+}
+.editLesson .category{
+    font: bolder 23px sans-serif;
+}
+.editLesson .category-name{
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.editLesson .category-item{
+    display:none;
+    padding-left: 33px;
+}
+.editLesson .section{
+    font: bolder 20px sans-serif;
+    margin: 5px 10px;
+}
+.editLesson .category-item li{
+
+    margin: 4px 0;
+}
+.editLesson .category-item li span{
+    font-size: 16px;
+    margin: 1px 0 1px 5px;
+}
+.editLesson .row_textarea {
+    margin: 15px auto 5px;
+
+}
+.editLesson input[type='submit']{
+    /*margin-left: 40px;*/
+}
+/******************profileEdit*******************/
+.profileEdit #lastName{
 }
