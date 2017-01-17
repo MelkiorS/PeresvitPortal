@@ -223,8 +223,8 @@ footer img{
     /*width:130px;*/
     /*margin: 0 3px;*/
 /*}*/
-.aboutMe form {
-    width: 300px;
+.aboutMe form{
+    width: 60%;
 }
 .aboutMe form button{
     float:right;
@@ -350,5 +350,8 @@ footer img{
     /*margin-left: 40px;*/
 }
 /******************profileEdit*******************/
-.profileEdit #lastName{
+/*.profileEdit #lastName{*/
+/*}*/
+.profileEdit #about{
+    word-wrap: break-word;
 }
