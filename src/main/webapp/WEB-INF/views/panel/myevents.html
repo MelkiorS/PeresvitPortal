@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="/resources/frontend/workField.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script th:if="${all}">var _all = true</script>
+    <script th:unless="${all}">var _all = false</script>
     <script src="/resources/frontend/myevents.js"></script>
 </head>
 <body>
@@ -35,7 +38,8 @@
             </div>
         </div>
         <div class=" col-xs-7 row well container-fluid main_section">
-            <h2>Мої події</h2>
+            <h2 th:if="${all}">Наші події</h2>
+            <h2 th:unless="${all}">Мої події</h2>
             <div class="col-xs-6 calendar ">
                 <h4>Календар</h4>
                 <div id="datepicker"></div>

@@ -4,7 +4,7 @@ $(
             onSelect: function (dt, ob) {
                 $.ajax({
                     type: "GET",
-                    url: "/panel/myeventsdata",
+                    url: _all ? "/panel/eventsdata" : "/panel/myeventsdata",
                     data: {
                         "dt": dt,
                         "qty": 5
@@ -15,7 +15,7 @@ $(
                 });
                 $.ajax({
                     type: "GET",
-                    url: "/panel/myeventsdatanext",
+                    url: _all ? "/panel/eventsdatanext": "/panel/myeventsdatanext",
                     data: {
                         "dt": dt
                     },

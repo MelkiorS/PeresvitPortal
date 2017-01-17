@@ -58,8 +58,15 @@ public class MyEventsController {
     @Autowired
     private UserGroupService ugs;
 
+    @RequestMapping(value="/panel/ourevents", method = RequestMethod.GET)
+    public String getAllEvents(Model model){
+        model.addAttribute("all", true);
+        return "panel/myevents";
+    }
+
     @RequestMapping(value="/panel/myevents", method = RequestMethod.GET)
-    public String getEvents(){
+    public String getEvents(Model model){
+        model.addAttribute("all", false);
         return "panel/myevents";
     }
 
