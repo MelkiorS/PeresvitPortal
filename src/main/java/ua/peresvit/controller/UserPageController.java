@@ -199,4 +199,9 @@ public class UserPageController {
         Event ev = eventService.findById(eventid);
         return eventService.isAssignedToMe(ev);
     }
+
+    @RequestMapping(value = "/messages", method = RequestMethod.GET)
+    public String showAllMessages() {
+        return "home/messages";
+    }
 }
