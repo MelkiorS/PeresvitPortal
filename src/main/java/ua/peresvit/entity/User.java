@@ -94,7 +94,7 @@ public class User {
 
 	@Override
 	public int hashCode() {
-		return userId.hashCode();
+		return userId == null ? 0: userId.hashCode();
 	}
 
 }
