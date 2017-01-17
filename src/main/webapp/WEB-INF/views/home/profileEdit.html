@@ -36,17 +36,17 @@
             <input type="hidden" th:field="*{role.roleId}" >
             <p th:class="${'form-group' + ( #fields.hasErrors('lastName') ? ' has-error' : '') }">
                 <label for="lastName">Прізвище</label>
-                <input class="form-control" type="text" th:field="*{lastName}" id="lastName" maxlength="30" placeholder="Прізвище" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('lastName')} " th:data-trigger="${ #fields.hasErrors('lastName') ? 'hover' : 'manual'}" data-placement="top">
+                <input class="form-control" type="text" th:field="*{lastName}" id="lastName" maxlength="25" placeholder="Прізвище" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('lastName')} " th:data-trigger="${ #fields.hasErrors('lastName') ? 'hover' : 'manual'}" data-placement="top">
             </p>
 
             <p th:class="${'form-group' + ( #fields.hasErrors('firstName') ? ' has-error' : '') }">
                 <label for="firstName">Імя</label>
-                <input class="form-control" type="text" th:field="*{firstName}" id="firstName" maxlength="30" placeholder="Імя" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('firstName')} " th:data-trigger="${ #fields.hasErrors('firstName') ? 'hover' : 'manual'}" data-placement="top">
+                <input class="form-control" type="text" th:field="*{firstName}" id="firstName" maxlength="25" placeholder="Імя" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('firstName')} " th:data-trigger="${ #fields.hasErrors('firstName') ? 'hover' : 'manual'}" data-placement="top">
             </p>
 
             <p th:class="${'form-group' + ( #fields.hasErrors('middleName') ? ' has-error' : '') }">
                 <label for="middleName">По батькові</label>
-                <input class="form-control" type="text" th:field="*{middleName}" id='middleName' maxlength="30" placeholder="По батькові" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('middleName')} " th:data-trigger="${ #fields.hasErrors('middleName') ? 'hover' : 'manual'}" data-placement="top">
+                <input class="form-control" type="text" th:field="*{middleName}" id='middleName' maxlength="25" placeholder="По батькові" data-toggle="popover" th:data-content="'Помилка по прочині ' + ${#fields.errors('middleName')} " th:data-trigger="${ #fields.hasErrors('middleName') ? 'hover' : 'manual'}" data-placement="top">
             </p>
 
             <p class="form-group">
@@ -112,17 +112,17 @@
                 <fieldset>
                     <p>
                         <label for="oldPasswd">Введіть старий пароль</label>
-                        <input class="form-control" type="password" id="oldPasswd" maxlength="30" placeholder="Старий пароль">
+                        <input class="form-control" type="password" id="oldPasswd" maxlength="25" placeholder="Старий пароль">
                         <span class="checkOldPass">Щоб змінити, підтвердіть старий пароль</span>
                     </p>
                     <p>
                         <label for="newPasswd">Введіть новий пароль</label>
-                        <input class="form-control" disabled type="password" id="newPasswd" maxlength="30" placeholder="Новий пароль">
+                        <input class="form-control" disabled type="password" id="newPasswd" maxlength="25" placeholder="Новий пароль">
                     </p>
                     <p>
                         <label for="confirmPasswd">Підтвердіть пароль</label>
                         <!--В этот инпут нужно вставить тег для изменения пароля-->
-                        <input class="form-control" disabled type="password" id="confirmPasswd" maxlength="30" placeholder="Підтвердіть пароль">
+                        <input class="form-control" disabled type="password" id="confirmPasswd" maxlength="25" placeholder="Підтвердіть пароль">
                         <span class="checkNewPass"></span>
                     </p>
 
