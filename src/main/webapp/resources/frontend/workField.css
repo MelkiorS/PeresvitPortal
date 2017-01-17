@@ -219,14 +219,21 @@ footer img{
     width: auto;
     font-size:16px;
 }
+about-myself{
+    width: 100%;
+    word-wrap: break-word;
+}
 /*.allName form input[type='text']{*/
     /*width:130px;*/
     /*margin: 0 3px;*/
 /*}*/
-.aboutMe form{
+.about-myself-item{
+    word-wrap: break-word;
+}
+.about-myself-item form{
     width: 60%;
 }
-.aboutMe form button{
+.about-myself-item form button{
     float:right;
 }
 .pensil-button{
@@ -352,6 +359,6 @@ footer img{
 /******************profileEdit*******************/
 /*.profileEdit #lastName{*/
 /*}*/
-.profileEdit #about{
-    word-wrap: break-word;
-}
+/*.profileEdit #about span{*/
+    /*word-wrap: break-word;*/
+/*}*/
