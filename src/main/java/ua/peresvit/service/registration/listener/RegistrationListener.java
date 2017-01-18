@@ -37,16 +37,19 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     }
 
     private void confirmRegistration(final OnRegistrationCompleteEvent event) {
-        final User user = event.getUser();
-        SimpleMailMessage email;
-        if (event.getIsWithToken()) {
-            final String token = UUID.randomUUID().toString();
-            service.createVerificationTokenForUser(user, token);
-            email = constructEmailMessage(event, user, token);
-        } else {
-            email = constructEmailMessage(event, user, null);
+        if (!event.getIsDone()) {
+            final User user = event.getUser();
+            SimpleMailMessage email;
+            if (event.getIsWithToken()) {
+                final String token = UUID.randomUUID().toString();
+                service.createVerificationTokenForUser(user, token);
+                email = constructEmailMessage(event, user, token);
+            } else {
+                email = constructEmailMessage(event, user, null);
+            }
+            mailSender.send(email);
+            event.setIsDone(true);
         }
-        mailSender.send(email);
     }
 
     //
@@ -69,16 +72,15 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     }
 
     private String createMessage(String recipientAddress, final Locale locale){
-        final String message = messages.getMessage("message.regSucc", null, locale)+"\r\n"
+        final String message = messages.getMessage("message.regSucc", null, locale)+" "
                 +recipientAddress;
         return message;
     }
 
     private String createMessageWithToken(final OnRegistrationCompleteEvent event, String recipientAddress, final Locale locale, String token){
-        final String message = messages.getMessage("message.regSucc", null, locale)+"\r\n\n"
-                +messages.getMessage("message.loginName", null, locale)+": "
+        final String message = messages.getMessage("message.regSucc", null, locale)+" "
                 +recipientAddress+"\n"
-                +messages.getMessage("token.message", null, locale)+" " +event.getAppUrl() + "/registration/registrationConfirm/"
+                +messages.getMessage("token.message", null, locale)+" " +event.getAppUrl() + "/registration/registrationConfirm?token="
                 +token;
         return message;
     }

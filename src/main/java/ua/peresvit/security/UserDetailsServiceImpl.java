@@ -28,6 +28,9 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
         if (user != null) {
+            if (!user.isEnabled()) {
+                throw new RuntimeException("User is unable.");
+            }
             List<GrantedAuthority> authorities =
                     new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getRole().getRoleName()));

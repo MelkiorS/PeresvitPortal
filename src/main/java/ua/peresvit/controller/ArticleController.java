@@ -40,11 +40,11 @@ public class ArticleController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String goToAddForm(Model model) {
         List<ResourceGroupType> resourceGroupTypes = resourceGroupTypeService.findAll();
-        List<Role> rangTypes = roleService.findAll();
+        List<Role> roleTypes = roleService.findAll();
         resourceGroupTypes.stream().forEach(p->p.
                setChapterList(chapterService.findAllByResourceGroupType(p)));
         model.addAttribute(new Article());   // addig empty object for post form
-        model.addAttribute("rangList", rangTypes); // adding list of rang for select
+        model.addAttribute("roleList", roleTypes); // adding list of rang for select
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
         return "admin/article/addArticle";
     }
