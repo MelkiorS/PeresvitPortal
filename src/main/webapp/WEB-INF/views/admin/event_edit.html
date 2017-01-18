@@ -66,16 +66,16 @@
 
 <div id="my_form">
 
-    <label for="place">Мысце проведення</label><input type="text" name="place" value="" id="place">
+    <label for="place">Місце проведення</label><input type="text" name="place" value="" id="place">
     <label for="date">Дата</label><input type="date" name="date" value="" id="date"><br>
 
     <label for="author">Автор</label><input type="text" name="author" th:value="${me.toString()}" th:authorid="${me.userId}" id="author" disabled>
-    <label for="from">Длтельность</label><input type="time" name="from" value="" id="from"><input type="time" name="to" value="" id="to"> <br>
+    <label for="from">Тривалість</label><input type="time" name="from" value="" id="from"><input type="time" name="to" value="" id="to"> <br>
 
     <label for="text">Заголовок</label><input type="text" name="text" value="" id="text"> <br>
     <label for="description">Опис</label><input type="text" name="description" value="" id="description"> <br>
 
-    <label for="connectall">Хто може приднатись</label><select name="connectall" value="" id="connectall">
+    <label for="connectall">Хто може приєднатись</label><select name="connectall" value="" id="connectall">
         <option value=true>Усі</option>
         <option value=false>За запрошенням</option>
     </select>
