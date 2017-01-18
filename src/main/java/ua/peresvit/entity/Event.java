@@ -1,9 +1,18 @@
 package ua.peresvit.entity;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Type;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -12,12 +21,13 @@ import java.util.Set;
 /**
  * Event entity by MMaximov 03.11.2016
  */
+
 @Entity
 @Data
 public class Event {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @SerializedName("text")
     private String name;
@@ -28,12 +38,27 @@ public class Event {
     private Date created;
     private String eventUrl;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_events", joinColumns = {
+    @SerializedName("description")
+    private String description;
+    @SerializedName("place")
+    private String place;
+    @SerializedName("connectall")
+    @Column(columnDefinition = "boolean default true")
+    private boolean connectAll = true;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "events_users", joinColumns = {
             @JoinColumn(name = "event_id", nullable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "user_id",
                     nullable = false, updatable = false) })
     private Set<User> users = new HashSet<User>();
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "events_groups", joinColumns = {
+            @JoinColumn(name = "event_id", nullable = false, updatable = false) },
+            inverseJoinColumns = { @JoinColumn(name = "group_id",
+                    nullable = false, updatable = false) })
+    private Set<UserGroup> groups = new HashSet<UserGroup>();
 
     @Override
     public String toString() {
@@ -44,5 +69,15 @@ public class Event {
 
     public boolean isAssigned(User u){
         return users.contains(u);
+    }
+
+    public Set<User> getUserSet() {
+        Set<User> res = new HashSet<User>();
+
+        res.addAll(users);
+        for (UserGroup ug: groups) {
+            res.addAll(ug.getUsers());
+        }
+        return res;
     }
 }

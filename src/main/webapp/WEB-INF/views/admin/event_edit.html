@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,9 +11,89 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="/resources/dhtmlx/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
     <script src="/resources/dhtmlx/event_edit.js" type="text/javascript" charset="utf-8"></script>
+    <style type="text/css" media="screen">
+        #my_form {
+            position: absolute;
+            top: 100px;
+            left: 200px;
+            z-index: 10001;
+            display: none;
+            background-color: white;
+            border: 2px outset gray;
+            padding: 20px;
+            font-family: Tahoma;
+            font-size: 10pt;
+        }
 
+        #my_form label {
+            width: 200px;
+        }
+    </style>
+    <script type="text/javascript" charset="utf-8">
+
+        var html = function(id) { return document.getElementById(id); };
+        var t = function (v, def) { return v === undefined ? def : v }
+        var n = function (v, def) { return v === null ? def : v }
+
+        function close_form() {
+            scheduler.endLightbox(false, html("my_form"));
+        }
+
+        function save_form() {
+            var ev = scheduler.getEvent(scheduler.getState().lightbox_id);
+
+            ev.place = html("place").value;
+            ev.date = html("date").value;
+            ev.author = html("author").value;
+            ev.from = html("from").value;
+            ev.to = html("to").value;
+            ev.text = html("text").value;
+            ev.description = html("description").value;
+            ev.connectall = html("connectall").value;
+            ev.friends = n($("#friends").val(), []);
+            ev.groups = n($("#groups").val(), []);
+            scheduler.endLightbox(true, html("my_form"));
+        }
+
+        function delete_event() {
+            var event_id = scheduler.getState().lightbox_id;
+            scheduler.endLightbox(false, html("my_form"));
+            scheduler.deleteEvent(event_id);
+        }
+    </script>
 </head>
 <body>
+
+<div id="my_form">
+
+    <label for="place">Мысце проведення</label><input type="text" name="place" value="" id="place">
+    <label for="date">Дата</label><input type="date" name="date" value="" id="date"><br>
+
+    <label for="author">Автор</label><input type="text" name="author" th:value="${me.toString()}" th:authorid="${me.userId}" id="author" disabled>
+    <label for="from">Длтельность</label><input type="time" name="from" value="" id="from"><input type="time" name="to" value="" id="to"> <br>
+
+    <label for="text">Заголовок</label><input type="text" name="text" value="" id="text"> <br>
+    <label for="description">Опис</label><input type="text" name="description" value="" id="description"> <br>
+
+    <label for="connectall">Хто може приднатись</label><select name="connectall" value="" id="connectall">
+        <option value=true>Усі</option>
+        <option value=false>За запрошенням</option>
+    </select>
+    <br>
+    <label for="groups">Надіслати запрошення группам</label><select multiple="multiple" name="groups" value="" id="groups" >
+        <option th:each="group : ${groups}" th:text="${group.toString()}" th:value="${group.id}"></option>
+    </select>
+    <br>
+    <label for="friends">Надіслати запрошення друзям</label><select name="friends" value="" id="friends" multiple="multiple">
+        <option th:each="friend : ${friends}" th:text="${friend.toString()}" th:value="${friend.userId}"></option>
+    </select>
+    <br>
+
+    <input type="button" name="save" value="Save" id="save" style='width:100px;' onclick="save_form()">
+    <input type="button" name="close" value="Close" id="close" style='width:100px;' onclick="close_form()">
+    <input type="button" name="delete" value="Delete" id="delete" style='width:100px;' onclick="delete_event()">
+</div>
+
 
 <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
     <div class="dhx_cal_navline">

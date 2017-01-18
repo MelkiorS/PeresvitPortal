@@ -19,7 +19,8 @@
         <input type="text" th:field="*{password}" placeholder="password" /><br/>
         <input type="text" th:field="*{profileVK}" placeholder="profile VK" /><br/>
         <input type="text" th:field="*{profileFB}" placeholder="profile FB" /><br/>
-        <input type="text" th:field="*{profileIS}" placeholder="profile IS" /><br/>
+        <input type="text" th:field="*{profileGoogle}" placeholder="profile Google" /><br/>
+        <input type="text" th:field="*{profileInstagram}" placeholder="profile Instagram" /><br/>
  		<input type="file" name="file" /><br/>
 
 		<label for="rangType">Rang:</label>
@@ -30,8 +31,8 @@
         
 		<br/> User info <br/>
         <label for="gender">Gender:</label>
-        <div><input type="radio" th:name="male" th:value="true"  th:field="*{gender}" checked="checked" />Male</div>
-        <div><input type="radio" th:name="female" th:value="false"  th:field="*{gender}" />Female</div>
+        <div><input type="radio" th:name="male" th:value="M"  th:field="*{sex}" checked="checked" />Male</div>
+        <div><input type="radio" th:name="female" th:value="F"  th:field="*{sex}" />Female</div>
 
         <label for="combatArtList">Combat Art:</label>
         <select th:field="*{combatArt.combatArtId}">
@@ -61,8 +62,46 @@
                     th:text="${mentor.firstName} + ' ' + ${mentor.lastName}"></option>
         </select> <br />
 
+        <label for="markList">Mark:</label>
+        <select th:field="*{marks}" multiple="multiple">
+            <!--<option value="" th:text="''"></option>-->
+            <option th:each="mark : ${markList}" th:value="${mark.markId}"
+                    th:text="${mark.markName}"></option>
+        </select> <br />
+
         <label for="about">About:</label>
-        <textarea th:text="*{about}" /> <br />
+        <textarea th:text="*{aboutMe}" /> <br />
+
+        <!--ACHIEVEMENT LIST-->
+        <br/>
+        <a th:href="@{/admin/achievement/add/} + *{userId}">Add Achievement</a>
+        <div class="achievementList" >
+
+            <h3 >List of Achievement</h3>
+
+            <table class=".table" th:fragment="allAchievements">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>URL</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="achievement : *{achievements}">
+                    <td th:text="${achievement.achievementName}"></td>
+                    <td th:text="${achievement.description}"></td>
+                    <td th:text="${achievement.imageURL}"></td>
+
+                    <td><a th:href="@{/admin/achievement/edit/} + ${achievement.achievementId}">Edit</a></td>
+                    <td><a th:href="@{/admin/achievement/delete/} + ${achievement.achievementId}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <br/>
 
 		<input type="submit" />
     </form>      

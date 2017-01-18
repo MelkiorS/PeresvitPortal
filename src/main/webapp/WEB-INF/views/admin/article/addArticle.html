@@ -76,7 +76,7 @@
                     <div class="col-xs-4 form-group">
                         <label>Доступ для</label><br/>
                         <select class="form-control" th:field="*{role.roleId}">
-                            <option th:each="rang : ${rangList}"
+                            <option th:each="role : ${roleList}"
                                     th:value="${role.roleId}"
                                     th:text="${role.roleName}"></option>
                         </select>

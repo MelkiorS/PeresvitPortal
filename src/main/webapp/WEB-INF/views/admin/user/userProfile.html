@@ -34,7 +34,7 @@
                 <td th:text="${user.middleName}"></td>
                 <td th:text="${user.email}"></td>
                 <td th:text="${user.avatarURL}"></td>
-                <td th:text="${user.gender}"></td>
+                <td th:text="${user.sex}"></td>
                 <td th:text="${user.combatArt == null ? '' : user.combatArt.combatArtId}"></td>
                 <td><a th:href="@{/admin/rang/} + ${user.role.roleId}">Rang</a></td>
                 <td><a th:href="@{/admin/user/edit/} + ${user.userId}">Edit</a></td>

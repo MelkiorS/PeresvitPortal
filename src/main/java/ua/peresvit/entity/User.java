@@ -2,6 +2,10 @@ package ua.peresvit.entity;
 
 import lombok.Data;
 import javax.persistence.*;
+import javax.validation.Constraint;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Collection;
 
 
@@ -12,9 +16,12 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
- 
+
+	@Size(max=25, message = "Кількість символів не має перевущувати 255")
     private String firstName;
+	@Size(max=25, message = "Кількість символів не має перевущувати 255")
 	private String lastName;
+	@Size(max=25, message = "Кількість символів не має перевущувати 255")
 	private String middleName;
 
     private String password;
@@ -57,10 +64,30 @@ public class User {
 
 	// Account verification status
 	@Column(columnDefinition = "boolean default true")
-	private boolean enabled = true;
+	private boolean enabled;
+
+	@ManyToMany(
+			fetch = FetchType.EAGER,
+			targetEntity = Mark.class
+	)
+	@JoinTable(
+			name="user_mark",
+			joinColumns={@JoinColumn(name="userId")},
+			inverseJoinColumns={@JoinColumn(name="markId")}
+	)
+	private Set<Mark> marks = new HashSet<>();
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private Set<Achievement> achievements = new HashSet<>();
+
+	@Override
+	public String toString() {
+		return "" + firstName.trim() + " " + lastName.trim();
+	}
 
 	public User() {
-
+		super();
+		this.setEnabled(false);
 	}
 
 	@Override
@@ -75,7 +102,7 @@ public class User {
 
 	@Override
 	public int hashCode() {
-		return userId.hashCode();
+		return userId == null ? 0: userId.hashCode();
 	}
 
 }

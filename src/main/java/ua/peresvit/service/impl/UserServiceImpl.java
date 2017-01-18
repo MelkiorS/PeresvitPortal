@@ -8,19 +8,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ua.peresvit.config.Constant;
+import ua.peresvit.dao.CombatArtReppository;
 import ua.peresvit.dao.RoleRepository;
 import ua.peresvit.dao.UserRepository;
 import ua.peresvit.dao.VerificationTokenRepository;
 import ua.peresvit.dto.UserDto;
 import ua.peresvit.entity.Role;
 import ua.peresvit.entity.User;
+import ua.peresvit.entity.UserGroup;
 import ua.peresvit.entity.VerificationToken;
 import ua.peresvit.error.UserAlreadyExistException;
 import ua.peresvit.service.UserService;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 //import org.bionic.dao.VerificationTokenRepository;
 
@@ -35,6 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private CombatArtReppository combatArtReppository;
 
     public static final String TOKEN_INVALID = "invalidToken";
     public static final String TOKEN_EXPIRED = "expired";
@@ -163,7 +166,8 @@ public class UserServiceImpl implements UserService {
         user.setLastName(accountDto.getLastName());
         user.setPassword(accountDto.getPassword());
         user.setEmail(accountDto.getEmail());
-        user.setRole(roleRepository.findOne(4L));
+        // Here the role USER is set to new user AS DEFAULT
+        user.setRole(roleRepository.findByRoleName("USER"));
         user.setAvatarURL("http://image.flaticon.com/icons/svg/126/126486.svg");
         if (accountDto.getProfileFB() != null) {
             user.setProfileFB(accountDto.getProfileFB());
@@ -175,23 +179,8 @@ public class UserServiceImpl implements UserService {
             user.setProfileGoogle(accountDto.getProfileGoogle());
         }
 
+//        user.setCombatArt(combatArtReppository.findOne(1L));
         return userRepository.save(user);
-    }
-
-    @Override
-    public void authenticateUser(User user) {
-
-    }
-
-    @Override
-    public User createUserFromDto(UserDto accountDto) {
-        final User user = new User();
-        user.setFirstName(accountDto.getFirstName());
-        user.setLastName(accountDto.getLastName());
-        user.setPassword(accountDto.getPassword());
-        user.setEmail(accountDto.getEmail());
-        user.setRole(roleRepository.findOne(4L)); //TODO what is this magic number doing?
-        return user;
     }
 
     private boolean emailExist(String email) {
@@ -199,7 +188,28 @@ public class UserServiceImpl implements UserService {
         return user != null;
     }
 
-	@Override
+    @Override
+    public List<UserGroup> getUserGroups(User user) {
+        return userRepository.getUserGroups(user);
+    }
+
+    @Override
+    public Set<User> getSetFromStringArray(String[] users) {
+        Set<User> res = new HashSet<>();
+        if (users != null && users.length > 0) res.addAll(Arrays.asList(getArrayFromStringArray(users)));
+        return res;
+    }
+
+    @Override
+    public User[] getArrayFromStringArray(String[] users) {
+        int len = users == null ? 0 : users.length;
+        User[] res = new User[len];
+        for(int i = 0; i < len;i++)
+            res[i] = userRepository.findOne(Long.parseLong(users[i]));
+        return res;
+    }
+
+    @Override
 	public String saveFile(User user, MultipartFile inputFile) {
 
         // return old avatar
@@ -221,8 +231,10 @@ public class UserServiceImpl implements UserService {
 			
 		return fileURL;
 	}
+
+
     @Override
-    public User findUserByEmailAndPassword(String email,String password){
-        return userRepository.findUserByEmailAndPassword(email, password);
+    public List<User> getGroupsUsers(UserGroup[] ug) {
+        return userRepository.getGroupsUsers(ug);
     }
 }

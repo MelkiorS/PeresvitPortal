@@ -4,6 +4,7 @@ package ua.peresvit.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,9 +14,10 @@ import ua.peresvit.config.Constant;
 import ua.peresvit.entity.*;
 import ua.peresvit.service.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/home")
@@ -48,6 +50,9 @@ public class UserPageController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private AchievementService achievementService;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String goToReg(Model model, Principal principal) {
         if (principal != null) {
@@ -61,12 +66,35 @@ public class UserPageController {
 
     @RequestMapping(value = "/workField", method = RequestMethod.GET)
     public String showStartOffice(Model model, Principal principal) {
-        User loggedUser = userService.findUserByEmail(principal.getName());
+        User loggedUser = userService.getCurrentUser();
         String imagePath = loggedUser.getAvatarURL();
         model.addAttribute("imageAvatar", null);
-        try {
-            model.addAttribute("imageAvatar", Constant.encodeFileToBase64Binary(imagePath));
-        }catch (IOException ex){}
+        if (imagePath != null) {
+            try {
+                model.addAttribute("imageAvatar", Constant.encodeFileToBase64Binary(imagePath));
+            } catch (IOException ex) {
+            }
+        }
+
+        // Achievements
+        Map<Long, String> achiveList = new HashMap<>();
+        List<Achievement> achievements = achievementService.findByUser(loggedUser);
+        for (Achievement achievement:achievements) {
+            try {
+                achiveList.put(achievement.getAchievementId(), Constant.encodeFileToBase64Binary(achievement.getImageURL()));
+            } catch (IOException ex){achiveList.put(achievement.getAchievementId(), null);}
+        }
+        model.addAttribute("achieveList", achiveList);
+
+        List<City> cities = cityService.findAll();
+        model.addAttribute("cityList", cities);          // adding list of city for select
+
+        List<Club> clubs = clubService.findAll();
+        model.addAttribute("clubList", clubs);           // adding list of club for select
+
+        List<CombatArt> combatArts = combatArtService.findAll();
+        model.addAttribute("combatArtList", combatArts); // adding list of combatArt for select
+
         model.addAttribute("user", loggedUser);
         model.addAttribute("groups", rgtService.findAll());
 
@@ -100,7 +128,9 @@ public class UserPageController {
 
     // Edit User
     @RequestMapping(value = "/profileEdit", method = RequestMethod.POST)
-    public String editUser(User user, Model model, @RequestParam("file") MultipartFile file) {
+    public String editUser(@Valid User user, BindingResult bindingResult, Model model, @RequestParam("file") MultipartFile file) {
+
+        if (bindingResult.hasErrors()) return "home/profileEdit";
 
         user.setAvatarURL(userService.saveFile(user, file));
 
@@ -140,13 +170,13 @@ public class UserPageController {
         return "home/ourEvents";
     }
 
-    @RequestMapping(value = "/myWay/myWayChapters/{groupName}")
-    public String myWayChapters(Model model, @PathVariable(value = "groupName") String groupName) {
-        model.addAttribute("user", userService.getCurrentUser());
-        ResourceGroupType rgt = rgtService.findResourceGroupTypeByGroupName(groupName);
-        model.addAttribute("chapters", rgt.getChapterList());
-        return "home/myWay/myWayChapters";
-    }
+//    @RequestMapping(value = "/myWay/myWayChapters/{groupName}")
+//    public String myWayChapters(Model model, @PathVariable(value = "groupName") String groupName) {
+//        model.addAttribute("user", userService.getCurrentUser());
+//        ResourceGroupType rgt = rgtService.findResourceGroupTypeByGroupName(groupName);
+//        model.addAttribute("chapters", rgt.getChapterList());
+//        return "home/myWay/myWayChapters";
+//    }
 
     @RequestMapping(value = "/myWay/myWayChapters/{groupName}/{articleId}")
     public String myWayChapters(Model model, @PathVariable(value = "groupName") String groupName, @PathVariable(value = "articleId") long articleId) {
@@ -168,5 +198,10 @@ public class UserPageController {
     public boolean isAssignedToMe(Model model, @RequestParam(value = "eventId") long eventid) {
         Event ev = eventService.findById(eventid);
         return eventService.isAssignedToMe(ev);
+    }
+
+    @RequestMapping(value = "/messages", method = RequestMethod.GET)
+    public String showAllMessages() {
+        return "home/messages";
     }
 }

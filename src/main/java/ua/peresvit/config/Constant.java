@@ -10,21 +10,23 @@ import java.util.Base64;
 
 //TODO move to properties
 public class Constant {
-	
-	 // main path to download folder
-	 public static final String UPLOAD_PATH = "/home/serge/mma/downloads";
-	 // folder user${userId} files
-	 public static final String USR_FOLDER  = "user";
+
+	// main path to download folder
+	public static final String UPLOAD_PATH = "/home/mma/downloads";
+	// folder user${userId} files
+	public static final String USR_FOLDER = "user";
 	// folder user without id files
-	 public static final String USER_UNKNOWN = "userunknown";
-	 // pattern filename for avatar
-	 public static final String AVATAR  = "avatar";
-	 // studying folder
-	 public static final String STUDYING  = "studying";
-	 // pattern filename resource${resourceId}
-	 public static final String IMAGE  = "img";
-	 public static final String VIDEO  = "video";
-	 public static final String TEXT  = "text";
+	public static final String USER_UNKNOWN = "userunknown";
+	// pattern filename for avatar
+	public static final String AVATAR = "avatar";
+	// pattern filename for achievement
+	public static final String ACHIEVE = "achievement";
+	// studying folder
+	public static final String STUDYING = "studying";
+	// pattern filename resource${resourceId}
+	public static final String IMAGE = "img";
+	public static final String VIDEO = "video";
+	public static final String TEXT = "text";
 
 	public static void deleteFile(String pathFile) {
 		if (pathFile != null && !pathFile.isEmpty()) {
