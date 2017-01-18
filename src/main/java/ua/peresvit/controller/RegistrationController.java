@@ -67,7 +67,6 @@ public class RegistrationController {
             return "home";
         }
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request), true));
-//        authenticateUser(registered);
         return "redirect:/";
     }
 
