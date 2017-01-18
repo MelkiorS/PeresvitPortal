@@ -22,7 +22,7 @@ public class RoleController {
 	//go to manage page
 	@RequestMapping(value = "/management", method = RequestMethod.GET)
 	public String goToManagement(Model model) {
-		return "admin/role/RoleManagement";
+		return "admin/role/roleManagement";
 	}
 	//go to addForm
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
