@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Add Rang</title>
+<title>Add Role</title>
 </head>
 <body>
-<a th:href="@{/admin/role/management}" >Rang Management</a>
+<a th:href="@{/admin/role/management}" >Role Management</a>
 <br/>
 <form action="#" th:action="@{/admin/role/}" th:object="${role}" method="post">
 	<input type="hidden" th:field="*{roleId}" />
