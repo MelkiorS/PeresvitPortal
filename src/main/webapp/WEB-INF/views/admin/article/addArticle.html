@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="/resources/frontend/workField/css/workField.css">
     <link rel="stylesheet" href="/resources/frontend/editLesson/css/editLesson.css">
-     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="/resources/frontend/libraries/bootstrap.min.js"></script>
     <script src="/resources/ckeditor/ckeditor.js"></script>
     <script async src="/resources/frontend/editLesson/addArticle.js"></script>
 
@@ -73,7 +74,7 @@
                         <label>Роздiл</label><br/>
                         <input class="form-control" th:field="*{chapterId}" type="text" id="chapterId" />
                     </div>
-                    <div class="col-xs-4 form-group">
+                    <div th:class="${'col-xs-4 form-group' + ( #fields.hasErrors('role') ? ' has-error' : '') }">
                         <label>Доступ для</label><br/>
                         <select class="form-control" th:field="*{role.roleId}">
                             <option th:each="role : ${roleList}"
