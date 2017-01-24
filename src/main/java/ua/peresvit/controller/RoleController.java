@@ -1,6 +1,7 @@
 package ua.peresvit.controller;
 
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,5 +82,13 @@ public class RoleController {
         model.addAttribute("role", role);
         return "admin/role/addRole";
     }
+    //show users
+	@RequestMapping(value="/users/{roleId}", method = RequestMethod.GET)
+	public String showUsers(@PathVariable("roleId") long roleId, Model model) {
+
+		Role role = roleService.findOne(roleId);
+		model.addAttribute("role", role);
+		return "admin/role/showUsers";
+	}
 	
 }
