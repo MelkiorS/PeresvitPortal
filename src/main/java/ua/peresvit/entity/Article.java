@@ -3,6 +3,7 @@ package ua.peresvit.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
@@ -24,6 +25,7 @@ public class Article {
     // role of resource, it means user of which role can see it
     @ManyToOne
     @JoinColumn(name="roleId")
+    @NotNull(message = "Не заповнена роль користувача")
     private Role role;
     // @OneToMany(mappedBy = "role")
   //  @LazyCollection(LazyCollectionOption.FALSE)
