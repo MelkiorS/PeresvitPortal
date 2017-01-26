@@ -19,6 +19,8 @@ public class Constant {
 	public static final String USER_UNKNOWN = "userunknown";
 	// pattern filename for avatar
 	public static final String AVATAR = "avatar";
+	// pattern filename for News
+	public static final String POST = "post";
 	// pattern filename for achievement
 	public static final String ACHIEVE = "achievement";
 	// studying folder
@@ -29,6 +31,7 @@ public class Constant {
 	public static final String TEXT = "text";
 
 	public static void deleteFile(String pathFile) {
+
 		if (pathFile != null && !pathFile.isEmpty()) {
 			try {
 				File file = new File(pathFile);
@@ -36,7 +39,7 @@ public class Constant {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}	
+		}
 	}
 	
 	public static String uploadingFile(MultipartFile inputFile, String pathFile){
@@ -67,6 +70,8 @@ public class Constant {
 	}
 
 	public static String encodeFileToBase64Binary(String fileName) throws IOException {
+		if(fileName == null)
+			return "";
 		File file = new File(fileName);
 		byte[] encoded = Base64.getEncoder().encode(FileUtils.readFileToByteArray(file));
 		return new String(encoded, StandardCharsets.US_ASCII);

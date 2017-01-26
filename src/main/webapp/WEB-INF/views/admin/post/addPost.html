@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8">
+</head>
+
+<body>
+<div class="container">
+
+    <br/>
+
+    <form class="form-group col-lg-6" th:href="@{/admin/post/add}" th:method="POST" th:object="${post}" enctype="multipart/form-data">
+        <label for="title">Заголовок</label>
+        <input class="form-control" th:field="*{title}" />
+        <br/>
+        <p class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        <label for="body">Новина</label>
+        <textarea rows="20" cols="20" class="form-control" th:field="*{body}"></textarea>
+        <br/>
+        <p class="alert alert-danger" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></p>
+        <br/>
+        <label for="file">Картинка</label>
+        <input type="file" name="file" id="file"/>
+        <input class="btn btn-primary" type="submit" />
+    </form>
+
+</div>
+</body>
+</html>

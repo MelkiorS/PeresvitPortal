@@ -64,7 +64,7 @@ public class UserPageController {
             }
             return "redirect:/home/workField";
         }
-        return "redirect:/registration";
+        return "home";
     }
 
     @RequestMapping(value = "/workField", method = RequestMethod.GET)

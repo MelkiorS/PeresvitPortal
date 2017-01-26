@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.social.connect.ConnectionFactoryLocator;
@@ -34,6 +35,7 @@ import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
+@EnableSpringDataWebSupport
 @ComponentScan(basePackages = "ua.peresvit")
 class WebMvcConfig extends WebMvcConfigurerAdapter {
 
