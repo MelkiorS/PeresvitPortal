@@ -64,6 +64,7 @@ public class UserPageController {
             }
             return "redirect:/home/workField";
         }
+        model.addAttribute("user", (userService.getCurrentUser() == null ? new User() : userService.getCurrentUser()) );
         return "home";
     }
 

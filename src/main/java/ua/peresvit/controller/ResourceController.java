@@ -154,14 +154,14 @@ public class ResourceController {
 					Files.copy(filePath.toAbsolutePath(), response.getOutputStream());
 					response.getOutputStream().flush();
 				} catch (IOException ex) {
-					throw new RuntimeException("Warning! File writing error");
+					throw new RuntimeException("Увага! Помилка запису файла!");
 				}
 			}
 			else
-				throw new RuntimeException("Warning! Can't download. File not exist!");
+				throw new RuntimeException("Увага! Неможливо завантажити файл. Файл не існує!");
 		}
 		else
-			throw new RuntimeException("Warning! URL is empty");
+			throw new RuntimeException("Увага! URL пустий");
 	}
 
 	@ExceptionHandler(Exception.class)
