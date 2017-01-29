@@ -60,13 +60,17 @@ public class RegistrationController {
 // register user
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String registerUserAccount(
-            @ModelAttribute("user") UserDto accountDto, final HttpServletRequest request) {
+            @ModelAttribute("user") UserDto accountDto,
+            final HttpServletRequest request,
+            Model model) {
 
         User registered = createUserAccount(accountDto);
         if (registered == null) {
+            model.addAttribute("message", messages.getMessage("message.regError", null, request.getLocale()));
             return "home";
         }
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request), true));
+        model.addAttribute("message", messages.getMessage("message.regConfirm", null, request.getLocale()));
         return "redirect:/";
     }
 
@@ -77,7 +81,7 @@ public class RegistrationController {
         if (result.equals("valid")) {
             final User user = userService.getUser(token);
 //            Here info about successful verification added to message attribute)
-//            model.addAttribute("message", messages.getMessage("message.accountVerified", null, locale));
+            model.addAttribute("message", messages.getMessage("message.accountVerified", null, locale));
             authenticateUser(user);
             return "redirect:/home/workField";
         }
