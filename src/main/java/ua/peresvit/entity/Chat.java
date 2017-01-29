@@ -20,7 +20,7 @@ public class Chat {
             joinColumns = @JoinColumn(name = "chatId"),
             inverseJoinColumns = @JoinColumn(name = "userId")
     )
-    private Collection<User> receivers;
+    private Collection<User> members;
     @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER)
     private Collection<Message> messages;
 }

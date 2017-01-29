@@ -5,49 +5,60 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import ua.peresvit.entity.Chat;
 import ua.peresvit.entity.Message;
-import ua.peresvit.entity.User;
 import ua.peresvit.service.MessageService;
 import ua.peresvit.service.UserService;
 
-import java.util.LinkedList;
+import java.util.List;
 
 @Controller
-@RequestMapping(value = "/admin/user")
+@RequestMapping(value = "/home/messages")
 public class MessageController {
+    final MessageService messageService;
+    final UserService userService;
+
     @Autowired
-    MessageService messageService;
-    @Autowired
-    UserService userService;
-
-    @RequestMapping(value = "send")
-    public void sendMessage(Message message, @PathVariable("userId")  long userId, Model model) {
-        messageService.sendMessage(userService.getCurrentUser(), userService.findOne(userId), message);
+    public MessageController(MessageService messageService, UserService userService) {
+        this.messageService = messageService;
+        this.userService = userService;
     }
-
-    @RequestMapping(value = "inbox")
-    public String getInbox(Model model) {
-        model.addAttribute("inbox", userService.getCurrentUser().getReceivedMessages());
-        return "message/inbox";
+//  after entering main messages' page we get list of all chats, we can create new chat or send new message
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public String getAllChats(Model model) {
+        List<Chat> chats = messageService.findAllUsersChats(userService.getCurrentUser());
+        model.addAttribute("chatList", chats);
+        model.addAttribute("newMessage", new Message());
+        model.addAttribute("newChat", new Chat());
+        return "home/chats";
     }
-
-    @RequestMapping(value = "sent")
-    public String getSent(Model model) {
-        model.addAttribute("sent", userService.getCurrentUser().getSentMessages());
-        return "message/sent";
+//  creating new chat from main messages' page
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public String sentMessageFromMainPage(Chat newChat, Model model) {
+        if (!newChat.getChatTitle().equals("") && !newChat.getMembers().isEmpty()) {
+            newChat = messageService.saveChat(newChat);
+            model.addAttribute("chatId", newChat.getChatId());
+            return "redirect:/home/messages/{chatId}";
+        } else {
+//            model.addAttribute("message", )
+            return "home/chats";
+        }
     }
-
-    @RequestMapping(value = "dialog")
-    public String getSent(long userId, Model model) {
-        User current = userService.getCurrentUser();
-        User dialogUser = userService.findOne(userId);
-        LinkedList<Message> dialog = new LinkedList<>();
-        // need to optimize
-        dialog = messageService.findAllByAuthorAndReceiver(current, dialogUser);
-        dialog.addAll(messageService.findAllByAuthorAndReceiver(dialogUser, current));
-        // sort by create at
-        dialog.stream().sorted((m1 , m2 )-> (int)(m1.getCreatedAt() - m2.getCreatedAt()));
-        model.addAttribute("dialog", dialog);
-        return "message/dialog";
+//  here we enter certain chat with it's messages
+    @RequestMapping(value = "/{chatId}", method = RequestMethod.GET)
+    public String getSingleChat(@PathVariable("chatId") Long chatId, Model model) {
+        Chat currentChat = messageService.findOneChat(chatId);
+        model.addAttribute("chat", currentChat);
+        model.addAttribute("messagesList", messageService.findChatOrderByCreatedAt(chatId));
+        model.addAttribute("newMessage", new Message());
+        return "home/messages";
+    }
+// post new message to certain chat and refresh chat
+    @RequestMapping(value = "/{chatId}", method = RequestMethod.POST)
+    public String sendMessageFromSingleChat(@PathVariable("chatId") Long chatId, Model model, Message newMessage) {
+        messageService.sendMessage(userService.getCurrentUser(), newMessage);
+        model.addAttribute("chatId", chatId);
+        return "redirect:/home/messages/{chatId}";
     }
 }

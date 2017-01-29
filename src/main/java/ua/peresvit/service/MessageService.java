@@ -1,5 +1,6 @@
 package ua.peresvit.service;
 
+import ua.peresvit.entity.Chat;
 import ua.peresvit.entity.Message;
 import ua.peresvit.entity.User;
 
@@ -7,15 +8,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 public interface MessageService {
-    <S extends Message> S save(S arg0);
+    <S extends Message> S saveMessage(S arg0);
 
-    Message findOne(Long arg0);
+    <S extends Chat> S saveChat(S arg0);
 
-    List<Message> findAllByAuthor(User author);
+    Chat findOneChat(Long arg0);
 
-    List<Message>  findAllByReceiver(User receiver);
+    Chat createNewChat(String chatTitle, List<User> members);
 
-    Message sendMessage(User from, User to, Message message);
+    Message sendMessage(User from, Message message);
 
     LinkedList<Message> findAllByAuthorAndReceiver(User author, User receiver);
+
+    List<Message> findChatOrderByCreatedAt(Long chatId);
+
+    List<Chat> findAllUsersChats(User user);
+
+    long countUnreadChats(User user);
 }

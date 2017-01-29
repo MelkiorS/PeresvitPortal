@@ -3,6 +3,7 @@ package ua.peresvit.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Data
@@ -12,22 +13,21 @@ public class Message {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long messageId;
     private String content;
-    private long chapterId;
-    private double createdAt;
-    private boolean read;
+    private Timestamp createdAt;
+    private boolean readStatus;
 
     @ManyToOne
     @JoinColumn(name="senderId")
-    private User author;
-//    // if current message refers to chat Receiver - is null
-    @ManyToOne
-    @JoinColumn(name="receiverId")
-    private User receiver;
+    private User sender;
+//    if current message refers to chat Receiver - is null
+//    @ManyToOne
+//    @JoinColumn(name="receiverId")
+//    private User receiver;
     @ManyToOne
     @JoinColumn(name="chatId")
     private Chat chat;
     // setting default value for message as unread
     public Message() {
-        this.read = false;
+        this.readStatus = false;
     }
 }
