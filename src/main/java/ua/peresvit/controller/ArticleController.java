@@ -65,7 +65,7 @@ public class ArticleController {
         articleService.save(article);
         model.addAttribute("articleId", article.getArticleId());
         model.addAttribute("article", article); // adding attribute that will be alive in two requests
-        return "redirect:/admin/article/{articleId}"; // just not to redownload it again
+        return "redirect:/admin/article/"; // just not to redownload it again
     }
 
     // show article by id

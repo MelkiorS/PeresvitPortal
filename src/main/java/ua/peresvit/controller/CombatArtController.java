@@ -45,7 +45,7 @@ public class CombatArtController {
         model.addAttribute("combatArtId", combatArt.getCombatArtId());
         model.addFlashAttribute("combatArt", combatArt);
 
-        return "redirect:/admin/combatArt/{combatArtId}";
+        return "redirect:/admin/combatArt/";
     }
 
     // show CombatArt by id

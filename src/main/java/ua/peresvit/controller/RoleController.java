@@ -38,7 +38,7 @@ public class RoleController {
 		roleService.save(role);
 		model.addAttribute("RoleId", role.getRoleId());
 		model.addFlashAttribute("role", role);
-		return "redirect:/admin/role/{RoleId}";
+		return "redirect:/admin/role/";
 	}
 	
 	// show role by id

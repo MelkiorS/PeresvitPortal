@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Add Club</title>
-</head>
-<body>
-<a th:href="@{/admin/club/management}" >Club Management</a>
-<br/>
-<form action="#" th:action="@{/admin/club/}" th:object="${club}" method="post">
-	<input type="hidden" th:field="*{clubId}" />
+<div th:replace="admin/fragments/head :: header('Club')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/club/')"></div>
 
-    <input type="text" th:field="*{clubName}" placeholder="club" /><br/>
-    <input type="text" th:field="*{address}" placeholder="address" /><br/>
 
-    <input type="submit" />
-</form>
-</body>
+
+<div th:remove="all">
+    <div th:fragment="main">
+
+        <form action="#" th:action="@{/admin/club/}" th:object="${club}" method="post">
+            <input type="hidden" th:field="*{clubId}" />
+
+            <input type="text" th:field="*{clubName}" placeholder="club" /><br/>
+            <input type="text" th:field="*{address}" placeholder="address" /><br/>
+
+            <input type="submit" />
+        </form>
+
+    </div>
+</div>
 </html>

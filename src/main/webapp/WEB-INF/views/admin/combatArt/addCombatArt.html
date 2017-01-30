@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Add Combat Art</title>
-</head>
-<body>
-<a th:href="@{/admin/combatArt/management}" >Combat Art Management</a>
-<br/>
-<form action="#" th:action="@{/admin/combatArt/}" th:object="${combatArt}" method="post">
-	<input type="hidden" th:field="*{combatArtId}" />
+<div th:replace="admin/fragments/head :: header('Combat Art')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/combatArt/')"></div>
 
-    <input type="text" th:field="*{combatArtName}" placeholder="combatArt" /><br/>
 
-    <input type="submit" />
-</form>
-</body>
+
+<div th:remove="all">
+    <div th:fragment="main">
+
+        <form action="#" th:action="@{/admin/combatArt/}" th:object="${combatArt}" method="post">
+            <input type="hidden" th:field="*{combatArtId}" />
+
+            <input type="text" th:field="*{combatArtName}" placeholder="combatArt" /><br/>
+
+            <input type="submit" />
+        </form>
+
+    </div>
+</div>
 </html>

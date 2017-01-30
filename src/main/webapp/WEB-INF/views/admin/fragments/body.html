@@ -1,0 +1,22 @@
+<body th:fragment="body(pattern, refadd, refback)">
+<div class="container-fluid wrapper">
+    <div th:replace="admin/fragments/headBar :: headBar"></div>
+
+
+    <div class="row main">
+        <div class="col-xs-3 container main_sidebar">
+            <div th:replace="admin/fragments/sideBar :: sideBar"></div>
+        </div>
+
+        <div class=" col-xs-9 row well container-fluid main_section">
+            <!--Сюда вставляем содержимое страниц в соответствии с нажатыми кнопками-->
+            <a type="button" class="btn btn-primary" th:href="@{${refadd}}" th:if="${refadd!=''}">Add</a>
+            <a type="button" class="btn btn-primary" th:href="@{${refback}}" th:if="${refback!=''}">Back</a>
+            <div th:replace="${pattern}"></div>
+
+
+        </div>
+    </div>
+</div>
+
+</body>

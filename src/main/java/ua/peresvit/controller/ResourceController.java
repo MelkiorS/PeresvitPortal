@@ -43,7 +43,7 @@ public class ResourceController {
 	//go to addForm
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String goToAddForm(Model model) {
-		model.addAttribute(new Resource());
+		model.addAttribute("resource", new Resource());
 		return "admin/resource/addResource";
 	}
 	
@@ -72,7 +72,7 @@ public class ResourceController {
 		resourceService.save(resource);
 		model.addAttribute("resourceId", resource.getResourceId());
 		model.addFlashAttribute("resource", resource);
-		return "redirect:/admin/resource/{resourceId}";
+		return "redirect:/admin/resource/";
 	}
 
 	// create video resource

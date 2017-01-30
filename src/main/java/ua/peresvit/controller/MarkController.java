@@ -43,7 +43,7 @@ public class MarkController {
         model.addAttribute("markId", mark.getMarkId());
         model.addFlashAttribute("mark", mark);
 
-        return "redirect:/admin/mark/{markId}";
+        return "redirect:/admin/mark/";
     }
 
     // show Mark by id

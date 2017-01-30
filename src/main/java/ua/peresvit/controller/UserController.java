@@ -78,7 +78,7 @@ public class UserController {
         model.addAttribute("userId", user.getUserId());
         model.addFlashAttribute("user", user);
         
-        return "redirect:/admin/user/{userId}";
+        return "redirect:/admin/user/";
     }
 
     // show user by id

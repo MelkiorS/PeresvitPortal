@@ -1,109 +1,113 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Rang</title>
-</head>
-<body>
-    <a th:href="@{/admin/user/management}" >User Management</a>
-    <br/>
-    <form action="#" th:action="@{/admin/user/}" th:object="${user}" enctype="multipart/form-data" method="post">
-        <input type="hidden" th:field="*{userId}" />
-        <input type="hidden" th:field="*{enabled}" />
-        <input type="hidden" th:field="*{avatarURL}"/>
+<div th:replace="admin/fragments/head :: header('User')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/user/')"></div>
 
-        <input type="text" th:field="*{firstName}" placeholder="firstName" /><br/>
-        <input type="text" th:field="*{lastName}" placeholder="lastName" /><br/>
-        <input type="text" th:field="*{middleName}" placeholder="middleName" /><br/>
-        <input type="text" th:field="*{email}" placeholder="email" /><br/>
-        <input type="text" th:field="*{password}" placeholder="password" /><br/>
-        <input type="text" th:field="*{profileVK}" placeholder="profile VK" /><br/>
-        <input type="text" th:field="*{profileFB}" placeholder="profile FB" /><br/>
-        <input type="text" th:field="*{profileGoogle}" placeholder="profile Google" /><br/>
-        <input type="text" th:field="*{profileInstagram}" placeholder="profile Instagram" /><br/>
- 		<input type="file" name="file" /><br/>
 
-		<label for="rangType">Rang:</label>
-		<select th:field="*{role.roleId}">
-			<option th:each="role : ${rangList}" th:value="${role.roleId}"
-				th:text="${role.roleName}"></option>
-		</select> <br />
-        
-		<br/> User info <br/>
-        <label for="gender">Gender:</label>
-        <div><input type="radio" th:name="male" th:value="M"  th:field="*{sex}" checked="checked" />Male</div>
-        <div><input type="radio" th:name="female" th:value="F"  th:field="*{sex}" />Female</div>
 
-        <label for="combatArtList">Combat Art:</label>
-        <select th:field="*{combatArt.combatArtId}">
-            <option value="" th:text="''"></option>
-            <option th:each="combatArt : ${combatArtList}" th:value="${combatArt.combatArtId}"
-                    th:text="${combatArt.combatArtName}"></option>
-        </select> <br />
+<div th:remove="all">
+    <div th:fragment="main">
 
-        <label for="cityList">City:</label>
-        <select th:field="*{city.cityId}">
-            <option value="" th:text="''"></option>
-            <option th:each="city : ${cityList}" th:value="${city.cityId}"
-                    th:text="${city.cityName}"></option>
-        </select> <br />
+        <form action="#" th:action="@{/admin/user/}" th:object="${user}" enctype="multipart/form-data" method="post">
+            <input type="hidden" th:field="*{userId}" />
+            <input type="hidden" th:field="*{enabled}" />
+            <input type="hidden" th:field="*{avatarURL}"/>
 
-        <label for="clubList">Club:</label>
-        <select th:field="*{club.clubId}">
-            <option value="" th:text="''"></option>
-            <option th:each="club : ${clubList}" th:value="${club.clubId}"
-                    th:text="${club.clubName}"></option>
-        </select> <br />
+            <input type="text" th:field="*{firstName}" placeholder="firstName" /><br/>
+            <input type="text" th:field="*{lastName}" placeholder="lastName" /><br/>
+            <input type="text" th:field="*{middleName}" placeholder="middleName" /><br/>
+            <input type="text" th:field="*{email}" placeholder="email" /><br/>
+            <input type="text" th:field="*{password}" placeholder="password" /><br/>
+            <input type="text" th:field="*{profileVK}" placeholder="profile VK" /><br/>
+            <input type="text" th:field="*{profileFB}" placeholder="profile FB" /><br/>
+            <input type="text" th:field="*{profileGoogle}" placeholder="profile Google" /><br/>
+            <input type="text" th:field="*{profileInstagram}" placeholder="profile Instagram" /><br/>
+            <input type="file" name="file" /><br/>
 
-        <label for="mentorList">Mentor:</label>
-        <select th:field="*{mentor.userId}">
-            <option value="" th:text="''"></option>
-            <option th:each="mentor : ${mentorList}" th:value="${mentor.userId}"
-                    th:text="${mentor.firstName} + ' ' + ${mentor.lastName}"></option>
-        </select> <br />
+            <label for="rangType">Rang:</label>
+            <select th:field="*{role.roleId}">
+                <option th:each="role : ${rangList}" th:value="${role.roleId}"
+                        th:text="${role.roleName}"></option>
+            </select> <br />
 
-        <label for="markList">Mark:</label>
-        <select th:field="*{marks}" multiple="multiple">
-            <!--<option value="" th:text="''"></option>-->
-            <option th:each="mark : ${markList}" th:value="${mark.markId}"
-                    th:text="${mark.markName}"></option>
-        </select> <br />
+            <br/> User info <br/>
+            <label for="gender">Gender:</label>
+            <div><input type="radio" th:name="male" th:value="M"  th:field="*{sex}" checked="checked" />Male</div>
+            <div><input type="radio" th:name="female" th:value="F"  th:field="*{sex}" />Female</div>
 
-        <label for="about">About:</label>
-        <textarea th:text="*{aboutMe}" /> <br />
+            <label for="combatArtList">Combat Art:</label>
+            <select th:field="*{combatArt.combatArtId}">
+                <option value="" th:text="''"></option>
+                <option th:each="combatArt : ${combatArtList}" th:value="${combatArt.combatArtId}"
+                        th:text="${combatArt.combatArtName}"></option>
+            </select> <br />
 
-        <!--ACHIEVEMENT LIST-->
-        <br/>
-        <a th:href="@{/admin/achievement/add/} + *{userId}">Add Achievement</a>
-        <div class="achievementList" >
+            <label for="cityList">City:</label>
+            <select th:field="*{city.cityId}">
+                <option value="" th:text="''"></option>
+                <option th:each="city : ${cityList}" th:value="${city.cityId}"
+                        th:text="${city.cityName}"></option>
+            </select> <br />
 
-            <h3 >List of Achievement</h3>
+            <label for="clubList">Club:</label>
+            <select th:field="*{club.clubId}">
+                <option value="" th:text="''"></option>
+                <option th:each="club : ${clubList}" th:value="${club.clubId}"
+                        th:text="${club.clubName}"></option>
+            </select> <br />
 
-            <table class=".table" th:fragment="allAchievements">
-                <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>URL</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="achievement : *{achievements}">
-                    <td th:text="${achievement.achievementName}"></td>
-                    <td th:text="${achievement.description}"></td>
-                    <td th:text="${achievement.imageURL}"></td>
+            <label for="mentorList">Mentor:</label>
+            <select th:field="*{mentor.userId}">
+                <option value="" th:text="''"></option>
+                <option th:each="mentor : ${mentorList}" th:value="${mentor.userId}"
+                        th:text="${mentor.firstName} + ' ' + ${mentor.lastName}"></option>
+            </select> <br />
 
-                    <td><a th:href="@{/admin/achievement/edit/} + ${achievement.achievementId}">Edit</a></td>
-                    <td><a th:href="@{/admin/achievement/delete/} + ${achievement.achievementId}">Delete</a></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <br/>
+            <label for="markList">Mark:</label>
+            <select th:field="*{marks}" multiple="multiple">
+                <!--<option value="" th:text="''"></option>-->
+                <option th:each="mark : ${markList}" th:value="${mark.markId}"
+                        th:text="${mark.markName}"></option>
+            </select> <br />
 
-		<input type="submit" />
-    </form>      
-</body>
+            <label for="about">About:</label>
+            <textarea th:text="*{aboutMe}" /> <br />
+
+            <!--ACHIEVEMENT LIST-->
+            <br/>
+            <a th:href="@{/admin/achievement/add/} + *{userId}">Add Achievement</a>
+            <div class="achievementList" >
+
+                <h3 >List of Achievement</h3>
+
+                <table class=".table" th:fragment="allAchievements">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>URL</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="achievement : *{achievements}">
+                        <td th:text="${achievement.achievementName}"></td>
+                        <td th:text="${achievement.description}"></td>
+                        <td th:text="${achievement.imageURL}"></td>
+
+                        <td><a th:href="@{/admin/achievement/edit/} + ${achievement.achievementId}">Edit</a></td>
+                        <td><a th:href="@{/admin/achievement/delete/} + ${achievement.achievementId}">Delete</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br/>
+
+            <input type="submit" />
+        </form>
+
+    </div>
+</div>
 </html>
+

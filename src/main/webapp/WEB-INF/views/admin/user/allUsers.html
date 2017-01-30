@@ -1,44 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>User List</title>
-</head>
-<body>
-<a th:href="@{/admin/user/management}" >User Management</a>
-<br/>
-<div class="rangList" th:unless="${#lists.isEmpty(userList)}">
-    
-  <h2 >List of Users</h2>
-  
-  <table>
-    <thead>
-      <tr>
-        <th>userId</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Middle Name</th>
-        <th>Email</th>
-        <th>Avatar URL</th>
-        <th>Enabled</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr th:each="user : ${userList}">
-        <td th:text="${user.userId}"></td>
-        <td th:text="${user.firstName}"></td>
-        <td th:text="${user.lastName}"></td>
-        <td th:text="${user.middleName}"></td>
-        <td th:text="${user.email}"></td>
-        <td th:text="${user.avatarURL}"></td>
-        <td th:text="${user.enabled}"></td>
-        <td><a th:href="@{/admin/user/edit/} + ${user.userId}">Edit</a></td>
-        <td><a th:href="@{/admin/user/delete/} + ${user.userId}">Delete</a></td>
-      </tr>
-    </tbody>
-  </table>
+<div th:replace="admin/fragments/head :: header('Users list')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/user/add','')"></div>
+
+
+<div th:remove="all">
+  <div th:fragment="main">
+
+    <div class="rangList" th:unless="${#lists.isEmpty(userList)}">
+
+      <h2 >List of Users</h2>
+
+      <table>
+        <thead>
+        <tr>
+          <th>userId</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Middle Name</th>
+          <th>Email</th>
+          <th>Avatar URL</th>
+          <th>Enabled</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${userList}">
+          <td th:text="${user.userId}"></td>
+          <td th:text="${user.firstName}"></td>
+          <td th:text="${user.lastName}"></td>
+          <td th:text="${user.middleName}"></td>
+          <td th:text="${user.email}"></td>
+          <td th:text="${user.avatarURL}"></td>
+          <td th:text="${user.enabled}"></td>
+          <td><a th:href="@{/admin/user/edit/} + ${user.userId}">Edit</a></td>
+          <td><a th:href="@{/admin/user/delete/} + ${user.userId}">Delete</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
 </div>
-</body>
 </html>
+
