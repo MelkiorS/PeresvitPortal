@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Data
@@ -23,4 +22,7 @@ public class Chat {
     private Collection<User> members;
     @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER)
     private Collection<Message> messages;
+    @ManyToOne
+    @JoinColumn(name = "ownerId")
+    private User owner;
 }

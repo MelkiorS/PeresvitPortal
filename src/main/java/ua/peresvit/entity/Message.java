@@ -15,6 +15,8 @@ public class Message {
     private String content;
     private Timestamp createdAt;
     private boolean readStatus;
+//    Functional message like about creating chat or inviting new members;
+    private boolean functional;
 
     @ManyToOne
     @JoinColumn(name="senderId")

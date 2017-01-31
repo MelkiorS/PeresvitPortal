@@ -2,6 +2,7 @@ package ua.peresvit.service.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ua.peresvit.dao.ChatRepository;
 import ua.peresvit.dao.MessageRepository;
@@ -11,22 +12,22 @@ import ua.peresvit.entity.User;
 import ua.peresvit.service.MessageService;
 
 import java.sql.Timestamp;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MessageServiceImpl implements MessageService{
 
-    final
-    MessageRepository messageRepository;
+    final MessageRepository messageRepository;
 
-    final
-    ChatRepository chatRepository;
+    final ChatRepository chatRepository;
+
+    final MessageSource messages;
 
     @Autowired
-    public MessageServiceImpl(MessageRepository messageRepository, ChatRepository chatRepository) {
+    public MessageServiceImpl(MessageRepository messageRepository, ChatRepository chatRepository, MessageSource messages) {
         this.messageRepository = messageRepository;
         this.chatRepository = chatRepository;
+        this.messages = messages;
     }
 
     @Override
@@ -45,7 +46,54 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public Chat createNewChat(String chatTitle, List<User> members) {
+    public Chat findDialog(Collection<User> members) {
+        return chatRepository.findByMembersIn(members);
+    }
+
+    @Override
+    public Message getNewChatCreatingMessage(User creator, Chat chat, Locale locale) {
+        Message message = new Message();
+        message.setSender(creator);
+        message.setChat(chat);
+        message.setFunctional(true);
+        message.setContent(creator.getFirstName() + " " + creator.getLastName() + " "
+                + messages.getMessage("message.newChatCreationEvent", null, locale) + " "
+                + "<" + chat.getChatTitle() + ">");
+        return null;
+    }
+
+    @Override
+    public Chat addNewMembersToChat(LinkedList<User> membersToAdd, Chat chat) {
+        Collection<User> members = chat.getMembers();
+        for (User u : membersToAdd) {
+            members.add(u);
+        }
+        chat.setMembers(members);
+        return saveChat(chat);
+    }
+
+    @Override
+    public Message getAddingNewMemberMessage(User adder, LinkedList<User> listOfNewMembers, Chat chat, Locale locale) {
+        Message message = new Message();
+        message.setSender(adder);
+        message.setChat(chat);
+        message.setFunctional(true);
+//
+
+        Iterator<User> it = listOfNewMembers.iterator();
+        StringBuilder newMembers = new StringBuilder();
+        for (int i = 0; i != 1;) {
+            User u = it.next();
+            newMembers.append(u.getFirstName()).append(" ").append(u.getLastName());
+            if (! it.hasNext()){
+                i = 1;
+            } else {
+                newMembers.append(',').append(' ');
+            }
+        }
+        message.setContent(adder.getFirstName() + " " + adder.getLastName() + " "
+                + messages.getMessage("message.addingNewMembersEvent", null, locale) + " "
+                + newMembers);
         return null;
     }
 
@@ -56,10 +104,10 @@ public class MessageServiceImpl implements MessageService{
         return saveMessage(message);
     }
 
-    @Override
-    public LinkedList<Message> findAllByAuthorAndReceiver(User author, User receiver) {
-        return findAllByAuthorAndReceiver(author, receiver);
-    }
+//    @Override
+//    public LinkedList<Message> findAllByAuthorAndReceiver(User author, User receiver) {
+//        return findAllByAuthorAndReceiver(author, receiver);
+//    }
 
     @Override
     public List<Message> findChatOrderByCreatedAt(Long chatId) {
@@ -72,7 +120,7 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public long countUnreadChats(User user) {
+    public long countUnreadChats() {
         return 0;
     }
 }
