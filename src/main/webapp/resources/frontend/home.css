@@ -1,0 +1,580 @@
+
+@font-face {
+    font-family: MyriadPro;
+    src: url("fonts/MyriadPro-Regular.otf");
+    /*font-weight: normal;*/
+}
+
+/*@font-face {*/
+    /*font-family: MyriadPro;*/
+    /*src: url("../font/MyriadPro-Bold.otf");*/
+    /*font-weight: bold;*/
+/*}*/
+
+body {
+    font-family: MyriadPro, sans-serif;
+    background: -webkit-linear-gradient(rgba(177,178,181,1) 0%, rgba(250,250,250,1) 49%, rgba(250,250,250,1) 50%, rgba(177,178,181,1) 100%);
+    background: -o-linear-gradient(rgba(177,178,181,1) 0%, rgba(250,250,250,1) 49%, rgba(250,250,250,1) 50%, rgba(177,178,181,1) 100%);
+    background: linear-gradient(rgba(177,178,181,1) 0%, rgba(250,250,250,1) 49%, rgba(250,250,250,1) 50%, rgba(177,178,181,1) 100%);
+}
+
+.clearfix::after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.wrapper-outer {
+    margin: auto;
+    position: relative;
+}
+
+.wrapper-inner {
+
+    width: 100%;
+    margin: 10px auto;
+}
+
+.logo-in-header {
+    margin: 10px;
+}
+
+.banner-header {
+    margin: 0 10px 30px 10px;
+    padding: 10px;
+    height: 92px;
+    background-color: #dddcde;
+    color: #7b7b7b;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.banner-header p {
+    margin-top: 2px;
+    overflow: hidden;
+}
+
+#sideNav {
+    width: 0;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    background: -webkit-linear-gradient(rgba(177,178,181,1) 0%, rgba(250,250,250,1) 49%, rgba(250,250,250,1) 50%, rgba(177,178,181,1) 100%);
+    background: -o-linear-gradient(rgba(177,178,181,1) 0%, rgba(250,250,250,1) 49%, rgba(250,250,250,1) 50%, rgba(177,178,181,1) 100%);
+    background: linear-gradient(rgba(177,178,181,1) 0%, rgba(250,250,250,1) 49%, rgba(250,250,250,1) 50%, rgba(177,178,181,1) 100%);
+    box-shadow: 1px 3px 3px 1px rgba(153,153,153,1);
+    z-index: 1;
+    overflow: hidden;
+    transition: 0.6s ease-in-out;
+}
+
+
+aside .logo-in-sidebar {
+    height: 122px;
+}
+
+aside .logo-in-sidebar img{
+    /*background: radial-gradient(circle, rgba(250,250,250,1) 0%, rgba(177,178,181,1) 100%);*/
+    margin: 0 auto;
+    display: block;
+    height: 117px;
+    float: left;
+    padding: 0 0 5px 5px;
+}
+
+aside .school {
+    font-size: 18px;
+    margin: 10px 0;
+    padding: 5px 0;
+    text-align: center;
+
+}
+
+aside .peresvit {
+    font-size: 30px;
+    margin: 10px 0;
+    padding: 5px 0;
+    text-align: center;
+
+}
+
+#sideNav .menu-level1 > a{
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    line-height: 43px;
+    color: #5453c5 ; /*blue*/
+    border-top: 1px solid #c6c6c6;
+    padding: 0 10px 0 50px;
+    position: relative;
+}
+
+#sideNav .menu-level1 > .active,
+#sideNav .menu-level1 > a:hover {
+    color: #d90118; /*red*/
+}
+
+#btn-my-way {
+    border-bottom: 1px solid #c6c6c6;
+}
+
+#btn-cabinet {
+    border-bottom: 1px solid #c6c6c6;
+}
+
+#sideNav .menu-level1 > a:before{
+    content: "";
+    margin: 0 10px 0 0 ;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    display: inline-block;
+}
+
+/*there should be icons :before the menu item*/
+
+#btn-news:before {
+    background: url('../image/icons.png') -120px 0 no-repeat;
+}
+
+#btn-chat:before {
+    background: url('../image/icons.png') -150px 0 no-repeat;
+}
+
+#btn-messages:before {
+    background: url('../image/icons.png') -180px 0 no-repeat;
+}
+
+#btn-we:before {
+    background: url('../image/icons.png') -210px 0 no-repeat;
+}
+
+#btn-our-events:before {
+    background: url('../image/icons.png') 0 0 no-repeat;
+}
+
+
+#btn-my-events:before{
+    background: url('../image/icons.png') -30px 0  no-repeat;
+}
+
+#btn-my-way:before{
+    background: url('../image/icons.png') -60px 0  no-repeat;
+}
+
+#btn-cabinet:before{
+    background: url('../image/icons.png') -90px 0  no-repeat;
+}
+
+/*icons must be red at hover over the menu item*/
+
+#btn-news:hover:before {
+    background: url('../image/icons.png') -120px -24px no-repeat;
+}
+
+#btn-chat:hover:before {
+    background: url('../image/icons.png') -150px -24px no-repeat;
+}
+
+#btn-messages:hover:before {
+    background: url('../image/icons.png') -180px -24px no-repeat;
+}
+
+#btn-we:hover:before {
+    background: url('../image/icons.png') -210px -24px no-repeat;
+}
+
+#btn-our-events:hover:before {
+    background: url('../image/icons.png') 0 -24px no-repeat;
+}
+
+
+#btn-my-events:hover:before{
+    background: url('../image/icons.png') -30px -24px  no-repeat;
+}
+
+#btn-my-way:hover:before{
+    background: url('../image/icons.png') -60px -24px  no-repeat;
+}
+
+#btn-cabinet:hover:before{
+    background: url('../image/icons.png') -90px -24px  no-repeat;
+}
+
+
+
+#sideNav .menu-level1 > .active:after {
+    content:"›";
+    font-size: 24px;
+    display: inline-block;
+    transform: rotate(90deg);
+    margin-left: 10px;
+}
+
+#sideNav #menuMyWay {
+    overflow: hidden;
+    transition: 0.6s ease-in-out;
+}
+
+#sideNav .menu-level2 a{
+    display: block;
+    text-decoration: none;
+    text-transform: lowercase;
+    text-align: left;
+    line-height: 30px;
+    color: black;
+    border: none;
+    background: transparent;
+    padding: 0 10px 0 52px;
+}
+
+#sideNav .menu-level2 > a:before{
+    content:"›";
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+#sideNav .menu-level2 > .active{
+    color: #d90118;
+}
+
+aside .sponsor-logo-sidebar-text{
+    font-size: 16px;
+    text-align: center;
+    padding: 24px;
+}
+
+aside .sponsor-logo-sidebar img {
+    margin: 10px auto;
+    display: block;
+}
+
+header .logo-header-bar {
+    height: 90px;
+    margin: 10px;
+}
+
+header .logo-header-img {
+    display: block;
+    float: left;
+    height: 90px;
+    margin: 0 10px;
+
+}
+
+header .logo-header-text {
+    float: left;
+    text-align: center;
+    width: 65%;
+}
+
+header .school {
+    font-size: 20px;
+}
+
+header .peresvit {
+    font-size: 30px;
+    /*margin: 10px 0;*/
+}
+
+header .btn-open-menu {
+    float: right;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+#nav-path {
+    display: block;
+    background: white;
+    margin: 0 10px 0 10px;
+    box-shadow: 1px 3px 3px 1px rgba(153,153,153,1);
+}
+
+#nav-path > a:link,
+a:visited {
+    display: inline-block;
+    padding: 10px 10px 12px 10px;
+    text-decoration: none;
+    color: #8180d6;
+    border-bottom: 1px solid #d3d4d5;
+    float: left;
+}
+
+
+#nav-path > .active:link,
+.active:visited,
+#nav-path > a:hover {
+    border-bottom: 4px solid #0301ad;
+    color: #0301ad;
+    padding: 10px;
+}
+
+#nav-path-my-way:after {
+    content: "/";
+    margin: 0 0 0 20px;
+}
+
+
+.placebo {     /*это пустышка чтобы заполнить место до конца строки */
+    border-bottom: 1px solid #d3d4d5;
+    height: 61px;
+    box-sizing: border-box;
+    display: block;
+}
+
+#tabs-in-main {
+    display: none;
+}
+
+
+main {
+    background: white;
+    margin: 0 10px 10px 10px;
+    padding: 16px 10px;
+    box-shadow: 1px 3px 3px 1px rgba(153,153,153,1);
+}
+
+main > p {
+    margin: 17px 0;
+}
+
+a.level1:link, a.level1:visited {
+    color: blue;
+    font-size: 18px;
+    text-decoration: none;
+    /*border-bottom: 2px dotted ;*/
+}
+
+a.level1:hover, a.level1:active{
+    color: red;
+}
+
+a.level2:link, a.level2:visited {
+    color: black;
+    text-decoration: none;
+}
+
+a.level2:hover, a.level2:active{
+    color: blue;
+    text-decoration: underline;
+
+}
+
+main ol {
+    counter-reset:li; /* Initiate a counter */
+    margin-left:0; /* Remove the default left margin */
+    padding-left:0; /* Remove the default left padding */
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+
+main > ol > li{
+    margin-left: 60px;
+    position:relative; /* Create a positioning context */
+    /*margin:0 0 0 2em;*/ /* Give each list item a left margin to make room for the numbers */
+    padding: 0 8px; /* Add some spacing around the content */
+    list-style:none; /* Disable the normal item numbering */
+    line-height: 30px
+}
+
+main > ol > li:before {
+    content:counter(li); /* Use the counter as content */
+    counter-increment:li; /* Increment the counter by 1 */
+    /* Position and style the number */
+    position:absolute;
+    left:-2em;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    width:30px;
+    height: 30px;
+    margin-right:8px;
+    border-top:2px solid #666;
+    color:#fff;
+    background:#7e7dd3;
+    text-align:center;
+    border-radius: 15px;
+}
+
+
+
+
+footer {
+    margin: auto;
+    position: relative;
+}
+
+footer .copyright-footer {
+    position: absolute;
+    left: 0px;
+    top: 70px;
+    margin: 17px;
+    color: white;
+
+}
+
+footer .banner-footer {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    color: white;
+    background: transparent;
+    height: 60px;
+    margin: 17px;
+    overflow: hidden;
+}
+
+
+footer .icons-footer {
+    margin: 17px;
+    position: absolute;
+    right: 0px;
+    top: 70px;
+}
+
+footer .icons-footer img{
+    margin: 0px 17px;
+}
+
+
+@media screen and (min-width: 992px) {
+    body {
+        background: linear-gradient(rgba(177,178,181,1) 0%, rgba(250,250,250,1) 49%, rgba(250,250,250,1) 50%, rgba(177,178,181,1) 100%);
+    }
+
+    .banner-header {
+        padding: 10px;
+        margin: 0 26px 30px 26px;
+    }
+
+    #sideNav {
+        position: static;
+        display: block;
+        float: left;
+        width: 26%;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    #sideNav .menu-level1 a{
+        border-top: none;
+    }
+
+    #btn-my-events {
+        padding-bottom: 15px;
+    }
+
+    #btn-my-way {
+        border-top: 1px solid #c6c6c6;
+        border-bottom: none;
+        padding-top: 15px;
+    }
+
+    #btn-cabinet {
+        border-top: 1px solid #c6c6c6;
+        border-bottom: 1px solid #c6c6c6;
+        padding: 15px 0;
+    }
+
+    #tabs-in-siderbar {
+        display: none;
+    }
+
+    #tabs-in-main {
+        display: block;
+        background: white;
+        margin: 0 10px 0 10px;
+        box-shadow: 1px 3px 3px 1px rgba(153,153,153,1);
+        overflow: hidden;
+    }
+
+
+    #tabs-in-main a:link,
+    a:visited {
+        display: inline-block;
+        padding: 23px 25px 20px 25px;
+        height: 63px;
+        box-sizing: border-box;
+        text-decoration: none;
+        color: #8180d6;
+        float: left;
+    }
+
+    #tabs-in-main .active:link,
+    .active:visited,
+    #tabs-in-main > a:hover {
+        border-bottom: 4px solid #0301ad;
+        color: #0301ad;
+    }
+
+    #tab-news {
+        margin-left: 51px;
+    }
+
+    #nav-path {
+        display: none;
+    }
+
+    .wrapper-inner {
+        width: 74%;
+        float: left;
+    }
+
+    .wrapper-outer {
+        width: 1055px;
+
+    }
+
+    header .logo-header-bar {
+        display: none;
+    }
+
+    main {
+        min-height: 500px;
+        padding: 17px 10px 43px 65px;
+    }
+
+    .logo-in-header {
+        display: none;
+    }
+
+    footer {
+        width: 1055px;
+        /*position: */
+    }
+
+    footer .copyright-footer {
+        position: absolute;
+        left: 0px;
+        top: 20px;
+        margin: 17px;
+    }
+
+    footer .banner-footer {
+        position: absolute;
+        left: 28%;
+        top: 0px;
+        color: white;
+        background: transparent;
+        height: 60px;
+        width: 55%
+    }
+
+
+    footer .icons-footer {
+        margin: 5px;
+        position: absolute;
+        right: 00px;
+        top: 20px;
+    }
+
+
+
+}
+
