@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,7 +21,7 @@ public class Chat {
             joinColumns = @JoinColumn(name = "chatId"),
             inverseJoinColumns = @JoinColumn(name = "userId")
     )
-    private Set<User> members;
+    private Set<User> members = new HashSet<>();
     @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER)
     private Collection<Message> messages;
     @ManyToOne
