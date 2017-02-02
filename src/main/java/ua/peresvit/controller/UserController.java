@@ -64,6 +64,7 @@ public class UserController {
     	user.setAvatarURL(userService.saveFile(user, file));
 
         // check fields
+        // TODO use java 8 advantage - Optional .orNull
         if (user.getCity().getCityId() == null)
             user.setCity(null);
         if (user.getClub().getClubId() == null)

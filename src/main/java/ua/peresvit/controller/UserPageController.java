@@ -59,6 +59,7 @@ public class UserPageController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String goToReg(Model model, Principal principal) {
         if (principal != null) {
+            // TODO use switch construction
             if (userService.getCurrentUser().getRole().getRoleName().equals("ADMIN")) {
                 return "redirect:/admin";
             }
@@ -139,6 +140,7 @@ public class UserPageController {
         user.setAvatarURL(userService.saveFile(user, file));
 
         // check fields
+        // TODO use java 8 Optional .orNull
         if (user.getCity().getCityId() == null)
             user.setCity(null);
         if (user.getClub().getClubId() == null)
