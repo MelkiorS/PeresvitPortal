@@ -64,7 +64,7 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public Chat addNewMembersToChat(LinkedList<User> membersToAdd, Chat chat) {
-        Collection<User> members = chat.getMembers();
+        Set<User> members = chat.getMembers();
         for (User u : membersToAdd) {
             members.add(u);
         }

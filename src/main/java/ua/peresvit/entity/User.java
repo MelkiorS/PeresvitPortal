@@ -58,7 +58,7 @@ public class User {
 //	@OneToMany(mappedBy = "receiver")
 //	private Collection<Message> sentMessages;
 	@ManyToMany(mappedBy = "members")
-	private Collection<Chat> chats;
+	private Set<Chat> chats;
 
 	private String aboutMe;
 
