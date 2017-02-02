@@ -17,7 +17,8 @@
         <tr>
           <th>Id</th>
           <th>Mark Name</th>
-          <th>Address</th>
+          <th>Image URL</th>
+          <th>Image</th>
           <th>Edit</th>
         </tr>
         </thead>
@@ -26,6 +27,7 @@
           <td th:text="${mark.markId}"></td>
           <td th:text="${mark.markName}"></td>
           <td th:text="${mark.imageURL}"></td>
+          <td><img th:src= "@{'data:image;base64,' + ${mark.encodeFileToBase64Binary()}}" width="100px" height="100px;"></td>
           <td><a th:href="@{/admin/mark/edit/} + ${mark.markId}">Edit</a></td>
         </tr>
         </tbody>

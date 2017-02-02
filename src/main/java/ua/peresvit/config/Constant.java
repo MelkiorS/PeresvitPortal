@@ -21,6 +21,8 @@ public class Constant {
 	public static final String AVATAR = "avatar";
 	// pattern filename for News
 	public static final String POST = "post";
+	// pattern filename for Marks
+	public static final String MARK = "mark";
 	// pattern filename for achievement
 	public static final String ACHIEVE = "achievement";
 	// studying folder

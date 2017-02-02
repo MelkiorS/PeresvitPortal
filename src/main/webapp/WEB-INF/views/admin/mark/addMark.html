@@ -8,13 +8,17 @@
 <div th:remove="all">
     <div th:fragment="main">
 
-        <form action="#" th:action="@{/admin/mark/}" th:object="${mark}" method="post">
+        <form action="#" th:action="@{/admin/mark/}" th:object="${mark}" method="post" enctype="multipart/form-data">
             <input type="hidden" th:field="*{markId}" />
 
             <input type="text" th:field="*{markName}" placeholder="mark" /><br/>
-            <input type="text" th:field="*{imageURL}" placeholder="image" /><br/>
 
-            <input type="submit" />
+            <br/>
+            <label for="file">Картинка</label>
+            <input type="file" name="file" id="file"/>
+            <br/>
+            <input class="btn btn-primary" type="submit" />
+
         </form>
 
     </div>
