@@ -70,6 +70,27 @@ public class RegistrationController {
         return "redirect:/";
     }
 
+    // remind user
+    @RequestMapping(value = "/remind", method = RequestMethod.GET)
+    public String remindGOToEmailPage(Model model){
+        UserDto userDto = new UserDto();
+        model.addAttribute("user", userDto);
+        return "home/enterEmail";
+    }
+
+    @RequestMapping(value = "/remind", method = RequestMethod.POST)
+    public String remindUserAccount(
+            @ModelAttribute("user") UserDto accountDto, final HttpServletRequest request) {
+
+        User registered = userService.findUserByEmail(accountDto.getEmail());
+        if (registered == null) {
+            return "home";
+        }
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request), true, true));
+        return "redirect:/";
+    }
+
+
 //    validate token
     @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
     public String confirmRegistration(final Locale locale, final Model model, @RequestParam("token") final String token) throws UnsupportedEncodingException {
@@ -87,6 +108,31 @@ public class RegistrationController {
 //        model.addAttribute("expired", "expired".equals(result));
 //        model.addAttribute("token", token);
         return "home";
+    }
+
+    // remindConfirm
+    @RequestMapping(value = "/remindConfirm", method = RequestMethod.GET)
+    public String remindConfirmRegistration(final Locale locale, final Model model, @RequestParam("token") final String token) throws UnsupportedEncodingException {
+        final String result = userService.validateVerificationToken(token);
+        if (result.equals("valid")) {
+            final User user = userService.getUser(token);
+            authenticateUser(user);
+            model.addAttribute("user", user);
+            return "/home/changePass";
+        }
+
+        model.addAttribute("message", messages.getMessage("auth.message." + result, null, locale));
+        return "home";
+    }
+
+    // remindConfirm Post
+    @RequestMapping(value = "/remindConfirm", method = RequestMethod.POST)
+    public String remindConfirmRegistrationPost(User user, final Model model) {
+        User editUser = userService.findOne(user.getUserId());
+        editUser.setPassword(user.getPassword());
+        userService.save(editUser);
+
+        return "redirect:/home";
     }
 
 //    Register user from social networks
