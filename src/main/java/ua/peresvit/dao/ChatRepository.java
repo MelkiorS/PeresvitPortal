@@ -22,6 +22,6 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
 //    @Query("select distinct c from Chat c INNER JOIN c.members m in ")
     Chat findByMembersIn(/*@Param("usersList") User[] */Collection<User> members);
 
-    @Query("select first 1 * from Chat c INNER JOIN c.messages m where c = :chat order by m.createdAt")
-    Message findLastMessageFromChat(@Param("chat") Chat chat);
+//    @Query("select first * from Chat c INNER JOIN c.messages m where c = :chat order by m.createdAt")
+//    Message findLastMessageFromChat(@Param("chat") Chat chat);
 }
