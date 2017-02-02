@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+    <div class="markList" th:unless="${#lists.isEmpty(messagesList)}">
+        <table>
+            <tbody>
+            <tr th:each="message : ${messagesList}">
+                <td th:text="${message.messageId}"></td>
+                <td th:text="${message.content}"></td>
+                <td th:text="${message.createdAt}"></td>
+                <td th:text="${message.sender.getFirstName()} + ' ' + ${message.sender.getLastName()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

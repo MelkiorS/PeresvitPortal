@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Chats</title>
 </head>
 <body>
-
+    <div class="markList" th:unless="${#lists.isEmpty(chatList)}">
+        <table>
+            <tbody>
+            <tr th:each="chat : ${chatList}">
+                <td th:text="${chat.chatId}"></td>
+                <td th:text="${chat.chatTitle}"></td>
+                <td><a th:href="@{/home/messages/} + ${chat.chatId}">Edit</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
