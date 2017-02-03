@@ -4,6 +4,7 @@ package ua.peresvit.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +17,7 @@ import ua.peresvit.service.ResourceGroupTypeChapterService;
 import ua.peresvit.service.ResourceGroupTypeService;
 import ua.peresvit.service.RoleService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -51,13 +53,19 @@ public class ArticleController {
 
     // create article )
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String createArticle(Article article, RedirectAttributes model) {
+    public String createArticle(@Valid Article article, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("article", article); // object is not empty
+            model.addAttribute("resourceGroupTypeList", resourceGroupTypeService.findAll());
+            return "admin/article/addArticle";
+        }
+
         long id  = article.getResourceGroupType().getResourceGroupTypeId();
         article.setResourceGroupType(resourceGroupTypeService.findOne(id));
         articleService.save(article);
         model.addAttribute("articleId", article.getArticleId());
-        model.addFlashAttribute("article", article); // adding attribute that will be alive in two requests
-        return "redirect:/admin/article/{articleId}"; // just not to redownload it again
+        model.addAttribute("article", article); // adding attribute that will be alive in two requests
+        return "redirect:/admin/article/"; // just not to redownload it again
     }
 
     // show article by id
@@ -97,12 +105,12 @@ public class ArticleController {
                                     Model model) {
         Article article = articleService.findOne(articleId); //taking current article
         List<ResourceGroupType> resourceGroupTypes = resourceGroupTypeService.findAll();
-        List<Role> rangTypes = roleService.findAll();
+        List<Role> roleTypes = roleService.findAll();
         if (article == null) {
             // custom exception
         }
         model.addAttribute("article", article); // object is not empty
-        model.addAttribute("rangList", rangTypes);
+        model.addAttribute("roleList", roleTypes);
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes);
         return "admin/article/addArticle"; // sending to addForm
     }

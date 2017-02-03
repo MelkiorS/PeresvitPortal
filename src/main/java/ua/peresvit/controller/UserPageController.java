@@ -27,6 +27,9 @@ public class UserPageController {
     private UserService userService;
 
     @Autowired
+    private UserGroupService userGroupService;
+
+    @Autowired
     private EventService eventService;
 
     @Autowired
@@ -56,12 +59,14 @@ public class UserPageController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String goToReg(Model model, Principal principal) {
         if (principal != null) {
+            // TODO use switch construction
             if (userService.getCurrentUser().getRole().getRoleName().equals("ADMIN")) {
                 return "redirect:/admin";
             }
             return "redirect:/home/workField";
         }
-        return "redirect:/registration";
+        model.addAttribute("user", (userService.getCurrentUser() == null ? new User() : userService.getCurrentUser()) );
+        return "home";
     }
 
     @RequestMapping(value = "/workField", method = RequestMethod.GET)
@@ -135,6 +140,7 @@ public class UserPageController {
         user.setAvatarURL(userService.saveFile(user, file));
 
         // check fields
+        // TODO use java 8 Optional .orNull
         if (user.getCity().getCityId() == null)
             user.setCity(null);
         if (user.getClub().getClubId() == null)
@@ -198,5 +204,29 @@ public class UserPageController {
     public boolean isAssignedToMe(Model model, @RequestParam(value = "eventId") long eventid) {
         Event ev = eventService.findById(eventid);
         return eventService.isAssignedToMe(ev);
+    }
+
+    @RequestMapping(value = "/messages", method = RequestMethod.GET)
+    public String showAllMessages() {
+        return "home/messages";
+    }
+
+    @RequestMapping(value = {"/we/{groupId}", "/we"}, method = RequestMethod.GET)
+    public String getWe(@PathVariable("groupId") Optional<Long> groupId, Model model){
+
+        List<UserGroup> ug = userService.getUserGroups(userService.getCurrentUser());
+        UserGroup[] uga;
+        if (groupId.isPresent()) {
+            uga = new UserGroup[1];
+            uga[0] = userGroupService.findById(groupId.get().longValue());
+        } else {
+            uga = new UserGroup[ug.size()];
+            uga = ug.toArray(uga);
+        }
+
+        model.addAttribute("groups", ug);
+        //TODO how to do it in more correct way?
+        model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsers(uga));
+        return "home/workField_we";
     }
 }

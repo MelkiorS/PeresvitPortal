@@ -64,6 +64,7 @@ public class UserController {
     	user.setAvatarURL(userService.saveFile(user, file));
 
         // check fields
+        // TODO use java 8 advantage - Optional .orNull
         if (user.getCity().getCityId() == null)
             user.setCity(null);
         if (user.getClub().getClubId() == null)
@@ -78,7 +79,7 @@ public class UserController {
         model.addAttribute("userId", user.getUserId());
         model.addFlashAttribute("user", user);
         
-        return "redirect:/admin/user/{userId}";
+        return "redirect:/admin/user/";
     }
 
     // show user by id
@@ -159,25 +160,6 @@ public class UserController {
     @RequestMapping(value = "/userGroups", method = RequestMethod.GET)
     public List<UserGroup> getUserGroups(@RequestParam("userId") Long userId){
         return userService.getUserGroups(userService.findOne(userId));
-    }
-
-    @RequestMapping(value = {"/we/{groupId}", "/we"}, method = RequestMethod.GET)
-    public String getWe(@PathVariable("groupId") Optional<Long> groupId, Model model){
-
-        List<UserGroup> ug = userService.getUserGroups(userService.getCurrentUser());
-        UserGroup[] uga;
-        if (groupId.isPresent()) {
-            uga = new UserGroup[1];
-            uga[0] = userGroupService.findById(groupId.get().longValue());
-        } else {
-            uga = new UserGroup[ug.size()];
-            uga = ug.toArray(uga);
-        }
-
-        model.addAttribute("groups", ug);
-        //TODO how to do it in more correct way?
-        model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsers(uga));
-        return "home/workField_we";
     }
 
 }

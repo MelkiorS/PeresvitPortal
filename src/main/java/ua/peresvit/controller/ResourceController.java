@@ -3,10 +3,7 @@ package ua.peresvit.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.EnumResourceType;
@@ -46,7 +43,7 @@ public class ResourceController {
 	//go to addForm
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String goToAddForm(Model model) {
-		model.addAttribute(new Resource());
+		model.addAttribute("resource", new Resource());
 		return "admin/resource/addResource";
 	}
 	
@@ -75,7 +72,7 @@ public class ResourceController {
 		resourceService.save(resource);
 		model.addAttribute("resourceId", resource.getResourceId());
 		model.addFlashAttribute("resource", resource);
-		return "redirect:/admin/resource/{resourceId}";
+		return "redirect:/admin/resource/";
 	}
 
 	// create video resource
@@ -157,17 +154,23 @@ public class ResourceController {
 					Files.copy(filePath.toAbsolutePath(), response.getOutputStream());
 					response.getOutputStream().flush();
 				} catch (IOException ex) {
-					//model.addAttribute("errorMessage", "file " + filePath.toAbsolutePath() + " not found!");
-					//ex.printStackTrace();
-					//response.setHeader("Location", "redirect:/message/{errorMessage}");	
-					throw new RuntimeException("IOError writing file to output stream");
+					// TODO use custom exception !!!  RuntimeException only for dummy
+					throw new RuntimeException("Увага! Помилка запису файла!");
 				}
 			}
 			else
-				throw new RuntimeException("IOError file not exis!");
+				throw new RuntimeException("Увага! Неможливо завантажити файл. Файл не існує!");
 		}
 		else
-			throw new RuntimeException("IOError URL is empty");
+			throw new RuntimeException("Увага! URL пустий");
 	}
-		
+
+	// TODO use common (for all application) exception handler
+	@ExceptionHandler(Exception.class)
+	public String handleAllException(Exception ex, Model model) {
+		model.addAttribute("errorMessage", ex.getMessage());
+		model.addAttribute("type", "warning");
+		return "error/general";
+	}
+
 }

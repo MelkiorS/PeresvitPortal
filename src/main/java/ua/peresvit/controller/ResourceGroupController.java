@@ -50,7 +50,7 @@ public class ResourceGroupController {
 		resourceGroupService.save(resourceGroup);
 		model.addAttribute("resourceGroupId", resourceGroup.getResourceGroupId());
 		model.addFlashAttribute("resourceGroup", resourceGroup); // adding attribute that will be alive in two requests
-		return "redirect:/admin/resourceGroup/{resourceGroupId}"; // just not to redownload it again
+		return "redirect:/admin/resourceGroup/"; // just not to redownload it again
 	}
 	
 	// show resourceGroup by id

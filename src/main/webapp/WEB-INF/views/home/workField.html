@@ -48,9 +48,9 @@
                     <div class="col-xs-8 col-xs-offset-1 main_section_basic_links">
                         <p class="main_section_basic_links_item">
                             <!--Сюда вставляем ссылки на профиль юзера в соцсетях vk, fb, g+, если они есть-->
-                            <a th:href="@{'https://www.vk.com/' + ${user.profileVK}}" target="_blank"><img src="/resources/frontend/images/Logovk.png" alt="vk"></a>
-                            <a th:href="@{'https://www.facebook.com/' + ${user.profileFB}}" target="_blank"><img src="/resources/frontend/images/Logofc.png" alt="fs"></a>
-                            <a th:href="@{'https://www.instagram.com/' + ${user.profileInstagram}}" target="_blank"><img src="/resources/frontend/images/Logoin.png" alt="instagram"></a>
+                            <a th:href="${user.profileVK != null} ? @{'' + ${user.profileVK}} : @{''}" target="_blank"><img src="/resources/frontend/images/Logovk.png" alt="vk"></a>
+                            <a th:href="${user.profileFB != null} ? @{'' + ${user.profileFB}} : @{''}" target="_blank"><img src="/resources/frontend/images/Logofc.png" alt="fs"></a>
+                            <a th:href="${user.profileInstagram != null} ? @{'' + ${user.profileInstagram}} : @{''}" target="_blank"><img src="/resources/frontend/images/Logoin.png" alt="instagram"></a>
                         </p>
                     </div>
                     <!--<div class="col-xs-9 col-xs-offset-1 main_section_basic_links">-->

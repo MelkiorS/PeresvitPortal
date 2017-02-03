@@ -44,7 +44,7 @@ public class CityController {
         model.addAttribute("cityId", city.getCityId());
         model.addFlashAttribute("city", city);
 
-        return "redirect:/admin/city/{cityId}";
+        return "redirect:/admin/city/";
     }
 
     // show City by id

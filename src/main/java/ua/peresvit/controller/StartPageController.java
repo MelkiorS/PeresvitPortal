@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class StartPageController {
         @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(){
-        return "redirect:/registration";
+        return "redirect:/home";
     }
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String goToAdminPage() {
-		return "admin/workFieldAdmin";
+		return "redirect:admin/resource/";
 	}
 }

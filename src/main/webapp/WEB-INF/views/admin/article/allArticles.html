@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Article List</title>
-</head>
-<body>
-<a th:href="@{/admin/article/management}" >Article Management</a>
-<br/>
-<div class="articleList" th:unless="${#lists.isEmpty(articleList)}">
+<div th:replace="admin/fragments/head :: header('Article List')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/article/add','')"></div>
 
-    <h2 >List of Article</h2>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Title</th>
-            <th>Rang</th>
-            <th>Type</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="article : ${articleList}">
-            <td th:text="${article.articleName}"></td>
-            <td th:text="${article.role.roleName}"></td>
-            <td th:text="${article.resourceGroupType.groupName}"></td>
-            <td><a th:href="@{/admin/article/edit/} + ${article.articleId}">Edit</a></td>
-            <td><a th:href="@{/admin/article/delete/} + ${article.articleId}">Delete</a></td>
-        </tr>
-        </tbody>
-    </table>
+
+<div th:remove="all">
+    <div th:fragment="main">
+
+        <div class="articleList" th:unless="${#lists.isEmpty(articleList)}">
+
+            <h2 >List of Article</h2>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Rang</th>
+                    <th>Type</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="article : ${articleList}">
+                    <td th:text="${article.articleName}"></td>
+                    <td th:text="${article.role.roleName}"></td>
+                    <td th:text="${article.resourceGroupType.groupName}"></td>
+                    <td><a th:href="@{/admin/article/edit/} + ${article.articleId}">Edit</a></td>
+                    <td><a th:href="@{/admin/article/delete/} + ${article.articleId}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 </div>
-</body>
 </html>
+
