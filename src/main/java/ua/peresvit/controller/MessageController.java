@@ -36,7 +36,7 @@ public class MessageController {
 //  after entering main messages' page we get list of all chats, we can create new chat or send new message
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String getAllChats(Model model) {
-        List<Chat> chats = messageService.findAllUsersChats(userService.getCurrentUser());
+        List<Chat> chats = messageService.findUserChats(userService.getCurrentUser());
         model.addAttribute("chatList", chats);
         model.addAttribute("newMessage", new Message());
         model.addAttribute("newChat", new Chat());

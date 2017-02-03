@@ -115,8 +115,13 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public List<Chat> findAllUsersChats(User user) {
-        return chatRepository.findAllUsersChats(user);
+    public List<Chat> findUserChats(User user) {
+        List<Chat> chats = chatRepository.findAllUsersChats(user);
+        for (Chat c : chats) {
+
+
+        }
+        return chats;
     }
 
     @Override

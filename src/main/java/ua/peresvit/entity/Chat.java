@@ -1,6 +1,7 @@
 package ua.peresvit.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -22,8 +23,13 @@ public class Chat {
             inverseJoinColumns = @JoinColumn(name = "userId")
     )
     private Set<User> members = new HashSet<>();
-    @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER)
+    @BatchSize(size = 30)
+    @OneToMany(mappedBy = "chat")
     private Collection<Message> messages;
+//    @OneToOne
+//    @JoinColumn(name = "messageId")
+//    private Message lastMessage;
+//    private Set<User> usersHaveRead = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "ownerId")
     private User owner;

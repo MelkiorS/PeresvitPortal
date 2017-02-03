@@ -16,10 +16,12 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
 
     Chat findOne(Long arg0);
 
-    @Query("select distinct c from Chat c INNER JOIN c.members m where m = :user")
+    @Query("select distinct c from User u INNER JOIN u.chats c where u = :user")
     List<Chat> findAllUsersChats(@Param("user") User user);
 
 //    @Query("select distinct c from Chat c INNER JOIN c.members m in ")
+//    @Query("select distinct c from Chat c INNER JOIN c.members m where count(m) = 2 and ")
+//    @Query ("select distinct c from User u INNER JOIN u.chats c where u = :user1 and c.members = :user2")
     Chat findByMembersIn(/*@Param("usersList") User[] */Collection<User> members);
 
 //    @Query("select first * from Chat c INNER JOIN c.messages m where c = :chat order by m.createdAt")

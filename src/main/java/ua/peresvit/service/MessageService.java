@@ -30,7 +30,7 @@ public interface MessageService {
 
     List<Message> findChatOrderByCreatedAt(Long chatId);
 
-    List<Chat> findAllUsersChats(User user);
+    List<Chat> findUserChats(User user);
 
     long countUnreadChats();
 }
