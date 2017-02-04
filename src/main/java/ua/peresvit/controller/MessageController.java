@@ -14,10 +14,7 @@ import ua.peresvit.entity.UserGroup;
 import ua.peresvit.service.MessageService;
 import ua.peresvit.service.UserService;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/home/messages")
@@ -86,10 +83,10 @@ public class MessageController {
     @RequestMapping(value = "/{chatId}/addMembers", method = RequestMethod.GET)
     public String getListOfNewMembersToChat(@PathVariable("chatId") Long chatId, Model model) {
         Chat currentChat = messageService.findOneChat(chatId);
-        List<User> chatMembers = (List<User>) currentChat.getMembers();
+        Set<User> chatMembers = currentChat.getMembers();
         User currentUser = userService.getCurrentUser();
         List<UserGroup> ug = userService.getUserGroups(currentUser);
-        LinkedList<User> membersToAdd = new LinkedList<>();
+        List<User> membersToAdd = new LinkedList<>();
         for (User u : userService.getGroupsUsers((UserGroup[]) ug.toArray())) {
             if (!chatMembers.contains(u)) {
                 membersToAdd.add(u);
@@ -121,8 +118,21 @@ public class MessageController {
 //   get form to post message to one user
     @RequestMapping(value = "/postMessage/{userId}", method = RequestMethod.GET)
     public String getFormForNewMessage(@PathVariable("userId") Long userId, Model model) {
-        Chat currentChat = messageService.findDialog(Arrays.asList(userService.getCurrentUser(), userService.findOne(userId)));
-        model.addAttribute("newMessage", new Message());
+        Set<User> members = new HashSet<>();
+        members.add(userService.getCurrentUser());
+        members.add(userService.findOne(userId));
+        Chat currentChat = messageService.findDialog(members);
+        if (currentChat != null) {
+            currentChat = new Chat();
+            currentChat.setOwner(null);
+            currentChat.setChatTitle("LOL");
+            currentChat.setMembers(members);
+            currentChat = messageService.saveChat(currentChat);
+            System.out.println(currentChat.getChatId());
+        }
+        Message newMessage = new Message();
+        model.addAttribute("userId", userId);
+        model.addAttribute(newMessage);
         model.addAttribute("chat", currentChat);
         return "home/newMessage";
     }

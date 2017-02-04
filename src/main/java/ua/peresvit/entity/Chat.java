@@ -23,8 +23,8 @@ public class Chat {
             inverseJoinColumns = @JoinColumn(name = "userId")
     )
     private Set<User> members = new HashSet<>();
-    @BatchSize(size = 30)
-    @OneToMany(mappedBy = "chat")
+//    @BatchSize(size = 30)
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
     private Collection<Message> messages;
 //    @OneToOne
 //    @JoinColumn(name = "messageId")

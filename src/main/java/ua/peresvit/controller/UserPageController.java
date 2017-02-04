@@ -206,11 +206,6 @@ public class UserPageController {
         return eventService.isAssignedToMe(ev);
     }
 
-    @RequestMapping(value = "/messages", method = RequestMethod.GET)
-    public String showAllMessages() {
-        return "home/messages";
-    }
-
     @RequestMapping(value = {"/we/{groupId}", "/we"}, method = RequestMethod.GET)
     public String getWe(@PathVariable("groupId") Optional<Long> groupId, Model model){
 

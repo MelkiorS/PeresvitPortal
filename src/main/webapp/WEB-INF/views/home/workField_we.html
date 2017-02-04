@@ -47,7 +47,9 @@
                             <div class="row" th:text="${user.role.roleName}">Наставник 2-го класу</div>
                         </div>
                         <div class="col-xs-4">
-                            <button type="submit" class="btn btn-default">написати повідомлення</button>
+                            <form th:action="@{/home/messages/postMessage/} + ${user.userId}" method="get">
+                                <button type="submit" class="btn btn-default">написати повідомлення</button>
+                            </form>
                         </div>
                         <br>
                         <br>
