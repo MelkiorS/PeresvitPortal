@@ -102,7 +102,7 @@ public class MyEventsController {
         return "panel/events_next";
     }
 
-    @RequestMapping(value="/admin/myeventsperiod", method = RequestMethod.GET)
+    @RequestMapping(value="/admin/myeventsperiod", method = RequestMethod.GET, produces = {"application/json; charset=UTF-8"})
     @ResponseBody
     public String getPeriodEvents(@RequestParam("start") String start, @RequestParam("finish") String finish, Model model)  throws ParseException {
 
