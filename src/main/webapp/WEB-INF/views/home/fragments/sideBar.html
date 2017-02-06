@@ -1,6 +1,11 @@
 <html lang="ukr" xmlns:th="http://www.thymeleaf.org">
 <body>
     <div class="btn-group-vertical btn-group-lg" role="group" aria-label="111" th:fragment="sideBar">
+        <div class="btn-group" role="group" th:if="${user.isAdmin()}">
+            <form th:action="@{/admin}">
+                <button class="btn btn-default btn-lg dropdown-toggle control_button sideFirst" type="submit"  aria-haspopup="true" aria-expanded="false">Адмін панель</button>
+            </form>
+        </div>
         <div class="btn-group" role="group">
             <form th:action="@{/home/workField}">
             <button class="btn btn-default btn-lg dropdown-toggle control_button sideFirst" type="submit"  aria-haspopup="true" aria-expanded="false">Особистий кабінет</button>

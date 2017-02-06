@@ -97,4 +97,9 @@ public class User {
 		return userId == null ? 0: userId.hashCode();
 	}
 
+	public boolean isAdmin() {
+		return role.getRoleName().equals("ADMIN");
+	}
+
+
 }
