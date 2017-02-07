@@ -43,12 +43,11 @@
                         <div class="msgField-advert">
                             <p>Артур створив бесiду "Бионика найкраща"</p>
                         </div>
-                            <div class='msgField-letter' th:each="message : ${messagesList}">
-                                <span class="col-xs-12 msgField-letter-author" th:text="${message.sender.getFirstName()} + ' ' + ${message.sender.getLastName()}"></span>
-                                <span class="msgField-letter-id" th:text="${message.messageId}"></span>
-                                <span class="msgField-letter-content" th:text="${message.content}"></span>
-                                <span class="msgField-letter-time" th:text="${message.createdAt}"></span>
-
+                        <div class='msgField-letter' th:each="message : ${messagesList}">
+                            <span class="col-xs-12 msgField-letter-author" th:text="${message.sender.getFirstName()} + ' ' + ${message.sender.getLastName()}"></span>
+                            <span class="msgField-letter-id" th:text="${message.messageId}"></span>
+                            <span class="msgField-letter-content" th:text="${message.content}"></span>
+                            <span class="msgField-letter-time" th:text="${message.createdAt}"></span>
                         </div>
                     </div>
                     <div class="messageList-content-newMsg">
