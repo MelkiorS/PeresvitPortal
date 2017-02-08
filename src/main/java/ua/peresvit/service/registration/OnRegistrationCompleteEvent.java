@@ -2,11 +2,13 @@ package ua.peresvit.service.registration;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.context.ApplicationEvent;
 import ua.peresvit.entity.User;
 
 import java.util.Locale;
 
+@EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 
 @Data

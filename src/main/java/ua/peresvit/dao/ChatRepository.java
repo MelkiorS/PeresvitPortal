@@ -9,6 +9,7 @@ import ua.peresvit.entity.User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public interface ChatRepository extends JpaRepository<Chat, Long> {
 
@@ -17,12 +18,13 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     Chat findOne(Long arg0);
 
     @Query("select distinct c from User u INNER JOIN u.chats c where u = :user")
-    List<Chat> findAllUsersChats(@Param("user") User user);
-
+    Set<Chat> findChatsOfUser(@Param("user") User user);
+// взять два хеша чатов двох пользователей и найти их пересечение
 //    @Query("select distinct c from Chat c INNER JOIN c.members m in ")
 //    @Query("select distinct c from Chat c INNER JOIN c.members m where count(m) = 2 and ")
 //    @Query ("select distinct c from User u INNER JOIN u.chats c where u = :user1 and c.members = :user2")
-    Chat findByMembersIn(/*@Param("usersList") User[] */Collection<User> members);
+    @Query("select c from User u INNER JOIN u.chats c where (u = :user) AND ((select count (distinct m) from c inner join c.members m ) = 2)")
+    Chat findDialogsOfUser(@Param("user") User user);
 
 //    @Query("select first * from Chat c INNER JOIN c.messages m where c = :chat order by m.createdAt")
 //    Message findLastMessageFromChat(@Param("chat") Chat chat);

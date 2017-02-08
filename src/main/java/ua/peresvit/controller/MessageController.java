@@ -30,26 +30,22 @@ public class MessageController {
         this.messages = messages;
     }
 
-//  after entering main messages' page we get list of all chats, we can create new chat or send new message
+    //  after entering main messages' page we get list of all chats, we can create new chat or send new message
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String getAllChats(Model model) {
-        List<Chat> chats = messageService.findUserChats(userService.getCurrentUser());
+        Set<Chat> chats = messageService.findUserChats(userService.getCurrentUser());
         model.addAttribute("chatList", chats);
-        model.addAttribute("newMessage", new Message());
-        model.addAttribute("newChat", new Chat());
+//        adding chat object to create new chat from start chats page
+        model.addAttribute(new Chat());
         return "home/chats";
     }
 
-//  creating new chat from main messages' page
+    //  creating new chat from main messages' page
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public String createNewChatFromMainPage(Chat newChat, Model model, Locale locale) {
-        if (!newChat.getChatTitle().equals("") && !newChat.getMembers().isEmpty()) {
-            User creator = userService.getCurrentUser();
-            newChat.setOwner(creator);
-            newChat = messageService.saveChat(newChat);
-//            Adding message about chat creation
-            messageService.sendMessage(creator, messageService.getNewChatCreatingMessage(creator, newChat, locale));
-            model.addAttribute("chatId", newChat.getChatId());
+    public String createNewChatFromMainPage(Chat chat, Model model, Locale locale) {
+        if (!Objects.equals(chat.getChatTitle(), "") && !chat.getMembers().isEmpty()) {
+            chat = messageService.createNewChat(chat, locale);
+            model.addAttribute("chatId", chat.getChatId());
             return "redirect:/home/messages/{chatId}";
         } else {
             model.addAttribute("message", messages.getMessage("message.chatCreationError", null, locale));
@@ -57,29 +53,30 @@ public class MessageController {
         }
     }
 
-//  here we enter certain chat with it's messages
+    //  here we enter certain chat with it's messages
     @RequestMapping(value = "/{chatId}", method = RequestMethod.GET)
     public String getSingleChat(@PathVariable("chatId") Long chatId, Model model) {
-        Chat currentChat = messageService.findOneChat(chatId);
+        Chat chat = messageService.findOneChat(chatId);
 //      adding owner permissions to the chat view
-        if (userService.getCurrentUser().equals(currentChat.getOwner())) {
+        if (userService.getCurrentUser().equals(chat.getOwner())) {
             model.addAttribute("ownerPermission", true);
         }
-        model.addAttribute("chat", currentChat);
-        model.addAttribute("messagesList", messageService.findChatOrderByCreatedAt(chatId));
-        model.addAttribute("newMessage", new Message());
+        model.addAttribute("ownerPermission", false);
+        model.addAttribute("currentChat", chat);
+        model.addAttribute("messagesList", messageService.findMessagesByChatOrderByCreatedAt(chatId));
+        model.addAttribute(new Message());
         return "home/messages";
     }
 
-// post new message to certain chat and refresh chat
+    // post new message to certain chat and refresh chat
     @RequestMapping(value = "/{chatId}", method = RequestMethod.POST)
-    public String sendMessageFromChat(@PathVariable("chatId") Long chatId, Model model, Message newMessage) {
-        messageService.sendMessage(userService.getCurrentUser(), newMessage);
+    public String sendMessageFromChat(@PathVariable("chatId") Long chatId, Model model, Message message) {
+        messageService.sendMessage(userService.getCurrentUser(), message);
         model.addAttribute("chatId", chatId);
         return "redirect:/home/messages/{chatId}";
     }
 
-//  getting the list of members to add to the certain chat
+    //  getting the list of members to add to the certain chat
     @RequestMapping(value = "/{chatId}/addMembers", method = RequestMethod.GET)
     public String getListOfNewMembersToChat(@PathVariable("chatId") Long chatId, Model model) {
         Chat currentChat = messageService.findOneChat(chatId);
@@ -96,7 +93,7 @@ public class MessageController {
         return "home/addMembersToChat";
     }
 
-//  adding new members to certain chat
+    //  adding new members to certain chat
     @RequestMapping(value = "/{chatId}/addMembers", method = RequestMethod.POST)
     public String addNewMembersToChat(@PathVariable("chatId") Long chatId,
                                       Model model,
@@ -115,38 +112,19 @@ public class MessageController {
         }
     }
 
-//   get form to post message to one user
+    //   get form to post message to one user
     @RequestMapping(value = "/postMessage/{userId}", method = RequestMethod.GET)
     public String getFormForNewMessage(@PathVariable("userId") Long userId, Model model) {
         Set<User> members = new HashSet<>();
         members.add(userService.getCurrentUser());
         members.add(userService.findOne(userId));
-        Chat currentChat = messageService.findDialog(members);
-        if (currentChat != null) {
-            currentChat = new Chat();
-            currentChat.setOwner(null);
-            currentChat.setChatTitle("LOL");
-            currentChat.setMembers(members);
-            currentChat = messageService.saveChat(currentChat);
+//        переделать метод поиска диалога на метод с двумя лонгами в аргументами
+        Chat currentChat = messageService.findDialog(userService.getCurrentUser());
+        if (currentChat == null) {
+            currentChat = messageService.saveDialog(new User[]{userService.getCurrentUser(), userService.findOne(userId)});
             System.out.println(currentChat.getChatId());
         }
-        Message newMessage = new Message();
-        model.addAttribute("userId", userId);
-        model.addAttribute(newMessage);
-        model.addAttribute("chat", currentChat);
-        return "home/newMessage";
-    }
-
-//    post message to user
-    @RequestMapping(value = "/postMessage/{userId}", method = RequestMethod.POST)
-    public  String postNewMessage(@PathVariable("userId") Long userId, Message newMessage, Model model, Locale locale) {
-        if (! newMessage.getContent().isEmpty()) {
-            messageService.sendMessage(userService.getCurrentUser(), newMessage);
-            return "redirect:/home/messages";
-        } else {
-//            TODO create new message
-            model.addAttribute("message", messages.getMessage("", null, locale));
-            return "home/newMessage";
-        }
+        model.addAttribute("chatId", currentChat.getChatId());
+        return "redirect:/home/messages/{chatId}";
     }
 }

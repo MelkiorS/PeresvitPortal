@@ -10,6 +10,7 @@ import ua.peresvit.entity.Chat;
 import ua.peresvit.entity.Message;
 import ua.peresvit.entity.User;
 import ua.peresvit.service.MessageService;
+import ua.peresvit.service.UserService;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -18,26 +19,34 @@ import java.util.*;
 public class MessageServiceImpl implements MessageService{
 
     final MessageRepository messageRepository;
-
     final ChatRepository chatRepository;
-
     final MessageSource messages;
+    final UserService userService;
 
     @Autowired
-    public MessageServiceImpl(MessageRepository messageRepository, ChatRepository chatRepository, MessageSource messages) {
+    public MessageServiceImpl(MessageRepository messageRepository, ChatRepository chatRepository, MessageSource messages, UserService userService) {
         this.messageRepository = messageRepository;
         this.chatRepository = chatRepository;
         this.messages = messages;
+        this.userService = userService;
     }
 
     @Override
-    public <S extends Message> S saveMessage(S arg0) {
-        return messageRepository.save(arg0);
+    public Message saveMessage(Message message) {
+        return messageRepository.save(message);
     }
 
     @Override
-    public <S extends Chat> S saveChat(S arg0) {
-        return chatRepository.save(arg0);
+    public Chat saveChat(Chat chat) {
+        return chatRepository.save(chat);
+    }
+
+    @Override
+    public Chat saveDialog(User[] users) {
+        Chat newChat = new Chat();
+        Set<User> members = new HashSet<>(Arrays.asList(users));
+        newChat.setMembers(members);
+        return saveChat(newChat);
     }
 
     @Override
@@ -46,8 +55,18 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public Chat findDialog(Collection<User> members) {
-        return chatRepository.findByMembersIn(members);
+    public Chat findDialog(User user) {
+        return chatRepository.findDialogsOfUser(user);
+    }
+
+    @Override
+    public Chat createNewChat(Chat chat, Locale locale) {
+        User creator = userService.getCurrentUser();
+        chat.setOwner(creator);
+        chat = saveChat(chat);
+//            Adding message about chat creation
+        sendMessage(creator, getNewChatCreatingMessage(creator, chat, locale));
+        return chat;
     }
 
     @Override
@@ -59,7 +78,7 @@ public class MessageServiceImpl implements MessageService{
         message.setContent(creator.getFirstName() + " " + creator.getLastName() + " "
                 + messages.getMessage("message.newChatCreationEvent", null, locale) + " "
                 + "<" + chat.getChatTitle() + ">");
-        return null;
+        return message;
     }
 
     @Override
@@ -78,8 +97,7 @@ public class MessageServiceImpl implements MessageService{
         message.setSender(adder);
         message.setChat(chat);
         message.setFunctional(true);
-//
-
+//      adding names of added members
         Iterator<User> it = listOfNewMembers.iterator();
         StringBuilder newMembers = new StringBuilder();
         for (int i = 0; i != 1;) {
@@ -94,7 +112,7 @@ public class MessageServiceImpl implements MessageService{
         message.setContent(adder.getFirstName() + " " + adder.getLastName() + " "
                 + messages.getMessage("message.addingNewMembersEvent", null, locale) + " "
                 + newMembers);
-        return null;
+        return message;
     }
 
     @Override
@@ -110,22 +128,30 @@ public class MessageServiceImpl implements MessageService{
 //    }
 
     @Override
-    public List<Message> findChatOrderByCreatedAt(Long chatId) {
+    public List<Message> findMessagesByChatOrderByCreatedAt(Long chatId) {
         return messageRepository.findByChatOrderByCreatedAt(chatId);
     }
 
     @Override
-    public List<Chat> findUserChats(User user) {
-        List<Chat> chats = chatRepository.findAllUsersChats(user);
-        for (Chat c : chats) {
-
-
+    public Set<Chat> findUserChats(User user) {
+        Set<Chat> chats = chatRepository.findChatsOfUser(user);
+        for (Chat chat: chats) {
+            if (chat.getMembers().size()==2) {
+                for (User u:chat.getMembers()) {
+                    if (!u.equals(user)) {
+                        chat.setChatTitle(u.getFirstName() + " " +u.getLastName());
+                    }
+                }
+            }
         }
         return chats;
     }
 
     @Override
     public long countUnreadChats() {
-        return 0;
+        User currentUser = userService.getCurrentUser();
+//        Add to repo method to count
+        Long count = 0L;
+        return count;
     }
 }

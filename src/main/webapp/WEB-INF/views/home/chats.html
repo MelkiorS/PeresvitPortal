@@ -11,7 +11,7 @@
             <tr th:each="chat : ${chatList}">
                 <td th:text="${chat.chatId}"></td>
                 <td th:text="${chat.chatTitle}"></td>
-                <td><a th:href="@{/home/messages/} + ${chat.chatId}">Edit</a></td>
+                <td><a th:href="@{/home/messages/} + ${chat.chatId}">Go to chat</a></td>
             </tr>
             </tbody>
         </table>

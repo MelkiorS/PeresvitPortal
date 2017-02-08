@@ -15,22 +15,22 @@ public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long chatId;
-    private String chatTitle;
-    @ManyToMany(cascade = CascadeType.ALL)
+    private String chatTitle = null;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_chat",
             joinColumns = @JoinColumn(name = "chatId"),
             inverseJoinColumns = @JoinColumn(name = "userId")
     )
     private Set<User> members = new HashSet<>();
-//    @BatchSize(size = 30)
-    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
-    private Collection<Message> messages;
+    @BatchSize(size = 30)
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Collection<Message> messages = new HashSet<>();
 //    @OneToOne
 //    @JoinColumn(name = "messageId")
 //    private Message lastMessage;
 //    private Set<User> usersHaveRead = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "ownerId")
-    private User owner;
+    private User owner = null;
 }
