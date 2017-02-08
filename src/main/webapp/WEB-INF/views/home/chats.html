@@ -1,20 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Chats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Peresvit</title>
+    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="/resources/frontend/workField.css">
+    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="/resources/frontend/libraries/constants.js"></script>
 </head>
 <body>
-    <div class="markList" th:unless="${#lists.isEmpty(chatList)}">
-        <table>
-            <tbody>
-            <tr th:each="chat : ${chatList}">
-                <td th:text="${chat.chatId}"></td>
-                <td th:text="${chat.chatTitle}"></td>
-                <td><a th:href="@{/home/messages/} + ${chat.chatId}">Go to chat</a></td>
-            </tr>
-            </tbody>
-        </table>
+<div class="container-fluid wrapper">
+    <div class="row header">
+        <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
+        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="/resources/frontend/images/logo_Peresvit.png" alt="логотип"></div>
+        <div class="col-xs-8  row header_nav">
+            <div th:replace="home/fragments/headBar :: headBar"></div>
+            <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
+        </div>
     </div>
+    <div class="row main">
+        <div class="col-xs-3 container main_sidebar">
+            <!--Сюда вставляем боковой бар fragments/sideBar.html-->
+            <div th:replace="home/fragments/sideBar :: sideBar"></div>
+            <div class="place_for_add_sidebar col-xs-12 row">
+
+            </div>
+        </div>
+        <div class=" col-xs-7 row well container-fluid main_section">
+            <div class="chats-header">
+                <p>Розпочати бесіду</p>
+            </div>
+            <div class="markList" th:unless="${#lists.isEmpty(chatList)}">
+                    <div th:each="chat : ${chatList}"   >
+                        <form th:action="@{/home/messages/} + ${chat.chatId}" method="get">
+                            <button class="btn btn-default  markList-item" type="submit"  aria-haspopup="true" aria-expanded="false">
+                                <img class="col-xs-2" src="/resources/frontend/images/userIcon.png" alt="аватар юзера">
+                                <!--<span th:text="${chat.chatId}"></span>-->
+                                <p class="col-xs-8 markList-item-title" th:text="${chat.chatTitle}"></p>
+                                <p class="col-xs-2 markList-item-time">2:23 PM</p>
+                                <p class="col-xs-8 markList-item-message">Last Message</p>
+                            </button>
+                        </form>
+                    </div>
+            </div>
+    </div>
+
+    <footer>
+        <div class="row container-fluid" >
+            <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">
+                <p>Гугл реклама</p>
+
+            </div>
+            <div class="col-xs-2 col-md-2 row">
+                <img src="/resources/frontend/images/Logovk.png" alt="vk">
+                <img src="/resources/frontend/images/Logofc.png" alt="fs">
+                <img src="/resources/frontend/images/Logoin.png" alt="instagram">
+            </div>
+        </div>
+    </footer>
+</div>
+</div>
+
 </body>
 </html>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${currentChat.getChatTitle()}"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="/resources/frontend/workField.css">
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
     <script src="/resources/frontend/libraries/constants.js"></script>
-</head>
+    <title th:text="${currentChat.getChatTitle()}"></title>
+    </head>
 <body>
 <div class="container-fluid wrapper">
     <div class="row header">
@@ -27,29 +27,55 @@
 
             </div>
         </div>
-        <div class="markList" th:unless="${#lists.isEmpty(messagesList)}">
-            <table>
-                <tbody>
-                <tr th:each="message : ${messagesList}">
-                    <td th:text="${message.messageId}"></td>
-                    <td th:text="${message.content}"></td>
-                    <td th:text="${message.createdAt}"></td>
-                    <td th:text="${message.sender.getFirstName()} + ' ' + ${message.sender.getLastName()}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
         <div class=" col-xs-7 row well container-fluid main_section">
-            <form action="#" th:action="@{/home/messages/} + ${currentChat.chatId}" method="post" th:object="${message}">
-                <input type="hidden" th:field="*{messageId}">
-                <div hidden><select th:field="*{chat.chatId}">
-                    <option hidden th:value="${currentChat.chatId}"></option>
-                </select></div>
-                <input type="text" th:field="*{content}" placeholder="message" th:required="sss">
-                <input type="submit">
-            </form>
+            <div class="messageList1">
+                <div class="container-fluid messageList-header">
+                    <p class="col-xs-4 messageList-header-title">Название беседы</p>
+                    <select class="col-xs-4 messageList-header-select" name="Settings" >
+                        <option selected value="settings">Налаштування</option>
+                        <option  value="add buddy">Додати співрозмовників</option>
+                        <option  value="change title">Змінити назву бесіди</option>
+                        <option  value="leave chat">Покинути бесіду</option>
+                    </select>
+                </div>
+                <div class="messageList-content">
+                    <div class="container-fluid markList messageList-content-msgField" th:unless="${#lists.isEmpty(messagesList)}">
+                        <div class="msgField-advert">
+                            <p>Артур створив бесiду "Бионика найкраща"</p>
+                        </div>
+                        <div class='msgField-letter' th:each="message : ${messagesList}">
+                            <span class="col-xs-12 msgField-letter-author" th:text="${message.sender.getFirstName()} + ' ' + ${message.sender.getLastName()}"></span>
+                            <span class="msgField-letter-id" th:text="${message.messageId}"></span>
+                            <span class="msgField-letter-content" th:text="${message.content}"></span>
+                            <span class="msgField-letter-time" th:text="${message.createdAt}"></span>
+                        </div>
+                    </div>
+                    <div class="messageList-content-newMsg">
+                        <form action="#">
+                            <input type="text" class=" form-control messageList-content-newMsg-input" placeholder="Введіть повідомлення">
+                            <button class=' btn btn-primary messageList-content-newMsg-button' type="submit">Відправити</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <footer>
+        <div class="row container-fluid" >
+            <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">
+                <p>Гугл реклама</p>
+
+            </div>
+            <div class="col-xs-2 col-md-2 row">
+                <img src="/resources/frontend/images/Logovk.png" alt="vk">
+                <img src="/resources/frontend/images/Logofc.png" alt="fs">
+                <img src="/resources/frontend/images/Logoin.png" alt="instagram">
+            </div>
+        </div>
+    </footer>
 </div>
+</div>
+
 </body>
 </html>
