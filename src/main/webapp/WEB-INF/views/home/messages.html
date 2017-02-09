@@ -30,29 +30,40 @@
         <div class=" col-xs-7 row well container-fluid main_section">
             <div class="messageList1">
                 <div class="container-fluid messageList-header">
-                    <p class="col-xs-4 messageList-header-title">Название беседы</p>
+                    <p class="col-xs-4 messageList-header-title" th:text="${currentChat.getChatTitle()}">Название беседы</p>
                     <select class="col-xs-4 messageList-header-select" name="Settings" >
                         <option selected value="settings">Налаштування</option>
-                        <option  value="add buddy">Додати співрозмовників</option>
-                        <option  value="change title">Змінити назву бесіди</option>
-                        <option  value="leave chat">Покинути бесіду</option>
+                        <option th:action="@{/home/messages/} + ${currentChat.chatId} + '/addMembers'" th:method="get" value="add buddy">Додати співрозмовників</option>
+                        <!--<option th:href="@{}" value="change title">Змінити назву бесіди</option>-->
+                        <option th:action="@{/home/messages/} + ${currentChat.chatId} + '/leaveChat'" th:method="post" value="leave chat">Покинути бесіду</option>
                     </select>
                 </div>
                 <div class="messageList-content">
                     <div class="container-fluid markList messageList-content-msgField" th:unless="${#lists.isEmpty(messagesList)}">
                         <div class="msgField-advert">
-                            <p>Артур створив бесiду "Бионика найкраща"</p>
+                            <b>Артур створив бесiду "Бионика найкраща"</b>
                         </div>
                         <div class='msgField-letter' th:each="message : ${messagesList}">
+                            <div th:if="${message.functional == true}" class="msgField-advert">
+                                <b th:text="${message.content}"></b>
+                            </div>
                             <span class="col-xs-12 msgField-letter-author" th:text="${message.sender.getFirstName()} + ' ' + ${message.sender.getLastName()}"></span>
-                            <span class="msgField-letter-id" th:text="${message.messageId}"></span>
+                            <!--<span class="msgField-letter-id" th:text="${message.messageId}"></span>-->
                             <span class="msgField-letter-content" th:text="${message.content}"></span>
-                            <span class="msgField-letter-time" th:text="${message.createdAt}"></span>
+                            <!--<span th:if="${#dates.createToday().getDay()} == ${message.createdAt.date}"></span>-->
+                            <span class="msgField-letter-time" th:text="
+                            ${#dates.createToday().getDay() == message.createdAt.getDay() &&
+                            #dates.createToday().getMonth() == message.createdAt.getMonth() &&
+                            #dates.createToday().getYear() == message.createdAt.getYear()} ?
+                            ${#dates.format(message.createdAt, 'HH:mm')} :
+                            ${#dates.format(message.createdAt, 'dd-MM-yyyy HH:mm')}"></span>
                         </div>
                     </div>
                     <div class="messageList-content-newMsg">
-                        <form action="#">
-                            <input type="text" class=" form-control messageList-content-newMsg-input" placeholder="Введіть повідомлення">
+                        <form action="#" th:action="@{/home/messages/} + ${currentChat.chatId}" method="post" th:object="${message}">
+                            <input type="hidden" th:field="*{messageId}">
+                            <div hidden><select th:field="*{chat.chatId}"><option hidden th:value="${currentChat.chatId}"></option></select></div>
+                            <input type="text" class="form-control messageList-content-newMsg-input" placeholder="Введіть повідомлення" th:field="*{content}" required>
                             <button class=' btn btn-primary messageList-content-newMsg-button' type="submit">Відправити</button>
                         </form>
                     </div>

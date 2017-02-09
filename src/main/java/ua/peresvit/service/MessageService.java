@@ -1,5 +1,6 @@
 package ua.peresvit.service;
 
+import ua.peresvit.dto.ChatWithLastMessage;
 import ua.peresvit.entity.Chat;
 import ua.peresvit.entity.Message;
 import ua.peresvit.entity.User;
@@ -23,6 +24,8 @@ public interface MessageService {
 
     Chat addNewMembersToChat(LinkedList<User> membersToAdd, Chat chat);
 
+    Chat deleteMemberFromChat(User user, Chat chat);
+
     Message getAddingNewMemberMessage(User adder, LinkedList<User> listOfNewMembers, Chat chat, Locale locale);
 
     Message sendMessage(User from, Message message);
@@ -31,7 +34,11 @@ public interface MessageService {
 
     List<Message> findMessagesByChatOrderByCreatedAt(Long chatId);
 
-    Set<Chat> findUserChats(User user);
+    Set<Chat> findChatsOfUsers(User user);
+
+    Set<ChatWithLastMessage> findCustomChatsOfUser(User user);
+
+    Message findLastMessage(Chat chat);
 
     long countUnreadChats();
 }

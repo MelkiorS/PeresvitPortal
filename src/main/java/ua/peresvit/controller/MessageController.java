@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import ua.peresvit.dto.ChatWithLastMessage;
 import ua.peresvit.entity.Chat;
 import ua.peresvit.entity.Message;
 import ua.peresvit.entity.User;
@@ -33,15 +34,17 @@ public class MessageController {
     //  after entering main messages' page we get list of all chats, we can create new chat or send new message
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String getAllChats(Model model) {
-        Set<Chat> chats = messageService.findUserChats(userService.getCurrentUser());
+        Set<ChatWithLastMessage> chats = messageService.findCustomChatsOfUser(userService.getCurrentUser());
         model.addAttribute("chatList", chats);
 //        adding chat object to create new chat from start chats page
         model.addAttribute(new Chat());
         return "home/chats";
     }
 
+
+
     //  creating new chat from main messages' page
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/newChat", method = RequestMethod.POST)
     public String createNewChatFromMainPage(Chat chat, Model model, Locale locale) {
         if (!Objects.equals(chat.getChatTitle(), "") && !chat.getMembers().isEmpty()) {
             chat = messageService.createNewChat(chat, locale);
@@ -57,10 +60,19 @@ public class MessageController {
     @RequestMapping(value = "/{chatId}", method = RequestMethod.GET)
     public String getSingleChat(@PathVariable("chatId") Long chatId, Model model) {
         Chat chat = messageService.findOneChat(chatId);
+        User currentUser = userService.getCurrentUser();
+        if (chat.getChatTitle().equals("")) {
+            for (User u : chat.getMembers()) {
+                if (!u.equals(currentUser)) {
+                    chat.setChatTitle(u.getFirstName() + " " + u.getLastName());
+                }
+            }
+        }
 //      adding owner permissions to the chat view
-        if (userService.getCurrentUser().equals(chat.getOwner())) {
+        if (currentUser.equals(chat.getOwner()) && chat.getMembers().size() != 2) {
             model.addAttribute("ownerPermission", true);
         }
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("ownerPermission", false);
         model.addAttribute("currentChat", chat);
         model.addAttribute("messagesList", messageService.findMessagesByChatOrderByCreatedAt(chatId));
@@ -90,7 +102,8 @@ public class MessageController {
             }
         }
         model.addAttribute("membersToAdd", membersToAdd);
-        return "home/addMembersToChat";
+        model.addAttribute("status", "add");
+        return "home/editMembersToChat";
     }
 
     //  adding new members to certain chat
@@ -112,17 +125,43 @@ public class MessageController {
         }
     }
 
-    //   get form to post message to one user
+    //    delete members
+    @RequestMapping(value = "/{chatId}/deleteMembers", method = RequestMethod.GET)
+    public String deleteMembersFromChat(@PathVariable("chatId") Long chatId, Model model) {
+        Chat chat = messageService.findOneChat(chatId);
+        if (chat.getOwner().equals(userService.getCurrentUser())) {
+            model.addAttribute("chat", chat);
+            model.addAttribute("charId", chatId);
+            model.addAttribute("status", "delete");
+            return "home/editMembersToChat";
+        }
+        model.addAttribute("message", "permission denied");
+        return "redirect:/home/messages";
+    }
+
+
+
+    //  change chat title
+    @RequestMapping(value = "/{chatId}/changeTitle", method = RequestMethod.GET)
+    public String changeTitleOfChat(@PathVariable("chatId") Long chatId) {
+        return "";
+    }
+
+    //    leave chat
+    @RequestMapping(value = "/{chatId}/leaveChat", method = RequestMethod.GET)
+    public String leaveChat(@PathVariable("chatId") Long chatId) {
+        messageService.deleteMemberFromChat(userService.getCurrentUser(), messageService.findOneChat(chatId));
+        return "redirect:/home/messages";
+    }
+
+    //   get to the chat to post message to one user
     @RequestMapping(value = "/postMessage/{userId}", method = RequestMethod.GET)
     public String getFormForNewMessage(@PathVariable("userId") Long userId, Model model) {
-        Set<User> members = new HashSet<>();
-        members.add(userService.getCurrentUser());
-        members.add(userService.findOne(userId));
 //        переделать метод поиска диалога на метод с двумя лонгами в аргументами
-        Chat currentChat = messageService.findDialog(userService.getCurrentUser());
+        User userOfDialog = userService.findOne(userId);
+        Chat currentChat = messageService.findDialog(userOfDialog);
         if (currentChat == null) {
-            currentChat = messageService.saveDialog(new User[]{userService.getCurrentUser(), userService.findOne(userId)});
-            System.out.println(currentChat.getChatId());
+            currentChat = messageService.saveDialog(new User[]{userService.getCurrentUser(), userOfDialog});
         }
         model.addAttribute("chatId", currentChat.getChatId());
         return "redirect:/home/messages/{chatId}";

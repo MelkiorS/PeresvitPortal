@@ -29,17 +29,22 @@
         </div>
         <div class=" col-xs-7 row well container-fluid main_section">
             <div class="chats-header">
-                <p>Розпочати бесіду</p>
+                <form th:action="@{/home/messages/}"><p>Розпочати бесіду</p></form>
             </div>
             <div class="markList" th:unless="${#lists.isEmpty(chatList)}">
                     <div th:each="chat : ${chatList}"   >
                         <form th:action="@{/home/messages/} + ${chat.chatId}" method="get">
                             <button class="btn btn-default  markList-item" type="submit"  aria-haspopup="true" aria-expanded="false">
-                                <img class="col-xs-2" src="/resources/frontend/images/userIcon.png" alt="аватар юзера">
+                                <img class="col-xs-2" th:src="${chat.sender.avatarURL}" src="/resources/frontend/images/userIcon.png" alt="аватар юзера">
                                 <!--<span th:text="${chat.chatId}"></span>-->
                                 <p class="col-xs-8 markList-item-title" th:text="${chat.chatTitle}"></p>
-                                <p class="col-xs-2 markList-item-time">2:23 PM</p>
-                                <p class="col-xs-8 markList-item-message">Last Message</p>
+                                <p class="col-xs-2 markList-item-time" th:text=
+                                        "${#dates.createToday().getDay() == chat.createdAt.getDay() &&
+                                        #dates.createToday().getMonth() == chat.createdAt.getMonth() &&
+                                        #dates.createToday().getYear() == chat.createdAt.getYear()} ?
+                                        ${#dates.format(chat.createdAt, 'HH:mm')} :
+                                        ${#dates.format(chat.createdAt, 'dd-MM-yyyy HH:mm')}">2:23 PM</p>
+                                <p class="col-xs-8 markList-item-message" th:text="${chat.sender.firstName} + ' ' + ${chat.sender.lastName} + ': ' + ${chat.content}">Last Message</p>
                             </button>
                         </form>
                     </div>

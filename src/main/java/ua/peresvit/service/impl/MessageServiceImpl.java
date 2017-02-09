@@ -6,6 +6,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ua.peresvit.dao.ChatRepository;
 import ua.peresvit.dao.MessageRepository;
+import ua.peresvit.dto.ChatWithLastMessage;
 import ua.peresvit.entity.Chat;
 import ua.peresvit.entity.Message;
 import ua.peresvit.entity.User;
@@ -56,7 +57,14 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public Chat findDialog(User user) {
-        return chatRepository.findDialogsOfUser(user);
+        Set<Chat> dialogs = chatRepository.findDialogsOfUser(user);
+        for (Chat c : dialogs
+             ) {
+            if (c.getMembers().contains(user)) {
+                return c;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -90,6 +98,15 @@ public class MessageServiceImpl implements MessageService{
         chat.setMembers(members);
         return saveChat(chat);
     }
+
+    @Override
+    public Chat deleteMemberFromChat(User user, Chat chat) {
+        Set<User> members = chat.getMembers();
+        members.remove(user);
+        chat.setMembers(members);
+        return chatRepository.save(chat);
+    }
+
 
     @Override
     public Message getAddingNewMemberMessage(User adder, LinkedList<User> listOfNewMembers, Chat chat, Locale locale) {
@@ -133,8 +150,9 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public Set<Chat> findUserChats(User user) {
+    public Set<Chat> findChatsOfUsers(User user) {
         Set<Chat> chats = chatRepository.findChatsOfUser(user);
+        Map<Chat, Message> map = new HashMap<>();
         for (Chat chat: chats) {
             if (chat.getMembers().size()==2) {
                 for (User u:chat.getMembers()) {
@@ -143,15 +161,33 @@ public class MessageServiceImpl implements MessageService{
                     }
                 }
             }
+            map.put(chat, findLastMessage(chat));
         }
         return chats;
+    }
+
+    @Override
+    public Set<ChatWithLastMessage> findCustomChatsOfUser(User user) {
+        return chatRepository.getChatsWithLastMessage(user);
+    }
+
+    @Override
+    public Message findLastMessage(Chat chat) {
+//        return messageRepository.findLastMessage(chat);
+        return  null;
     }
 
     @Override
     public long countUnreadChats() {
         User currentUser = userService.getCurrentUser();
 //        Add to repo method to count
+        Set<ChatWithLastMessage> chats = chatRepository.getChatsWithLastMessage(currentUser);
         Long count = 0L;
+        for (ChatWithLastMessage c: chats) {
+            if(!c.isReadStatus()) {
+                count++;
+            }
+        }
         return count;
     }
 }
