@@ -2,7 +2,7 @@
 <body>
     <div class="btn-group-vertical btn-group-lg" role="group" aria-label="111" th:fragment="sideBar">
         <div class="btn-group" role="group">
-            <form th:href="@{/home/workField}">
+            <form th:action="@{/home/workField/}">
             <button class="btn btn-default btn-lg dropdown-toggle control_button sideFirst" type="submit"  aria-haspopup="true" aria-expanded="false">Особистий кабінет</button>
             </form>
         </div>
@@ -74,6 +74,12 @@
         <div class="btn-group " role="group">
             <form  th:action="@{/admin/post/}">
                 <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">Новини</button>
+            </form>
+        </div>
+
+        <div class="btn-group " role="group">
+            <form  th:action="@{/admin/event_edit/}">
+                <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">Керування подіями</button>
             </form>
         </div>
 

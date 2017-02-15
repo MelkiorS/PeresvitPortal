@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Peresvit</title>
+    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="/resources/frontend/workField.css">
+    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="/resources/frontend/libraries/constants.js"></script>
+</head>
+<body>
+<div class="container-fluid wrapper">
+    <div class="row header">
+        <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
+        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="/resources/frontend/images/logo_Peresvit.png" alt="логотип"></div>
+        <div class="col-xs-8  row header_nav">
+            <div th:replace="home/fragments/headBar :: headBar"></div>
+            <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
+        </div>
+    </div>
+    <div class="row main">
+        <div class="col-xs-3 container main_sidebar">
+            <!--Сюда вставляем боковой бар fragments/sideBar.html-->
+            <div th:replace="home/fragments/sideBar :: sideBar"></div>
+            <div class="place_for_add_sidebar col-xs-12 row">
+
+            </div>
+        </div>
+        <div class=" col-xs-7 row well container-fluid main_section">
+
+            <row>
+                <div class="-collg-8 col-lg-offset-4">
+                    <div th:each="post : ${page}">
+                        <h3 th:text="${post.title}"></h3>
+
+                        <img th:src="@{'data:image;base64,' + ${post.encodeFileToBase64Binary()}}" width="100px" height="100px;">
+
+                        <p th:text="${post.body}"></p>
+                        <b>
+                            <p>Створена: <span th:text="${post.user}">some user</span> Дата: <span
+                                    th:text="${#dates.format(post.createDate,'dd/MM/YYYY HH:mm')}"></span>
+                            </p>
+                        </b>
+                        <a class="btn btn-primary" th:href="@{/home/post/} + @{${post.postId}}">Переглянути</a>
+                    </div>
+                </div>
+            </row>
+
+            <!-- Build the pagination component -->
+            <nav class="text-center">
+                <ul class="pagination">
+                    <li th:class="${page.isFirst()}? 'disabled' : ''">
+                        <span th:if='${page.isFirst()}'>← Перша</span>
+                        <a th:if='${not page.isFirst()}' th:href="'?page=0'">
+                            ← Перша
+                        </a>
+                    </li>
+                    <li th:class="${page.hasPrevious()}? '' : 'disabled'">
+                        <span th:if='${not page.hasPrevious()}'>«</span>
+                        <a
+                                th:if='${page.hasPrevious()}'
+                                th:href="'?page=' + ${page.getNumber() - 1}"
+                                title='Попередня сторінка'
+                        >
+                            «
+                        </a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(1, (page.getTotalPages() == 0 ? 1 : page.getTotalPages()))}">
+                <span
+                        th:if='${(i - 1) == param.page}'
+                        th:text='${i}'>
+                    1
+                </span>
+                        <a
+                                th:if='${not ((i - 1) == param.page)}'
+                                th:href="'?page=' + ${(i -1)}"
+                        >
+                            <span th:text='${i}'>1</span>
+                        </a>
+                    </li>
+                    <li th:class="${page.hasNext()} ? '' : 'disabled'">
+                        <span th:if='${not page.hasNext()}'>»</span>
+                        <a
+                                th:if='${page.hasNext()}'
+                                th:href="'?page=' + ${page.getNumber() + 1}"
+                                title='Натупна сторінка'
+                        >
+                            »
+                        </a>
+                    </li>
+                    <li th:class="${page.isLast()}? 'disabled' : ''">
+                        <span th:if='${page.isLast()}'>Остання →</span>
+                        <a
+                                th:if='${not page.isLast()}'
+                                th:href="'?page=' + ${page.getTotalPages() - 1}"
+                        >
+                            Остання →
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <!--<footer>-->
+        <!--<div class="row container-fluid" >-->
+            <!--<div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">-->
+                <!--<p>Гугл реклама</p>-->
+
+            <!--</div>-->
+            <!--<div class="col-xs-2 col-md-2 row">-->
+                <!--<img src="/resources/frontend/images/Logovk.png" alt="vk">-->
+                <!--<img src="/resources/frontend/images/Logofc.png" alt="fs">-->
+                <!--<img src="/resources/frontend/images/Logoin.png" alt="instagram">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</footer>-->
+
+</div>
+
+</body>
+</html>
