@@ -14,6 +14,8 @@ public interface MessageService {
 
     Chat saveDialog(User[] users);
 
+    void deleteChat(Long chatId);
+
     Chat findOneChat(Long arg0);
 
     Chat findDialog(User user);
@@ -30,11 +32,7 @@ public interface MessageService {
 
     Message sendMessage(User from, Message message);
 
-//    LinkedList<Message> findAllByAuthorAndReceiver(User author, User receiver);
-
     List<Message> findMessagesByChatOrderByCreatedAt(Long chatId);
-
-    Set<Chat> findChatsOfUsers(User user);
 
     Set<ChatWithLastMessage> findCustomChatsOfUser(User user);
 

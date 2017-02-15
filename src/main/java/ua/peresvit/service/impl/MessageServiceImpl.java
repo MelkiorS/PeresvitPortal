@@ -51,6 +51,13 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
+    public void deleteChat(Long chatId) {
+        if (chatRepository.exists(chatId)){
+            chatRepository.delete(chatId);
+        }
+    }
+
+    @Override
     public Chat findOneChat(Long arg0) {
         return chatRepository.findOne(arg0);
     }
@@ -107,7 +114,6 @@ public class MessageServiceImpl implements MessageService{
         return chatRepository.save(chat);
     }
 
-
     @Override
     public Message getAddingNewMemberMessage(User adder, LinkedList<User> listOfNewMembers, Chat chat, Locale locale) {
         Message message = new Message();
@@ -139,31 +145,9 @@ public class MessageServiceImpl implements MessageService{
         return saveMessage(message);
     }
 
-//    @Override
-//    public LinkedList<Message> findAllByAuthorAndReceiver(User author, User receiver) {
-//        return findAllByAuthorAndReceiver(author, receiver);
-//    }
-
     @Override
     public List<Message> findMessagesByChatOrderByCreatedAt(Long chatId) {
         return messageRepository.findByChatOrderByCreatedAt(chatId);
-    }
-
-    @Override
-    public Set<Chat> findChatsOfUsers(User user) {
-        Set<Chat> chats = chatRepository.findChatsOfUser(user);
-        Map<Chat, Message> map = new HashMap<>();
-        for (Chat chat: chats) {
-            if (chat.getMembers().size()==2) {
-                for (User u:chat.getMembers()) {
-                    if (!u.equals(user)) {
-                        chat.setChatTitle(u.getFirstName() + " " +u.getLastName());
-                    }
-                }
-            }
-            map.put(chat, findLastMessage(chat));
-        }
-        return chats;
     }
 
     @Override

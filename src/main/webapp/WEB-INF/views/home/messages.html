@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/resources/frontend/workField.css">
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
     <script src="/resources/frontend/libraries/constants.js"></script>
-    <title th:text="${currentChat.getChatTitle()}"></title>
+    <title th:text="${chat.getChatTitle()}"></title>
     </head>
 <body>
 <div class="container-fluid wrapper">
@@ -30,12 +30,12 @@
         <div class=" col-xs-7 row well container-fluid main_section">
             <div class="messageList1">
                 <div class="container-fluid messageList-header">
-                    <p class="col-xs-4 messageList-header-title" th:text="${currentChat.getChatTitle()}">Название беседы</p>
+                    <p class="col-xs-4 messageList-header-title" th:text="${chat.getChatTitle()}">Название беседы</p>
                     <select class="col-xs-4 messageList-header-select" name="Settings" >
                         <option selected value="settings">Налаштування</option>
-                        <option th:action="@{/home/messages/} + ${currentChat.chatId} + '/addMembers'" th:method="get" value="add buddy">Додати співрозмовників</option>
+                        <option th:action="@{/home/messages/} + ${chat.chatId} + '/addMembers'" th:method="get" value="add buddy">Додати співрозмовників</option>
                         <!--<option th:href="@{}" value="change title">Змінити назву бесіди</option>-->
-                        <option th:action="@{/home/messages/} + ${currentChat.chatId} + '/leaveChat'" th:method="post" value="leave chat">Покинути бесіду</option>
+                        <option th:action="@{/home/messages/} + ${chat.chatId} + '/leaveChat'" th:method="post" value="leave chat">Покинути бесіду</option>
                     </select>
                 </div>
                 <div class="messageList-content">
@@ -52,17 +52,15 @@
                             <span class="msgField-letter-content" th:text="${message.content}"></span>
                             <!--<span th:if="${#dates.createToday().getDay()} == ${message.createdAt.date}"></span>-->
                             <span class="msgField-letter-time" th:text="
-                            ${#dates.createToday().getDay() == message.createdAt.getDay() &&
-                            #dates.createToday().getMonth() == message.createdAt.getMonth() &&
-                            #dates.createToday().getYear() == message.createdAt.getYear()} ?
+                            ${#dates.format(#dates.createNow(), 'dd-MM-yyyy') == #dates.format(message.createdAt, 'dd-MM-yyyy')} ?
                             ${#dates.format(message.createdAt, 'HH:mm')} :
                             ${#dates.format(message.createdAt, 'dd-MM-yyyy HH:mm')}"></span>
                         </div>
                     </div>
                     <div class="messageList-content-newMsg">
-                        <form action="#" th:action="@{/home/messages/} + ${currentChat.chatId}" method="post" th:object="${message}">
+                        <form action="#" th:action="@{/home/messages/} + ${chat.chatId}" method="post" th:object="${message}">
                             <input type="hidden" th:field="*{messageId}">
-                            <div hidden><select th:field="*{chat.chatId}"><option hidden th:value="${currentChat.chatId}"></option></select></div>
+                            <div hidden><select th:field="*{chat.chatId}"><option hidden th:value="${chat.chatId}"></option></select></div>
                             <input type="text" class="form-control messageList-content-newMsg-input" placeholder="Введіть повідомлення" th:field="*{content}" required>
                             <button class=' btn btn-primary messageList-content-newMsg-button' type="submit">Відправити</button>
                         </form>

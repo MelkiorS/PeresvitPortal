@@ -61,6 +61,15 @@ public class MessageController {
     public String getSingleChat(@PathVariable("chatId") Long chatId, Model model) {
         Chat chat = messageService.findOneChat(chatId);
         User currentUser = userService.getCurrentUser();
+        List<Message> messages = messageService.findMessagesByChatOrderByCreatedAt(chatId);
+        Message lastMessage = messages.get(messages.size()-1);
+        if (!lastMessage.isReadStatus() && !currentUser.equals(lastMessage.getSender())){
+            lastMessage.setReadStatus(true);
+            messageService.saveMessage(lastMessage);
+        }
+        if (!chat.getMembers().contains(currentUser)) {
+            return "redirect:/home/messages";
+        }
         if (chat.getChatTitle().equals("")) {
             for (User u : chat.getMembers()) {
                 if (!u.equals(currentUser)) {
@@ -69,13 +78,13 @@ public class MessageController {
             }
         }
 //      adding owner permissions to the chat view
-        if (currentUser.equals(chat.getOwner()) && chat.getMembers().size() != 2) {
+        if ((currentUser.equals(chat.getOwner()) && chat.getMembers().size() != 2) || (currentUser.getRole().getRoleName().equals("ADMIN"))) {
             model.addAttribute("ownerPermission", true);
         }
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("ownerPermission", false);
-        model.addAttribute("currentChat", chat);
-        model.addAttribute("messagesList", messageService.findMessagesByChatOrderByCreatedAt(chatId));
+        model.addAttribute(chat);
+        model.addAttribute("messagesList", messages);
         model.addAttribute(new Message());
         return "home/messages";
     }
@@ -129,7 +138,8 @@ public class MessageController {
     @RequestMapping(value = "/{chatId}/deleteMembers", method = RequestMethod.GET)
     public String deleteMembersFromChat(@PathVariable("chatId") Long chatId, Model model) {
         Chat chat = messageService.findOneChat(chatId);
-        if (chat.getOwner().equals(userService.getCurrentUser())) {
+        User currentUser = userService.getCurrentUser();
+        if (chat.getOwner().equals(currentUser) || currentUser.getRole().getRoleName().equals("ADMIN")) {
             model.addAttribute("chat", chat);
             model.addAttribute("charId", chatId);
             model.addAttribute("status", "delete");
@@ -139,16 +149,31 @@ public class MessageController {
         return "redirect:/home/messages";
     }
 
-
+//    delete chat
+    @RequestMapping(value = "/{chatId}/deleteChat", method = RequestMethod.DELETE)
+    public String deleteChat(@PathVariable("chatId") Long chatId, Model model) {
+        Chat chat = messageService.findOneChat(chatId);
+        User currentUser = userService.getCurrentUser();
+        if (chat.getOwner().equals(currentUser) || currentUser.getRole().getRoleName().equals("ADMIN")) {
+            messageService.deleteChat(chatId);
+            return "home/editMembersToChat";
+        }
+        model.addAttribute("message", "permission denied");
+        return "redirect:/home/messages";
+    }
 
     //  change chat title
-    @RequestMapping(value = "/{chatId}/changeTitle", method = RequestMethod.GET)
-    public String changeTitleOfChat(@PathVariable("chatId") Long chatId) {
-        return "";
+    @RequestMapping(value = "/{chatId}/changeTitle", method = RequestMethod.POST)
+    public String changeTitleOfChat(@PathVariable("chatId") Long chatId, Chat chat, Model model) {
+        if (!chat.getChatTitle().equals("")) {
+            messageService.saveChat(chat);
+        }
+        model.addAttribute("chatId", chatId);
+        return "redirect:/home/messages/{chatId}";
     }
 
     //    leave chat
-    @RequestMapping(value = "/{chatId}/leaveChat", method = RequestMethod.GET)
+    @RequestMapping(value = "/{chatId}/leaveChat", method = RequestMethod.POST)
     public String leaveChat(@PathVariable("chatId") Long chatId) {
         messageService.deleteMemberFromChat(userService.getCurrentUser(), messageService.findOneChat(chatId));
         return "redirect:/home/messages";

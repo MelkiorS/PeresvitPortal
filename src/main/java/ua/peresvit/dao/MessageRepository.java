@@ -16,12 +16,4 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
     @Query("select m from Message m where m.chat.chatId = :chatId order by m.createdAt")
     List<Message> findByChatOrderByCreatedAt(@Param("chatId") Long chatId);
-
-    List<Message> findByChatOrderByCreatedAt(Chat chat);
-
-    @Query("select m from Chat c inner join c.messages m where c = :chat and m.createdAt = (select max(m.createdAt) from m)")
-    Message findLastMessage(@Param("chat")Chat chat);
-
-//    @Query("select m from Message m where")
-//    List<Message> findByMembersOrderByCreatedAt()
 }
