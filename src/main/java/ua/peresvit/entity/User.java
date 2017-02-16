@@ -56,7 +56,7 @@ public class User {
 
 	// Account verification status
 	@Column(columnDefinition = "boolean default true")
-	private boolean enabled = true;
+	private boolean enabled;
 
 	@ManyToMany(
 			fetch = FetchType.EAGER,
@@ -78,7 +78,8 @@ public class User {
 	}
 
 	public User() {
-
+		super();
+		this.setEnabled(false);
 	}
 
 	@Override
@@ -95,5 +96,10 @@ public class User {
 	public int hashCode() {
 		return userId == null ? 0: userId.hashCode();
 	}
+
+	public boolean isAdmin() {
+		return role.getRoleName().equals("ADMIN");
+	}
+
 
 }

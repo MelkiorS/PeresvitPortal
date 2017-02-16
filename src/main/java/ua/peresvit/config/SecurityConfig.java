@@ -33,11 +33,8 @@ import org.springframework.social.security.SpringSocialConfigurer;
 
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     private final UserRepository userRepository;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
-
-
 
     @Autowired
     public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl, UserRepository userRepository) {
@@ -69,16 +66,17 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .authorizeRequests()
                 .antMatchers("/registration/**", "/", "/resources/**", "/favicon.ico").permitAll()
-                .antMatchers("/admin*").access("hasRole('ADMIN')")
+                .antMatchers("/admin**").access("hasRole('ADMIN')")
+                .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 .antMatchers("/home/**").authenticated()
             .and()
                 .formLogin()
-                    .loginPage("/registration/registration")
+                    .loginPage("/home")
                     .usernameParameter("email")
                     .passwordParameter("password")
                     .loginProcessingUrl("/login")
                     .defaultSuccessUrl("/login/success")
-                    .failureUrl("/login")
+                    .failureUrl("/home")
                     .permitAll()
             .and()
                 .logout()

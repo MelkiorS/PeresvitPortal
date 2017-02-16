@@ -37,26 +37,35 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     }
 
     private void confirmRegistration(final OnRegistrationCompleteEvent event) {
-        final User user = event.getUser();
-        SimpleMailMessage email;
-        if (event.getIsWithToken()) {
-            final String token = UUID.randomUUID().toString();
-            service.createVerificationTokenForUser(user, token);
-            email = constructEmailMessage(event, user, token);
-        } else {
-            email = constructEmailMessage(event, user, null);
+        if (!event.isDone()) {
+            final User user = event.getUser();
+            SimpleMailMessage email;
+            if (event.isWithToken()) {
+                final String token = UUID.randomUUID().toString();
+                service.createVerificationTokenForUser(user, token);
+
+                email = constructEmailMessage(event, user, token);
+
+            } else {
+                email = constructEmailMessage(event, user, null);
+            }
+            mailSender.send(email);
+            event.setDone(true);
         }
-        mailSender.send(email);
     }
 
-    //
-
+    // constructEmailMessage
     private final SimpleMailMessage constructEmailMessage(final OnRegistrationCompleteEvent event, final User user, String token) {
         final String recipientAddress = user.getEmail();
-        final String subject = messages.getMessage("message.regSuccHeader", null, event.getLocale());
+        String subject = messages.getMessage("message.regSuccHeader", null, event.getLocale());
         String message;
         if (token != null){
-            message = createMessageWithToken(event, recipientAddress, event.getLocale(), token);
+            if(event.isUpdatePassword()) {
+                subject = messages.getMessage("message.changePassword", null, event.getLocale());
+                message = createMessageWithTokenUpdPassword(event, recipientAddress, event.getLocale(), token);
+            }
+            else
+                message = createMessageWithToken(event, recipientAddress, event.getLocale(), token);
         } else {
             message = createMessage(recipientAddress, event.getLocale());
         }
@@ -69,16 +78,23 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     }
 
     private String createMessage(String recipientAddress, final Locale locale){
-        final String message = messages.getMessage("message.regSucc", null, locale)+"\r\n"
+        final String message = messages.getMessage("message.regSucc", null, locale)+" "
                 +recipientAddress;
         return message;
     }
 
     private String createMessageWithToken(final OnRegistrationCompleteEvent event, String recipientAddress, final Locale locale, String token){
-        final String message = messages.getMessage("message.regSucc", null, locale)+"\r\n\n"
-                +messages.getMessage("message.loginName", null, locale)+": "
+        final String message = messages.getMessage("message.regSucc", null, locale)+" "
                 +recipientAddress+"\n"
-                +messages.getMessage("token.message", null, locale)+" " +event.getAppUrl() + "/registration/registrationConfirm/"
+                +messages.getMessage("token.message", null, locale)+" " +event.getAppUrl() + "/registration/registrationConfirm?token="
+                +token;
+        return message;
+    }
+
+    private String createMessageWithTokenUpdPassword(final OnRegistrationCompleteEvent event, String recipientAddress, final Locale locale, String token){
+        final String message =  messages.getMessage("message.regUpd", null, locale)+" "
+                +recipientAddress+"\n"
+                +messages.getMessage("message.resetYourPassword", null, locale)+" " +event.getAppUrl() + "/registration/remindConfirm?token="
                 +token;
         return message;
     }

@@ -2,7 +2,7 @@
 <body>
     <div class="btn-group-vertical btn-group-lg" role="group" aria-label="111" th:fragment="sideBar">
         <div class="btn-group" role="group">
-            <form th:href="@{/home/workField}">
+            <form th:action="@{/home/workField/}">
             <button class="btn btn-default btn-lg dropdown-toggle control_button sideFirst" type="submit"  aria-haspopup="true" aria-expanded="false">Особистий кабінет</button>
             </form>
         </div>
@@ -13,61 +13,73 @@
         </div>
 
         <div class="btn-group " role="group">
-            <form  th:action="@{/admin/resourceGroup/management}">
-                <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">ResourceGroups Management</button>
+            <form  th:action="@{/admin/resourceGroup/}">
+                <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">ResourceGroups</button>
             </form>
         </div>
 
         <div class="btn-group " role="group">
-            <form  th:action="@{/admin/resourceGroupType/management}">
-                <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">ResourceGroupsType Management</button>
+            <form  th:action="@{/admin/resourceGroupType/}">
+                <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">ResourceGroupsTypes</button>
             </form>
         </div>
         <div class="btn-group " role="group">
-            <form  th:action="@{/admin/rang/management}">
+            <form  th:action="@{/admin/role/}">
                 <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">Управління рівнями</button>
             </form>
         </div>
 
         <div class="btn-group " role="group">
-            <form  th:action="@{/admin/mark/management}">
+            <form  th:action="@{/admin/mark/}">
                 <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">Управління відзнаками</button>
             </form>
         </div>
 
         <div class="btn-group " role="group">
-            <form  th:action="@{/admin/club/management}">
+            <form  th:action="@{/admin/club/}">
                 <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">Управління клубами</button>
             </form>
         </div>
 
         <div class="btn-group " role="group">
-            <form  th:action="@{/admin/city/management}">
+            <form  th:action="@{/admin/city/}">
                 <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">Управління містами</button>
             </form>
         </div>
 
         <div class="btn-group " role="group">
-            <form  th:action="@{/admin/combatArt/management}">
+            <form  th:action="@{/admin/combatArt/}">
                 <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">Управління Бойовими мистецтвами</button>
             </form>
         </div>
 
         <div class="btn-group " role="group">
-            <form  th:action="@{/admin/user/management}">
+            <form  th:action="@{/admin/user/}">
                 <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">Управління користувачами</button>
             </form>
         </div>
 
         <div class="btn-group " role="group">
-            <form  th:action="@{/admin/article/management}">
+            <form  th:action="@{/admin/article/}">
                 <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">Управління статтями</button>
             </form>
         </div>
 
         <div class="btn-group " role="group">
-            <form  th:action="@{/admin/userGroup/management}">
+            <form  th:action="@{/admin/userGroup/}">
                 <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">Управління групами</button>
+            </form>
+        </div>
+
+        <div class="btn-group " role="group">
+            <form  th:action="@{/admin/post/}">
+                <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">Новини</button>
+            </form>
+        </div>
+
+        <div class="btn-group " role="group">
+            <form  th:action="@{/admin/event_edit/}">
+                <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">Керування подіями</button>
             </form>
         </div>
 

@@ -44,7 +44,7 @@ public class ClubController {
         model.addAttribute("clubId", club.getClubId());
         model.addFlashAttribute("club", club);
 
-        return "redirect:/admin/club/{clubId}";
+        return "redirect:/admin/club/";
     }
 
     // show Club by id

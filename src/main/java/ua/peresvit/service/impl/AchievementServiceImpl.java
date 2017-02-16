@@ -42,20 +42,12 @@ public class AchievementServiceImpl implements AchievementService{
 
         String fileURL = Constant.uploadingFile(inputFile, pathFile);
 
-        // Split the mimeType into primary and sub types
-        String primaryType, subType;
-        try {
-            primaryType = fileContentType.split("/")[0];
-            subType = fileContentType.split("/")[1];
-        } catch (IndexOutOfBoundsException | NullPointerException ex) {
-        }
-
-        // delete old file
-        if(achievement != null){
-            String oldPath = achievement.getImageURL();
-            if(!fileURL.equals(oldPath))
-                Constant.deleteFile(oldPath);
-        }
+//        // delete old file
+//        if(achievement != null){
+//            String oldPath = achievement.getImageURL();
+//            if(!fileURL.equals(oldPath))
+//                Constant.deleteFile(oldPath);
+//        }
 
         return fileURL;
     }

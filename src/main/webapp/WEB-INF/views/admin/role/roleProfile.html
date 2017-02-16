@@ -2,19 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Rang</title>
+<title>Role</title>
 </head>
 <body>
-<a th:href="@{/admin/rang/management}" >Rang Management</a>
+<a th:href="@{/admin/role/management}" >Role Management</a>
 <br/>
-<div class="rang">
-  <h2 >Rang</h2>
+<div class="role">
+  <h2 >Role</h2>
   
   <table>
     <thead>
       <tr>
        <th>Id</th>
-        <th>Rang Name</th>
+        <th>Role Name</th>
         <th>Users</th>
         <th>Edit</th>
         <th>Delete</th>
@@ -24,9 +24,9 @@
       <tr>
         <td th:text="${role.roleId}"></td>
         <td th:text="${role.roleName}"></td>
-        <td><a th:href="@{/admin/user/rang/} + ${role.roleId}">Users</a></td>
-        <td><a th:href="@{/admin/rang/edit/} + ${role.roleId}">Edit</a></td>
-        <td><a th:href="@{/admin/rang/delete/} + ${role.roleId}">Delete</a></td>
+        <td><a th:href="@{/admin/role/users/} + ${role.roleId}">Users</a></td>
+        <td><a th:href="@{/admin/role/edit/} + ${role.roleId}">Edit</a></td>
+        <td><a th:href="@{/admin/role/delete/} + ${role.roleId}">Delete</a></td>
       </tr>
     </tbody>
   </table>

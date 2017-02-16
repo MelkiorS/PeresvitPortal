@@ -2,6 +2,9 @@ package ua.peresvit.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +28,9 @@ public class UserPageController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserGroupService userGroupService;
 
     @Autowired
     private EventService eventService;
@@ -53,15 +59,20 @@ public class UserPageController {
     @Autowired
     private AchievementService achievementService;
 
+    @Autowired
+    private PostService postService;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String goToReg(Model model, Principal principal) {
         if (principal != null) {
+            // TODO use switch construction
             if (userService.getCurrentUser().getRole().getRoleName().equals("ADMIN")) {
                 return "redirect:/admin";
             }
             return "redirect:/home/workField";
         }
-        return "redirect:/registration";
+        model.addAttribute("user", (userService.getCurrentUser() == null ? new User() : userService.getCurrentUser()) );
+        return "home";
     }
 
     @RequestMapping(value = "/workField", method = RequestMethod.GET)
@@ -135,6 +146,7 @@ public class UserPageController {
         user.setAvatarURL(userService.saveFile(user, file));
 
         // check fields
+        // TODO use java 8 Optional .orNull
         if (user.getCity().getCityId() == null)
             user.setCity(null);
         if (user.getClub().getClubId() == null)
@@ -204,4 +216,38 @@ public class UserPageController {
     public String showAllMessages() {
         return "home/messages";
     }
+
+    @RequestMapping(value = {"/we/{groupId}", "/we"}, method = RequestMethod.GET)
+    public String getWe(@PathVariable("groupId") Optional<Long> groupId, Model model){
+
+        List<UserGroup> ug = userService.getUserGroups(userService.getCurrentUser());
+        UserGroup[] uga;
+        if (groupId.isPresent()) {
+            uga = new UserGroup[1];
+            uga[0] = userGroupService.findById(groupId.get().longValue());
+        } else {
+            uga = new UserGroup[ug.size()];
+            uga = ug.toArray(uga);
+        }
+
+        model.addAttribute("groups", ug);
+        //TODO how to do it in more correct way?
+        model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsers(uga));
+        return "home/workField_we";
+    }
+
+    // NEWS all
+    @RequestMapping(value = "/post", method = RequestMethod.GET)
+    public String getPosts(Model model, @PageableDefault(value=9, direction = Sort.Direction.DESC, sort = "createDate") Pageable pageable){
+        model.addAttribute("page", postService.findAll(pageable) );
+        return "home/workField_allPosts";
+    }
+
+    // NEWS show by id
+    @RequestMapping(value = "/post/{id}", method = RequestMethod.GET)
+    public String showPost(@PathVariable Long id, Model model){
+        model.addAttribute("post", postService.findOne(id));
+        return "home/workField_post";
+    }
+
 }

@@ -36,7 +36,7 @@ public class ResourceGroupTypeController {
 		resourceGroupTypeService.save(resourceGroupType);
 		model.addAttribute("resourceGroupTypeId", resourceGroupType.getResourceGroupTypeId());
 		model.addFlashAttribute("resourceGroupType", resourceGroupType);
-		return "redirect:/admin/resourceGroupType/{resourceGroupTypeId}";
+		return "redirect:/admin/resourceGroupType/";
 	}
 	
 	// show resourceGroupType by id

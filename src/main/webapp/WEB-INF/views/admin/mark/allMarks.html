@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Mark List</title>
-</head>
-<body>
-<a th:href="@{/admin/mark/management}" >Mark Management</a>
-<br/>
-<div class="markList" th:unless="${#lists.isEmpty(markList)}">
+<div th:replace="admin/fragments/head :: header('Mark List')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/mark/add','')"></div>
 
-  <h2 >List of Mark</h2>
 
-  <table>
-    <thead>
-    <tr>
-      <th>Id</th>
-      <th>Mark Name</th>
-      <th>Address</th>
-      <th>Edit</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="mark : ${markList}">
-      <td th:text="${mark.markId}"></td>
-      <td th:text="${mark.markName}"></td>
-      <td th:text="${mark.imageURL}"></td>
-      <td><a th:href="@{/admin/mark/edit/} + ${mark.markId}">Edit</a></td>
-    </tr>
-    </tbody>
-  </table>
+
+<div th:remove="all">
+  <div th:fragment="main">
+
+    <div class="markList" th:unless="${#lists.isEmpty(markList)}">
+
+      <h2 >List of Mark</h2>
+
+      <table>
+        <thead>
+        <tr>
+          <th>Id</th>
+          <th>Mark Name</th>
+          <th>Image URL</th>
+          <th>Image</th>
+          <th>Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mark : ${markList}">
+          <td th:text="${mark.markId}"></td>
+          <td th:text="${mark.markName}"></td>
+          <td th:text="${mark.imageURL}"></td>
+          <td><img th:src= "@{'data:image;base64,' + ${mark.encodeFileToBase64Binary()}}" width="100px" height="100px;"></td>
+          <td><a th:href="@{/admin/mark/edit/} + ${mark.markId}">Edit</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
 </div>
-</body>
 </html>
