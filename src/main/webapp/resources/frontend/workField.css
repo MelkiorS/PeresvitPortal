@@ -96,6 +96,9 @@ footer img{
     text-align:left;
     width: 100%;
 }
+.header_nav .control_button{
+    text-align:center;
+}
 .sideFirst{
     border-radius: 5px 5px 0 0;
 }
