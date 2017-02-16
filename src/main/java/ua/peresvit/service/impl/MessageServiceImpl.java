@@ -47,6 +47,9 @@ public class MessageServiceImpl implements MessageService{
         Chat newChat = new Chat();
         Set<User> members = new HashSet<>(Arrays.asList(users));
         newChat.setMembers(members);
+//        As default we post no title and Admin as owner
+        newChat.setChatTitle("dialog");
+        newChat.setOwner(userService.findOne(1L));
         return saveChat(newChat);
     }
 
@@ -63,10 +66,10 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public Chat findDialog(User user) {
-        Set<Chat> dialogs = chatRepository.findDialogsOfUser(user);
-        for (Chat c : dialogs
-             ) {
+    public Chat findDialog(Long userId) {
+        Set<Chat> dialogs = chatRepository.findDialogsOfUser(userId);
+        User user = userService.findOne(userId);
+        for (Chat c : dialogs) {
             if (c.getMembers().contains(user)) {
                 return c;
             }

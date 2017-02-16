@@ -18,7 +18,7 @@ public interface MessageService {
 
     Chat findOneChat(Long arg0);
 
-    Chat findDialog(User user);
+    Chat findDialog(Long userId);
 
     Chat createNewChat(Chat chat, Locale locale);
 

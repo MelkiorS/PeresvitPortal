@@ -15,8 +15,8 @@ public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long chatId;
-    private String chatTitle = null;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private String chatTitle;
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_chat",
             joinColumns = @JoinColumn(name = "chatId"),
@@ -32,5 +32,5 @@ public class Chat {
 //    private Set<User> usersHaveRead = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "ownerId")
-    private User owner = null;
+    private User owner = new User();
 }

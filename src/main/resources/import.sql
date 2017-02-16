@@ -27,10 +27,15 @@ INSERT INTO  user(firstName, lastName, email, password, avatarURL , roleId, comb
 INSERT INTO  user(firstName, lastName, email, password, avatarURL , roleId, combatArtId) VALUES ('Степан', 'Степаненко', 'user1@mail', '123456','http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 4, 1);
 INSERT INTO  user(firstName, lastName, email, password, avatarURL , roleId, combatArtId, cityId, clubId, mentor_userId) VALUES ('Василь', 'Петренко', 'user@mail', '123456','http://s3.amazonaws.com/37assets/svn/765-default-avatar.png', 4, 1, 1, 1, 2);
 INSERT INTO chat(chatTitle, ownerId) VALUES ('Chat', 1);
-INSERT INTO chat(chatTitle, ownerId) VALUES ('Dialog', 1);
-INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('Hello', '2009-06-04 18:25:08', FALSE, FALSE, 1, 1);
-INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('Its functional message', '2009-06-04 18:25:08', FALSE, FALSE, 1, 2);
+INSERT INTO chat(chatTitle, ownerId) VALUES ('Chat #2', 1);
+INSERT INTO chat(chatTitle, ownerId) VALUES ('dialog', 1);
+INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('Hello', '2002-06-04 18:25:08', FALSE, FALSE, 1, 1);
+INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('Its functional message', '2007-06-04 18:25:08', FALSE, FALSE, 1, 2);
 INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('just some message', '2009-06-04 18:25:08', FALSE, FALSE, 1, 3);
+INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('just some message', '2009-06-04 18:29:08', FALSE, FALSE, 2, 3);
+INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('just some message', '2009-06-04 18:27:08', FALSE, FALSE, 2, 3);
+INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('just some message', '2009-06-04 18:28:08', FALSE, FALSE, 3, 3);
+INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('just some message', '2009-06-04 18:24:08', FALSE, FALSE, 3, 3);
 INSERT INTO  resourceGroup(roleId,resourceGroupTypeId) VALUES (2,2);
 INSERT INTO  resource(url,title,resourceGroupId,resourceTypeId) VALUES ('some_url','some_photo1',1,2);
 INSERT INTO  resource(url,title,resourceGroupId,resourceTypeId) VALUES ('some_url','some_photo2',1,2);
@@ -70,5 +75,8 @@ INSERT INTO user_chat(userId, chatId) VALUES (1, 1);
 INSERT INTO user_chat(userId, chatId) VALUES (2, 1);
 INSERT INTO user_chat(userId, chatId) VALUES (3, 1);
 INSERT INTO user_chat(userId, chatId) VALUES (1, 2);
+INSERT INTO user_chat(userId, chatId) VALUES (2, 2);
 INSERT INTO user_chat(userId, chatId) VALUES (3, 2);
+INSERT INTO user_chat(userId, chatId) VALUES (1, 3);
+INSERT INTO user_chat(userId, chatId) VALUES (3, 3);
 

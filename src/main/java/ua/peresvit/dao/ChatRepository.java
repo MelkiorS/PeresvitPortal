@@ -21,14 +21,14 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     @Query("select distinct c from User u INNER JOIN u.chats c where u = :user")
     Set<Chat> findChatsOfUser(@Param("user") User user);
 
-    @Query("select c from User u INNER JOIN u.chats c where (u = :user) AND ((select count (distinct m) from c inner join c.members m ) = 2)")
-    Set<Chat> findDialogsOfUser(@Param("user") User user);
+    @Query("select distinct c from User u INNER JOIN u.chats c inner join c.members m where (u.userId = :userId) AND ((select count (distinct m) from c) = 2)")
+    Set<Chat> findDialogsOfUser(@Param("userId") Long userId);
 
     @Query("select new ua.peresvit.dto.ChatWithLastMessage(c.chatId, c.chatTitle, m.messageId, m.content, m.createdAt, m.readStatus, m.sender) " +
             "from User u " +
             "left outer join u.chats c " +
             "left outer join c.messages m " +
-            "where (m.createdAt = (select max(mes.createdAt) from Message mes where mes.chat = c)) and (u = :user) " +
-            "order by m.createdAt desc")
+            "where (m.createdAt = (select max(m.createdAt) from m)) and (u = :user) " +
+            "order by m.readStatus, m.createdAt desc")
     Set<ChatWithLastMessage> getChatsWithLastMessage(@Param("user") User user);
 }

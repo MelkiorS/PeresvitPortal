@@ -34,7 +34,17 @@ public class MessageController {
     //  after entering main messages' page we get list of all chats, we can create new chat or send new message
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String getAllChats(Model model) {
-        Set<ChatWithLastMessage> chats = messageService.findCustomChatsOfUser(userService.getCurrentUser());
+        User currentUser = userService.getCurrentUser();
+        Set<ChatWithLastMessage> chats = messageService.findCustomChatsOfUser(currentUser);
+        for (ChatWithLastMessage chat : chats) {
+            if (chat.getChatTitle().equals("Dialog")) {
+                for (User u : messageService.findOneChat(chat.getChatId()).getMembers()) {
+                    if (!u.equals(currentUser)) {
+                        chat.setChatTitle(u.getFirstName() + " " + u.getLastName());
+                    }
+                }
+            }
+        }
         model.addAttribute("chatList", chats);
 //        adding chat object to create new chat from start chats page
         model.addAttribute(new Chat());
@@ -70,7 +80,7 @@ public class MessageController {
         if (!chat.getMembers().contains(currentUser)) {
             return "redirect:/home/messages";
         }
-        if (chat.getChatTitle().equals("")) {
+        if (chat.getChatTitle().equals("dialog")) {
             for (User u : chat.getMembers()) {
                 if (!u.equals(currentUser)) {
                     chat.setChatTitle(u.getFirstName() + " " + u.getLastName());
@@ -182,9 +192,8 @@ public class MessageController {
     //   get to the chat to post message to one user
     @RequestMapping(value = "/postMessage/{userId}", method = RequestMethod.GET)
     public String getFormForNewMessage(@PathVariable("userId") Long userId, Model model) {
-//        переделать метод поиска диалога на метод с двумя лонгами в аргументами
         User userOfDialog = userService.findOne(userId);
-        Chat currentChat = messageService.findDialog(userOfDialog);
+        Chat currentChat = messageService.findDialog(userId);
         if (currentChat == null) {
             currentChat = messageService.saveDialog(new User[]{userService.getCurrentUser(), userOfDialog});
         }
