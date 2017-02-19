@@ -37,7 +37,7 @@ public class MessageController {
         User currentUser = userService.getCurrentUser();
         Set<ChatWithLastMessage> chats = messageService.findCustomChatsOfUser(currentUser);
         for (ChatWithLastMessage chat : chats) {
-            if (chat.getChatTitle().equals("Dialog")) {
+            if (chat.getChatTitle().equals("dialog")) {
                 for (User u : messageService.findOneChat(chat.getChatId()).getMembers()) {
                     if (!u.equals(currentUser)) {
                         chat.setChatTitle(u.getFirstName() + " " + u.getLastName());
@@ -72,10 +72,14 @@ public class MessageController {
         Chat chat = messageService.findOneChat(chatId);
         User currentUser = userService.getCurrentUser();
         List<Message> messages = messageService.findMessagesByChatOrderByCreatedAt(chatId);
-        Message lastMessage = messages.get(messages.size()-1);
-        if (!lastMessage.isReadStatus() && !currentUser.equals(lastMessage.getSender())){
-            lastMessage.setReadStatus(true);
-            messageService.saveMessage(lastMessage);
+        if (!messages.isEmpty()) {
+            Message lastMessage = messages.get(messages.size()-1);
+            if (!lastMessage.isReadStatus() && !currentUser.equals(lastMessage.getSender())){
+                lastMessage.setReadStatus(true);
+                messageService.saveMessage(lastMessage);
+            }
+            messages = messageService.findMessagesByChatOrderByCreatedAt(chatId);
+            model.addAttribute("messagesList", messages);
         }
         if (!chat.getMembers().contains(currentUser)) {
             return "redirect:/home/messages";
@@ -94,7 +98,6 @@ public class MessageController {
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("ownerPermission", false);
         model.addAttribute(chat);
-        model.addAttribute("messagesList", messages);
         model.addAttribute(new Message());
         return "home/messages";
     }
@@ -144,9 +147,9 @@ public class MessageController {
         }
     }
 
-    //    delete members
+    //   get members from chat to delete
     @RequestMapping(value = "/{chatId}/deleteMembers", method = RequestMethod.GET)
-    public String deleteMembersFromChat(@PathVariable("chatId") Long chatId, Model model) {
+    public String getMembersFromChatToDelete(@PathVariable("chatId") Long chatId, Model model) {
         Chat chat = messageService.findOneChat(chatId);
         User currentUser = userService.getCurrentUser();
         if (chat.getOwner().equals(currentUser) || currentUser.getRole().getRoleName().equals("ADMIN")) {
@@ -157,6 +160,12 @@ public class MessageController {
         }
         model.addAttribute("message", "permission denied");
         return "redirect:/home/messages";
+    }
+
+//    delete members from chat
+    @RequestMapping(value = "/{chatId}/deleteMembers", method = RequestMethod.POST)
+    public String deleteMembersFromChat(@PathVariable("chatId") Long chatId, Model model) {
+        return "redirect:/home/messages/{chatId}";
     }
 
 //    delete chat

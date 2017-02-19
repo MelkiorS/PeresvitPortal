@@ -43,18 +43,20 @@
                         <div class="msgField-advert">
                             <b>Артур створив бесiду "Бионика найкраща"</b>
                         </div>
-                        <div class='msgField-letter' th:each="message : ${messagesList}">
+                        <div th:each="message : ${messagesList}">
                             <div th:if="${message.functional == true}" class="msgField-advert">
                                 <b th:text="${message.content}"></b>
                             </div>
-                            <span class="col-xs-12 msgField-letter-author" th:text="${message.sender.getFirstName()} + ' ' + ${message.sender.getLastName()}"></span>
-                            <!--<span class="msgField-letter-id" th:text="${message.messageId}"></span>-->
-                            <span class="msgField-letter-content" th:text="${message.content}"></span>
-                            <!--<span th:if="${#dates.createToday().getDay()} == ${message.createdAt.date}"></span>-->
-                            <span class="msgField-letter-time" th:text="
-                            ${#dates.format(#dates.createNow(), 'dd-MM-yyyy') == #dates.format(message.createdAt, 'dd-MM-yyyy')} ?
-                            ${#dates.format(message.createdAt, 'HH:mm')} :
-                            ${#dates.format(message.createdAt, 'dd-MM-yyyy HH:mm')}"></span>
+                            <div th:if="${message.functional != true}" class="msgField-letter">
+                                <span class="col-xs-12 msgField-letter-author" th:text="${message.sender.getFirstName()} + ' ' + ${message.sender.getLastName()}"></span>
+                                <!--<span class="msgField-letter-id" th:text="${message.messageId}"></span>-->
+                                <span class="msgField-letter-content" th:text="${message.content}"></span>
+                                <!--<span th:if="${#dates.createToday().getDay()} == ${message.createdAt.date}"></span>-->
+                                <span class="msgField-letter-time" th:text="
+                                ${#dates.format(#dates.createNow(), 'dd-MM-yyyy') == #dates.format(message.createdAt, 'dd-MM-yyyy')} ?
+                                ${#dates.format(message.createdAt, 'HH:mm')} :
+                                ${#dates.format(message.createdAt, 'dd-MM-yyyy HH:mm')}"></span>
+                            </div>
                         </div>
                     </div>
                     <div class="messageList-content-newMsg">

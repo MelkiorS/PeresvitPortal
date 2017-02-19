@@ -21,10 +21,6 @@ public class Message {
     @ManyToOne
     @JoinColumn(name="senderId")
     private User sender;
-//    if current message refers to chat Receiver - is null
-//    @ManyToOne
-//    @JoinColumn(name="receiverId")
-//    private User receiver;
     @ManyToOne
     @JoinColumn(name="chatId")
     private Chat chat;

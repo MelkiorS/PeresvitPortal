@@ -26,10 +26,6 @@ public class Chat {
     @BatchSize(size = 30)
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Collection<Message> messages = new HashSet<>();
-//    @OneToOne
-//    @JoinColumn(name = "messageId")
-//    private Message lastMessage;
-//    private Set<User> usersHaveRead = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "ownerId")
     private User owner = new User();
