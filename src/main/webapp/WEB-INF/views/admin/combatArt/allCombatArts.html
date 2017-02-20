@@ -2,7 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('CombatArt List')"></div>
 <div th:replace="admin/fragments/body :: body(~{::main}, '/admin/combatArt/add','')"></div>
-
+<style>
+  table{
+    width: 60%;
+    margin: 5px 30px 5px 5px;
+  }
+  tbody tr{
+    padding: 5px 5px;
+    height: 30px;
+  }
+  td,th{
+    text-align: center;
+  }
+</style>
 
 
 <div th:remove="all">
@@ -10,21 +22,21 @@
 
     <div class="combatArtList" th:unless="${#lists.isEmpty(combatArtList)}">
 
-      <h2 >List of CombatArt</h2>
+      <h2 >Список бойових мистецтв</h2>
 
       <table>
         <thead>
         <tr>
-          <th>Id</th>
-          <th>CombatArt Name</th>
-          <th>Edit</th>
+          <!--<th>Id</th>-->
+          <th>Бойове мистецтво</th>
+          <th>Редагувати</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="combatArt : ${combatArtList}">
-          <td th:text="${combatArt.combatArtId}"></td>
+          <!--<td th:text="${combatArt.combatArtId}"></td>-->
           <td th:text="${combatArt.combatArtName}"></td>
-          <td><a th:href="@{/admin/combatArt/edit/} + ${combatArt.combatArtId}">Edit</a></td>
+          <td><a th:href="@{/admin/combatArt/edit/} + ${combatArt.combatArtId}">Редагувати</a></td>
         </tr>
         </tbody>
       </table>

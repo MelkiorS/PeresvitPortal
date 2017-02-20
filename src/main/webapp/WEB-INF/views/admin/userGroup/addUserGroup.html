@@ -10,19 +10,23 @@
 
         <form action="#" th:action="@{/admin/userGroup/}" th:object="${userGroup}" enctype="multipart/form-data" method="post">
             <input type="hidden" th:field="*{id}" />
+            <div class="form-group">
+                <label>Назва групи: </label>
+            <input class="form-control" type="text" th:field="*{name}" placeholder="Назва групи" />
+            </div>
+            <div class="form-group">
+                <label >Користувачі:</label>
+                    <p style="margin-left:10px;" th:each="user : ${userList}">
+                        <input  type="checkbox" style="margin-right: 7px; " th:value="${{user.getUserId().toString()}}" th:text="${user.firstName} + ' ' + ${user.lastName} " th:checked="${userGroup!=null && userGroup.users != null && userGroup.users.contains(user)}"/>
+                    </p>
 
-            <input type="text" th:field="*{name}" placeholder="Name" /><br/>
-            <br/>
+                    <!--<-->
+                            <!--th:selected="${userGroup!=null && userGroup.users != null && userGroup.users.contains(user)}"-->
+                            <!--th:value="${{user.getUserId().toString()}}"-->
+                            <!--th:text="${user.firstName} + ' ' + ${user.lastName}"></>-->
+            </div>
 
-            <label for="userList">Users:</label>
-            <select multiple name="users">
-                <option th:each="user : ${userList}"
-                        th:selected="${userGroup!=null && userGroup.users != null && userGroup.users.contains(user)}"
-                        th:value="${{user.getUserId().toString()}}"
-                        th:text="${user.firstName} + ' ' + ${user.lastName}"></option>
-            </select> <br />
-
-            <input type="submit" />
+            <input class="btn btn-primary" type="submit" value="Зберегти"/>
         </form>
 
     </div>

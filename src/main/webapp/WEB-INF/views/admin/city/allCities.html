@@ -2,27 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('City list')"></div>
 <div th:replace="admin/fragments/body :: body(~{::main}, '/admin/city/add','')"></div>
-
+<style>
+  table{
+    width: 60%;
+    margin: 5px 30px 5px 30px;
+  }
+  tbody tr{
+    padding: 5px 5px;
+    height: 30px;
+  }
+  td,th{
+    text-align: center;
+  }
+</style>
 <div th:remove="all">
   <div th:fragment="main">
 
     <div class="cityList" th:unless="${#lists.isEmpty(cityList)}">
 
-      <h2 >List of City</h2>
+      <h2 >Список міст</h2>
 
       <table>
         <thead>
         <tr>
-          <th>Id</th>
-          <th>City Name</th>
-          <th>Edit</th>
+          <!--<th>Id</th>-->
+          <th>Місто</th>
+          <th>Редагувати</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="city : ${cityList}">
-          <td th:text="${city.cityId}"></td>
+          <!--<td th:text="${city.cityId}"></td>-->
           <td th:text="${city.cityName}"></td>
-          <td><a th:href="@{/admin/city/edit/} + ${city.cityId}">Edit</a></td>
+          <td><a th:href="@{/admin/city/edit/} + ${city.cityId}">Редагувати</a></td>
         </tr>
         </tbody>
       </table>

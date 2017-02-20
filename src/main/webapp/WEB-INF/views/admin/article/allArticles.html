@@ -2,7 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('Article List')"></div>
 <div th:replace="admin/fragments/body :: body(~{::main}, '/admin/article/add','')"></div>
-
+<style>
+    table{
+        width: 80%;
+        margin: 5px 30px 5px 30px;
+    }
+    tbody tr{
+        padding: 5px 5px;
+        height: 30px;
+    }
+    td,th{
+        text-align: center;
+    }
+</style>
 
 
 <div th:remove="all">
@@ -10,16 +22,16 @@
 
         <div class="articleList" th:unless="${#lists.isEmpty(articleList)}">
 
-            <h2 >List of Article</h2>
+            <h2 >Список статей</h2>
 
             <table>
                 <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Rang</th>
-                    <th>Type</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Назва</th>
+                    <th>Роль</th>
+                    <th>Тип</th>
+                    <th>Редагувати</th>
+                    <th>Видалити</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -27,14 +39,20 @@
                     <td th:text="${article.articleName}"></td>
                     <td th:text="${article.role.roleName}"></td>
                     <td th:text="${article.resourceGroupType.groupName}"></td>
-                    <td><a th:href="@{/admin/article/edit/} + ${article.articleId}">Edit</a></td>
-                    <td><a th:href="@{/admin/article/delete/} + ${article.articleId}">Delete</a></td>
+                    <td><a th:href="@{/admin/article/edit/} + ${article.articleId}">Редагувати</a></td>
+                    <td><a onclick="event.preventDefault();deleteElem(this)" th:href="@{/admin/article/delete/} + ${article.articleId}">Видалити</a></td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <script>
+            function deleteElem(e){
+                return confirm('Видалити цю статтю?')? location.href = e.getAttribute('href'):false;
+            }
+        </script>
 
     </div>
+
 </div>
 </html>
 

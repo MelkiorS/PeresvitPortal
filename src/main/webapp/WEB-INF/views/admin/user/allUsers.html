@@ -2,45 +2,61 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('Users list')"></div>
 <div th:replace="admin/fragments/body :: body(~{::main}, '/admin/user/add','')"></div>
-
+<style>
+  table{
+    width: 90%;
+    margin: 5px 30px 5px 10px;
+  }
+  tbody tr{
+    padding: 5px 5px;
+    height: 40px;
+  }
+  td,th{
+    text-align: center;
+  }
+</style>
 
 <div th:remove="all">
   <div th:fragment="main">
 
     <div class="rangList" th:unless="${#lists.isEmpty(userList)}">
 
-      <h2 >List of Users</h2>
+      <h2 >Список користувачів</h2>
 
       <table>
         <thead>
         <tr>
-          <th>userId</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Middle Name</th>
-          <th>Email</th>
-          <th>Avatar URL</th>
-          <th>Enabled</th>
-          <th>Edit</th>
-          <th>Delete</th>
+          <!--<th>userId</th>-->
+          <th>Ім'я</th>
+          <!--<th>Last Name</th>-->
+          <!--<th>Middle Name</th>-->
+          <th>Електронна адреса</th>
+          <!--<th>Avatar URL</th>-->
+          <th>Має дозвіл</th>
+          <th>Редагувати</th>
+          <th>Видалити</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${userList}">
-          <td th:text="${user.userId}"></td>
-          <td th:text="${user.firstName}"></td>
-          <td th:text="${user.lastName}"></td>
-          <td th:text="${user.middleName}"></td>
+          <!--<td th:text="${user.userId}"></td>-->
+          <td th:text="${user.firstName} +' '+ ${user.lastName}"></td>
+          <!--<td th:text="${user.lastName}"></td>-->
+          <!--<td th:text="${user.middleName}"></td>-->
           <td th:text="${user.email}"></td>
-          <td th:text="${user.avatarURL}"></td>
+          <!--<td th:text="${user.avatarURL}"></td>-->
           <td th:text="${user.enabled}"></td>
-          <td><a th:href="@{/admin/user/edit/} + ${user.userId}">Edit</a></td>
-          <td><a th:href="@{/admin/user/delete/} + ${user.userId}">Delete</a></td>
+          <td><a th:href="@{/admin/user/edit/} + ${user.userId}">Редагувати</a></td>
+          <td><a onclick="event.preventDefault();deleteElem(this)" th:href="@{/admin/user/delete/} + ${user.userId}">Видалити</a></td>
         </tr>
         </tbody>
       </table>
     </div>
-
+    <script>
+        function deleteElem(e){
+            return confirm('Видалити цього користувача?')? location.href = e.getAttribute('href'):false;
+        }
+    </script>
   </div>
 </div>
 </html>
