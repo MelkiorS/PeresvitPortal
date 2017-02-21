@@ -30,7 +30,7 @@ INSERT INTO chat(chatTitle, ownerId) VALUES ('Chat', 1);
 INSERT INTO chat(chatTitle, ownerId) VALUES ('Chat #2', 1);
 INSERT INTO chat(chatTitle, ownerId) VALUES ('dialog', 1);
 INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('Hello', '2002-06-04 18:25:08', FALSE, FALSE, 1, 1);
-INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('Its functional message', '2007-06-04 18:25:08', FALSE, FALSE, 1, 2);
+INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('Its functional message', '2007-06-04 18:25:08', TRUE, FALSE, 1, 2);
 INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('just some message', '2009-06-04 18:25:08', FALSE, FALSE, 1, 3);
 INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('just some message', '2009-06-04 18:29:08', FALSE, FALSE, 2, 3);
 INSERT INTO message(content, createdAt, functional, readStatus, chatId, senderId) VALUES ('just some message', '2009-06-04 18:27:08', FALSE, FALSE, 2, 3);

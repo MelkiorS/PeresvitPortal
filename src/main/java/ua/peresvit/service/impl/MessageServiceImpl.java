@@ -67,7 +67,7 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public Chat findDialog(Long userId) {
-        Set<Chat> dialogs = chatRepository.findDialogsOfUser(userId);
+        Set<Chat> dialogs = chatRepository.findDialogsOfUser(userService.getCurrentUser().getUserId());
         User user = userService.findOne(userId);
         for (Chat c : dialogs) {
             if (c.getMembers().contains(user)) {

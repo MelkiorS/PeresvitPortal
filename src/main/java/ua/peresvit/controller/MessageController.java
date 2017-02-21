@@ -57,6 +57,9 @@ public class MessageController {
     @RequestMapping(value = "/newChat", method = RequestMethod.POST)
     public String createNewChatFromMainPage(Chat chat, Model model, Locale locale) {
         if (!Objects.equals(chat.getChatTitle(), "") && !chat.getMembers().isEmpty()) {
+            Set<User> members = chat.getMembers();
+            members.add(userService.getCurrentUser());   // adding chat's creator as a member of the chat
+            chat.setMembers(members);
             chat = messageService.createNewChat(chat, locale);
             model.addAttribute("chatId", chat.getChatId());
             return "redirect:/home/messages/{chatId}";
@@ -201,10 +204,13 @@ public class MessageController {
     //   get to the chat to post message to one user
     @RequestMapping(value = "/postMessage/{userId}", method = RequestMethod.GET)
     public String getFormForNewMessage(@PathVariable("userId") Long userId, Model model) {
-        User userOfDialog = userService.findOne(userId);
-        Chat currentChat = messageService.findDialog(userId);
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.getUserId().equals(userId)) {
+            return "redirect:/home/messages";
+        }
+        Chat currentChat = messageService.findDialog(currentUser.getUserId());
         if (currentChat == null) {
-            currentChat = messageService.saveDialog(new User[]{userService.getCurrentUser(), userOfDialog});
+            currentChat = messageService.saveDialog(new User[]{currentUser, userService.findOne(userId)});
         }
         model.addAttribute("chatId", currentChat.getChatId());
         return "redirect:/home/messages/{chatId}";
