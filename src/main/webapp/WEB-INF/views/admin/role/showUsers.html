@@ -3,11 +3,16 @@
 <div th:replace="admin/fragments/head :: header('Role users')"></div>
 <div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/role/')"></div>
 
+<style>
+    tr{
+        font-size:16px;
+    }
+</style>
 
 
 <div th:remove="all">
     <div th:fragment="main">
-        <h2 th:text="${'Users of role ' + role.roleName}"></h2>
+        <h2 th:text="${'Користувачi группи ' + role.roleName}"></h2>
 
         <table>
             <tbody>

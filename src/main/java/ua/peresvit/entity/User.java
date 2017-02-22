@@ -6,6 +6,7 @@ import javax.validation.Constraint;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Collection;
 
 
 @Entity
@@ -52,6 +53,13 @@ public class User {
 	@JoinColumn(name="roleId")
 	private Role role;
 
+//	@OneToMany(mappedBy = "author")
+//	private Collection<Message> receivedMessages;
+//	@OneToMany(mappedBy = "receiver")
+//	private Collection<Message> sentMessages;
+	@ManyToMany(mappedBy = "members")
+	private Set<Chat> chats = new HashSet<>();
+
 	private String aboutMe;
 
 	// Account verification status
@@ -96,5 +104,10 @@ public class User {
 	public int hashCode() {
 		return userId == null ? 0: userId.hashCode();
 	}
+
+	public boolean isAdmin() {
+		return role.getRoleName().equals("ADMIN");
+	}
+
 
 }

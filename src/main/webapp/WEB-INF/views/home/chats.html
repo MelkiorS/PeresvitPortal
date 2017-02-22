@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Peresvit</title>
     <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="/resources/frontend/workField.css">
@@ -29,33 +28,27 @@
             </div>
         </div>
         <div class=" col-xs-7 row well container-fluid main_section">
-
-                    <div>
-                        <span> <a th:text="${'   #Все'}" th:href="@{/home/we}"></a> </span>
-                        <span th:each="group: ${groups}"> <a th:text="${'   #' + group.name}" th:href="@{/home/we/{id}(id=${group.id}) }"></a> </span>
+            <div class="chats-header">
+                <form th:action="@{/home/messages/}"><p>Розпочати бесіду</p></form>
+            </div>
+            <div class="markList" th:unless="${#lists.isEmpty(chatList)}">
+                    <div th:each="chat : ${chatList}"   >
+                        <form th:action="@{/home/messages/} + ${chat.chatId}" method="get">
+                            <button class="btn btn-default  markList-item" type="submit"  aria-haspopup="true" aria-expanded="false">
+                                <img class="col-xs-2" th:src="${chat.sender.avatarURL}" src="/resources/frontend/images/userIcon.png" alt="аватар юзера">
+                                <!--<span th:text="${chat.chatId}"></span>-->
+                                <p class="col-xs-8 markList-item-title" th:text="${chat.chatTitle}"></p>
+                                <p class="col-xs-2 markList-item-time" th:text=
+                                        "${#dates.createToday().getDay() == chat.createdAt.getDay() &&
+                                        #dates.createToday().getMonth() == chat.createdAt.getMonth() &&
+                                        #dates.createToday().getYear() == chat.createdAt.getYear()} ?
+                                        ${#dates.format(chat.createdAt, 'HH:mm')} :
+                                        ${#dates.format(chat.createdAt, 'dd-MM-yyyy HH:mm')}">2:23 PM</p>
+                                <p class="col-xs-8 markList-item-message" th:text="${chat.sender.firstName} + ' ' + ${chat.sender.lastName} + ': ' + ${chat.content}">Last Message</p>
+                            </button>
+                        </form>
                     </div>
-                    <br>
-
-                    <div class="row" th:each="user : ${userList}">
-                        <div class="col-xs-2">
-                            <img th:src="${user.avatarURL}" alt="photo" height="42" width="42">
-                        </div>
-                        <div class="col-xs-6">
-                            <div class="row" th:text="${user.firstName + ' ' + user.lastName}"></div>
-                            <div class="row" th:text="${user.combatArt.combatArtName}">Фрі-файт</div>
-                            <div class="row"> <span th:each="mark: ${user.marks}" th:text="${'  ' + mark.markName}"></span> </div>
-                            <div class="row" th:text="${user.role.roleName}">Наставник 2-го класу</div>
-                        </div>
-                        <div class="col-xs-4">
-                            <form th:action="@{/home/messages/postMessage/} + ${user.userId}" method="get">
-                                <button type="submit" class="btn btn-default">написати повідомлення</button>
-                            </form>
-                        </div>
-                        <br>
-                        <br>
-                        <br>
-                    </div>
-        </div>
+            </div>
     </div>
 
     <footer>
@@ -71,7 +64,7 @@
             </div>
         </div>
     </footer>
-
+</div>
 </div>
 
 </body>

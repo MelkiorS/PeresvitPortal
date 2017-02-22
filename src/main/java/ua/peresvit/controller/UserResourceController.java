@@ -45,7 +45,7 @@ public class UserResourceController {
 //        HttpSession session = request.getSession();
 //        User user = (User)session.getAttribute("user");
 ////        Role rang = user.getRole();
-//        //Role rang = roleService.findOne(1l);
+//        //Role rang = roleService.findOneMessage(1l);
 //        ResourceGroupType type = resourceGroupTypeService.findResourceGroupTypeByGroupName(groupName);
 //        Collection<Article> articles = articleService.findAllByResourceGroupTypeAndRang(type,rang);
 //        articles.forEach(System.out::println);

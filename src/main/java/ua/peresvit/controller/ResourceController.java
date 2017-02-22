@@ -154,6 +154,7 @@ public class ResourceController {
 					Files.copy(filePath.toAbsolutePath(), response.getOutputStream());
 					response.getOutputStream().flush();
 				} catch (IOException ex) {
+					// TODO use custom exception !!!  RuntimeException only for dummy
 					throw new RuntimeException("Увага! Помилка запису файла!");
 				}
 			}
@@ -164,15 +165,12 @@ public class ResourceController {
 			throw new RuntimeException("Увага! URL пустий");
 	}
 
+	// TODO use common (for all application) exception handler
 	@ExceptionHandler(Exception.class)
 	public String handleAllException(Exception ex, Model model) {
-
-
 		model.addAttribute("errorMessage", ex.getMessage());
 		model.addAttribute("type", "warning");
-
 		return "error/general";
-
 	}
 
 }

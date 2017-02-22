@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--Универсальная страница. Если переменная статус = delete, то удаляем выбранных пользователей-->
+<div th:if="${status == 'delete'}">
+  <div th:each="user: ${chat.members}">
+      <!--Тут чекбоксы с пользователями на удаление. В конце кнопка удалить-->
+  </div>
+</div>
+<!--Если переменная add, то добавляем-->
+<div th:if="${status == 'add'}">
+    <div th:each="user: ${membersToAdd}">
+        <!--Тут чекбоксы с пользователями на на добавление. В конце кнопка добавить-->
+    </div>
+</div>
+</body>
+</html>

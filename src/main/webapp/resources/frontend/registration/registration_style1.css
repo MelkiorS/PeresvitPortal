@@ -1,21 +1,31 @@
+
 @font-face {
     font-family: Ubuntu; /* Имя шрифта */
     src: url(../libraries/fonts/Ubuntu-C.ttf); /* Путь к файлу со шрифтом */
 }
 body{
-    background: url('img/glavn-001.jpg');
+    background: url('img/glavn-001.jpg') no-repeat;
+    background-size: cover;
     font-family: Ubuntu;
-    background-repeat: no-repeat;
     padding: 0;
     margin: 0;
     height: auto;
+    overflow: hidden;
+    width: 98%;
+}
+.info-message{
+    font-family: Ubuntu;
+    font-size: 20px;
+    color: #fff;
+    text-align: center;
 }
 .wrapper{
     height:100%;
     width: 100%;
     margin:0 auto;
     padding: 5% 0 0 0;
-    font-size: 1.6rem
+    font-size: 1.6rem;
+    box-sizing: border-box;
 }
 /*********************************************************************************8*/
 .icemegamenu ul,
@@ -122,7 +132,7 @@ body{
     display: block;
     padding: 0;
     line-height: 1.25em;
-    color: none;
+    /*color: none;*/
 }
 .icemegamenu > ul > li.fullwidth {
     position: static;

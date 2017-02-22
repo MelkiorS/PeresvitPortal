@@ -13,10 +13,8 @@
     <script  async src="/resources/frontend/registration/js/registration_script.js"></script>
 </head>
 <body>
+<div class=" info-message" th:if="${message} != null" th:text="${message}"></div>
 <div class="container-fluid wrapper">
-    <div class="row">
-
-    </div>
 <div class="row log_in">
     <div class="col-xs-offset-5 col-xs-6 icemegamenu">
         <ul id="icemegamenu" class="meganizr mzr-slide mzr-responsive">
@@ -68,23 +66,8 @@
                         <div class="form-group col-xs-4 modal_logIn_section_form_pass_forget">
                             <div class="modal_logIn_section_form_pass_forget_item">
                                 <!--Это ссылка на которую переходит Юзер, если он забыл пароль-->
-                                <p><a href="">Забули пароль?</a></p>
+                                <p><a th:href="@{/registration/remind}">Забули пароль?</a></p>
                             </div>
-                        </div>
-                        <div class="form_inline modal_logIn_section_form_rememberMe col-xs-12">
-                            <div class="form-group">
-                                <div class="col-xs-6 modal_logIn_section_form_rememberMe_text ">
-                                    <h3>Запам'ятати мене</h3>
-                                </div>
-                                <div class="col-xs-offset-1 col-xs-3 modal_logIn_section_form_rememberMe_checkbox">
-                                    <label class="switch">
-                                        <!--************здесь юзер отмечает, стоит ли запомнить его при входе в кабинет****************-->
-                                        <input type="checkbox" >
-                                        <div class="slider round"></div>
-                                    </label>
-                                </div>
-                            </div>
-
                         </div>
                         <div class="form-group using_social_networks row col-xs-12">
                             <div class="vk col-xs-offset-1  col-xs-11">

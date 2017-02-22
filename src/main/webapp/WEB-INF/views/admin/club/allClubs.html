@@ -2,7 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('Club list')"></div>
 <div th:replace="admin/fragments/body :: body(~{::main}, '/admin/club/add','')"></div>
-
+<style>
+  table{
+    width: 60%;
+    margin: 5px 30px;
+  }
+  tbody tr{
+    height: 30px;
+  }
+  td,th{
+    text-align: center;
+  }
+</style>
 
 
 <div th:remove="all">
@@ -10,23 +21,22 @@
 
     <div class="clubList" th:unless="${#lists.isEmpty(clubList)}">
 
-      <h2 >List of Club</h2>
+      <h2 >Список клубiв</h2>
 
       <table>
         <thead>
         <tr>
-          <th>Id</th>
-          <th>Club Name</th>
-          <th>Address</th>
-          <th>Edit</th>
+          <th>Назва клубу</th>
+          <th>Адреса</th>
+          <th>Редагувати</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="club : ${clubList}">
-          <td th:text="${club.clubId}"></td>
+          <!--<td th:text="${club.clubId}"></td>-->
           <td th:text="${club.clubName}"></td>
           <td th:text="${club.address}"></td>
-          <td><a th:href="@{/admin/club/edit/} + ${club.clubId}">Edit</a></td>
+          <td><a th:href="@{/admin/club/edit/} + ${club.clubId}">Редагувати</a></td>
         </tr>
         </tbody>
       </table>

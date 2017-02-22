@@ -2,6 +2,9 @@ package ua.peresvit.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,9 +59,13 @@ public class UserPageController {
     @Autowired
     private AchievementService achievementService;
 
+    @Autowired
+    private PostService postService;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String goToReg(Model model, Principal principal) {
         if (principal != null) {
+            // TODO use switch construction
             if (userService.getCurrentUser().getRole().getRoleName().equals("ADMIN")) {
                 return "redirect:/admin";
             }
@@ -139,6 +146,7 @@ public class UserPageController {
         user.setAvatarURL(userService.saveFile(user, file));
 
         // check fields
+        // TODO use java 8 Optional .orNull
         if (user.getCity().getCityId() == null)
             user.setCity(null);
         if (user.getClub().getClubId() == null)
@@ -204,11 +212,6 @@ public class UserPageController {
         return eventService.isAssignedToMe(ev);
     }
 
-    @RequestMapping(value = "/messages", method = RequestMethod.GET)
-    public String showAllMessages() {
-        return "home/messages";
-    }
-
     @RequestMapping(value = {"/we/{groupId}", "/we"}, method = RequestMethod.GET)
     public String getWe(@PathVariable("groupId") Optional<Long> groupId, Model model){
 
@@ -227,4 +230,19 @@ public class UserPageController {
         model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsers(uga));
         return "home/workField_we";
     }
+
+    // NEWS all
+    @RequestMapping(value = "/post", method = RequestMethod.GET)
+    public String getPosts(Model model, @PageableDefault(value=9, direction = Sort.Direction.DESC, sort = "createDate") Pageable pageable){
+        model.addAttribute("page", postService.findAll(pageable) );
+        return "home/workField_allPosts";
+    }
+
+    // NEWS show by id
+    @RequestMapping(value = "/post/{id}", method = RequestMethod.GET)
+    public String showPost(@PathVariable Long id, Model model){
+        model.addAttribute("post", postService.findOne(id));
+        return "home/workField_post";
+    }
+
 }

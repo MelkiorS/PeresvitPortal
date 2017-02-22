@@ -1,5 +1,7 @@
 package ua.peresvit.controller;
 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import ua.peresvit.entity.Mark;
 import ua.peresvit.service.MarkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +38,10 @@ public class MarkController {
 
     // create mark
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String createMark(Mark mark, RedirectAttributes model) {
+    public String createMark(Mark mark, RedirectAttributes model, @RequestParam(name = "file") MultipartFile file) {
 
+        mark.setImageURL(markService.saveFile(mark, file));
         markService.save(mark);
-
-        model.addAttribute("markId", mark.getMarkId());
-        model.addFlashAttribute("mark", mark);
 
         return "redirect:/admin/mark/";
     }
@@ -65,10 +65,9 @@ public class MarkController {
 
     // edit mark
     @RequestMapping(value = "/edit/{markId}", method = RequestMethod.GET)
-    public String editMark(@PathVariable("markId")  long markId,
-                           Model model) {
-        Mark mark = markService.findOne(markId);
-        model.addAttribute("mark", mark);
+    public String editMark(@PathVariable("markId")  long markId, Model model) {
+
+        model.addAttribute("mark", markService.findOne(markId));
         return "admin/mark/addMark";
     }
 

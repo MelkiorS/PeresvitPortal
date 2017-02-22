@@ -58,6 +58,7 @@ body{
     min-height: 600px;
     padding-left:5px;
     width: 64%;
+    height: 100%;
 }
 footer {
     /*display:none;*/
@@ -95,6 +96,9 @@ footer img{
     border-radius: 0;
     text-align:left;
     width: 100%;
+}
+.header_nav .control_button{
+    text-align:center;
 }
 .sideFirst{
     border-radius: 5px 5px 0 0;
@@ -219,7 +223,7 @@ footer img{
     width: auto;
     font-size:16px;
 }
-about-myself{
+.about-myself{
     width: 100%;
     word-wrap: break-word;
 }
@@ -362,3 +366,136 @@ about-myself{
 /*.profileEdit #about span{*/
     /*word-wrap: break-word;*/
 /*}*/
+/********************** Chats********************/
+.chats-header{
+    margin: 10px 0 20px 0;
+}
+.chats-header p{
+    text-align:center;
+    margin: 0 auto 10px;
+    width: 30%;
+    font-size: 18px;
+}
+.markList{
+    margin:30px auto 10px;
+    width: 60%;
+    padding: 0 auto;
+}
+.markList-item{
+    margin: 5px 0;
+    width: 100%;
+    font-size:16px;
+    text-align: left;
+    padding: 7px 5px;
+}
+.markList-item img{
+    width: 40px;
+    border-radius: 100%;
+}
+.markList-item .col-xs-2{
+    padding:0;
+}
+.markList-item-title{
+    margin: 0 0 0 3px;
+    padding: 0 0 0 6px;
+    font-weight: bold;
+}
+.markList-item-time{
+    margin: 0 0 0 16px;
+}
+.markList-item-message{
+    margin:0 0 0 3px;
+    padding: 0 0 0 6px;
+}
+/********************** Messages********************/
+.messageList1{
+    background: #FAFAFA;
+    padding: 10px ;
+    height: 100%;
+}
+.messageList-header{
+    width: 95%;
+    margin:10px auto;
+    /*text-align: left;*/
+    border:1px solid #E0E0E0;
+    border-radius: 10px;
+    /*padding: 5px auto;*/
+}
+.messageList-header-title{
+    font-size: 18px;
+    font-weight: bold;
+    margin: 5px 0 5px 33%;
+}
+.messageList-header-select{
+    margin:8px 0 5px 0;
+    height: 20px;
+    font-size:16px;
+    background: #E0E0E0;
+    border-radius: 5px;
+}
+.messageList-content{
+    width: 95%;
+    height: 100%;
+    margin:10px auto;
+    text-align: left;
+    /*border: 1px solid #BDBDBD;*/
+    /*border-radius:*/
+}
+.messageList-content-msgField{
+    /*position: relative;*/
+    width: 100%;
+    min-height: 430px;
+    padding:10px 0 10px 0;
+    margin:10px 0 2px 0;
+    border-left: 1px solid #E0E0E0;
+    border-right: 1px solid #E0E0E0;
+}
+.msgField-advert{
+    border:1px solid #1565C0;
+    border-radius: 5px;
+    margin: 0 3px;
+    text-align: center;
+    font-size:16px;
+    font-weight: bold;
+    vertical-align: bottom;
+}
+.msgField-advert p{
+    margin: 5px 0;
+}
+.msgField-letter{
+    display:inline-block;
+    vertical-align:bottom;
+    clear:both;
+    float:right;
+    width:45%;
+    border:1px solid #64B5F6;
+    border-radius:5px;
+    margin: 7px 3px;
+    padding: 3px 0;
+}
+.msgField-letter-author{
+    font-weight: bold;
+    width: 100%;
+    border-bottom:1px solid #64B5F6;
+    padding:0;
+    text-align: center;
+}
+.msgField-letter-id{
+    display:none;
+}
+.msgField-letter-content{
+    color:#000;
+    margin: 3px 5px 1px 5px;
+    font-size:15px;
+    display: block;
+}
+.msgField-letter-time{
+    float:right;
+}
+.messageList-content-newMsg-input{
+    display:inline-block;
+    width: 80%;
+}
+.messageList-content-newMsg-button{
+    width: 18%;
+}
