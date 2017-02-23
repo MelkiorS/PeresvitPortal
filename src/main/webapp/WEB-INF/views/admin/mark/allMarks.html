@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('Mark List')"></div>
-<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/mark/add','')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/mark/add','', 'Відзнаки')"></div>
 <style>
   table{
     width: 60%;
@@ -27,25 +27,26 @@
 
     <div class="markList" th:unless="${#lists.isEmpty(markList)}">
 
-      <h2 >Список відзнак</h2>
-
-      <table>
+      <table class="table">
         <thead>
         <tr>
           <!--<th>Id</th>-->
+          <th>Дії</th>
           <th>Відзнака</th>
           <!--<th>Image URL</th>-->
           <th>Вигляд</th>
-          <th>Редагувати</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="mark : ${markList}">
           <!--<td th:text="${mark.markId}"></td>-->
+          <td>
+            <a class="glyphicon glyphicon-pencil btn btn-link btn-xs" th:href="@{/admin/mark/edit/} + ${mark.markId}"></a>
+            <a class="glyphicon glyphicon-remove btn btn-danger btn-xs" th:href="@{/admin/mark/delete/} + ${mark.markId}"></a>
+          </td>
           <td th:text="${mark.markName}"></td>
           <!--<td th:text="${mark.imageURL}"></td>-->
           <td><img th:src= "@{'data:image;base64,' + ${mark.encodeFileToBase64Binary()}}" width="100px" height="100px;"></td>
-          <td><a th:href="@{/admin/mark/edit/} + ${mark.markId}">Редагувати</a></td>
         </tr>
         </tbody>
       </table>

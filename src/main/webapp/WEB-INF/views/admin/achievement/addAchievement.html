@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Add Achievement</title>
-</head>
-<body>
-<a th:href="@{/admin/achievement/management}" >Achievement Management</a>
-<br/>
-<form action="#" th:action="@{/admin/achievement/add/} + ${achievement.user.userId}"  th:object="${achievement}" enctype="multipart/form-data" method="post">
-	<input type="hidden" th:field="*{achievementId}" />
-	<input type="hidden" th:field="*{user.userId}" />
- <label for="title">Title:</label>
- <input type="text" th:field="*{achievementName}" />
- <br/>
-  <label for="description">Description:</label>
- <input type="text" th:field="*{description}" />
- <br/>
-  <label for="file">File to upload:</label>
- <input type="file" name="file" />
- <br/>
- <input type="submit" />
-</form>
-</body>
+<div th:replace="admin/fragments/head :: header('Achievement list')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/achievement/', 'Досягнення')"></div>
+<div th:remove="all">
+ <div th:fragment="main" class="addCity">
+
+  <form action="#" th:action="@{/admin/achievement/add/}"  th:object="${achievement}" enctype="multipart/form-data" method="post">
+      <input type="hidden" th:field="*{achievementId}" />
+   <label for="title">Title:</label>
+   <input type="text" th:field="*{achievementName}" />
+   <br/>
+    <label for="description">Description:</label>
+   <input type="text" th:field="*{description}" />
+   <br/>
+   <select th:field="*{user.userId}">
+    <option th:each="u : ${userList}" th:text="${u.firstName} + ' ' + ${u.lastName}" th:value="${{u.getUserId().toString()}}" th:checked="${u.getUserId() == user}"/>
+   </select>
+   <br/>
+    <label for="file">File to upload:</label>
+   <input type="file" name="file" />
+   <br/>
+   <input type="submit" />
+  </form>
+ </div>
+</div>
 </html>

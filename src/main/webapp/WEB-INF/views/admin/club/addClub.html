@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('Club')"></div>
-<div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/club/')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/club/', 'Клуб')"></div>
 <style>
     .addClub form{
         margin: 10px;

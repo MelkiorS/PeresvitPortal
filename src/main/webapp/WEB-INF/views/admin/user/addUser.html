@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('User')"></div>
-<div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/user/')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/user/', 'Користувач')"></div>
 <style>
     .form-group {
         margin-bottom: 10px;

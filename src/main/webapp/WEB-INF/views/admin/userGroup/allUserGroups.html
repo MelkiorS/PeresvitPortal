@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('User group list')"></div>
-<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/userGroup/add','')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/userGroup/add','', 'Групи')"></div>
 <style>
   table{
   width: 60%;
@@ -21,23 +21,22 @@
 
     <div th:unless="${#lists.isEmpty(userGroupList)}">
 
-      <h2 >Список груп</h2>
-
-      <table>
+      <table class="table">
         <thead>
         <tr>
           <!--<th>Id</th>-->
+          <th>Дії</th>
           <th>Назва групи</th>
-          <th>Редагувати</th>
-          <th>Видалити</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="userGroup : ${userGroupList}">
           <!--<td th:text="${userGroup.id}"></td>-->
+          <td>
+            <a class="glyphicon glyphicon-pencil btn btn-link btn-xs" th:href="@{/admin/userGroup/edit/} + ${userGroup.id}"></a>
+            <a class="glyphicon glyphicon-remove btn btn-danger btn-xs" onclick="event.preventDefault();deleteElem(this)" th:href="@{/admin/userGroup/delete/} + ${userGroup.id}"></a>
+          </td>
           <td th:text="${userGroup.name}"></td>
-          <td><a th:href="@{/admin/userGroup/edit/} + ${userGroup.id}">Редагувати</a></td>
-          <td><a onclick="event.preventDefault();deleteElem(this)" th:href="@{/admin/userGroup/delete/} + ${userGroup.id}">Видалити</a></td>
         </tr>
         </tbody>
       </table>
