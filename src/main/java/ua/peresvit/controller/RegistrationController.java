@@ -109,8 +109,6 @@ public class RegistrationController {
 //        Show unsuccessful operation on the main page
 //        TODO add attribute message on the main and personal pages
         model.addAttribute("message", messages.getMessage("auth.message." + result, null, locale));
-//        model.addAttribute("expired", "expired".equals(result));
-//        model.addAttribute("token", token);
         return "home";
     }
 

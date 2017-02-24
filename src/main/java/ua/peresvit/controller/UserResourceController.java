@@ -70,7 +70,8 @@ public class UserResourceController {
         model.addAttribute(new Article());   // addig empty object for post form
         model.addAttribute("rangList", roleList); // adding list of rang for select
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
-        return "user/myWay";
+//        return "user/myWay";
+        return "home/newMyWay";
     }
 
 //    // go to myWay
@@ -87,7 +88,8 @@ public class UserResourceController {
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
         model.addAttribute("user", userService.getCurrentUser());
         model.addAttribute("groups", resourceGroupTypeService.findAll());
-        return "user/myWay";
+//        return "user/myWay";
+        return "home/newMyWay";
     }
     // show resources for current user depending on his name
     @RequestMapping(value = "/{groupName}", method = RequestMethod.GET)

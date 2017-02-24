@@ -1,38 +1,30 @@
-<!DOCTYPE html>
 <html lang="ukr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/resources/frontend/reset.css">
-    <link rel="stylesheet" href="/resources/frontend/peresvit.css">
-</head>
 <body>
-<div class="wrapper">
-    <div class="wrapper-outer clearfix">
+
         <aside class="sideNav side-nav" id="slide-out" ><!--class sideNav is for sidebar-->
             <div class="logo-in-sidebar clearfix">
                 <img src="/resources/frontend/image/logo-in-sidebar.png">
             </div>
             <nav class="menu-level1 tabs-in-sidebar" >
                 <!--id="tabs-in-siderbar"-->
-                <a class="btn-news" href="">Новини</a>
+                <a class="btn-news" href="/home/post">Новини</a>
                 <a class="btn-chat" href="">Обговорення</a>
-                <a class="btn-messages" href="">Повiдомлення</a>
-                <a class="btn-we" href="">Ми</a>
+                <a class="btn-messages" href="/home/messages/">Повiдомлення</a>
+                <a class="btn-we" href="/home/we">Ми</a>
             </nav>
             <nav class="menu-level1">
-                <a class="btn-our-events" href="#">Нашi подiї</a>
-                <a class="btn-my-events" href="#">Мої подiї</a>
+                <a class="btn-our-events" href="/panel/ourevents">Нашi подiї</a>
+                <a class="btn-my-events" href="/panel/myevents">Мої подiї</a>
                 <a class="btn-my-way" href="#">Мiй шлях</a>
                 <nav class="menu-level2 show">
-                    <a href="">базова технiка</a>
-                    <a href="">базові тех.комплекси</a>
-                    <a href="">робота в парi</a>
-                    <a href="">спец. фізпідготовка</a>
-                    <a href="">загальна фiзична пiдготовка</a>
-                    <a href="">розбивання предметiв</a>
+                    <a href="/resource/myWay/1">базова технiка</a>
+                    <a href="/resource/myWay/2">базові тех.комплекси</a>
+                    <a href="/resource/myWay/3">робота в парi</a>
+                    <a href="/resource/myWay/4">спец. фізпідготовка</a>
+                    <a href="/resource/myWay/5">загальна фiзична пiдготовка</a>
+                    <a href="/resource/myWay/6">розбивання предметiв</a>
                 </nav>
-                <a class="btn-cabinet" href="">Особистий кабiнет</a>
+                <a class="btn-cabinet" href="/home/workField">Особистий кабiнет</a>
             </nav>
 
             <div class="sponsor-logo-sidebar ">
@@ -43,58 +35,33 @@
                 <img src="/resources/frontend/image/sponsor-logo.png">
             </div>
         </aside>
-        <div class="wrapper-inner Panel" > <!-- header+main, do not touch the Panel, Panel is for slideBar-->
+        <!--<div class="wrapper-inner Panel" > &lt;!&ndash; header+main, do not touch the Panel, Panel is for slideBar&ndash;&gt;-->
 
-            <header>
-                <div class="logo-header-bar clearfix">
-                    <img class="logo-header-img" src="/resources/frontend/image/logo-mobile.png">
-                    <!--<div class="logo-header-text">-->
-                    <!--<p class="school">Школа Бойового Мистецтва</p>-->
-                    <!--<p class="peresvit">«ПЕРЕСВIТ»</p>-->
-                    <!--</div>-->
-                    <!--<span class="btn-open-menu toggle-button">&lt;!&ndash; do not touch toggle-button, this class is for Sidebar&ndash;&gt;-->
-                    <img data-activates="slide-out" class="btn-open-menu toggle-button" src="/resources/frontend/image/hamburger.png" alt="Вiдкрити меню">
-                    <!--</span>-->
-                </div>
 
-                <div class="banner-header">
-                    <a href="#">Реклама от Google Заголовок</a>
-                    <p>
-                        Небольшой текст-описание в несколько строк. И еще в несколько слов. Занимает это поле-площадку <a
-                            href="">arts.in.ua</a>
-                    </p>
-                </div>
-            </header>
 <!--WHAT SHOULD BE HERE???-->
-            <div class="content">
-                <nav class="tabs-in-main">
-                    <a class="tab-news" href="#">Новини</a>
-                    <a class="tab-chat" href="#">Обговорення</a>
-                    <a class="tab-messages" href="#">Повiдомлення</a>
-                    <a class="tab-we" href="#">Ми</a>
-                </nav>
-            </div>
-            <footer>
-                <div class="copyright-footer">
-                    <span>&copy;2016 Пересвiт</span>
-                </div>
+            <!--<div class="content">-->
+                <!---->
+            <!--</div>-->
+            <!--<footer>-->
+                <!--<div class="copyright-footer">-->
+                    <!--<span>&copy;2016 Пересвiт</span>-->
+                <!--</div>-->
 
-                <div class="banner-footer">
-                    <a href="#">Реклама от Google Заголовок</a>
-                    <p>
-                        Небольшой текст-описание в несколько строк.
-                        <a href="">fight.in.ua</a>
-                    </p>
-                </div>
+                <!--<div class="banner-footer">-->
+                    <!--<a href="#">Реклама от Google Заголовок</a>-->
+                    <!--<p>-->
+                        <!--Небольшой текст-описание в несколько строк.-->
+                        <!--<a href="">fight.in.ua</a>-->
+                    <!--</p>-->
+                <!--</div>-->
 
-                <div class="icons-footer">
-                    <a href=""><img src="/resources/frontend/image/fb.png"></a>
-                    <a href=""><img src="/resources/frontend/image/vk.png"></a>
-                    <a href=""><img src="/resources/frontend/image/insta.png"></a>
-                </div>
-            </footer>
-        </div>
-    </div>
-</div>
+                <!--<div class="icons-footer">-->
+                    <!--<a href=""><img src="/resources/frontend/image/fb.png"></a>-->
+                    <!--<a href=""><img src="/resources/frontend/image/vk.png"></a>-->
+                    <!--<a href=""><img src="/resources/frontend/image/insta.png"></a>-->
+                <!--</div>-->
+            <!--</footer>-->
+        <!--</div>-->
+
 </body>
 </html>
