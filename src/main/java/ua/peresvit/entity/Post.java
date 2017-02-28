@@ -44,4 +44,16 @@ public class Post {
             return Constant.encodeFileToBase64Binary(getUrl());
         } catch (IOException ex){return "";}
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "postId=" + postId +
+                ", title='" + title + '\'' +
+                ", body='" + body + '\'' +
+                ", url='" + url + '\'' +
+                ", createDate=" + createDate +
+                ", user=" + user +
+                '}';
+    }
 }
