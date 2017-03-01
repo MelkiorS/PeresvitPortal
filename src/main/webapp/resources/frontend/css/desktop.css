@@ -1,0 +1,78 @@
+@media screen and (min-width: 1024px){
+    /*Main*/
+    /*Нужно менять только часть Main!!!!!*/
+    main {
+        margin: -2px 0 10px 0;
+        padding: 21px 0 0 54px;
+        border-top: 1px solid #d3d4d5;
+    }
+
+    .my-way-main h3.level1-active{
+        margin: 15px 0 2px 0;
+    }
+    .my-way-main .level1-active>h3{
+        color: #d90118;
+        border-bottom: 2px dotted #d90118;
+    }
+    .my-way-main .main-article-item ol {
+        counter-reset:li; /* Initiate a counter */
+        /*margin-left:0; !* Remove the default left margin *!*/
+        padding: 5px 0 14px 0;
+        margin: 8px 58px 5px 0;
+        /*margin-bottom: 5px;*/
+        background: #fafafa;
+        display: none;
+    }
+
+
+    .my-way-main .main-article-item ol li{
+        margin: 0 4px 0 35px;
+        /*padding: -1px 3px 0 17px; !* Add some spacing around the content *!*/
+        list-style:none; /* Disable the normal item numbering */
+        line-height: 29px;
+    }
+
+    .my-way-main .main-article-item ol li:before {
+        content:counter(li); /* Use the counter as content */
+        counter-increment:li; /* Increment the counter by 1 */
+        -moz-box-sizing:border-box;
+        -webkit-box-sizing:border-box;
+        box-sizing:border-box;
+        width:30px;
+        height: 30px;
+        margin: 16px 9px 0 0;
+        color:#fff;
+        background:#7e7dd3;
+        text-align:center;
+        border-radius: 20px;
+        padding: 4px 10px 4px 9px;
+    }
+    .my-way-main  h3 {
+        margin: 16px 0 2px 11px;
+        color: #0301ad;
+        font-size: 18px;
+        border-bottom: 2px dotted #0301ad;
+        cursor:pointer;
+        display: inline-block;
+    }
+    .my-way-main  h3:hover, h3 .active{
+        color: #d90118;
+        border-bottom: 2px dotted #d90118;
+    }
+    .my-way-main  a.level2{
+        display:inline-block;
+        margin: 1px 0 0 1px;
+    }
+    .my-way-main a.level2:link, a.level2:visited {
+        color: black;
+        text-decoration: none;
+    }
+
+    .my-way-main a.level2:hover, a.level2:active{
+        color:  #0301ad;
+        text-decoration: underline;
+
+    }
+    /*Нужно менять только часть Main!!!!!*/
+    /*Main*/
+}
