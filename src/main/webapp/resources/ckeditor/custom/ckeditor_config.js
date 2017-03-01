@@ -1,5 +1,9 @@
 CKEDITOR.editorConfig = function( config ) {
     config.extraPlugins = 'youtube';
+    config.youtube_related = true;
+    config.youtube_older = false;
+    config.youtube_privacy = false;
+    config.removePlugins = 'iframe';
     // config.language = 'ru';
     // config.uiColor = '#FFFFFF';
     // config.height = 400;
