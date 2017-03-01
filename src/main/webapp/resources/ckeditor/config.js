@@ -5,7 +5,11 @@
 
 CKEDITOR.editorConfig = function( config ) {
     config.extraPlugins = 'youtube';
-	// Define changes to default configuration here. For example:
+    config.youtube_related = true;
+    config.youtube_older = false;
+    config.youtube_privacy = false;
+    config.removePlugins = 'iframe';
+    // Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	// config.height = 300;
