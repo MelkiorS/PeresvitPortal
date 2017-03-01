@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My way</title>
-    <link rel="stylesheet" href="/resources/frontend/reset.css">
-    <link rel="stylesheet" href="/resources/frontend/peresvit.css">
+    <link rel="stylesheet" href="/resources/frontend/css/peresvit.css">
+    <link rel="stylesheet" href="/resources/frontend/css/reset.css">
 </head>
 <body>
 <div class="wrapper">
@@ -20,15 +20,15 @@
                     <span class="nav-path slash">&#8260;</span>
                     <a class="nav-path-tech-complex" href="#">Базові технічні комплекси</a>
                 </nav>
-                <main>
+                <main class="my-way-main">
                     <div th:each="resourceGroupType : ${resourceGroupTypeList}">
                         <div th:each="chapter :  ${resourceGroupType.chapterList}">
-                            <div class="main-article-item">
-                                <p class="level1-active"><a href="#" class="level1" th:text="${chapter.chapterName}">Подготовка к использованию техники разбивания предметов</a></p>
+                            <article class="main-article-item">
+                                <h3 th:text="${chapter.chapterName}">Подготовка к использованию техники разбивания предметов</h3>
                                 <ol th:unless="${#lists.isEmpty(chapter.articleCollection)}" th:each="article : ${chapter.articleCollection}">
                                     <li><a href="#" class="level2" th:href="@{/resource/article/} + ${article.articleId}" th:text="${article.articleName}">В чем важность техники разбивания</a></li>
                                 </ol>
-                            </div>
+                            </article>
                         </div>
                     </div>
                 </main>

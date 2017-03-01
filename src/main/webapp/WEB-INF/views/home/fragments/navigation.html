@@ -1,11 +1,12 @@
 <html lang="ukr" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="navigation">
-    <nav class="tabs-in-main">
-        <a class="tab-news" href="/home/post">Новини</a>
-        <a class="tab-messages" href="/home/messages">Повiдомлення</a>
-        <a class="tab-we" href="/home/we">Ми</a>
-    </nav>
-</div>
+<nav class="tabs-in-main clearfix" th:fragment="navigation">
+    <ul>
+        <li><a class="tab-news" href="/home/post">Новини</a></li>
+        <li><a class="tab-messages" href="/home/messages">Повiдомлення</a></li>
+        <li><a class="tab-we" href="/home/we">Ми</a></li>
+        <li><a class="btn-broadcast" href="#">Трансляцiя</a></li>
+    </ul>
+</nav>
 </body>
 </html>

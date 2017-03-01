@@ -1,67 +1,43 @@
 <html lang="ukr" xmlns:th="http://www.thymeleaf.org">
-<body>
-
+<body th:fragment="body">
         <aside class="sideNav side-nav" id="slide-out" ><!--class sideNav is for sidebar-->
-            <div class="logo-in-sidebar clearfix">
-                <img src="/resources/frontend/image/logo-in-sidebar.png">
-            </div>
+            <a class="logo-in-sidebar clearfix" href="#"></a>
             <nav class="menu-level1 tabs-in-sidebar" >
-                <!--id="tabs-in-siderbar"-->
-                <a class="btn-news" href="/home/post">Новини</a>
-                <a class="btn-chat" href="">Обговорення</a>
-                <a class="btn-messages" href="/home/messages/">Повiдомлення</a>
-                <a class="btn-we" href="/home/we">Ми</a>
+                <ul>
+                    <li><a class="btn-news" href="/home/post">Новини</a></li>
+                    <li><a class="btn-messages" href="/home/messages/">Повiдомлення</a></li>
+                    <li><a class="btn-we" href="/home/we">Ми</a></li>
+                    <li><a class="btn-broadcast" href="">Трансляцiя</a></li>
+                </ul>
             </nav>
             <nav class="menu-level1">
-                <a class="btn-our-events" href="/panel/ourevents">Нашi подiї</a>
-                <a class="btn-my-events" href="/panel/myevents">Мої подiї</a>
-                <a class="btn-my-way" href="#">Мiй шлях</a>
-                <nav class="menu-level2 show">
-                    <a href="/resource/myWay/1">базова технiка</a>
-                    <a href="/resource/myWay/2">базові тех.комплекси</a>
-                    <a href="/resource/myWay/3">робота в парi</a>
-                    <a href="/resource/myWay/4">спец. фізпідготовка</a>
-                    <a href="/resource/myWay/5">загальна фiзична пiдготовка</a>
-                    <a href="/resource/myWay/6">розбивання предметiв</a>
-                </nav>
-                <a class="btn-cabinet" href="/home/workField">Особистий кабiнет</a>
+                <ul>
+                    <li><a class="btn-our-events" href="/panel/ourevents">Нашi подiї</a></li>
+                    <li><a class="btn-my-events" href="/panel/myevents">Мої подiї</a></li>
+                    <li class="my-way ">
+                        <a class="btn-my-way " href="#">Мiй шлях  <img src="/resources/frontend/image/blue-arrow.png" alt=""></a>
+                        <nav class="menu-level2 show">
+                            <ul>
+                                <li><a href="/resource/myWay/1">базова технiка</a></li>
+                                <li><a href="/resource/myWay/2">базові тех.комплекси</a></li>
+                                <li><a href="/resource/myWay/3">робота в парi</a></li>
+                                <li><a href="/resource/myWay/4">спец. фізпідготовка</a></li>
+                                <li><a href="/resource/myWay/5">загальна фiзична пiдготовка</a></li>
+                                <li><a href="/resource/myWay/6">розбивання предметiв</a></li>
+                            </ul>
+                        </nav>
+                    </li>
+                    <li><a class="btn-cabinet" href="/home/workField">Особистий кабiнет</a></li>
+                    <li><a class="btn-exit" href="/logout">Вийти</a></li>
+                    <li class="sponsor-logo-sidebar ">
+                        <div class="sponsor-logo-sidebar-text">
+                            <p>Cпонсор змагання</p>
+                            <a href="#">fightdante.com.ua</a>
+                        </div>
+                        <img src="/resources/frontend/image/sponsor-logo.png">
+                    </li>
+                </ul>
             </nav>
-
-            <div class="sponsor-logo-sidebar ">
-                <div class="sponsor-logo-sidebar-text">
-                    <p>Cпонсор змагання</p>
-                    <a href="#">fightdante.com.ua</a>
-                </div>
-                <img src="/resources/frontend/image/sponsor-logo.png">
-            </div>
         </aside>
-        <!--<div class="wrapper-inner Panel" > &lt;!&ndash; header+main, do not touch the Panel, Panel is for slideBar&ndash;&gt;-->
-
-
-<!--WHAT SHOULD BE HERE???-->
-            <!--<div class="content">-->
-                <!---->
-            <!--</div>-->
-            <!--<footer>-->
-                <!--<div class="copyright-footer">-->
-                    <!--<span>&copy;2016 Пересвiт</span>-->
-                <!--</div>-->
-
-                <!--<div class="banner-footer">-->
-                    <!--<a href="#">Реклама от Google Заголовок</a>-->
-                    <!--<p>-->
-                        <!--Небольшой текст-описание в несколько строк.-->
-                        <!--<a href="">fight.in.ua</a>-->
-                    <!--</p>-->
-                <!--</div>-->
-
-                <!--<div class="icons-footer">-->
-                    <!--<a href=""><img src="/resources/frontend/image/fb.png"></a>-->
-                    <!--<a href=""><img src="/resources/frontend/image/vk.png"></a>-->
-                    <!--<a href=""><img src="/resources/frontend/image/insta.png"></a>-->
-                <!--</div>-->
-            <!--</footer>-->
-        <!--</div>-->
-
 </body>
 </html>
