@@ -37,6 +37,7 @@ public class AchievementController {
         Achievement achievement = new Achievement();
 
         model.addAttribute(achievement);
+        model.addAttribute("userList", userService.findAll());
 
         return "admin/achievement/addAchievement";
     }
@@ -58,6 +59,7 @@ public class AchievementController {
     public String geAchievement(@PathVariable("achievementId") long achievementId, Model model) {
         if (!model.containsAttribute("achievementId"))
             model.addAttribute("achievementId", achievementService.findOne(achievementId));
+        model.addAttribute("userList", userService.findAll());
         return "admin/achievement/achievementProfile";
     }
 
@@ -76,6 +78,7 @@ public class AchievementController {
                            Model model) {
         Achievement achievement = achievementService.findOne(achievementId);
         model.addAttribute("achievement", achievement);
+        model.addAttribute("userList", userService.findAll());
         return "admin/achievement/addAchievement";
     }
 
@@ -89,14 +92,13 @@ public class AchievementController {
     }
 
     //go to user editForm
-    @RequestMapping(value = "/add/{userId}", method = RequestMethod.POST)
-    public String goToUserForm(Achievement achievement, RedirectAttributes model, @PathVariable("userId") long userId,
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String goToUserForm(Achievement achievement, RedirectAttributes model,
                                @RequestParam("file") MultipartFile file) {
 
         achievement.setImageURL(achievementService.saveFile(achievement, file));
-        achievement.setUser(userService.findOne(userId));
         achievementService.save(achievement);
-        return "redirect:/admin/user/edit/" + userId;
+        return "redirect:/admin/achievement/";
     }
 
 }

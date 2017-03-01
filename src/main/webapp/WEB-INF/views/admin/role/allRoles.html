@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('Role management')"></div>
-<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/role/add','')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/role/add','', 'Ролі')"></div>
 <style>
   table{
     width: 90%;
@@ -19,25 +19,25 @@
 <div th:remove="all">
   <div th:fragment="main">
     <div class="rangList" th:unless="${#lists.isEmpty(roleList)}">
-      <h2 >Список ролей</h2>
 
-      <table>
+      <table class="table">
         <thead>
         <tr>
           <!--<th>Id</th>-->
+          <th>Дії</th>
           <th>Роль</th>
           <th>Користувачi</th>
-          <th>Редагувати роль</th>
-          <th>Выдалити роль</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="role : ${roleList}">
-          <!--<td th:text="${role.roleId}"></td>-->
+          <!--&lt;!&ndash;<td th:text="${role.roleId}"></td>&ndash;&gt;-->
+          <td>
+            <a class="glyphicon glyphicon-pencil btn btn-link btn-xs" th:href="@{/admin/role/edit/} + ${role.roleId}"></a>
+            <a class="glyphicon glyphicon-remove btn btn-danger btn-xs" onclick="event.preventDefault();deleteElem(this)" th:href="@{/admin/role/delete/} + ${role.roleId}"></a>
+          </td>
           <td th:text="${role.roleName}"></td>
           <td><a th:href="@{/admin/role/users/} + ${role.roleId}">Переглянути</a></td>
-          <td><a th:href="@{/admin/role/edit/} + ${role.roleId}">Редагувати</a></td>
-          <td ><a class="delete" onclick="event.preventDefault();deleteElem(this)" th:href="@{/admin/role/delete/} + ${role.roleId}">Видалити</a></td>
         </tr>
         </tbody>
       </table>

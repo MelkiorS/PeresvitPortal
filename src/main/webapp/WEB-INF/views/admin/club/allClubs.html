@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('Club list')"></div>
-<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/club/add','')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/club/add','', 'Клуби')"></div>
 <style>
   table{
     width: 60%;
@@ -21,22 +21,23 @@
 
     <div class="clubList" th:unless="${#lists.isEmpty(clubList)}">
 
-      <h2 >Список клубiв</h2>
-
-      <table>
+      <table class="table">
         <thead>
         <tr>
+          <th>Дії</th>
           <th>Назва клубу</th>
           <th>Адреса</th>
-          <th>Редагувати</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="club : ${clubList}">
           <!--<td th:text="${club.clubId}"></td>-->
+          <td>
+            <a class="glyphicon glyphicon-pencil btn btn-link btn-xs"  th:href="@{/admin/club/edit/} + ${club.clubId}"></a>
+            <a class="glyphicon glyphicon-remove btn btn-danger btn-xs" th:href="@{/admin/club/delete/} + ${club.clubId}"></a>
+          </td>
           <td th:text="${club.clubName}"></td>
           <td th:text="${club.address}"></td>
-          <td><a th:href="@{/admin/club/edit/} + ${club.clubId}">Редагувати</a></td>
         </tr>
         </tbody>
       </table>

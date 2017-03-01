@@ -33,11 +33,10 @@ public class ResourceGroupTypeChapterController {
         return "admin/chapter/chapterManagement";
     }
     //go to addForm
-    @RequestMapping(value = "/add/group/{groupId}", method = RequestMethod.GET)
-    public String goToAddForm(@PathVariable("groupId") long groupId, Model model) {
+    @RequestMapping(value = "/addChapter", method = RequestMethod.GET)
+    public String goToAddForm(Model model) {
         List<ResourceGroupType> resourceGroupTypes = resourceGroupTypeService.findAll();
         ResourceGroupTypeChapter chapter = new ResourceGroupTypeChapter();
-        chapter.setResourceGroupType(resourceGroupTypeService.findOne(groupId));
         model.addAttribute("chapter", chapter);   // addig empty object for post form
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
         return "admin/chapter/addChapter";
@@ -47,9 +46,8 @@ public class ResourceGroupTypeChapterController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String createChapter(ResourceGroupTypeChapter chapter, RedirectAttributes model) {
         resourceGroupTypeChapterService.save(chapter);
-        model.addAttribute("chapterId", chapter.getChapterId());
         model.addFlashAttribute("chapter", chapter); // adding attribute that will be alive in two requests
-        return "redirect:/admin/article/add";
+        return "redirect:/admin/chapter/";
     }
 
     // show chapter by id

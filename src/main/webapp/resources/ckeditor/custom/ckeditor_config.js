@@ -1,4 +1,5 @@
 CKEDITOR.editorConfig = function( config ) {
+    config.extraPlugins = 'youtube';
     // config.language = 'ru';
     // config.uiColor = '#FFFFFF';
     // config.height = 400;

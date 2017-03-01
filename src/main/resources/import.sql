@@ -63,6 +63,9 @@ INSERT into event(id, name, start, finish) VALUES (1, 'Новый год', '2016
 INSERT into event(id, name, start, finish) VALUES (2, '8 марта', '2017-03-08','2017-03-08');
 INSERT into event(id, name, start, finish) VALUES (3, '1 мая', '2017-05-01','2017-05-01');
 
+INSERT INTO achievement(achievementName, description, userId) VALUES ('Досягнення 1', 'Опис досягнення 1', 1);
+INSERT INTO achievement(achievementName, description, userId) VALUES ('Досягнення 2', 'Опис досягнення 2', 2);
+
 INSERT into userGroup(id, name) VALUES (1, 'Group level 1');
 INSERT into userGroup(id, name) VALUES (2, 'Group level 2');
 

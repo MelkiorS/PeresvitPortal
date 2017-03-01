@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('City')"></div>
-<div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/city/')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/city/', 'Місто')"></div>
 <style>
     .addCity form{
         margin: 10px;

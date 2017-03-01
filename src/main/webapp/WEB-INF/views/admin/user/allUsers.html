@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:replace="admin/fragments/head :: header('Users list')"></div>
-<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/user/add','')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/user/add','', 'Користувачі')"></div>
 <style>
   table{
     width: 90%;
@@ -21,33 +21,32 @@
 
     <div class="rangList" th:unless="${#lists.isEmpty(userList)}">
 
-      <h2 >Список користувачів</h2>
-
-      <table>
+      <table class="table">
         <thead>
         <tr>
           <!--<th>userId</th>-->
+          <th>Дії</th>
           <th>Ім'я</th>
           <!--<th>Last Name</th>-->
           <!--<th>Middle Name</th>-->
           <th>Електронна адреса</th>
           <!--<th>Avatar URL</th>-->
           <th>Має дозвіл</th>
-          <th>Редагувати</th>
-          <th>Видалити</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${userList}">
           <!--<td th:text="${user.userId}"></td>-->
+          <td>
+            <a class="glyphicon glyphicon-pencil btn btn-link btn-xs" th:href="@{/admin/user/edit/} + ${user.userId}"></a>
+            <a class="glyphicon glyphicon-remove btn btn-danger btn-xs" onclick="event.preventDefault();deleteElem(this)" th:href="@{/admin/user/delete/} + ${user.userId}"></a>
+          </td>
           <td th:text="${user.firstName} +' '+ ${user.lastName}"></td>
           <!--<td th:text="${user.lastName}"></td>-->
           <!--<td th:text="${user.middleName}"></td>-->
           <td th:text="${user.email}"></td>
           <!--<td th:text="${user.avatarURL}"></td>-->
           <td th:text="${user.enabled}"></td>
-          <td><a th:href="@{/admin/user/edit/} + ${user.userId}">Редагувати</a></td>
-          <td><a onclick="event.preventDefault();deleteElem(this)" th:href="@{/admin/user/delete/} + ${user.userId}">Видалити</a></td>
         </tr>
         </tbody>
       </table>
