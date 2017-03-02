@@ -6,19 +6,28 @@
 <div th:remove="all">
     <div th:fragment="main">
         <div class="achievementList" th:unless="${#lists.isEmpty(page)}">
+            <row class="col-md-10 blogShort" th:each="post : ${page}">
+                <div class="media well">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" style=" width: 250px;margin: 1px 6px 1px 1px;float: left;display: block;" th:src="@{'data:image;base64,' + ${post.encodeFileToBase64Binary()}}" alt="post img">
+                    </a>
+                    <a class="btn btn-danger pull-right" th:href="@{/admin/post/} + @{${post.postId} + '/delete' }" onclick="event.preventDefault();deleteElem(this)"><span class="glyphicon glyphicon-trash"></span></a>
+                    <div class="media-body">
+                        <h2 class="media-heading" th:text="${post.title}">Receta 1</h2>
+                        <div class="text-right">Автор: <a href="/home/workField" th:text="${post.user}">By Francisco</a></div>
+                        <p th:text="${post.body}" style="width: 250px;
+                                                        white-space: nowrap;
+                                                        overflow: hidden;
+                                                        text-overflow: ellipsis;">text</p>
+                        <br>
+                        <ul class="list-inline list-unstyled">
+                            <li><i class="glyphicon glyphicon-calendar"></i> <span th:text="${#dates.format(post.createDate,'dd/MM/YYYY HH:mm')}">2 days, 8 hours </span></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-blog pull-right marginBottom10" th:href="@{/admin/post/} + @{${post.postId} + '/edit' }">Редагувати</a>
+                </div>
+            </row>
 
-            <div th:each="post : ${page}" th:fragment="allPosts">
-                <h3 th:text="${post.title}"></h3>
-
-                <img th:src= "@{'data:image;base64,' + ${post.encodeFileToBase64Binary()}}" width="200px" height="200px;">
-
-                <p th:text="${post.body}"></p>
-                <b>
-                    <p>Posted by <span th:text="${post.user}">some user</span> on <span th:text="${#dates.format(post.createDate,'MMM dd YYYY HH:mm')}"></span>
-                    </p>
-                </b>
-                <a class="btn btn-primary" th:href="@{/admin/post/} + @{${post.postId} + '/edit' }">Редагувати</a>
-            </div>
         </div>
 
         <nav class="text-center">
@@ -75,4 +84,9 @@
         </nav>
     </div>
 </div>
+<script>
+    function deleteElem(e){
+        return confirm('Видалити цю новину?')? location.href = e.getAttribute('href'):false;
+    }
+</script>
 </html>

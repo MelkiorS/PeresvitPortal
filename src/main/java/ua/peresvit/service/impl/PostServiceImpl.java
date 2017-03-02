@@ -58,4 +58,11 @@ public class PostServiceImpl implements PostService{
 
         return null;
     }
+
+    @Override
+    public void deleteOne(Long id) {
+        if (postRepository.exists(id)) {
+            postRepository.delete(id);
+        }
+    }
 }

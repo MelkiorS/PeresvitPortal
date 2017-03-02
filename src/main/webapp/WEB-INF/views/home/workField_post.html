@@ -11,6 +11,7 @@
     <script src="/resources/frontend/libraries/constants.js"></script>
 </head>
 <body>
+
 <div class="container-fluid wrapper">
     <div class="row header">
         <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
@@ -28,16 +29,25 @@
 
             </div>
         </div>
-        <div class=" col-xs-7 row well container-fluid main_section">
-
-            <input class="form-control" type="text" disabled th:field="${post.title}" />
-            <br>
-            <img th:src="@{'data:image;base64,' + ${post.encodeFileToBase64Binary()}}" width="300px" height="300px;">
-            <br>
-            <br>
-            <textarea rows="20" cols="20" class="form-control" type="text" disabled th:field="${post.body}"></textarea>
-
+        <div class="col-xs-7 row well container-fluid main_section">
+            <div class="col-lg-12 col-md-12 col-sm-12 post-title-block">
+                <a type="button" class="btn btn-primary glyphicon glyphicon-arrow-left" th:href="@{/home/post}"></a>
+                <h1 class="text-center" th:text="${post.title}">post Title goes here</h1>
+                <ul class="list-inline text-center">
+                    <li><span class="glyphicon glyphicon-user"></span></li>
+                    <li th:text="${post.user}">Author |||</li>
+                    <li><span class="glyphicon glyphicon-calendar"></span></li>
+                    <li th:text="${#dates.format(post.createDate, 'dd/MM/YYYY HH:mm')}">Date </li>
+                </ul>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-12">
+                <div class="image-block">
+                    <img th:src="@{'data:image;base64,' + ${post.encodeFileToBase64Binary()}}" class="img-responsive" >
+                </div>
+                <h4 th:text="${post.body}"></h4>
+            </div>
         </div>
+
     </div>
 
     <footer>

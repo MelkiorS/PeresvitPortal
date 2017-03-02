@@ -12,7 +12,7 @@
             <br/>
             <p class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
             <label for="description">Описання новини</label>
-            <input type="text" th:field="*{body}" />
+            <textarea type="text" th:field="*{body}"></textarea>
             <br/>
             <p class="alert alert-danger" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></p>
             <br/>
