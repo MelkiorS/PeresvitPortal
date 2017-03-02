@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label >Користувачі:</label>
                     <p style="margin-left:10px;" th:each="user : ${userList}">
-                        <input  type="checkbox" style="margin-right: 7px; " th:value="${{user.getUserId().toString()}}" th:text="${user.firstName} + ' ' + ${user.lastName} " th:checked="${userGroup!=null && userGroup.users != null && userGroup.users.contains(user)}"/>
+                        <input th:name="users" type="checkbox" style="margin-right: 7px; " th:value="${{user.getUserId().toString()}}" th:text="${user.firstName} + ' ' + ${user.lastName} " th:checked="${userGroup!=null && userGroup.users != null && userGroup.users.contains(user)}"/>
                     </p>
 
                     <!--<-->
