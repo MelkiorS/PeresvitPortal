@@ -33,11 +33,6 @@ public class ArticleController {
     @Autowired
     private RoleService roleService;
 
-    //go to manage page
-    @RequestMapping(value = "/management", method = RequestMethod.GET)
-    public String goToManagement(Model model) {
-        return "admin/article/articleManagement";
-    }
     //go to addForm
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String goToAddForm(Model model) {
@@ -112,6 +107,7 @@ public class ArticleController {
         model.addAttribute("article", article); // object is not empty
         model.addAttribute("roleList", roleTypes);
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes);
-        return "admin/article/addArticle"; // sending to addForm
+        model.addAttribute("chapters", chapterService.findAll());
+        return "admin/article/addArticle";
     }
 }

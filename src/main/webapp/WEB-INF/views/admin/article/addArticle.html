@@ -10,7 +10,7 @@
     <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
     <script src="/resources/frontend/libraries/bootstrap.min.js"></script>
     <script src="/resources/ckeditor/ckeditor.js"></script>
-    <script async src="/resources/frontend/editLesson/addArticle.js"></script>
+    <script src="/resources/frontend/editLesson/addArticle.js"></script>
     <style>
         #cke_editor1{
             margin-left:32px;
@@ -31,11 +31,17 @@
                     <div class="row">
                         <div class="col-xs-4 form-group">
                             <label>Категорiя</label><br/>
-                            <input class="form-control" th:field="*{resourceGroupType.resourceGroupTypeId}" type="text" id="groupName" />
+                            <select class="form-control" th:field="*{resourceGroupType.resourceGroupTypeId}" type="text" id="groupName" >
+                                <option th:each="rgt : ${resourceGroupTypeList}" th:value="${rgt.resourceGroupTypeId}" th:text="${rgt.caption}"></option>
+                            </select>
                         </div>
                         <div class="col-xs-4 form-group">
                             <label>Роздiл</label><br/>
-                            <input class="form-control" th:field="*{chapterId}" type="text" id="chapterId" />
+                            <!--<input class="form-control" th:field="*{chapterId}" type="text" id="chapterId" />-->
+                            <select class="form-control" th:field="*{chapterId}" type="text" id="chapter" >
+                                <option th:each="c : ${chapters}" th:value="${c.chapterId}" th:text="${c.chapterName}" th:hidden="true" th:rgt="${c.resourceGroupType.resourceGroupTypeId}"></option>
+                                <!--<option th:each="rgtc : ${resourceGroupType.chapterList}" th:value="${rgtc.chapterId}" th:text="${rgtc.chapterName}"></option>-->
+                            </select>
                         </div>
                         <div th:class="${'col-xs-4 form-group' + ( #fields.hasErrors('role') ? ' has-error' : '') }">
                             <label>Доступ для</label><br/>
@@ -50,26 +56,6 @@
                     <div class=' form-group'>
                         <label for="title">Заголовок:</label>
                         <input class=" form-control" id='title' type="text" th:field="*{articleName}" placeholder="Введіть заголовок" />
-                    </div>
-                    <div>
-                        <ol>
-                            <p class="category">Категорія</p>
-                            <li class="mylist" th:each=" resourceGroupType : ${resourceGroupTypeList}">
-                            <span class="category-name">
-                                <span th:text="${resourceGroupType.groupName}">Test</span>
-                                <a th:href="@{/admin/chapter/add/group/} + ${resourceGroupType.resourceGroupTypeId}">Додати розділ</a>
-                            </span>
-                                <ol class="category-item">
-                                    <p class="section">Розділ</p>
-
-                                    <li th:each="chapter :  ${resourceGroupType.chapterList}">
-                                        <a th:href="${'javascript:myFunction('+ chapter.chapterId + ',' + resourceGroupType.resourceGroupTypeId + ')'}") ><td th:text="${chapter.chapterName}"></td></a>
-                                        <a th:href="@{/admin/chapter/edit/} + ${chapter.chapterId}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                                        <a th:href="@{/admin/chapter/delete/} + ${chapter.chapterId}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-                                    </li>
-                                </ol>
-                            </li>
-                        </ol>
                     </div>
                     <script>
                         //                    var data = CKEDITOR.instances.editor1.getData();
