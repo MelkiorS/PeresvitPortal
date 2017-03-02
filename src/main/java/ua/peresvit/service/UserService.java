@@ -21,6 +21,8 @@ public interface UserService {
 	
 	User findOne(Long userId);
 
+	User findByName(String firstName, String lastName);
+
 	List<User> findAll();
 
 	List<User> findByRole(Role role);
