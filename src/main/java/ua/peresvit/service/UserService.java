@@ -45,6 +45,7 @@ public interface UserService {
 	User registerNewUserAccount(UserDto accountDto) throws UserAlreadyExistException;
 
 	List<User> getGroupsUsers(UserGroup[] ug);
+	List<User> getGroupsUsersWithoutCurrent(UserGroup[] ug);
 	List<UserGroup> getUserGroups(User user);
 
 	User[] getArrayFromStringArray(String[] users);

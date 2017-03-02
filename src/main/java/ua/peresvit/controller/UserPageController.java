@@ -227,7 +227,7 @@ public class UserPageController {
 
         model.addAttribute("groups", ug);
         //TODO how to do it in more correct way?
-        model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsers(uga));
+        model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsersWithoutCurrent(uga));
         return "home/workField_we";
     }
 

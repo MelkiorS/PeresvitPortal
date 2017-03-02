@@ -242,4 +242,11 @@ public class UserServiceImpl implements UserService {
     public List<User> getGroupsUsers(UserGroup[] ug) {
         return userRepository.getGroupsUsers(ug);
     }
+
+    @Override
+    public List<User> getGroupsUsersWithoutCurrent(UserGroup[] ug) {
+        List<User> res = getGroupsUsers(ug);
+        res.remove(getCurrentUser());
+        return res;
+    }
 }
