@@ -22,6 +22,7 @@ import ua.peresvit.entity.User;
 import ua.peresvit.error.UserAlreadyExistException;
 import ua.peresvit.service.UserService;
 import ua.peresvit.service.registration.OnRegistrationCompleteEvent;
+import ua.peresvit.util.helper.SocialEnum;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -107,7 +108,6 @@ public class RegistrationController {
             return "redirect:/home/workField";
         }
 //        Show unsuccessful operation on the main page
-//        TODO add attribute message on the main and personal pages
         model.addAttribute("message", messages.getMessage("auth.message." + result, null, locale));
         return "home";
     }
@@ -144,6 +144,36 @@ public class RegistrationController {
 
         User registered = createUserAccount(accountDto);
         if (registered == null) {
+            registered = userService.findUserByEmail(accountDto.getEmail());
+            switch (accountDto.getSocial()) {
+                case FB: {
+                    if(registered.getProfileFB().isEmpty()) {
+                        registered.setProfileFB(accountDto.getProfileFB());
+                        userService.save(registered);
+                        authenticateUser(registered);
+                        return "redirect:/home/workField";
+                    }
+                    break;
+                }
+                case VK: {
+                    if(registered.getProfileVK().isEmpty()) {
+                        registered.setProfileVK(accountDto.getProfileVK());
+                        userService.save(registered);
+                        authenticateUser(registered);
+                        return "redirect:/home/workField";
+                    }
+                    break;
+                }
+                case GOOGLE:{
+                    if(registered.getProfileGoogle().isEmpty()) {
+                        registered.setProfileGoogle(accountDto.getProfileGoogle());
+                        userService.save(registered);
+                        authenticateUser(registered);
+                        return "redirect:/home/workField";
+                    }
+                    break;
+                }
+            }
             return "registration/registration";
         }
         registered.setEnabled(true);
@@ -218,7 +248,14 @@ public class RegistrationController {
         if (connection == null) {
             return "redirect:/connect/vkontakte";
         }
-        return "redirect:/registration/vkontakte/finishRegistration";
+        UserDto socialUserForVk = createSocialUserDtoForVK(connection);
+        User user = userService.findByName(socialUserForVk.getFirstName(), socialUserForVk.getLastName());
+        if (user == null){
+            return "redirect:/registration/vkontakte/finishRegistration";
+        }
+        else {
+            return "";
+        }
     }
 
 //    Redirect page after VK getting access to fulfill User's info
@@ -261,7 +298,7 @@ public class RegistrationController {
         userDto.setFirstName(userProfile.getFirstName());
         userDto.setLastName(userProfile.getLastName());
         userDto.setProfileFB(userProfile.getLink());
-
+        userDto.setSocial(SocialEnum.FB);
         return userDto;
     }
 
@@ -274,6 +311,7 @@ public class RegistrationController {
         userDto.setFirstName(userProfile.getFirstName());
         userDto.setLastName(userProfile.getLastName());
         userDto.setProfileVK(userProfile.getProfileURL());
+        userDto.setSocial(SocialEnum.VK);
         return userDto;
     }
 
@@ -287,7 +325,7 @@ public class RegistrationController {
         userDto.setFirstName(googleProfile.getGivenName());
         userDto.setLastName(googleProfile.getFamilyName());
         userDto.setProfileGoogle(googleProfile.getUrl());
-
+        userDto.setSocial(SocialEnum.GOOGLE);
         return userDto;
     }
 
@@ -303,5 +341,12 @@ public class RegistrationController {
 
     private String getAppUrl(HttpServletRequest request) {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+    }
+
+    private String getAnySocialUrl(UserDto accountDto) {
+        if (!accountDto.getProfileFB().isEmpty()) return accountDto.getProfileFB();
+        if (!accountDto.getProfileGoogle().isEmpty()) return accountDto.getProfileGoogle();
+        if (!accountDto.getProfileVK().isEmpty()) return accountDto.getProfileVK();
+        return "";
     }
 }
