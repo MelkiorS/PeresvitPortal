@@ -20,15 +20,6 @@
             <div th:replace="home/fragments/header::header"></div>
             <div class="content">
                 <div th:replace="home/fragments/navigation::navigation"></div>
-                <nav class="nav-path clearfix">
-                    <ul>
-                        <li><a class="nav-path-my-way" href="#">Мiй шлях</a></li>
-                        <li>
-                            <span class="nav-path slash">&#8260;</span>
-                            <a class="nav-path-tech-complex" href="#">Базові технічні комплекси</a>
-                        </li>
-                    </ul>
-                </nav>
                 <main class="my-way-main">
                     <section class="avatar">
                         <a class="avatar-edit-user" th:href="@{/home/profileEdit/} + ${user.userId}"></a>
