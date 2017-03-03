@@ -43,6 +43,7 @@ public class ArticleController {
         model.addAttribute(new Article());   // addig empty object for post form
         model.addAttribute("roleList", roleTypes); // adding list of rang for select
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
+        model.addAttribute("chapters", chapterService.findAll());
         return "admin/article/addArticle";
     }
 

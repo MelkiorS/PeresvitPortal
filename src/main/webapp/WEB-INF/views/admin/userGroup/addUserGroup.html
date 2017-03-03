@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
+
 <div th:replace="admin/fragments/head :: header('User group')"></div>
 <div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/userGroup/', 'Група')"></div>
 
@@ -16,14 +18,11 @@
             </div>
             <div class="form-group">
                 <label >Користувачі:</label>
-                    <p style="margin-left:10px;" th:each="user : ${userList}">
+                <ul class="tbl">
+                    <li th:each="user : ${userList}" class="elem">
                         <input th:name="users" type="checkbox" style="margin-right: 7px; " th:value="${{user.getUserId().toString()}}" th:text="${user.firstName} + ' ' + ${user.lastName} " th:checked="${userGroup!=null && userGroup.users != null && userGroup.users.contains(user)}"/>
-                    </p>
-
-                    <!--<-->
-                            <!--th:selected="${userGroup!=null && userGroup.users != null && userGroup.users.contains(user)}"-->
-                            <!--th:value="${{user.getUserId().toString()}}"-->
-                            <!--th:text="${user.firstName} + ' ' + ${user.lastName}"></>-->
+                    </li>
+                </ul>
             </div>
 
             <input class="btn btn-primary" type="submit" value="Зберегти"/>
