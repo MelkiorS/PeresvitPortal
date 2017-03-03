@@ -13,6 +13,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.width = 950;
     // config.alignCenter;
     config.uiColor = '#C0C0C0';
+    config.margin = '0 auto';
     config.toolbarGroups = [
         { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
         { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },

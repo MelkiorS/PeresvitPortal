@@ -149,6 +149,7 @@ public class RegistrationController {
                 case FB: {
                     if(registered.getProfileFB().isEmpty()) {
                         registered.setProfileFB(accountDto.getProfileFB());
+                        registered.setEnabled(true);
                         userService.save(registered);
                         authenticateUser(registered);
                         return "redirect:/home/workField";
@@ -158,6 +159,7 @@ public class RegistrationController {
                 case VK: {
                     if(registered.getProfileVK().isEmpty()) {
                         registered.setProfileVK(accountDto.getProfileVK());
+                        registered.setEnabled(true);
                         userService.save(registered);
                         authenticateUser(registered);
                         return "redirect:/home/workField";
@@ -167,6 +169,7 @@ public class RegistrationController {
                 case GOOGLE:{
                     if(registered.getProfileGoogle().isEmpty()) {
                         registered.setProfileGoogle(accountDto.getProfileGoogle());
+                        registered.setEnabled(true);
                         userService.save(registered);
                         authenticateUser(registered);
                         return "redirect:/home/workField";
