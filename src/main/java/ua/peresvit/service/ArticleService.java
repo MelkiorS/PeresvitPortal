@@ -24,5 +24,7 @@ public interface ArticleService {
 
     Collection<Article> findAllByChapterIdAndResourceGroupTypeAndRang(long chapterId, ResourceGroupType type, Role role);
 
+    public Collection<Article> findAllByChapterIdAndResourceGroupType(long chapterId, ResourceGroupType type);
+
     Article findByChapterId(long chapterId);
 }

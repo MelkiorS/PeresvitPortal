@@ -45,4 +45,8 @@ public class ArticleServiceImpl implements ArticleService {
     public Collection<Article> findAllByChapterIdAndResourceGroupTypeAndRang(long chapterId, ResourceGroupType type, Role role) {
         return articleRepository.findAllByChapterIdAndResourceGroupTypeAndRole(chapterId,type,role);
     }
+
+    public Collection<Article> findAllByChapterIdAndResourceGroupType(long chapterId, ResourceGroupType type) {
+        return articleRepository.findAllByChapterIdAndResourceGroupType(chapterId,type);
+    }
 }
