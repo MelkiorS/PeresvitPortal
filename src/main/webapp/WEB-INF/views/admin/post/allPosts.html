@@ -1,90 +1,92 @@
 <!DOCTYPE html>
-<html lang="ukr" xmlns:th="http://www.thymeleaf.org" >
-    <meta charset="UTF-8">
-    <title>Перелік новин</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="admin/fragments/head :: header('News list')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '/admin/post/add','', 'Новини')"></div>
 
-<body>
-<div class="container">
-    <br/>
-    <row>
-        <div class="-collg-8 col-lg-offset-4">
-            <a th:href="@{/admin}" >Повернутися</a>
-            <br/>
+<div th:remove="all">
+    <div th:fragment="main">
+        <div class="achievementList" th:unless="${#lists.isEmpty(page)}">
+            <row class="col-md-10 blogShort" th:each="post : ${page}">
+                <div class="media well">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" style=" width: 250px;margin: 1px 6px 1px 1px;float: left;display: block;" th:src="@{'data:image;base64,' + ${post.encodeFileToBase64Binary()}}" alt="post img">
+                    </a>
+                    <a class="btn btn-danger pull-right" th:href="@{/admin/post/} + @{${post.postId} + '/delete' }" onclick="event.preventDefault();deleteElem(this)"><span class="glyphicon glyphicon-trash"></span></a>
+                    <div class="media-body">
+                        <h2 class="media-heading" th:text="${post.title}">Receta 1</h2>
+                        <div class="text-right">Автор: <a href="/home/workField" th:text="${post.user}">By Francisco</a></div>
+                        <p th:text="${post.body}" style="width: 250px;
+                                                        white-space: nowrap;
+                                                        overflow: hidden;
+                                                        text-overflow: ellipsis;">text</p>
+                        <br>
+                        <ul class="list-inline list-unstyled">
+                            <li><i class="glyphicon glyphicon-calendar"></i> <span th:text="${#dates.format(post.createDate,'dd/MM/YYYY HH:mm')}">2 days, 8 hours </span></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-blog pull-right marginBottom10" th:href="@{/admin/post/} + @{${post.postId} + '/edit' }">Редагувати</a>
+                </div>
+            </row>
 
-            <h1>Новини</h1>
-            <a class="btn btn-primary" th:href="@{/admin/post/add}">Створити</a>
-
-            <div th:each="post : ${page}">
-                <h3 th:text="${post.title}"></h3>
-
-                <img th:src= "@{'data:image;base64,' + ${post.encodeFileToBase64Binary()}}" width="200px" height="200px;">
-
-                <p th:text="${post.body}"></p>
-                <b>
-                    <p>Posted by <span th:text="${post.user}">some user</span> on <span th:text="${#dates.format(post.createDate,'MMM dd YYYY HH:mm')}"></span>
-                    </p>
-                </b>
-                <a class="btn btn-primary" th:href="@{/admin/post/} + @{${post.postId} + '/edit' }">Редагувати</a>
-            </div>
         </div>
-    </row>
 
-    <!-- Build the pagination component -->
-    <nav class="text-center">
-        <ul class="pagination">
-            <li th:class="${page.isFirst()}? 'disabled' : ''">
-                <span th:if='${page.isFirst()}'>← Перша</span>
-                <a th:if='${not page.isFirst()}' th:href="'?page=0'">
-                    ← Перша
-                </a>
-            </li>
-            <li th:class="${page.hasPrevious()}? '' : 'disabled'">
-                <span th:if='${not page.hasPrevious()}'>«</span>
-                <a
-                        th:if='${page.hasPrevious()}'
-                        th:href="'?page=' + ${page.getNumber() - 1}"
-                        title='Попередня сторінка'
-                >
-                    «
-                </a>
-            </li>
-            <li th:each="i : ${#numbers.sequence(1, (page.getTotalPages() == 0 ? 1 : page.getTotalPages()))}">
+        <nav class="text-center">
+            <ul class="pagination">
+                <li th:class="${page.isFirst()}? 'disabled' : ''">
+                    <span th:if='${page.isFirst()}'>← Перша</span>
+                    <a th:if='${not page.isFirst()}' th:href="'?page=0'">
+                        ← Перша
+                    </a>
+                </li>
+                <li th:class="${page.hasPrevious()}? '' : 'disabled'">
+                    <span th:if='${not page.hasPrevious()}'>«</span>
+                    <a
+                            th:if='${page.hasPrevious()}'
+                            th:href="'?page=' + ${page.getNumber() - 1}"
+                            title='Попередня сторінка'
+                    >
+                        «
+                    </a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(1, (page.getTotalPages() == 0 ? 1 : page.getTotalPages()))}">
                 <span
                         th:if='${(i - 1) == param.page}'
                         th:text='${i}'>
                     1
                 </span>
-                <a
-                        th:if='${not ((i - 1) == param.page)}'
-                        th:href="'?page=' + ${(i -1)}"
-                >
-                    <span th:text='${i}'>1</span>
-                </a>
-            </li>
-            <li th:class="${page.hasNext()} ? '' : 'disabled'">
-                <span th:if='${not page.hasNext()}'>»</span>
-                <a
-                        th:if='${page.hasNext()}'
-                        th:href="'?page=' + ${page.getNumber() + 1}"
-                        title='Натупна сторінка'
-                >
-                    »
-                </a>
-            </li>
-            <li th:class="${page.isLast()}? 'disabled' : ''">
-                <span th:if='${page.isLast()}'>Остання →</span>
-                <a
-                        th:if='${not page.isLast()}'
-                        th:href="'?page=' + ${page.getTotalPages() - 1}"
-                >
-                    Остання →
-                </a>
-            </li>
-        </ul>
-    </nav>
-
-
+                    <a
+                            th:if='${not ((i - 1) == param.page)}'
+                            th:href="'?page=' + ${(i -1)}"
+                    >
+                        <span th:text='${i}'>1</span>
+                    </a>
+                </li>
+                <li th:class="${page.hasNext()} ? '' : 'disabled'">
+                    <span th:if='${not page.hasNext()}'>»</span>
+                    <a
+                            th:if='${page.hasNext()}'
+                            th:href="'?page=' + ${page.getNumber() + 1}"
+                            title='Натупна сторінка'
+                    >
+                        »
+                    </a>
+                </li>
+                <li th:class="${page.isLast()}? 'disabled' : ''">
+                    <span th:if='${page.isLast()}'>Остання →</span>
+                    <a
+                            th:if='${not page.isLast()}'
+                            th:href="'?page=' + ${page.getTotalPages() - 1}"
+                    >
+                        Остання →
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>
-</body>
+<script>
+    function deleteElem(e){
+        return confirm('Видалити цю новину?')? location.href = e.getAttribute('href'):false;
+    }
+</script>
 </html>
