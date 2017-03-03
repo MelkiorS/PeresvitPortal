@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cabinet</title>
+    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
     <link rel="stylesheet" href="/resources/frontend/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/frontend/css/peresvit.css">
     <!--<link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">-->
@@ -40,27 +41,27 @@
                         </div>
                     </section>
                     <section class="details">
-                        <div class="row">
+                        <div class="rows">
                             <div class="cell-left">Наставник:</div>
                             <div th:text="${user.mentor == null ? '' : user.mentor.firstName + ' ' + user.mentor.lastName}" class="cell-right coach">Степаненко Степан</div>
                         </div>
-                        <div class="row">
+                        <div class="rows">
                             <div class="cell-left">Місто:</div>
                             <div th:text="${user.city == null ? '' : user.city.cityName}" class="cell-right">Київ</div>
                         </div>
-                        <div class="row">
+                        <div class="rows">
                             <div class="cell-left">Клуб:</div>
                             <div th:text="${user.club == null ? '' : user.club.clubName}" class="cell-right">Пересвiт</div>
                         </div>
-                        <div class="row">
+                        <div class="rows">
                             <div class="cell-left">Направлення:</div>
                             <div th:text="${user.combatArt == null ? '' : user.combatArt.combatArtName}" class="cell-right">Фрi-файт</div>
                         </div>
-                        <div class="row">
+                        <div class="rows">
                             <div class="cell-left">Про себе:</div>
                             <div th:text="${user.aboutMe == null ? '' : user.aboutMe}" class="cell-right">Займаюсь бойовими мистецтвами понад 10 рокiв</div>
                         </div>
-                        <div class="row">
+                        <div class="rows">
                             <div class="cell-left">Роль на сайтi:</div>
                             <div th:text="${user.role.roleName}" class="cell-right moderator">Модератор</div>
                         </div>

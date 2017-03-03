@@ -11,8 +11,10 @@
 @font-face {
 	font-family: MyriadPro;
     src: url("../font/MyriadPro-Regular.otf");
-} 
-
+}
+*{
+	box-sizing: content-box;
+}
 body {
 	font-family: MyriadPro, sans-serif;
 	background: -webkit-linear-gradient(rgba(177,178,181,1) 0%, rgba(250,250,250,1) 49%, rgba(250,250,250,1) 50%, rgba(177,178,181,1) 100%);
@@ -862,7 +864,7 @@ footer .icons-footer a:nth-child(3) {
 
 	footer .icons-footer {
 		float: right;
-		width: 45%;
+		width: 50%;
 		padding: 31px 0 0 0;
 		margin: 0 0 10px 0;
 	}

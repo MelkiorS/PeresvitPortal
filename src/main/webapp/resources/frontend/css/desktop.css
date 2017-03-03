@@ -210,32 +210,32 @@
     }
 
 
-    main .row div {
+    main .rows div {
         display: inline-block;
         font-size: 14px;
         line-height: 26px;
     }
-    main .row .cell-left {
+    main .rows .cell-left {
         font-size: 16px;
         width: 24%;
         padding: 0.4% 0 0 7%;
         font-weight: bold;
     }
-    main .row .cell-left:last-child {
+    main .rows .cell-left:last-child {
         margin-bottom: 10px;
     }
 
-    main .row .cell-right {
+    main .rows .cell-right {
         width: 64%;
         margin-left: 2.8%;
         font-size: 16px;
     }
 
-    main .row .coach {
+    main .rows .coach {
         color: #0301ad; /*this is  blue;*/
     }
 
-    main .row .moderator {
+    main .rows .moderator {
         color: #9d9fc4; /*this is light grey*/
     }
     main .archivement {

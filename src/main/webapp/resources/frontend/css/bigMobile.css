@@ -190,12 +190,12 @@
     }
 
 
-    main .row div {
+    main .rows div {
         display: inline-block;
         font-size: 18px;
         line-height: 23px;
     }
-    main .row .cell-left {
+    main .rows .cell-left {
         font-size: 17px;
         line-height: 32px;
         width: 31%;
@@ -204,16 +204,16 @@
         vertical-align: top;
     }
 
-    main .row .cell-right {
+    main .rows .cell-right {
         width: 50%;
         padding: 6px 0 0 12px;
     }
 
-    .my-way-main .row .coach {
+    .my-way-main .rows .coach {
         color: #0301ad; /*this is  blue;*/
     }
 
-    main .row .moderator {
+    main .rows .moderator {
         color: #9d9fc4; /*this is light grey*/
     }
 
