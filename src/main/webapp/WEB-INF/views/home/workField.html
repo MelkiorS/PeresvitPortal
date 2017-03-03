@@ -67,14 +67,8 @@
                     </section>
                     <section class="archivement">
                         <h5>Мої досягнення</h5>
-                        <!--<p class="archivement-text">Найвища перемога в iсторiї UFC</p>-->
-                        <!--th:each="achievement, iter : ${user.achievements}"-->
-                        <ul  class="bxslider">
-                            <!--<li><img alt="Перемога" th:src= "@{'data:image;base64,' + ${achieveList.get(achievement.achievementId)}}" th:title="${achievement.achievementName}"/></li>-->
-                            <li><img alt="Перемога" src="/resources/frontend/image/archivement0.jpg" title="Найшвидша перемога в iсторiї UFC"/></li>
-                            <li><img alt="Перемога" src="/resources/frontend/image/archivement1.jpg" title="Найшвидша перемога в iсторiї UFC" /></li>
-                            <li><img alt="Перемога" src="/resources/frontend/image/archivement2.jpg" title="Найшвидша перемога в iсторiї UFC"/></li>
-                            <li><img alt="Перемога" src="/resources/frontend/image/archivement3.jpg" title="Найшвидша перемога в iсторiї UFC"/></li>
+                        <ul class="bxslider">
+                            <li th:each="achievement, iter : ${user.achievements}"><img alt="Перемога" th:src= "@{'data:image;base64,' + ${achieveList.get(achievement.achievementId)}}" th:title="${achievement.achievementName}"/></li>
                         </ul>
                         <!--<div class="col-xs-12  main_section_photoGallery_images">-->
                             <!--<tr th:each="achievement, iter : ${user.achievements}">-->
