@@ -14,7 +14,7 @@
             <select th:field="*{resourceGroupType.resourceGroupTypeId}">
                 <option th:each="resourceGroupType : ${resourceGroupTypeList}"
                         th:value="${resourceGroupType.resourceGroupTypeId}"
-                        th:text="${resourceGroupType.groupName}"></option>
+                        th:text="${resourceGroupType.getCaption()}"></option>
             </select>
             <br/>
             <input type="submit" />

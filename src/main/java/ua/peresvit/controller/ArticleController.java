@@ -5,12 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.Article;
 import ua.peresvit.entity.ResourceGroupType;
+import ua.peresvit.entity.ResourceGroupTypeChapter;
 import ua.peresvit.entity.Role;
 import ua.peresvit.service.ArticleService;
 import ua.peresvit.service.ResourceGroupTypeChapterService;
@@ -18,7 +17,7 @@ import ua.peresvit.service.ResourceGroupTypeService;
 import ua.peresvit.service.RoleService;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -48,7 +47,24 @@ public class ArticleController {
         model.addAttribute(new Article());   // addig empty object for post form
         model.addAttribute("roleList", roleTypes); // adding list of rang for select
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
+        model.addAttribute("currentChapter", new ResourceGroupTypeChapter());
+
+        if (resourceGroupTypes.size() > 0)
+            model.addAttribute("currentChapterList", resourceGroupTypes.get(0).getChapterList());
+
         return "admin/article/addArticle";
+    }
+
+    @RequestMapping(value = "/categories")
+    @ResponseBody
+    public Map getRegions(@RequestParam Long categoryId) {
+        ResourceGroupType category = resourceGroupTypeService.findOne(categoryId);
+        List<ResourceGroupTypeChapter> chapterList = category.getChapterList();
+
+        Map map = new TreeMap<Long, String>();
+        chapterList.forEach(item->map.put(item.getChapterId(), item.getChapterName()));
+
+        return map;
     }
 
     // create article )
@@ -112,6 +128,8 @@ public class ArticleController {
         model.addAttribute("article", article); // object is not empty
         model.addAttribute("roleList", roleTypes);
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes);
+        model.addAttribute("currentChapter", chapterService.findOne(article.getChapterId()));
+        model.addAttribute("currentChapterList", article.getResourceGroupType().getChapterList());
         return "admin/article/addArticle"; // sending to addForm
     }
 }

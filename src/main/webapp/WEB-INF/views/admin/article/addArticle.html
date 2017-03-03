@@ -11,46 +11,102 @@
     <script src="/resources/frontend/libraries/bootstrap.min.js"></script>
     <script src="/resources/ckeditor/ckeditor.js"></script>
     <script async src="/resources/frontend/editLesson/addArticle.js"></script>
+
+    <script>
+        function sendAjaxRequest() {
+            var resourceGroupType = $("#resourceGroupType").val();
+            $.get("/admin/article/categories?categoryId=" + resourceGroupType, function (data, status) {
+                $("#chapter").empty();
+//                data.forEach(function (item) {
+//                    var option = "<option value = " + item + " text=>" + item + "</option>";
+//                    $("#chapter").append(option);
+//                });
+                for (var key in data) {
+                    var option = "<option value = " + key + ">" + data[key] + "</option>";
+                    $("#chapter").append(option);
+                }
+//                 alert("Data: " + data + "\nStatus: " + status);
+            });
+        };
+    </script>
+
+    <script>
+        $(document).ready(
+                function () {
+                    $("#resourceGroupType").change(function() {
+                        sendAjaxRequest();
+                    });
+                }
+        );
+    </script>
+
     <style>
         #cke_editor1{
             margin-left:32px;
         }
     </style>
+
 </head>
+
 <div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/article/', 'Стаття')"></div>
-
-
 
 <div th:remove="all">
     <div th:fragment="main">
 
-        <!--<div class="container-fluid wrapper">-->
+        <form action="#" th:action="@{/admin/article/}" th:object="${article}" method="post">
 
-            <!--<div class=" col-xs-7 row well container-fluid main_section">-->
-                <form action="#" th:action="@{/admin/article/}" th:object="${article}" method="post">
-                    <div class="row">
+            <div class=' form-group'>
+                <label for="title">Заголовок:</label>
+                <input class=" form-control" id='title' type="text" th:field="*{articleName}" placeholder="Введіть заголовок" />
+            </div>
+                       <div class="row">
+
                         <div class="col-xs-4 form-group">
                             <label>Категорiя</label><br/>
-                            <input class="form-control" th:field="*{resourceGroupType.resourceGroupTypeId}" type="text" id="groupName" />
+                            <textarea disabled th:text="${article.resourceGroupType == null ? '': article.resourceGroupType.getCaption()}"/>
                         </div>
+
                         <div class="col-xs-4 form-group">
                             <label>Роздiл</label><br/>
-                            <input class="form-control" th:field="*{chapterId}" type="text" id="chapterId" />
-                        </div>
-                        <div th:class="${'col-xs-4 form-group' + ( #fields.hasErrors('role') ? ' has-error' : '') }">
-                            <label>Доступ для</label><br/>
-                            <select class="form-control" th:field="*{role.roleId}">
-                                <option th:each="role : ${roleList}"
-                                        th:value="${role.roleId}"
-                                        th:text="${role.roleName}"></option>
-                            </select>
+                            <textarea disabled th:text="${currentChapter.getChapterName()}"/>
+
                         </div>
                     </div >
+
+
+            <label>Змінити категорiю, розділ та право перегляду:</label><br/>
+            <div class="row">
+                <div class="col-xs-4 form-group">
+                    <select th:field="*{resourceGroupType.resourceGroupTypeId}" class="form-control" id="resourceGroupType">
+                        <option th:each="resourceGroupType : ${resourceGroupTypeList}"
+                                th:value="${resourceGroupType.resourceGroupTypeId}"
+                                th:text="${resourceGroupType.getCaption()}">Wireframe
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-xs-4 form-group">
+                    <select th:field="*{chapterId}" class="form-control" id="chapter">
+                        <option th:each="chapter1 : ${currentChapterList}"
+                                th:value="${chapter1.getChapterId()}"
+                                th:text="${chapter1.getChapterName()}">Wireframe
+                        </option>
+                    </select>
+                </div>
+                <div th:class="${'col-xs-4 form-group' + ( #fields.hasErrors('role') ? ' has-error' : '') }">
+                    <select class="form-control" th:field="*{role.roleId}">
+                        <option th:each="role : ${roleList}"
+                                th:value="${role.roleId}"
+                                th:text="${role.roleName}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <!--<td>-->
+   <!---->
+            <!--</td>-->
+
                     <input type="hidden" th:field="*{articleId}" placeholder="bfsdkjhbvdj"/>
-                    <div class=' form-group'>
-                        <label for="title">Заголовок:</label>
-                        <input class=" form-control" id='title' type="text" th:field="*{articleName}" placeholder="Введіть заголовок" />
-                    </div>
                     <div>
                         <ol>
                             <p class="category">Категорія</p>
@@ -103,5 +159,8 @@
 
     </div>
 </div>
+
 </html>
+
+
 
