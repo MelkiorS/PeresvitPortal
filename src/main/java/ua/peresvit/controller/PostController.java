@@ -62,8 +62,10 @@ public class PostController {
             return "admin/post/addPost";
         }
 
-        if(file != null && file.getSize() != 0){
-            postCreated.setUrl(postService.saveFile(postCreated, file));
+        if(file != null){
+            if (file.getSize() != 0) {
+                postCreated.setUrl(postService.saveFile(postCreated, file));
+            }
         } else if (postCreated.getPostId() != 0) {
             postCreated.setUrl(postService.findOne(postCreated.getPostId()).getUrl());
         }
