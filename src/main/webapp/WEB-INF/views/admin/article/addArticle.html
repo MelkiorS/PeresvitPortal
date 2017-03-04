@@ -31,15 +31,15 @@
                     <div class="row">
                         <div class="col-xs-4 form-group">
                             <label>Категорiя</label><br/>
-                            <select class="form-control" th:field="*{resourceGroupType.resourceGroupTypeId}" id="groupName" >
+                            <select class="form-control" th:field="*{resourceGroupType.resourceGroupTypeId}" type="text" id="groupName" >
                                 <option th:each="rgt : ${resourceGroupTypeList}" th:value="${rgt.resourceGroupTypeId}" th:text="${rgt.caption}"></option>
                             </select>
                         </div>
                         <div class="col-xs-4 form-group">
                             <label>Роздiл</label><br/>
                             <!--<input class="form-control" th:field="*{chapterId}" type="text" id="chapterId" />-->
-                            <select class="form-control" th:field="*{chapterId}" id="chapter" >
-                                <option th:each="c : ${chapters}" th:value="${c.chapterId}" th:text="${c.chapterName}" th:method="chapters = "></option>
+                            <select class="form-control" th:field="*{chapterId}" type="text" id="chapter" >
+                                <option th:each="c : ${chapters}" th:value="${c.chapterId}" th:text="${c.chapterName}" th:hidden="true" th:rgt="${c.resourceGroupType.resourceGroupTypeId}"></option>
                                 <!--<option th:each="rgtc : ${resourceGroupType.chapterList}" th:value="${rgtc.chapterId}" th:text="${rgtc.chapterName}"></option>-->
                             </select>
                         </div>
