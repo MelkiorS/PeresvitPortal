@@ -500,6 +500,13 @@ footer .icons-footer a:nth-child(3) {
 	/*footer*/
 }
 @media screen and (min-width: 360px) and (max-width: 767px){
+	body,html{
+		/*height: 100%;*/
+	}
+	.wrapper{
+		/*position: relative;*/
+		/*height: 100%;*/
+	}
 	.wrapper-inner{
 		font-family: MyriadPro, sans-serif;
 		background: #b0b1b3; /* Old browsers */
@@ -718,6 +725,10 @@ footer .icons-footer a:nth-child(3) {
 		width: 77%;
 		height: 86px;
 	}
+	/*header .school {*/
+	/*font-family: Roboto sans-serif;*/
+	/*font-size: 20px;*/
+	/*}*/
 	header .logo-header-text {
 		float: left;
 		text-align: center;
@@ -835,8 +846,8 @@ footer .icons-footer a:nth-child(3) {
 		color:#fff;
 		font-size: 17px;
 		position: absolute;
-		top: 115px;
-		left: 16px;
+		top: 132px;
+		left: 13px;
 		width: 40%;
 	}
 	footer .banner-footer {
@@ -864,8 +875,8 @@ footer .icons-footer a:nth-child(3) {
 
 	footer .icons-footer {
 		float: right;
-		width: 50%;
-		padding: 31px 0 0 0;
+		width: 45%;
+		padding: 49px 0 0 0;
 		margin: 0 0 10px 0;
 	}
 	footer .icons-footer a{
@@ -878,10 +889,10 @@ footer .icons-footer a:nth-child(3) {
 		margin: 0 17px 0 6px;
 	}
 	footer .icons-footer a:nth-child(2){
-		margin: -1px 6px 0 20px;
+		margin: -1px 6px 0 10px;
 	}
 	footer .icons-footer a:nth-child(3){
-		margin: 0 0 0 20px;
+		margin: 0 0 0 15px;
 	}
 	/*footer*/
 }
@@ -897,9 +908,9 @@ footer .icons-footer a:nth-child(3) {
 
 
 	}
-	/*.wrapper{*/
-	/*min-height: 100%;*/
-	/*}*/
+	.wrapper{
+		position: relative;
+	}
 	/*.wrapper {*/
 		/*min-height: 100%;*/
 		/*width: 84%;*/
@@ -1165,7 +1176,7 @@ footer .icons-footer a:nth-child(3) {
 		width: 93%;
 		position: absolute;
 		left: 2.7%;
-		bottom: -2px;
+		bottom: -20px;
 	}
 	footer .copyright-footer {
 		color:#fff;
@@ -1502,7 +1513,7 @@ footer .icons-footer a:nth-child(3) {
 		float: left;
 		height: 60px;
 		padding: 2% 0 0 6.8%;
-		width: 49%;
+		width: 45%;
 		text-decoration: none;
 	}
 	footer .banner-footer>a{
@@ -1522,7 +1533,7 @@ footer .icons-footer a:nth-child(3) {
 	}
 	footer .icons-footer {
 		float: right;
-		width: 19%;
+		width: 20%;
 		margin: 20px 0 0 0;
 		padding: 0 3px 0 0;
 	}
