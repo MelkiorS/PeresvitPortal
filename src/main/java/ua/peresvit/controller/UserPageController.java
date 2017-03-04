@@ -166,39 +166,10 @@ public class UserPageController {
         return "redirect:/home/workField";
     }
 
-    @RequestMapping(value = "/privateOffice", method = RequestMethod.GET)
-    public String showPrivateOffice(Model model, Principal principal) {
-        User loggedUser = userService.findUserByEmail(principal.getName());
-
-        String imagePath = loggedUser.getAvatarURL();
-        model.addAttribute("imageAvatar", null);
-        try {
-            model.addAttribute("imageAvatar", Constant.encodeFileToBase64Binary(imagePath));
-        }catch (IOException ex){}
-        model.addAttribute("user", loggedUser);
-
-        return "home/privateOffice";
-    }
-
     @RequestMapping(value = "/ourEvents", method = RequestMethod.GET)
     public String showOurEvents(Model model, Principal principal) {
         model.addAttribute("user", userService.getCurrentUser());
         return "home/ourEvents";
-    }
-
-//    @RequestMapping(value = "/myWay/myWayChapters/{groupName}")
-//    public String myWayChapters(Model model, @PathVariable(value = "groupName") String groupName) {
-//        model.addAttribute("user", userService.getCurrentUser());
-//        ResourceGroupType rgt = rgtService.findResourceGroupTypeByGroupName(groupName);
-//        model.addAttribute("chapters", rgt.getChapterList());
-//        return "home/myWay/myWayChapters";
-//    }
-
-    @RequestMapping(value = "/myWay/myWayChapters/{groupName}/{articleId}")
-    public String myWayChapters(Model model, @PathVariable(value = "groupName") String groupName, @PathVariable(value = "articleId") long articleId) {
-        model.addAttribute("user", userService.getCurrentUser());
-        model.addAttribute("article", aService.findOne(articleId));
-        return "home/myWay/myWayArticle";
     }
 
     //TODO: front - сделать авто пересчет в случае успеха - автоматом отражать новое состояние, в случае неудачи - показывать сообщение о фейле

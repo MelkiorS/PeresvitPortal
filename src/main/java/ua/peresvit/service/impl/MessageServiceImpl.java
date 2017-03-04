@@ -100,7 +100,7 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public Chat addNewMembersToChat(LinkedList<User> membersToAdd, Chat chat) {
+    public Chat addNewMembersToChat(HashSet<User> membersToAdd, Chat chat) {
         Set<User> members = chat.getMembers();
         for (User u : membersToAdd) {
             members.add(u);
@@ -111,6 +111,10 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public Chat deleteMemberFromChat(User user, Chat chat) {
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.equals(user) || !chat.getMembers().contains(user) || !chat.getMembers().contains(currentUser)) {
+            return chat;
+        }
         Set<User> members = chat.getMembers();
         members.remove(user);
         chat.setMembers(members);
@@ -118,7 +122,7 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public Message getAddingNewMemberMessage(User adder, LinkedList<User> listOfNewMembers, Chat chat, Locale locale) {
+    public Message getAddingNewMemberMessage(User adder, HashSet<User> listOfNewMembers, Chat chat, Locale locale) {
         Message message = new Message();
         message.setSender(adder);
         message.setChat(chat);
@@ -142,6 +146,18 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
+    public Message getChangingTitleMessage(User changer, Chat chat, Locale locale) {
+        Message message = new Message();
+        message.setSender(changer);
+        message.setChat(chat);
+        message.setFunctional(true);
+        message.setContent(changer.getFirstName() + " " + changer.getLastName() + " "
+                + messages.getMessage("message.changeChatTitle", null, locale) + " "
+                + "<" + chat.getChatTitle() + ">");
+        return message;
+    }
+
+    @Override
     public Message sendMessage(User from, Message message) {
         message.setSender(from);
         message.setCreatedAt(new Timestamp(System.currentTimeMillis()));
@@ -156,12 +172,6 @@ public class MessageServiceImpl implements MessageService{
     @Override
     public Set<ChatWithLastMessage> findCustomChatsOfUser(User user) {
         return chatRepository.getChatsWithLastMessage(user);
-    }
-
-    @Override
-    public Message findLastMessage(Chat chat) {
-//        return messageRepository.findLastMessage(chat);
-        return  null;
     }
 
     @Override

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="/resources/frontend/workField.css">
+    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
+    <script src="/resources/frontend/libraries/constants.js"></script>
+    <title th:text="${!chat.chatTitle.isEmpty() ? chat.chatTitle : ''}"></title>
+</head>
+<body>
+<div class="container-fluid wrapper">
+    <div class="row header">
+        <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
+        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="/resources/frontend/images/logo_Peresvit.png" alt="логотип"></div>
+        <div class="col-xs-8  row header_nav">
+            <div th:replace="home/fragments/headBar :: headBar"></div>
+            <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
+        </div>
+    </div>
+    <div class="row main">
+        <div class="col-xs-3 container main_sidebar">
+            <!--Сюда вставляем боковой бар fragments/sideBar.html-->
+            <div th:replace="home/fragments/sideBar :: sideBar"></div>
+            <div class="place_for_add_sidebar col-xs-12 row">
+
+            </div>
+        </div>
+        <div class=" col-xs-7 row well container-fluid main_section">
+            <!--Универсальная страница. Если переменная статус = edit, то меняем название или удаляем пользователей по крестику-->
+            <div th:if="${status == 'edit'}">
+                <form th:action="@{/home/messages/} + ${chatId} + '/changeTitle'" th:method="post" th:object="${chat}">
+                    <input type="text" th:field="*{chatTitle}" title="Назва бесіди">
+                    <input type="hidden" th:field="*{chatId}">
+                    <input type="hidden" th:field="*{owner}">
+                    <input type="hidden" th:field="*{members}" th:value="${chat.members}">
+                    <input type="submit" title="Змінити назву бесіди">
+                    <div th:each="user: ${chat.members}">
+                        <label th:text="${user.firstName} + ' ' + ${user.lastName}"></label>
+                        <a th:if="${!currentUser.equals(user)}" th:href="@{/home/messages/} + ${chatId} + '/deleteMember/' + ${user.userId}"> Видалити з бесіди</a>
+                        <!--Тут чекбоксы с пользователями на удаление. В конце кнопка удалить-->
+                    </div>
+                </form>
+
+            </div>
+            <!--Если переменная add, то добавляем-->
+            <div th:if="${status == 'add'}">
+                <form th:object="${newMembers}" th:method="post" th:action="@{/home/messages/} + ${chatId} + '/addMembers'">
+                    <ul>
+                        <li th:each="user, stat: ${membersToAdd}">
+                            <label th:text="${stat.index}">Test</label>
+                            <input type="checkbox" th:field="*{newMembers[__${stat.index}__]}" title="учасники"/>
+                            <label th:text="${user.firstName} + ' ' + ${user.lastName}">USER</label>
+                        </li>
+                    </ul>
+                    <input type="submit" title="Додати">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
