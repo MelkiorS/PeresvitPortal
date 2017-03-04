@@ -28,6 +28,8 @@
         #my_form label {
             width: 200px;
         }
+        .tbl { height: 100px; overflow: auto; width: 100%; border: 1px solid #000; list-style-type: none; margin: 0; padding: 0; overflow-x: hidden;}
+        .elem { margin: 0; padding: 0; }
     </style>
     <script type="text/javascript" charset="utf-8">
 
@@ -50,8 +52,8 @@
             ev.text = html("text").value;
             ev.description = html("description").value;
             ev.connectall = html("connectall").value;
-            ev.friends = n($("#friends").val(), []);
-            ev.groups = n($("#groups").val(), []);
+            ev.friends = n($.map($('#friends').children("li").children("input:checked"), function(n) {return n.value}), []);
+            ev.groups = n($.map($('#groups').children("li").children("input:checked"), function(n) {return n.value}), []);
             scheduler.endLightbox(true, html("my_form"));
         }
 
@@ -80,18 +82,25 @@
         <option value=false>За запрошенням</option>
     </select>
     <br>
-    <label for="groups">Надіслати запрошення группам</label><select multiple="multiple" name="groups" value="" id="groups" >
-        <option th:each="group : ${groups}" th:text="${group.toString()}" th:value="${group.id}"></option>
-    </select>
+    <label for="groups">Надіслати запрошення группам</label>
+    <ul class="tbl"  id="groups">
+        <li class="elem" th:each="group : ${groups}">
+            <input th:name="groups" type="checkbox" style="margin-right: 7px; " th:text="${group.toString()}" th:value="${group.id}" />
+        </li>
+    </ul>
+
     <br>
-    <label for="friends">Надіслати запрошення друзям</label><select name="friends" value="" id="friends" multiple="multiple">
-        <option th:each="friend : ${friends}" th:text="${friend.toString()}" th:value="${friend.userId}"></option>
-    </select>
+    <label for="friends">Надіслати запрошення друзям</label>
+    <ul class="tbl"  id="friends">
+       <li class="elem" th:each="friend : ${friends}">
+           <input th:name="friends" type="checkbox" style="margin-right: 7px; " th:text="${friend.toString()}" th:value="${friend.userId}">
+       </li>
+    </ul>
     <br>
 
-    <input type="button" name="save" value="Save" id="save" style='width:100px;' onclick="save_form()">
-    <input type="button" name="close" value="Close" id="close" style='width:100px;' onclick="close_form()">
-    <input type="button" name="delete" value="Delete" id="delete" style='width:100px;' onclick="delete_event()">
+    <input type="button" name="save" value="Зберегти" id="save" style='width:100px;' onclick="save_form()">
+    <input type="button" name="close" value="Зачинити" id="close" style='width:100px;' onclick="close_form()">
+    <input type="button" name="delete" value="Видалити" id="delete" style='width:100px;' onclick="delete_event()">
 </div>
 
 

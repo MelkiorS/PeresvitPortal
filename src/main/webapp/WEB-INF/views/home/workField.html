@@ -3,153 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Peresvit</title>
+    <title>Cabinet</title>
     <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
-    <link rel="stylesheet" href="/resources/frontend/workField.css">
-    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
-    <script src="/resources/frontend/libraries/constants.js"></script>
+    <link rel="stylesheet" href="/resources/frontend/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/frontend/css/peresvit.css">
+    <!--<link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">-->
+    <!--<link rel="stylesheet" href="/resources/frontend/workField.css">-->
+    <!--<script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>-->
+    <!--<script src="/resources/frontend/libraries/constants.js"></script>-->
+
 </head>
 <body>
-<div class="container-fluid wrapper">
-    <div class="row header">
-        <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
-        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="/resources/frontend/images/logo_Peresvit.png" alt="логотип"></div>
-        <div class="col-xs-8  row header_nav">
-            <div th:replace="home/fragments/headBar :: headBar"></div>
-            <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
-        </div>
-    </div>
-    <div class="row main">
-        <div class="col-xs-3 container main_sidebar">
-            <!--Сюда вставляем боковой бар fragments/sideBar.html-->
-            <div th:replace="home/fragments/sideBar :: sideBar"></div>
-            <div class="place_for_add_sidebar col-xs-12 row">
-
-            </div>
-        </div>
-        <div class=" col-xs-7 row well container-fluid main_section">
-            <!--Сюда вставляем содержимое страниц в соответствии с нажатыми кнопками-->
-            <div class="show user">
-                <div>
-                    <p class="text-left h2 main_section_name">
-                        <a th:href="@{/home/profileEdit/} + ${user.userId}"><span class="glyphicon glyphicon-cog cogwheel-name" aria-hidden="true"></span></a>
-                        <span class="allName">
+<div class="wrapper">
+    <div class="wrapper-outer clearfix">
+        <div th:replace="home/fragments/body::body"></div>
+        <div class="wrapper-inner Panel">
+            <div th:replace="home/fragments/header::header"></div>
+            <div class="content">
+                <div th:replace="home/fragments/navigation::navigation"></div>
+                <main class="my-way-main">
+                    <section class="avatar">
+                        <a class="avatar-edit-user" th:href="@{/home/profileEdit/} + ${user.userId}"></a>
+                        <h3 class="avatar-name">
                             <span th:text="${user.lastName}"></span>
                             <span th:text="${user.firstName}"></span>
                             <span th:text="${user.middleName}"></span>
-                        </span>
-                    </p>
-                </div>
-                <div class="row main_section_basic">
-                    <div class="col-xs-2 main_section_basic_avatar">
-                        <!--Сюда вставляем ссылку на аватар юзера-->
-                        <img th:src= "${imageAvatar != null} ? @{'data:image;base64,' + ${imageAvatar}} : ${user.avatarURL}" alt="your avatar">
-                    </div>
-                    <div class="col-xs-8 col-xs-offset-1 main_section_basic_links">
-                        <p class="main_section_basic_links_item">
-                            <!--Сюда вставляем ссылки на профиль юзера в соцсетях vk, fb, g+, если они есть-->
-                            <a th:href="${user.profileVK != null} ? @{'' + ${user.profileVK}} : @{''}" target="_blank"><img src="/resources/frontend/images/Logovk.png" alt="vk"></a>
-                            <a th:href="${user.profileFB != null} ? @{'' + ${user.profileFB}} : @{''}" target="_blank"><img src="/resources/frontend/images/Logofc.png" alt="fs"></a>
-                            <a th:href="${user.profileInstagram != null} ? @{'' + ${user.profileInstagram}} : @{''}" target="_blank"><img src="/resources/frontend/images/Logoin.png" alt="instagram"></a>
-                        </p>
-                    </div>
-                    <!--<div class="col-xs-9 col-xs-offset-1 main_section_basic_links">-->
-                        <!--<p class="main_section_basic_links_item_belt row">-->
-                            <!--&lt;!&ndash;Сюда вставляем на картинку, какой пояс есть у юзера&ndash;&gt;-->
-                            <!--&lt;!&ndash;<img src="/resources/frontend/workField/images/yellow_belt.png" alt="belt">&ndash;&gt;-->
-                        <!--</p>-->
-                    <!--</div>-->
-                    <div class="col-xs-12 main_section_basic_level">
-                        <!--Сюда вставляем ранг юзера (юзер, админ и тд.)-->
-                        <div class="col-xs-4">
-                            <span  th:text="${user.role.roleName}">Ранг</span>
+                        </h3>
+                        <div class="avatar-container">
+                            <img class="avatar-photo" th:src= "${imageAvatar != null} ? @{'data:image;base64,' + ${imageAvatar}} : ${user.avatarURL}" alt="Аватар юзера">
+                            <img class="avatar-belt" src="/resources/frontend/image/belt.png" alt="Пояс юзера">
+                            <p class="belt-text">6 Кю. Жовтий пояс</p>
+                            <div class="avatar-social">
+                                <a th:href="${user.profileVK != null} ? @{'' + ${user.profileVK}} : @{''}" target="_blank" class="avatar-vk"></a>
+                                <a th:href="${user.profileFB != null} ? @{'' + ${user.profileFB}} : @{''}" target="_blank" class="avatar-fb"></a>
+                                <a th:href="${user.profileInstagram != null} ? @{'' + ${user.profileInstagram}} : @{''}" target="_blank" class="avatar-insta"></a>
+                            </div>
                         </div>
-
-                    </div>
-                </div>
-
+                    </section>
+                    <section class="details">
+                        <div class="rows">
+                            <div class="cell-left">Наставник:</div>
+                            <div th:text="${user.mentor == null ? '' : user.mentor.firstName + ' ' + user.mentor.lastName}" class="cell-right coach">Степаненко Степан</div>
+                        </div>
+                        <div class="rows">
+                            <div class="cell-left">Місто:</div>
+                            <div th:text="${user.city == null ? '' : user.city.cityName}" class="cell-right">Київ</div>
+                        </div>
+                        <div class="rows">
+                            <div class="cell-left">Клуб:</div>
+                            <div th:text="${user.club == null ? '' : user.club.clubName}" class="cell-right">Пересвiт</div>
+                        </div>
+                        <div class="rows">
+                            <div class="cell-left">Направлення:</div>
+                            <div th:text="${user.combatArt == null ? '' : user.combatArt.combatArtName}" class="cell-right">Фрi-файт</div>
+                        </div>
+                        <div class="rows">
+                            <div class="cell-left">Про себе:</div>
+                            <div th:text="${user.aboutMe == null ? '' : user.aboutMe}" class="cell-right">Займаюсь бойовими мистецтвами понад 10 рокiв</div>
+                        </div>
+                        <div class="rows">
+                            <div class="cell-left">Роль на сайтi:</div>
+                            <div th:text="${user.role.roleName}" class="cell-right moderator">Модератор</div>
+                        </div>
+                    </section>
+                    <section class="archivement">
+                        <h5>Мої досягнення</h5>
+                        <ul class="bxslider">
+                            <li th:each="achievement, iter : ${user.achievements}"><img alt="Перемога" th:src= "@{'data:image;base64,' + ${achieveList.get(achievement.achievementId)}}" th:title="${achievement.achievementName}"/></li>
+                        </ul>
+                        <!--<div class="col-xs-12  main_section_photoGallery_images">-->
+                            <!--<tr th:each="achievement, iter : ${user.achievements}">-->
+                                <!--<td th:text="${achievement.achievementId}">1</td>-->
+                                <!--<td th:text="${achievement.achievementName}">Text</td>-->
+                                <!--<img th:src= "@{'data:image;base64,' + ${achieveList.get(achievement.achievementId)}}" alt="achievement">-->
+                            <!--</tr>-->
+                        <!--</div>-->
+                    </section>
+                </main>
             </div>
-            <div class="row col-xs-9  main_section_userInf">
-                <!--Сюда вставляем личную информацию о юзере-->
-                <div class="col-xs-7 main_section_userInf_item">
-                    <!--Сюда вставляем ФИО наставника-->
-                    <p>
-                        <b>Наставник: </b>
-                        <span th:text="${user.mentor == null ? '' : user.mentor.firstName + ' ' + user.mentor.lastName}">Александр Степанович</span>
-                    </p>
-                </div>
-                <div class="col-xs-7 main_section_userInf_item">
-                    <!--Сюда вставляем город в котором живет юзер-->
-                    <p>
-                        <b>Місто: </b>
-                        <span class="city">
-                            <span th:text="${user.city == null ? '' : user.city.cityName}">Киев</span>
-                            <!--<span class="glyphicon glyphicon-pencil pencil pencil-info-city" aria-hidden="true"></span>-->
-                        </span>
-                    </p>
-                </div>
-                <div class="col-xs-7 main_section_userInf_item">
-                    <!--Сюда вставляем клуб в котором занимается юзер-->
-                    <p>
-                        <b>Клуб: </b>
-                        <span class="club">
-                            <span th:text="${user.club == null ? '' : user.club.clubName}">Пересвіт</span>
-                            <!--<span class="glyphicon glyphicon-pencil pencil pencil-info-club" aria-hidden="true"></span>-->
-                        </span>
-                    </p>
-                </div>
-                <div class="col-xs-7 main_section_userInf_item">
-                    <!--Сюда вставляем направление юзера -->
-                    <p>
-                        <b>Направлення: </b>
-                        <span class="direction">
-                            <span th:text="${user.combatArt == null ? '' : user.combatArt.combatArtName}">Фрійфайт</span>
-                            <!--<span class="glyphicon glyphicon-pencil pencil pencil-info-direct" aria-hidden="true"></span>-->
-                        </span>
-                    </p>
-                </div>
-                <div class="col-xs-12 main_section_userInf_item">
-                    <!--Сюда вставляем информацию юзера о себе-->
-                    <p class="about-myself">
-                        <b>Про себе: </b>
-                        <span class="about-myself-item">
-                            <span th:text="${user.aboutMe == null ? '' : user.aboutMe}">Чорний пояс по Фрі-файт, чемпіон Європи</span>
-                            <!--<span class="glyphicon glyphicon-pencil pencil pencil-info-me" aria-hidden="true"></span>-->
-                        </span>
-                    </p>
-                </div>
-            </div>
-            <div class=" row col-xs-12 main_section_photoGallery">
-                <div>
-                    <p class="lead main_section_photoGallery_head">Мої досягнення</p>
-                </div>
-                <div class="col-xs-12  main_section_photoGallery_images">
-                    <tr th:each="achievement, iter : ${user.achievements}">
-                        <td th:text="${achievement.achievementId}">1</td>
-                        <td th:text="${achievement.achievementName}">Text</td>
-                        <img th:src= "@{'data:image;base64,' + ${achieveList.get(achievement.achievementId)}}" alt="achievement">
-                    </tr>
-
-                </div>
-            </div>
+            <div th:replace="home/fragments/footer::footer"></div>
         </div>
     </div>
-
-    <footer>
-        <div class="row container-fluid" >
-            <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">
-                <p>Гугл реклама</p>
-
-            </div>
-            <div class="col-xs-2 col-md-2 row">
-                <img src="/resources/frontend/images/Logovk.png" alt="vk">
-                <img src="/resources/frontend/images/Logofc.png" alt="fs">
-                <img src="/resources/frontend/images/Logoin.png" alt="instagram">
-            </div>
-        </div>
-    </footer>
 </div>
-</div>
-
+<!--<script class="jquery" type="text/javascript" src="/resources/frontend/js/jquery-3.1.1.min.js"></script>-->
+<script class="jquery" type="text/javascript" src="/resources/frontend/js/jquery-1.8.2.min.js"></script>
+<script src="/resources/frontend/js/jquery.bxslider.min.js"></script>
+<script src="/resources/frontend/js/sideBar.js"></script>
+<script src="/resources/frontend/js/peresvit.js"></script>
 </body>
 </html>

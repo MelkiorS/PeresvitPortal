@@ -5,7 +5,7 @@
 <style>
     table{
         width: 80%;
-        margin: 5px 30px 5px 30px;
+        margin: 5px;
     }
     tbody tr{
         padding: 5px 5px;
@@ -39,7 +39,7 @@
                     </td>
                     <td th:text="${article.articleName}"></td>
                     <td th:text="${article.role.roleName}"></td>
-                    <td th:text="${article.resourceGroupType.getCaption()}"></td>
+                    <td th:text="${article.resourceGroupType.caption}"></td>
                 </tr>
                 </tbody>
             </table>

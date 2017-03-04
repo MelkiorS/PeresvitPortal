@@ -86,12 +86,20 @@ $(function(){
            html("to").value = t(ev.to, fmtTime(ev.end_date));
            html("date").value = t(ev.date, fmtDateScheduler(ev.start_date));
 
-           $("#groups").val( ev.groups===null || ev.groups===undefined? [] : ev.groups.map(String));
-           $("#friends").val( ev.users===null || ev.users===undefined ? []: ev.users.map(String));
+
+            setFlags(ev.groups, $("#groups"))
+            setFlags(ev.users, $("#friends"))
         };
 
     }
 
+    function setFlags(arr, box) {
+        if (!(arr===null || arr===undefined)) {
+            for (var el in arr) {
+                box.children("li").children("input[value=" + arr[el] + "]").prop('checked', true)
+            }
+        }
+    }
 
     function fmtNum(num, size) {
        var s = num+"";

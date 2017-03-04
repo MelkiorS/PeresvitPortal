@@ -1,34 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:replace="admin/fragments/head :: header('User')"></div>
-<div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/post/', 'Новина')"></div>
-
-
+<div th:replace="admin/fragments/head :: header('News list')"></div>
+<div th:replace="admin/fragments/body :: body(~{::main}, '','/admin/post/', 'Новини')"></div>
 <div th:remove="all">
-    <div th:fragment="main">
+    <div th:fragment="main" class="addCity">
 
-        <br/>
-
-        <form class="form-group col-lg-6" th:href="@{/admin/post/add}" th:method="POST" th:object="${post}"
-              enctype="multipart/form-data">
-
+        <form action="#" th:action="@{/admin/post/add/}"  th:object="${post}" enctype="multipart/form-data" method="post">
+            <input type="hidden" th:field="*{postId}" />
             <label for="title">Заголовок</label>
-            <input class="form-control" th:field="*{title}"/>
+            <input type="text" th:field="*{title}" />
             <br/>
             <p class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
-            <label for="body">Новина</label>
-            <textarea rows="20" cols="20" class="form-control" th:field="*{body}"></textarea>
+            <label for="description">Описання новини</label>
+            <textarea type="text" th:field="*{body}"></textarea>
             <br/>
             <p class="alert alert-danger" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></p>
             <br/>
-
-            <label for="file">Картинка</label>
-            <input type="file" name="file" id="file"/>
+            <label for="file">Фото новини</label>
+            <input type="file" name="file" />
             <br/>
-            <input class="btn btn-primary" type="submit" value=" Зберігти "/>
+            <input type="submit" />
         </form>
-
     </div>
 </div>
-
 </html>

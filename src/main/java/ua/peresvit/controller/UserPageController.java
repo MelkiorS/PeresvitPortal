@@ -26,51 +26,55 @@ import java.util.*;
 @RequestMapping(value = "/home")
 public class UserPageController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final UserGroupService userGroupService;
+
+    private final EventService eventService;
+
+    private final ResourceGroupTypeService rgtService;
+
+    private final ResourceGroupTypeChapterService rgtcService;
+
+    private final ArticleService aService;
+
+    private final CityService cityService;
+
+    private final ClubService clubService;
+
+    private final CombatArtService combatArtService;
+
+    private final RoleService roleService;
+
+    private final AchievementService achievementService;
+
+    private final PostService postService;
 
     @Autowired
-    private UserGroupService userGroupService;
-
-    @Autowired
-    private EventService eventService;
-
-    @Autowired
-    private ResourceGroupTypeService rgtService;
-
-    @Autowired
-    private ResourceGroupTypeChapterService rgtcService;
-
-    @Autowired
-    private ArticleService aService;
-
-    @Autowired
-    private CityService cityService;
-
-    @Autowired
-    private ClubService clubService;
-
-    @Autowired
-    private CombatArtService combatArtService;
-
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private AchievementService achievementService;
-
-    @Autowired
-    private PostService postService;
+    public UserPageController(ArticleService aService, UserService userService, UserGroupService userGroupService, EventService eventService, ResourceGroupTypeService rgtService, ResourceGroupTypeChapterService rgtcService, CityService cityService, ClubService clubService, CombatArtService combatArtService, PostService postService, RoleService roleService, AchievementService achievementService) {
+        this.aService = aService;
+        this.userService = userService;
+        this.userGroupService = userGroupService;
+        this.eventService = eventService;
+        this.rgtService = rgtService;
+        this.rgtcService = rgtcService;
+        this.cityService = cityService;
+        this.clubService = clubService;
+        this.combatArtService = combatArtService;
+        this.postService = postService;
+        this.roleService = roleService;
+        this.achievementService = achievementService;
+    }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String goToReg(Model model, Principal principal) {
-        if (principal != null) {
-            // TODO use switch construction
-            if (userService.getCurrentUser().getRole().getRoleName().equals("ADMIN")) {
-                return "redirect:/admin";
-            }
-            return "redirect:/home/workField";
-        }
+//        if (principal != null) {
+//            // TODO use switch construction
+//            if (userService.getCurrentUser().getRole().getRoleName().equals("ADMIN")) {
+//                return "redirect:/admin";
+//            }
+//            return "redirect:/home/workField";
+//        }
         model.addAttribute("user", (userService.getCurrentUser() == null ? new User() : userService.getCurrentUser()) );
         return "home";
     }
@@ -227,7 +231,7 @@ public class UserPageController {
 
         model.addAttribute("groups", ug);
         //TODO how to do it in more correct way?
-        model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsers(uga));
+        model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsersWithoutCurrent(uga));
         return "home/workField_we";
     }
 

@@ -14,7 +14,6 @@
         <thead>
         <tr>
           <th>Дії</th>
-          <th>Ід</th>
           <th>Назва</th>
         </tr>
         </thead>
@@ -24,7 +23,6 @@
             <a class="glyphicon glyphicon-pencil btn btn-link btn-xs" th:href="@{/admin/resourceGroupType/edit/} + ${resourceGroupType.resourceGroupTypeId}"></a>
             <a class="glyphicon glyphicon-remove btn btn-danger btn-xs" th:href="@{/admin/resourceGroupType/delete/} + ${resourceGroupType.resourceGroupTypeId}"></a>
           </td>
-          <td th:text="${resourceGroupType.resourceGroupTypeId}"></td>
           <td th:text="${resourceGroupType.caption}"></td>
         </tr>
         </tbody>

@@ -46,7 +46,7 @@
           <!--<td th:text="${user.middleName}"></td>-->
           <td th:text="${user.email}"></td>
           <!--<td th:text="${user.avatarURL}"></td>-->
-          <td th:text="${user.enabled}"></td>
+          <td th:text="${user.enabled ? 'Так' : 'Ні'}"></td>
         </tr>
         </tbody>
       </table>

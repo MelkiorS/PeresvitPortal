@@ -13,6 +13,6 @@ public class StartPageController {
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String goToAdminPage() {
-		return "redirect:admin/resource/";
+		return "redirect:admin/user/";
 	}
 }

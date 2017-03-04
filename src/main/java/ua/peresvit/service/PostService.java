@@ -13,6 +13,8 @@ public interface PostService {
 
     String saveFile(Post post, MultipartFile file);
 
+    void deleteOne(Long id);
+
     Post findOne(Long cityId);
 
     List<Post> findAll();

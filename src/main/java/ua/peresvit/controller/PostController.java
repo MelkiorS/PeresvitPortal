@@ -19,6 +19,8 @@ import ua.peresvit.service.PostService;
 import ua.peresvit.service.UserService;
 
 import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Controller
 @RequestMapping(value = "/admin/post")
@@ -60,9 +62,18 @@ public class PostController {
             return "admin/post/addPost";
         }
 
-        postCreated.setUrl(postService.saveFile(postCreated, file));
+        if(file != null){
+            if (file.getSize() != 0) {
+                postCreated.setUrl(postService.saveFile(postCreated, file));
+            }
+        } else if (postCreated.getPostId() != 0) {
+            postCreated.setUrl(postService.findOne(postCreated.getPostId()).getUrl());
+        }
         postCreated.setUser(userService.getCurrentUser());
+        postCreated.setCreateDate(new Timestamp(System.currentTimeMillis()));
+
         postService.save(postCreated);
+
         return "redirect:/admin/post/";
     }
 
@@ -87,10 +98,15 @@ public class PostController {
         newPost.setBody(postEdited.getBody());
         if(file != null && file.getSize() != 0)
             newPost.setUrl(postService.saveFile(newPost, file));
-
+        newPost.setCreateDate(new Timestamp(System.currentTimeMillis()));
+        System.out.println(new Timestamp(System.currentTimeMillis()));
         postService.save(newPost);
-
         return "redirect:/admin/post/";
     }
 
+    @RequestMapping(value = "{id}/delete")
+    public String deletePost(@PathVariable Long id) {
+        postService.deleteOne(id);
+        return "redirect:/admin/post/";
+    }
 }
