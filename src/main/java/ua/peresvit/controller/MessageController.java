@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import ua.peresvit.dto.ChatWithLastMessage;
 import ua.peresvit.entity.Chat;
 import ua.peresvit.entity.Message;
@@ -151,15 +152,17 @@ public class MessageController {
     @RequestMapping(value = "/{chatId}/addMembers", method = RequestMethod.POST)
     public String addNewMembersToChat(@PathVariable("chatId") Long chatId,
                                       Model model,
-//                                      @RequestParam(value = "friends[]", required = false) String[] newMembers,
-                                      HashSet<User> newMembers,
-                                      Chat currentChat) {
-        HashSet<User> newMembers2 =  newMembers;
+                                      @RequestParam(value = "users" , required = false) long[] users) {
+        Chat chat = messageService.findOneChat(chatId);
+        HashSet<User> newMembers = new HashSet<>();
+        for (Long userId : users) {
+            newMembers.add(userService.findOne(userId));
+        }
         if (!newMembers.isEmpty()) {
             User inviter = userService.getCurrentUser();
-            messageService.addNewMembersToChat(newMembers, currentChat);
+            messageService.addNewMembersToChat(newMembers, chat);
 //            !!!!!!!!!!!!!!!!!! ТУТ УСТАНОВЛЕН ЯЗЫК УКР ПО ДЕФОЛТУ
-            messageService.sendMessage(inviter, messageService.getAddingNewMemberMessage(inviter, newMembers, currentChat, new Locale("UK")));
+            messageService.sendMessage(inviter, messageService.getAddingNewMemberMessage(inviter, newMembers, chat, new Locale("UK")));
             model.addAttribute("chatId", chatId);
             return "redirect:/home/messages/{chatId}";
         } else {

@@ -48,11 +48,15 @@
             <div th:if="${status == 'add'}">
                 <form th:object="${newMembers}" th:method="post" th:action="@{/home/messages/} + ${chatId} + '/addMembers'">
                     <ul>
-                        <li th:each="user, stat: ${membersToAdd}">
-                            <label th:text="${stat.index}">Test</label>
-                            <input type="checkbox" th:field="*{newMembers[__${stat.index}__]}" title="учасники"/>
-                            <label th:text="${user.firstName} + ' ' + ${user.lastName}">USER</label>
+                        <li th:each="toAdd : ${membersToAdd}">
+                            <!--<div th:each="user : ${newMembers}">-->
+                            <input type="checkbox" th:value="${toAdd.userId}" name="users" title="учасники"/>
+                            <label th:text="${toAdd.firstName} + ' ' + ${toAdd.lastName}">USER</label>
+                            <!--<div th:method="${newMembers}"></div>-->
+                            <!--</div>-->
+
                         </li>
+
                     </ul>
                     <input type="submit" title="Додати">
                 </form>
