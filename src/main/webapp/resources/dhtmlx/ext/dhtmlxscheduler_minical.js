@@ -82,7 +82,7 @@ scheduler.renderCalendar = function(obj, _prev, is_refresh) {
 		}
 	}
 
-	this._markCalendarCurrentDate(cal);
+	// this._markCalendarCurrentDate(cal);
 
 	cal.conf = obj;
 	if (obj.sync && !is_refresh)
@@ -201,7 +201,7 @@ scheduler._render_calendar = function(obj, sd, conf, previous) {
 			var date = scheduler.date.add(calendar._date, diff, "month");
 			scheduler.updateCalendar(calendar, date);
 			if (scheduler._date.getMonth() == calendar._date.getMonth() && scheduler._date.getFullYear() == calendar._date.getFullYear()) {
-				scheduler._markCalendarCurrentDate(calendar);
+				// scheduler._markCalendarCurrentDate(calendar);
 			}
 		};
 
@@ -265,6 +265,10 @@ scheduler._render_calendar = function(obj, sd, conf, previous) {
 	scheduler._date = temp6;
 	ts.month_day = temp7;
 	this._ignores_detected = temp8;
+
+	//our events
+	if (this.afterRender) this.afterRender(d._date);
+
 	return d;
 };
 scheduler.destroyCalendar = function(cal, force) {

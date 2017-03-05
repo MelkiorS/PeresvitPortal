@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>	Peresvit</title>
-
-    <script src="/resources/dhtmlx/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/resources/dhtmlx/ext/dhtmlxscheduler_minical.js" type="text/javascript" charset="utf-8"></script>
-
-    <script src="/resources/dhtmlx/locale/locale_ua.js" type="text/javascript" charset="utf-8"></script>
-
-    <link rel="stylesheet" href="/resources/dhtmlx/skins/dhtmlxscheduler.css" type="text/css" media="screen" title="no title" charset="utf-8">
-
-    <link rel="stylesheet" type="text/css" href="/resources/frontend/css/peresvit.css">
-    <link rel="stylesheet" type="text/css" href="/resources/frontend/css/events.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cabinet</title>
+    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
+    <link rel="stylesheet" href="/resources/frontend/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/frontend/css/peresvit.css">
+    <!--<link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">-->
+    <!--<link rel="stylesheet" href="/resources/frontend/workField.css">-->
+    <!--<script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>-->
+    <!--<script src="/resources/frontend/libraries/constants.js"></script>-->
 
 </head>
 <body>
@@ -26,21 +23,7 @@
                 <div th:replace="home/fragments/navigation::navigation"></div>
                 <main class="my-way-main">
                     <section class="calendar">
-                        <div class="calendar-box">
-                            <!-- The CALENDAR start -->
-                            <div id="mini_here"></div>
-                            <div id="scheduler_here" class="dhx_cal_container">
-                            <div class="dhx_cal_navline">
-                            <div class="dhx_cal_date"></div>
-                            <div class="dhx_cal_tab" name="day_tab" style="right:76px;"></div>
-                            </div>
-                            <div class="dhx_cal_header">
-                            </div>
-                            <div class="dhx_cal_data">
-                            </div>
-                            </div>
-                            <!-- The CALENDAR end -->
-                        </div>
+                        <div class="calendar-box"></div>
                         <div class="calendar-legend">
                             <div>
                                 <p class="red"> - змагання</p>
@@ -57,8 +40,28 @@
                     </section>
                     <section class="event-list">
                         <h1>Найближчі події:</h1>
-                        <ul class="event-ul" id="close5events">
-                            <!--will bi filled with js-->
+                        <ul class="event-ul">
+                            <li class="event-li red">
+                                Змагання в Пекіні
+                            </li>
+                            <li class="event-li yellow">
+                                Святкування у Ірпені
+                            </li>
+                            <li class="event-li violet">
+                                Виступ в Бучі
+                            </li>
+                            <li class="event-li grey">
+                                Атестація групи 678
+                            </li>
+                            <li class="event-li lightgreen">
+                                Чайна школа
+                            </li>
+                            <li class="event-li darkgrey">
+                                Семінар
+                            </li>
+                            <li class="event-li green">
+                                Похід в Альпи
+                            </li>
                         </ul>
                     </section>
                     <section class="event-photo">
@@ -117,7 +120,6 @@
 <script src="/resources/frontend/js/jquery.bxslider.min.js"></script>
 <script src="/resources/frontend/js/sideBar.js"></script>
 <script src="/resources/frontend/js/peresvit.js"></script>
-<script type="text/javascript" src="/resources/frontend/js/our-events-calendar.js"></script>
 </body>
 </html>
 <!--<script th:if="${all}">var _all = true</script>
