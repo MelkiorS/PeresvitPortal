@@ -1,3 +1,4 @@
+	var eventsPath = _all ? "/panel/eventsdatajson" : "/panel/myeventsdatajson";
 	init();
 	window.onload = function() {
 		removeStyle();
@@ -7,7 +8,7 @@
 		scheduler.config.xml_date="%Y-%m-%d %H:%i";
 		scheduler.init('scheduler_here',new Date(),"day");
 
-		scheduler.load("/panel/eventsdatajson?dt=" + fmtDate(startMonth(new Date())) + "&qty=1000", 'json',function(){
+		scheduler.load(eventsPath + "?dt=" + fmtDate(startMonth(new Date())) + "&qty=1000", 'json',function(){
 			scheduler.renderCalendar({
 				container:"mini_here",
 				date:scheduler._date,
@@ -25,7 +26,7 @@
 	function fillMonthEvents(d) {
 		$.ajax({
 			type: "GET",
-			url: "/panel/eventsdatajson",
+			url: eventsPath,
 			data: {
 				"dt": fmtDate(d),
 				"qty": 5
