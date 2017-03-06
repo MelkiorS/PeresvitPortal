@@ -15,12 +15,32 @@
 				navigation:true,
 				handler:function(date,calendar){
 					removeStyle();
+					fillDayEvent(date);
 				}
 			});
 		});
 		scheduler.afterRender = function(d) {
 			fillMonthEvents(startMonth(d));
 		};
+	}
+
+	function fillDayEvent(day) {
+		$.ajax({
+			type: "GET",
+			url: "/panel/eventjson",
+			data: {
+				"dt": fmtDate(day)
+			},
+			success: function (data) {
+				$('#eventDate').text(data.start_date);
+				$('#eventName').text(data.text);
+				$('#eventDescription').text(data.description);
+				$('#assignButton').toggleClass('hidden', JSON.parse(data.assignedToMe) || !_all);
+				$('#assignButton').on('click', function() {
+					assignToMe(data.id, new Date(data.start_date));
+				})
+			}
+		});
 	}
 
 	function fillMonthEvents(d) {
@@ -34,10 +54,26 @@
 			success: function (data) {
 				$('#close5events').empty();
 				for (var i=0;i<data.length;i++) {
-					if (new Date(data[i].start_date).getMonth() <= d.getMonth()) $('#close5events').append('<li class="event-li red">' + data[i].text + '</li>');
+					if (new Date(data[i].start_date).getMonth() <= d.getMonth()) $('#close5events').append('<li class="event-li red" onClick="fillDayEvent(new Date(' + new Date(data[i].start_date).getTime() + '))">' + data[i].text + '</li>');
+				}
+				if (data.length > 0) {
+					fillDayEvent(new Date(data[0].start_date));
 				}
 			}
 		});
+	}
+
+	function assignToMe(eventid, dt) {
+		$.ajax({
+		    type: "POST",
+		    url: "/home/myWay/assignToMe",
+		    data: {
+		        "eventId": eventid
+		    },
+			success: function (data) {
+				fillDayEvent(dt);
+			}
+		})
 	}
 
 	function removeStyle() {

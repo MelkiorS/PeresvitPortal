@@ -45,6 +45,12 @@ class UserClassAdapter<T> extends TypeAdapter<T> {
 
 class EventClassAdapter extends TypeAdapter<Event> {
 
+    private User user;
+
+    public EventClassAdapter(User user) {
+        this.user = user;
+    }
+
     private void wrt(JsonWriter out, String name, String value) throws IOException {
         out.name(name);
         out.value(value);
@@ -58,6 +64,8 @@ class EventClassAdapter extends TypeAdapter<Event> {
             wrt(out, "text", value.getName().toString());
             wrt(out, "start_date", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(value.getStart()));
             wrt(out, "end_date", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(value.getFinish()));
+            wrt(out, "description", value.getDescription());
+            wrt(out, "assignedToMe", value.isAssigned(user) ? "true" : "false");
             out.endObject();
         }
     }
@@ -103,7 +111,7 @@ public class MyEventsController {
     @RequestMapping(value = "/panel/myeventsdatajson", method = RequestMethod.GET, produces = {"application/json; charset=UTF-8"})
     @ResponseBody
     public String getDateMyEventsJson(@RequestParam("dt") String date, @RequestParam("qty") int qty, Model model) throws ParseException {
-        Gson g = new GsonBuilder().registerTypeAdapter(Event.class, new EventClassAdapter())
+        Gson g = new GsonBuilder().registerTypeAdapter(Event.class, new EventClassAdapter(us.getCurrentUser()))
                 .setDateFormat("MM/dd/yyyy HH:mm").create();
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         String res = g.toJson(es.findClosestByCurrentUser(dt, qty));
@@ -113,7 +121,7 @@ public class MyEventsController {
     @RequestMapping(value = "/panel/eventsdatajson", method = RequestMethod.GET, produces = {"application/json; charset=UTF-8"})
     @ResponseBody
     public String getDateEventsJson(@RequestParam("dt") String date, @RequestParam("qty") int qty, Model model) throws ParseException {
-        Gson g = new GsonBuilder().registerTypeAdapter(Event.class, new EventClassAdapter())
+        Gson g = new GsonBuilder().registerTypeAdapter(Event.class, new EventClassAdapter(us.getCurrentUser()))
                 .setDateFormat("MM/dd/yyyy HH:mm").create();
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         String res = g.toJson(es.findClosest(dt, qty));
@@ -154,6 +162,16 @@ public class MyEventsController {
         Date dtFinish = (new SimpleDateFormat("yyyyMMdd")).parse(finish);
 
         String res = g.toJson(es.getPeriod(dtStart, dtFinish));
+        return res;
+    }
+
+    @RequestMapping(value = "/panel/eventjson", method = RequestMethod.GET, produces = {"application/json; charset=UTF-8"})
+    @ResponseBody
+    public String getEventJson(@RequestParam("dt") String date, Model model) throws ParseException {
+        Gson g = new GsonBuilder().registerTypeAdapter(Event.class, new EventClassAdapter(us.getCurrentUser()))
+                .setDateFormat("MM/dd/yyyy HH:mm").create();
+        Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
+        String res = g.toJson(es.findNext(dt));
         return res;
     }
 
