@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="home/fragments/head :: head(${article.articleName})"></head>
+<head>
+    <!--<link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">-->
+    <!--<link rel="stylesheet" href="/resources/frontend/workField.css">-->
+    <script src="/resources/frontend/libraries/constants.js"></script>
+    <script src="/resources/ckeditor/ckeditor.js"></script>
+</head>
+<body>
+<div th:replace="home/fragments/body :: body(~{::main}, '', false, '')"></div>
+
+<div th:remove="all">
+    <main class="my-way-main"  th:fragment="main">
+        <div class="comeBack">
+            <a href="javascript:history.back();"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"> </span><span>Назад</span></a>
+        </div>
+        <!--Сюда вставляем содержимое страниц в соответствии с нажатыми кнопками-->
+        <div th:inline="html" class="article" th:unless="${#lists.isEmpty(article)}" th:each="article : ${article}" >
+            <div><h2 class='articleName' th:text="${article.articleName}">Article name</h2>
+            </div>
+            <!--<div class="col-xs-3 col-xs-offset-1 techComplexity">-->
+            <!--<p>Сложность техники</p>-->
+            <!--&lt;!&ndash;Сюда вставляем сложность техники (определяется в звездочках)&ndash;&gt;-->
+            <!--<p>-->
+            <!--<span class="glyphicon glyphicon-star" aria-hidden="true"></span>-->
+            <!--<span class="glyphicon glyphicon-star" aria-hidden="true"></span>-->
+            <!--<span class="glyphicon glyphicon-star" aria-hidden="true"></span>-->
+            <!--<span class="glyphicon glyphicon-star" aria-hidden="true"></span>-->
+            <!--<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>-->
+            <!--</p>-->
+            <!--</div>-->
+            <div>
+                <textarea th:utext="${article.context}" th:remove="tag">Текст статьи</textarea>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

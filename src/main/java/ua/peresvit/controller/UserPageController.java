@@ -166,12 +166,6 @@ public class UserPageController {
         return "redirect:/home/workField";
     }
 
-    @RequestMapping(value = "/ourEvents", method = RequestMethod.GET)
-    public String showOurEvents(Model model, Principal principal) {
-        model.addAttribute("user", userService.getCurrentUser());
-        return "home/ourEvents";
-    }
-
     //TODO: front - сделать авто пересчет в случае успеха - автоматом отражать новое состояние, в случае неудачи - показывать сообщение о фейле
     //TODO: back - добавить функцию удаления unassign
     //TODO: сделать рекфакторинг EventService isAssignedToMe - переделать на обращение к методу сущности. дописать тесты

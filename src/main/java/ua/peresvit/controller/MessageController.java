@@ -49,7 +49,7 @@ public class MessageController {
         model.addAttribute("chatList", chats);
 //        adding chat object to create new chat from start chats page
         model.addAttribute(new Chat());
-        return "home/chats";
+        return "home/messages/chats";
     }
 
     //  creating new chat from main messages' page
@@ -60,8 +60,12 @@ public class MessageController {
         UserGroup[] uga;
         uga = new UserGroup[ug.size()];
         uga = ug.toArray(uga);
-        model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsersWithoutCurrent(ug.toArray(uga)));
-        return "home/newChat";
+        if (userService.getCurrentUser().getRole().getRoleName().equals("ADMIN")) {
+            model.addAttribute("userList", userService.findAll());
+        } else {
+            model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsersWithoutCurrent(ug.toArray(uga)));
+        }
+        return "home/messages/newChat";
     }
 
     //  creating new chat from main messages' page
@@ -76,7 +80,7 @@ public class MessageController {
             return "redirect:/home/messages/{chatId}";
         } else {
             model.addAttribute("message", messages.getMessage("message.chatCreationError", null, locale));
-            return "home/chats";
+            return "home/messages/chats";
         }
     }
 
@@ -117,7 +121,7 @@ public class MessageController {
         model.addAttribute("ownerPermission", false);
         model.addAttribute(chat);
         model.addAttribute(new Message());
-        return "home/messages";
+        return "home/messages/messages";
     }
 
     // post new message to certain chat and refresh chat
@@ -145,7 +149,7 @@ public class MessageController {
         model.addAttribute("membersToAdd", membersToAdd);
         model.addAttribute("newMembers", new HashSet<User>());
         model.addAttribute("status", "add");
-        return "home/editChat";
+        return "home/messages/editChat";
     }
 
     //  adding new members to certain chat
@@ -180,7 +184,7 @@ public class MessageController {
         model.addAttribute("chatId", chatId);
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("status", "edit");
-        return "home/editChat";
+        return "home/messages/editChat";
     }
 
     //  change chat title

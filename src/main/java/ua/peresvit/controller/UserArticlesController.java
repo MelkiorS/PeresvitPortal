@@ -9,12 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ua.peresvit.entity.*;
 import ua.peresvit.service.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Controller
 @RequestMapping(value = "/resource")
@@ -40,7 +34,7 @@ public class UserArticlesController {
     public String showArticle(@PathVariable long articleId, Model model) {
         Article article = articleService.findOne(articleId);
         model.addAttribute("article", article);
-        return "resource/studyingMaterial";
+        return "home/studyingMaterial";
     }
 
     // go to myWay
