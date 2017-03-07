@@ -19,7 +19,7 @@
             <div class="avatar-container">
                 <img class="avatar-photo" th:src= "${imageAvatar != null} ? @{'data:image;base64,' + ${imageAvatar}} : ${user.avatarURL}" alt="Аватар юзера">
                 <div th:each="mark, iter : ${user.marks}">
-                    <img class="avatar-belt" src="/resources/frontend/image/belt.png" th:src="@{'data:image;base64,'} + ${user.avatarURL}" alt="Пояс юзера">
+                    <img class="avatar-belt" src="/resources/frontend/image/belt.png" th:src="@{'data:image;base64,' + ${user.avatarURL}}" alt="Пояс юзера">
                     <p class="belt-text" th:text="${mark.markName}">6 Кю. Жовтий пояс</p>
                 </div>
                 <div class="avatar-social">
