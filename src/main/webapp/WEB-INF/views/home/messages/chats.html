@@ -1,69 +1,34 @@
 <!DOCTYPE html>
-<html lang="ukr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="home/fragments/head :: head('НАЗВАНИЕ СТРАНИЦЫ')"></head>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Peresvit</title>
-    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
-    <link rel="stylesheet" href="/resources/frontend/workField.css">
-    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
-    <script src="/resources/frontend/libraries/constants.js"></script>
+    <!--СЮДА МОЖНО ДОБАВИТЬ ВСЁ, ЧЕГО НЕТУ В head.HTML-->
 </head>
 <body>
-<div class="container-fluid wrapper">
-    <div class="row header">
-        <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
-        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="/resources/frontend/images/logo_Peresvit.png" alt="логотип"></div>
-        <div class="col-xs-8  row header_nav">
-            <div th:replace="home/fragments/headBar :: headBar"></div>
-            <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
-        </div>
-    </div>
-    <div class="row main">
-        <div class="col-xs-3 container main_sidebar">
-            <!--Сюда вставляем боковой бар fragments/sideBar.html-->
-            <div th:replace="home/fragments/sideBar :: sideBar"></div>
-            <div class="place_for_add_sidebar col-xs-12 row">
+<div th:replace="home/fragments/body :: body(~{::main}, '', false, '')"></div>
 
-            </div>
+<div th:remove="all">
+    <main class="my-way-main"  th:fragment="main">
+        <div class="chats-header">
+            <a type="button" th:href="@{/home/messages/newChat}"><p>Розпочати бесіду</p></a>
         </div>
-        <div class=" col-xs-7 row well container-fluid main_section">
-            <div class="chats-header">
-                <a type="button" th:href="@{/home/messages/newChat}"><p>Розпочати бесіду</p></a>
-            </div>
-            <div class="markList" th:unless="${#lists.isEmpty(chatList)}">
-                    <div th:each="chat : ${chatList}"   >
-                        <form th:action="@{/home/messages/} + ${chat.chatId}" method="get">
-                            <button class="btn btn-default  markList-item" type="submit"  aria-haspopup="true" aria-expanded="false">
-                                <img class="col-xs-2" th:src="${chat.sender.avatarURL}" src="/resources/frontend/images/userIcon.png" alt="аватар юзера">
-                                <p class="col-xs-8 markList-item-title" th:text="${chat.chatTitle}"></p>
-                                <p class="col-xs-2 markList-item-time" th:text=
+        <div class="markList" th:unless="${#lists.isEmpty(chatList)}">
+            <div th:each="chat : ${chatList}"   >
+                <form th:action="@{/home/messages/} + ${chat.chatId}" method="get">
+                    <button class="btn btn-default  markList-item" type="submit"  aria-haspopup="true" aria-expanded="false">
+                        <img class="col-xs-2" th:src="${chat.sender.avatarURL}" src="/resources/frontend/images/userIcon.png" alt="аватар юзера">
+                        <p class="col-xs-8 markList-item-title" th:text="${chat.chatTitle}"></p>
+                        <p class="col-xs-2 markList-item-time" th:text=
                                 "${#dates.format(#dates.createNow(), 'dd-MM-yyyy') == #dates.format(chat.createdAt, 'dd-MM-yyyy')} ?
                                 ${#dates.format(chat.createdAt, 'HH:mm')} :
                                 ${#dates.format(chat.createdAt, 'dd-MM-yyyy HH:mm')}">2:23 PM</p>
-                                <p class="col-xs-8 markList-item-message" th:text="${chat.sender.firstName} + ' ' + ${chat.sender.lastName} + ': ' + ${chat.content}">Last Message</p>
-                            </button>
-                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/home/messages/} + ${chat.chatId} + '/deleteChat'"><span class="alert glyphicon glyphicon-trash"></span></a>
-                        </form>
-                    </div>
-            </div>
-    </div>
-
-    <footer>
-        <div class="row container-fluid" >
-            <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">
-                <p>Гугл реклама</p>
-
-            </div>
-            <div class="col-xs-2 col-md-2 row">
-                <img src="/resources/frontend/images/Logovk.png" alt="vk">
-                <img src="/resources/frontend/images/Logofc.png" alt="fs">
-                <img src="/resources/frontend/images/Logoin.png" alt="instagram">
+                        <p class="col-xs-8 markList-item-message" th:text="${chat.sender.firstName} + ' ' + ${chat.sender.lastName} + ': ' + ${chat.content}">Last Message</p>
+                    </button>
+                    <a sec:authorize="hasRole('ADMIN')" th:href="@{/home/messages/} + ${chat.chatId} + '/deleteChat'"><span class="alert glyphicon glyphicon-trash"></span></a>
+                </form>
             </div>
         </div>
-    </footer>
+    </main>
 </div>
-</div>
-
 </body>
 </html>
