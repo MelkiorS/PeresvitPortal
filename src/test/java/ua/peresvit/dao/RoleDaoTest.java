@@ -1,6 +1,5 @@
 package ua.peresvit.dao;
 
-import junitparams.JUnitParamsRunner;
 import org.hamcrest.CoreMatchers;
 import org.hibernate.SessionFactory;
 import org.junit.After;
