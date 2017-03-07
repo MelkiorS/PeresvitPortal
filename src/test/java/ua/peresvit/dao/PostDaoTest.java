@@ -1,6 +1,7 @@
 package ua.peresvit.dao;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
@@ -37,5 +38,8 @@ public class PostDaoTest extends BaseDaoTest<Post> {
         super.init(cr, new PostFactory());
     }
 
+    @Override
+    public void testSave() {
 
+    }
 }

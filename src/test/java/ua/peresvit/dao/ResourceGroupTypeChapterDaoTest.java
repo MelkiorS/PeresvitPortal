@@ -37,5 +37,8 @@ public class ResourceGroupTypeChapterDaoTest extends BaseDaoTest<ResourceGroupTy
         super.init(cr, new ResourceGroupTypeChapterFactory());
     }
 
+    @Override
+    public void testDelete() {
 
+    }
 }

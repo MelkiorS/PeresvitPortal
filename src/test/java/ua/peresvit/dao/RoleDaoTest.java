@@ -50,6 +50,8 @@ public class RoleDaoTest extends BaseDaoTest<Role> {
         super.init(rr, new RoleFactory());
     }
 
+    @Override
+    public void testDelete() {
 
-
+    }
 }

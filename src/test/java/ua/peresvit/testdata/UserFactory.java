@@ -72,7 +72,7 @@ public class UserFactory implements BaseFactory<User> {
     @Override
     public User getNew() {
         User res = new User();
-        res.setUserId(2l);
+        res.setUserId(3l);
         res.setFirstName("Sidor");
         res.setLastName("Sidorovich");
         res.setMiddleName("Sidorov");
