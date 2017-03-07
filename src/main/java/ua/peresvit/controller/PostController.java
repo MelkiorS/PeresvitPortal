@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ua.peresvit.config.Constant;
 import ua.peresvit.entity.Post;
+import ua.peresvit.service.MessageService;
 import ua.peresvit.service.PostService;
 import ua.peresvit.service.UserService;
 
@@ -35,21 +36,20 @@ public class PostController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MessageService messageService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getPosts(Model model, @PageableDefault(value=3, direction = Sort.Direction.DESC, sort = "createDate") Pageable pageable){
         model.addAttribute("page", postService.findAll(pageable) );
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/post/allPosts";
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String show(@PathVariable Long id, Model model){
-        model.addAttribute("post", postService.findOne(id));
-        return "admin/post/showPost";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String showCreate(Model model){
         model.addAttribute("post", new Post());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/post/addPost";
     }
 
@@ -59,6 +59,7 @@ public class PostController {
         if (validation.hasErrors()) {
             model.addAttribute("errors", validation);
             model.addAttribute("post", postCreated);
+            model.addAttribute("unreadMessages", messageService.countUnreadChats());
             return "admin/post/addPost";
         }
 
@@ -81,6 +82,7 @@ public class PostController {
     public String showEdit(@PathVariable Long id, Model model){
         Post post = postService.findOne(id);
         model.addAttribute("post", post);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/post/addPost";
     }
 
@@ -90,6 +92,7 @@ public class PostController {
         if(val.hasErrors()){
             model.addAttribute("errors", val);
             model.addAttribute("post", postEdited);
+            model.addAttribute("unreadMessages", messageService.countUnreadChats());
             return "admin/post/addPost";
         }
 

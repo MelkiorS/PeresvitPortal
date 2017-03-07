@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.ResourceGroupType;
+import ua.peresvit.service.MessageService;
 import ua.peresvit.service.ResourceGroupTypeService;
 
 import java.util.List;
@@ -17,7 +18,9 @@ import java.util.List;
 public class ResourceGroupTypeController {
 	@Autowired
 	private ResourceGroupTypeService resourceGroupTypeService;
-		
+	@Autowired
+	private MessageService messageService;
+
 	//go to manage page
 	@RequestMapping(value = "/management", method = RequestMethod.GET)
 	public String goToManagement(Model model) {
@@ -27,6 +30,7 @@ public class ResourceGroupTypeController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String goToAddForm(Model model) {
 		model.addAttribute(new ResourceGroupType());
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/resourceGroupType/addResourceGroupType";
 	}
 	
@@ -44,6 +48,7 @@ public class ResourceGroupTypeController {
 	public String getResourceGroupType(@PathVariable("resourceGroupTypeId") long resourceGroupTypeId, Model model) {
 		if (!model.containsAttribute("resourceGroupType")) 
 			model.addAttribute("resourceGroupType", resourceGroupTypeService.findOne(resourceGroupTypeId));
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/resourceGroupType/resourceGroupTypeProfile";
 	}
 
@@ -53,6 +58,7 @@ public class ResourceGroupTypeController {
 		List<ResourceGroupType> resourceGroupTypes = resourceGroupTypeService.findAll();
 		model.addAttribute("resourceGroupTypeList", resourceGroupTypes);
 		model.addAttribute("resourceGroupType", new ResourceGroupType());
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/resourceGroupType/allResourceGroupTypes";
 	}
 	
@@ -78,6 +84,7 @@ public class ResourceGroupTypeController {
            // custom exception
         }
         model.addAttribute("resourceGroupType", resourceGroupType);
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/resourceGroupType/addResourceGroupType";
     }
 	

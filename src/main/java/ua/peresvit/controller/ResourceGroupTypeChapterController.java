@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.ResourceGroupType;
 import ua.peresvit.entity.ResourceGroupTypeChapter;
 import ua.peresvit.entity.Role;
+import ua.peresvit.service.MessageService;
 import ua.peresvit.service.ResourceGroupTypeChapterService;
 import ua.peresvit.service.ResourceGroupTypeService;
 import ua.peresvit.service.RoleService;
@@ -26,6 +27,8 @@ public class ResourceGroupTypeChapterController {
     private ResourceGroupTypeService resourceGroupTypeService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private MessageService messageService;
 
     //go to manage pagel
     @RequestMapping(value = "/management", method = RequestMethod.GET)
@@ -39,6 +42,7 @@ public class ResourceGroupTypeChapterController {
         ResourceGroupTypeChapter chapter = new ResourceGroupTypeChapter();
         model.addAttribute("chapter", chapter);   // addig empty object for post form
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/chapter/addChapter";
     }
 
@@ -50,19 +54,12 @@ public class ResourceGroupTypeChapterController {
         return "redirect:/admin/chapter/";
     }
 
-    // show chapter by id
-    @RequestMapping(value = "/{chapterId}", method = RequestMethod.GET)
-    public String getChapter(@PathVariable("chapterId") long chapterId, Model model) {
-        if (!model.containsAttribute("chapter"))  // if it's not redirect add
-            model.addAttribute("chapter", resourceGroupTypeChapterService.findOne(chapterId));
-        return "admin/chapter/chapterProfile";
-    }
-
     // show all chapters
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String listAllChapters(Model model) {
         List<ResourceGroupTypeChapter> chapters = resourceGroupTypeChapterService.findAll();
         model.addAttribute("chapterList", chapters);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/chapter/allChapters";
     }
 
@@ -94,6 +91,7 @@ public class ResourceGroupTypeChapterController {
         model.addAttribute("chapter", chapter); // object is not empty
         model.addAttribute("rangList", rangTypes);
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/chapter/addChapter"; // sending to addForm
     }
 }

@@ -66,6 +66,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findAllWithoutCurrent() {
+        List<User> list = userRepository.findAll();
+        list.remove(getCurrentUser());
+        return list;
+    }
+
+    @Override
     public List<User> findByRole(Role role) {
         return userRepository.findByRole(role);
     }

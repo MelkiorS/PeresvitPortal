@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ua.peresvit.service.MessageService;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ import java.util.List;
 public class MarkController {
     @Autowired
     private MarkService markService;
+    @Autowired
+    private MessageService messageService;
 
     //go to manage page
     @RequestMapping(value = "/management", method = RequestMethod.GET)
@@ -32,6 +35,7 @@ public class MarkController {
         Mark mark = new Mark();
 
         model.addAttribute(mark);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
 
         return "admin/mark/addMark";
     }
@@ -51,6 +55,7 @@ public class MarkController {
     public String geMark(@PathVariable("markId") long markId, Model model) {
         if (!model.containsAttribute("markId"))
             model.addAttribute("markId", markService.findOne(markId));
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/mark/markProfile";
     }
 
@@ -60,6 +65,7 @@ public class MarkController {
         List<Mark> marks = markService.findAll();
         model.addAttribute("markList", marks);
         model.addAttribute("mark", new Mark());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/mark/allMarks";
     }
 
@@ -68,6 +74,7 @@ public class MarkController {
     public String editMark(@PathVariable("markId")  long markId, Model model) {
 
         model.addAttribute("mark", markService.findOne(markId));
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/mark/addMark";
     }
 

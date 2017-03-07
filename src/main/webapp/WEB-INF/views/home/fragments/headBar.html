@@ -10,7 +10,7 @@
         </div>
         <div class="btn-group " role="group">
             <form th:action="@{/home/messages}" method="get">
-                <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false" th:text="${unreadMessages > 0 ? 'Повiдомлення (' + unreadMessages + ')' : 'Повiдомлення'}">
                     повідомлення
                 </button>
             </form>

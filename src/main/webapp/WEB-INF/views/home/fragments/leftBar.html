@@ -6,7 +6,7 @@
     <nav class="menu-level1 tabs-in-sidebar" >
         <ul>
             <li><a class="btn-news" href="/home/post">Новини</a></li>
-            <li><a class="btn-messages" href="/home/messages/">Повiдомлення</a></li>
+            <li><a class="btn-messages" href="/home/messages/" th:text="${unreadMessages > 0 ? 'Повiдомлення (' + unreadMessages + ')' : 'Повiдомлення'}">Повiдомлення</a></li>
             <li><a class="btn-we" href="/home/we">Ми</a></li>
             <li><a class="btn-broadcast" href="">Трансляцiя</a></li>
         </ul>

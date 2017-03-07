@@ -37,6 +37,8 @@ public class MessageController {
     public String getAllChats(Model model) {
         User currentUser = userService.getCurrentUser();
         Set<ChatWithLastMessage> chats = messageService.findCustomChatsOfUser(currentUser);
+        Set<ChatWithLastMessage> readChats = new LinkedHashSet<>();
+        Set<ChatWithLastMessage> unreadChats = new LinkedHashSet<>();
         for (ChatWithLastMessage chat : chats) {
             if (chat.getChatTitle().equals("dialog")) {
                 for (User u : messageService.findOneChat(chat.getChatId()).getMembers()) {
@@ -45,10 +47,15 @@ public class MessageController {
                     }
                 }
             }
+            if (!chat.getReadStatus().contains(","+currentUser.getUserId()+",")) {
+                unreadChats.add(chat);
+            } else {
+                readChats.add(chat);
+            }
         }
-        model.addAttribute("chatList", chats);
-//        adding chat object to create new chat from start chats page
-        model.addAttribute(new Chat());
+        unreadChats.addAll(readChats);
+        model.addAttribute("chatList", unreadChats);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/messages/chats";
     }
 
@@ -61,10 +68,11 @@ public class MessageController {
         uga = new UserGroup[ug.size()];
         uga = ug.toArray(uga);
         if (userService.getCurrentUser().getRole().getRoleName().equals("ADMIN")) {
-            model.addAttribute("userList", userService.findAll());
+            model.addAttribute("userList", userService.findAllWithoutCurrent());
         } else {
             model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsersWithoutCurrent(ug.toArray(uga)));
         }
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/messages/newChat";
     }
 
@@ -80,6 +88,7 @@ public class MessageController {
             return "redirect:/home/messages/{chatId}";
         } else {
             model.addAttribute("message", messages.getMessage("message.chatCreationError", null, locale));
+            model.addAttribute("unreadMessages", messageService.countUnreadChats());
             return "home/messages/chats";
         }
     }
@@ -89,18 +98,18 @@ public class MessageController {
     public String getSingleChat(@PathVariable("chatId") Long chatId, Model model) {
         Chat chat = messageService.findOneChat(chatId);
         User currentUser = userService.getCurrentUser();
+        if (!chat.getMembers().contains(currentUser)) {
+            return "redirect:/home/messages";
+        }
         List<Message> messages = messageService.findMessagesByChatOrderByCreatedAt(chatId);
         if (!messages.isEmpty()) {
             Message lastMessage = messages.get(messages.size()-1);
-            if (!lastMessage.isReadStatus() && !currentUser.equals(lastMessage.getSender())){
-                lastMessage.setReadStatus(true);
+            if (!lastMessage.getReadStatus().contains(","+currentUser.getUserId()+",")){
+                lastMessage.setReadStatus(lastMessage.getReadStatus()+currentUser.getUserId()+",");
                 messageService.saveMessage(lastMessage);
             }
             messages = messageService.findMessagesByChatOrderByCreatedAt(chatId);
             model.addAttribute("messagesList", messages);
-        }
-        if (!chat.getMembers().contains(currentUser)) {
-            return "redirect:/home/messages";
         }
         if (chat.getChatTitle().equals("dialog")) {
             for (User u : chat.getMembers()) {
@@ -111,16 +120,15 @@ public class MessageController {
             model.addAttribute("dialog", true);
         }
 //      adding owner permissions to the chat view
-        if (currentUser.equals(chat.getOwner())) {
+        if (currentUser.equals(chat.getOwner()) && currentUser.getRole().getRoleName().equals("ADMIN")) {
             model.addAttribute("ownerPermission", true);
-        }
-        if (currentUser.getRole().getRoleName().equals("ADMIN")) {
-            model.addAttribute("ownerPermission", true);
+        } else {
+            model.addAttribute("ownerPermission", false);
         }
         model.addAttribute("currentUser", currentUser);
-        model.addAttribute("ownerPermission", false);
         model.addAttribute(chat);
         model.addAttribute(new Message());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/messages/messages";
     }
 
@@ -140,7 +148,13 @@ public class MessageController {
         User currentUser = userService.getCurrentUser();
         List<UserGroup> ug = userService.getUserGroups(currentUser);
         List<User> membersToAdd = new LinkedList<>();
-        for (User u : userService.getGroupsUsers( ug.toArray(new UserGroup[ug.size()]))) {
+        List<User> users;
+        if (currentUser.getRole().getRoleName().equals("ADMIN")) {
+            users =  userService.findAll();
+        } else {
+            users = userService.getGroupsUsersWithoutCurrent( ug.toArray(new UserGroup[ug.size()]));
+        }
+        for (User u : users) {
             if (!chatMembers.contains(u)) {
                 membersToAdd.add(u);
             }
@@ -149,6 +163,7 @@ public class MessageController {
         model.addAttribute("membersToAdd", membersToAdd);
         model.addAttribute("newMembers", new HashSet<User>());
         model.addAttribute("status", "add");
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/messages/editChat";
     }
 
@@ -156,7 +171,8 @@ public class MessageController {
     @RequestMapping(value = "/{chatId}/addMembers", method = RequestMethod.POST)
     public String addNewMembersToChat(@PathVariable("chatId") Long chatId,
                                       Model model,
-                                      @RequestParam(value = "users" , required = false) long[] users) {
+                                      @RequestParam(value = "users" , required = false) long[] users,
+                                      Locale locale) {
         Chat chat = messageService.findOneChat(chatId);
         HashSet<User> newMembers = new HashSet<>();
         for (Long userId : users) {
@@ -165,12 +181,11 @@ public class MessageController {
         if (!newMembers.isEmpty()) {
             User inviter = userService.getCurrentUser();
             messageService.addNewMembersToChat(newMembers, chat);
-//            !!!!!!!!!!!!!!!!!! ТУТ УСТАНОВЛЕН ЯЗЫК УКР ПО ДЕФОЛТУ
-            messageService.sendMessage(inviter, messageService.getAddingNewMemberMessage(inviter, newMembers, chat, new Locale("UK")));
+            messageService.sendMessage(inviter, messageService.getAddingNewMemberMessage(inviter, newMembers, chat, locale));
             model.addAttribute("chatId", chatId);
             return "redirect:/home/messages/{chatId}";
         } else {
-            model.addAttribute("message", messages.getMessage("message.addingNewMemberToChatError", null, new Locale("UK")));
+            model.addAttribute("message", messages.getMessage("message.addingNewMemberToChatError", null, locale));
             return "redirect:/home/messages/{chatId}";
         }
     }
@@ -184,6 +199,7 @@ public class MessageController {
         model.addAttribute("chatId", chatId);
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("status", "edit");
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/messages/editChat";
     }
 

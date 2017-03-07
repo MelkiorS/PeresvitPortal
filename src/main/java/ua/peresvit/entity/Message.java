@@ -14,7 +14,9 @@ public class Message {
     private long messageId;
     private String content;
     private Timestamp createdAt;
-    private boolean readStatus;
+//    String of users, who read message
+    @Column(length = 65533)
+    private String readStatus;
 //    Functional message like about creating chat or inviting new members;
     private boolean functional;
 
@@ -24,8 +26,4 @@ public class Message {
     @ManyToOne
     @JoinColumn(name="chatId")
     private Chat chat;
-    // setting default value for message as unread
-    public Message() {
-        this.readStatus = false;
-    }
 }

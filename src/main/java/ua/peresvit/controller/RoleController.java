@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.Role;
+import ua.peresvit.service.MessageService;
 import ua.peresvit.service.RoleService;
 
 import java.util.List;
@@ -19,7 +20,9 @@ import java.util.List;
 public class RoleController {
 	@Autowired
 	private RoleService roleService;
-		
+	@Autowired
+	private MessageService messageService;
+
 	//go to manage page
 	@RequestMapping(value = "/management", method = RequestMethod.GET)
 	public String goToManagement(Model model) {
@@ -29,6 +32,7 @@ public class RoleController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String goToAddForm(Model model) {
 		model.addAttribute(new Role());
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/role/addRole";
 	}
 	
@@ -46,6 +50,7 @@ public class RoleController {
 	public String getRole(@PathVariable("roleId") long RoleId, Model model) {
 		if (!model.containsAttribute("role"))
 			model.addAttribute("role", roleService.findOne(RoleId));
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/role/roleProfile";
 	}
 
@@ -55,6 +60,7 @@ public class RoleController {
 		List<Role> roles = roleService.findAll();
 		model.addAttribute("roleList", roles);
 		model.addAttribute("role", new Role());
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/role/allRoles";
 	}
 	
@@ -80,6 +86,7 @@ public class RoleController {
            // custom exception
         }
         model.addAttribute("role", role);
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/role/addRole";
     }
     //show users
@@ -88,6 +95,7 @@ public class RoleController {
 
 		Role role = roleService.findOne(roleId);
 		model.addAttribute("role", role);
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/role/showUsers";
 	}
 	

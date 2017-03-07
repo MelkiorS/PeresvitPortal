@@ -10,7 +10,7 @@
 <div th:remove="all">
     <main class="my-way-main"  th:fragment="main">
         <section class="avatar">
-            <a class="avatar-edit-user" th:href="@{/home/profileEdit/} + ${user.userId}"></a>
+            <a class="avatar-edit-user" th:if="${isGuest == null}" th:href="@{/home/profileEdit/} + ${user.userId}"></a>
             <h3 class="avatar-name">
                 <span th:text="${user.lastName}"></span>
                 <span th:text="${user.firstName}"></span>
@@ -18,12 +18,15 @@
             </h3>
             <div class="avatar-container">
                 <img class="avatar-photo" th:src= "${imageAvatar != null} ? @{'data:image;base64,' + ${imageAvatar}} : ${user.avatarURL}" alt="Аватар юзера">
-                <img class="avatar-belt" src="/resources/frontend/image/belt.png" alt="Пояс юзера">
-                <p class="belt-text">6 Кю. Жовтий пояс</p>
+                <div th:each="mark, iter : ${user.marks}">
+                    <img class="avatar-belt" src="/resources/frontend/image/belt.png" th:src="${'data:image;base64,' + ${user.avatarURL}}" alt="Пояс юзера">
+                    <p class="belt-text" th:text="${mark.markName}">6 Кю. Жовтий пояс</p>
+                </div>
                 <div class="avatar-social">
-                    <a th:href="${user.profileVK != null} ? @{'' + ${user.profileVK}} : @{''}" target="_blank" class="avatar-vk"></a>
-                    <a th:href="${user.profileFB != null} ? @{'' + ${user.profileFB}} : @{''}" target="_blank" class="avatar-fb"></a>
-                    <a th:href="${user.profileInstagram != null} ? @{'' + ${user.profileInstagram}} : @{''}" target="_blank" class="avatar-insta"></a>
+                    <a th:href="${user.profileVK != null} ? @{'https://vk.com/' + ${user.profileVK}} : @{''}" target="_blank" class="avatar-vk"></a>
+                    <a th:href="${user.profileFB != null} ? @{'https://www.facebook.com/' + ${user.profileFB}} : @{''}" target="_blank" class="avatar-fb"></a>
+                    <a th:href="${user.profileInstagram != null} ? @{'https://www.instagram.com/' + ${user.profileInstagram}} : @{''}" target="_blank" class="avatar-insta"></a>
+                    <!--<a th:href="${user.profileGoogle != null} ? @{'' + ${user.profileGoogle}} : @{''}" target="_blank" class="avatar-insta"></a>-->
                 </div>
             </div>
         </section>
@@ -56,7 +59,7 @@
         <section class="archivement">
             <h5>Мої досягнення</h5>
             <ul class="bxslider">
-                <li th:each="achievement, iter : ${user.achievements}"><img alt="Перемога" th:src= "@{'data:image;base64,' + ${achieveList.get(achievement.achievementId)}}" th:title="${achievement.achievementName}"/></li>
+                <li th:each="achievement, iter : ${user.achievements}"><img alt="Перемога" th:src= "@{'data:image;base64,' + ${achievement.imageURL}}" th:title="${achievement.achievementName}"/></li>
             </ul>
             <!--<div class="col-xs-12  main_section_photoGallery_images">-->
             <!--<tr th:each="achievement, iter : ${user.achievements}">-->
