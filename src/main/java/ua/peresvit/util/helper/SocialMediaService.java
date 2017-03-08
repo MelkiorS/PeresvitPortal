@@ -1,6 +1,6 @@
 package ua.peresvit.util.helper;
 
-public enum SocialEnum {
+public enum SocialMediaService {
     FB,
     GOOGLE,
     VK

@@ -3,7 +3,7 @@ package ua.peresvit.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
-import ua.peresvit.util.helper.SocialEnum;
+import ua.peresvit.util.helper.SocialMediaService;
 
 import javax.validation.constraints.NotNull;
 
@@ -25,7 +25,7 @@ public class UserDto {
     private String profileVK;
     private String profileFB;
     private String profileGoogle;
-    private SocialEnum social;
+    private SocialMediaService social;
 
     @NotNull
     @NotEmpty

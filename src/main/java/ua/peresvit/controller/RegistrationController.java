@@ -22,7 +22,7 @@ import ua.peresvit.entity.User;
 import ua.peresvit.error.UserAlreadyExistException;
 import ua.peresvit.service.UserService;
 import ua.peresvit.service.registration.OnRegistrationCompleteEvent;
-import ua.peresvit.util.helper.SocialEnum;
+import ua.peresvit.util.helper.SocialMediaService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -72,7 +72,7 @@ public class RegistrationController {
         }
         eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request), true));
         model.addAttribute("message", messages.getMessage("message.regConfirm", null, request.getLocale()));
-        return "redirect:/";
+        return "home";
     }
 
     // remind user
@@ -301,7 +301,7 @@ public class RegistrationController {
         userDto.setFirstName(userProfile.getFirstName());
         userDto.setLastName(userProfile.getLastName());
         userDto.setProfileFB(userProfile.getLink());
-        userDto.setSocial(SocialEnum.FB);
+        userDto.setSocial(SocialMediaService.FB);
         return userDto;
     }
 
@@ -314,7 +314,7 @@ public class RegistrationController {
         userDto.setFirstName(userProfile.getFirstName());
         userDto.setLastName(userProfile.getLastName());
         userDto.setProfileVK(userProfile.getProfileURL());
-        userDto.setSocial(SocialEnum.VK);
+        userDto.setSocial(SocialMediaService.VK);
         return userDto;
     }
 
@@ -328,7 +328,7 @@ public class RegistrationController {
         userDto.setFirstName(googleProfile.getGivenName());
         userDto.setLastName(googleProfile.getFamilyName());
         userDto.setProfileGoogle(googleProfile.getUrl());
-        userDto.setSocial(SocialEnum.GOOGLE);
+        userDto.setSocial(SocialMediaService.GOOGLE);
         return userDto;
     }
 

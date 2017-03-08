@@ -42,15 +42,11 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.userRepository = userRepository;
     }
 
-    @Bean
-    public TokenBasedRememberMeServices rememberMeServices() {
-        return new TokenBasedRememberMeServices("remember-me-key", userDetailsServiceImpl);
-    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsServiceImpl)
-            .passwordEncoder(passwordEncoder());
+        auth
+                .userDetailsService(userDetailsServiceImpl)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -66,6 +62,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .authorizeRequests()
                 .antMatchers("/registration/**", "/", "/resources/**", "/favicon.ico").permitAll()
+                .antMatchers("/auth/**", "/signup/**").permitAll()
                 .antMatchers("/admin**").access("hasRole('ADMIN')")
                 .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 .antMatchers("/home/**").authenticated()
@@ -82,30 +79,29 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .logoutUrl("/logout").permitAll()
                     .logoutSuccessUrl("/home")
-                    .invalidateHttpSession(true)
+//                    .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID")
-            .and()
-                .rememberMe()
+//            .and()
+//                .rememberMe()
             .and()
                 .apply(new SpringSocialConfigurer());
-//                    .connectionAddedRedirectUrl("/registration/connected"));
     }
-
-    @Bean(name = "authenticationManager")
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+//
+//    @Bean(name = "authenticationManager")
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
 
     @Bean
     public UserIdSource userIdSource() {
         return new AuthenticationNameUserIdSource();
     }
-
-    @Bean
-    public TextEncryptor textEncryptor() {
-        return Encryptors.noOpText();
-    }
+//
+//    @Bean
+//    public TextEncryptor textEncryptor() {
+//        return Encryptors.noOpText();
+//    }
 
     @Bean
     public UserDetailsService userDetailsService() {

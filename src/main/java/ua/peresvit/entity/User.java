@@ -2,14 +2,13 @@ package ua.peresvit.entity;
 
 import lombok.Data;
 import ua.peresvit.config.Constant;
+import ua.peresvit.util.helper.SocialMediaService;
 
 import javax.persistence.*;
 import javax.validation.Constraint;
 import javax.validation.constraints.Size;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Collection;
+import java.util.*;
 
 
 @Entity
@@ -116,5 +115,14 @@ public class User {
 		try {
 			return Constant.encodeFileToBase64Binary(getAvatarURL());
 		} catch (IOException ex){return "";}
+	}
+
+	public List<SocialMediaService> getSocialMediaServices() {
+		List<SocialMediaService> list = new ArrayList<>();
+		if (!profileFB.isEmpty()) list.add(SocialMediaService.FB);
+		if (!profileGoogle.isEmpty()) list.add(SocialMediaService.GOOGLE);
+		if (!profileVK.isEmpty()) list.add(SocialMediaService.VK);
+
+		return list;
 	}
 }

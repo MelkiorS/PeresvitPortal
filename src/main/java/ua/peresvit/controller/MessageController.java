@@ -241,7 +241,7 @@ public class MessageController {
     }
 
     //    leave chat
-    @RequestMapping(value = "/{chatId}/leaveChat", method = RequestMethod.POST)
+    @RequestMapping(value = "/{chatId}/leaveChat", method = RequestMethod.GET)
     public String leaveChat(@PathVariable("chatId") Long chatId) {
         messageService.deleteMemberFromChat(userService.getCurrentUser(), messageService.findOneChat(chatId));
         return "redirect:/home/messages";

@@ -22,6 +22,7 @@ import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.facebook.web.DisconnectController;
 import org.springframework.social.google.api.Google;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
+import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.vkontakte.api.VKontakte;
 import org.springframework.social.vkontakte.connect.VKontakteConnectionFactory;
 
@@ -55,33 +56,13 @@ public class SocialConfig implements SocialConfigurer {
 
     @Override
     public UserIdSource getUserIdSource() {
-        return new UserIdSource() {
-            @Override
-            public String getUserId() {
-                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                if (authentication == null) {
-                    throw new IllegalStateException("Unable to get a ConnectionRepository: no user signed in");
-                }
-                return authentication.getName();
-            }
-        };
+        return new AuthenticationNameUserIdSource();
     }
 
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         return new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
     }
-
-
-//    @Bean
-//    @Scope(value="request", proxyMode=ScopedProxyMode.INTERFACES)
-//    public ConnectionRepository connectionRepository() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication == null) {
-//            throw new IllegalStateException("Unable to get A ConnectionRepository: no user signed in");
-//        }
-//        return usersConnectionRepository.createConnectionRepository(authentication.getName());
-//    }
 
     @Bean
     public ConnectController connectController(ConnectionFactoryLocator connectionFactoryLocator, ConnectionRepository connectionRepository) {
@@ -118,9 +99,4 @@ public class SocialConfig implements SocialConfigurer {
         Connection<Google> connection = repository.findPrimaryConnection(Google.class);
         return connection != null ? connection.getApi() : null;
     }
-//
-//    @Bean
-//    public ProviderSignInController providerSignInController(ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository) {
-//        return new ProviderSignInController(connectionFactoryLocator, usersConnectionRepository, new SimpleSignInAdapter());
-//    }
 }

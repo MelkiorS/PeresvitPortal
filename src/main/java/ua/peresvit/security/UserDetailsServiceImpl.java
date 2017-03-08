@@ -25,8 +25,8 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
         if (user != null) {
             if (!user.isEnabled()) {
                 throw new RuntimeException("User is unable.");
@@ -34,11 +34,17 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
             List<GrantedAuthority> authorities =
                     new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getRole().getRoleName()));
-            return new org.springframework.security.core.userdetails.User(
-                    user.getEmail(),
-                    user.getPassword(),
-                    authorities);
+            ExampleUserDetails principal = ExampleUserDetails.getBuilder()
+                    .firstName(user.getFirstName())
+                    .id(user.getUserId())
+                    .lastName(user.getLastName())
+                    .password(user.getPassword())
+                    .role(user.getRole())
+                    .socialSignInProvider(user.getSocialMediaServices())
+                    .username(user.getEmail())
+                    .build();
+            return principal;
         }
-        throw new UsernameNotFoundException("User with email '" + username + "' not found.");
+        throw new UsernameNotFoundException("User with email '" + email + "' not found.");
     }
 }
