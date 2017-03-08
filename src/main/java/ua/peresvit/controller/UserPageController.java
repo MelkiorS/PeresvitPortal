@@ -96,21 +96,21 @@ public class UserPageController {
             } catch (IOException ex) {
             }
         }
-        Set<Mark> marks = loggedUser.getMarks();
-
-        for (Mark mark : marks) {
-            try {
-                mark.setImageURL(Constant.encodeFileToBase64Binary(mark.getImageURL()));
-            } catch (IOException ignored) {}
-        }
-        loggedUser.setMarks(marks);
+//        Set<Mark> marks = loggedUser.getMarks();
+//
+//        for (Mark mark : marks) {
+//            try {
+//                mark.setImageURL(Constant.encodeFileToBase64Binary(mark.getImageURL()));
+//            } catch (IOException ignored) {}
+//        }
+//        loggedUser.setMarks(marks);
 
         // Achievements
         Map<Long, String> achiveList = new HashMap<>();
         List<Achievement> achievements = achievementService.findByUser(loggedUser);
         for (Achievement achievement:achievements) {
             try {
-                achievement.setImageURL(Constant.encodeFileToBase64Binary(achievement.getImageURL()));
+//                achievement.setImageURL(Constant.encodeFileToBase64Binary(achievement.getImageURL()));
                 achiveList.put(achievement.getAchievementId(), Constant.encodeFileToBase64Binary(achievement.getImageURL()));
             } catch (IOException ex){achiveList.put(achievement.getAchievementId(), null);}
         }
@@ -145,7 +145,7 @@ public class UserPageController {
         List<Achievement> achievements = achievementService.findByUser(loggedUser);
         for (Achievement achievement:achievements) {
             try {
-                achievement.setImageURL(Constant.encodeFileToBase64Binary(achievement.getImageURL()));
+//                achievement.setImageURL(Constant.encodeFileToBase64Binary(achievement.getImageURL()));
                 achiveList.put(achievement.getAchievementId(), Constant.encodeFileToBase64Binary(achievement.getImageURL()));
             } catch (IOException ex){achiveList.put(achievement.getAchievementId(), null);}
         }
@@ -186,6 +186,9 @@ public class UserPageController {
 
         List<Role> roleList = roleService.findAll();
         model.addAttribute("rangList", roleList);       // adding list of rang for select
+
+        List<Mark> markList = markservice.findAll();
+        model.addAttribute("markList", markList);       // adding list of marks for select
 
         model.addAttribute(user);
         model.addAttribute("unreadMessages", messageService.countUnreadChats());

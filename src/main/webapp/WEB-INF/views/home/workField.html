@@ -60,7 +60,7 @@
         <section class="archivement">
             <h5>Мої досягнення</h5>
             <ul class="bxslider">
-                <li th:each="achievement, iter : ${user.achievements}"><img alt="Перемога" th:src= "@{'data:image;base64,' + ${achievement.imageURL}}" th:title="${achievement.achievementName}"/></li>
+                <li th:each="achievement, iter : ${user.achievements}"><img alt="Перемога" th:src= "@{'data:image;base64,' + ${achievement.encodeFileToBase64Binary()}}" th:title="${achievement.achievementName}"/></li>
             </ul>
             <!--<div class="col-xs-12  main_section_photoGallery_images">-->
             <!--<tr th:each="achievement, iter : ${user.achievements}">-->
