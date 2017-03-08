@@ -19,22 +19,28 @@
                 <!--<option th:action="@{/home/messages/} + ${chat.chatId} + '/leaveChat'" th:method="post" value="leave chat">Покинути бесіду</option>-->
                 <!--</select>-->
                 <!-- Если это диалог, то существует переменная dialog и настройка чата не отображается -->
-                <div th:if="${dialog == null}">
+                <div th:if="${dialog == null}" class="options">
+                    <select name="" id="" class="options-select">
+                        <option class="options-select-item" disabled value=""><a th:href="@{/home/messages/} + ${chat.chatId} + '/edit'">Налаштування бесіди</a></option>
+                        <option class="options-select-item" value=""><a th:href="@{/home/messages/} + ${chat.chatId} + '/addMembers'">Додати співрозмовників</a></option>
+                        <option class="options-select-item" value=""><a th:href="@{/home/messages/} + ${chat.chatId} + '/leaveChat'">Залишити бесіду</a></option>
+                        <option class="options-select-item" value=""><a th:href="@{/home/messages/} + ${chat.chatId} + '/deleteChat'" >Видалити бесіду</a></option>
+                    </select>
 
-                    <ul>
-                        <li>
-                            <a th:href="@{/home/messages/} + ${chat.chatId} + '/edit'">Налаштування бесіди</a>
-                        </li>
-                        <li>
-                            <a th:href="@{/home/messages/} + ${chat.chatId} + '/addMembers'">Додати співрозмовників</a>
-                        </li>
-                        <li>
-                            <a th:href="@{/home/messages/} + ${chat.chatId} + '/leaveChat'">Залишити бесіду</a>
-                        </li>
-                        <li th:if="${ownerPermission == true}">
-                            <a th:href="@{/home/messages/} + ${chat.chatId} + '/deleteChat'" >Видалити бесіду</a>
-                        </li>
-                    </ul>
+                    <!--<ul>-->
+                        <!--<li>-->
+                            <!--<a th:href="@{/home/messages/} + ${chat.chatId} + '/edit'">Налаштування бесіди</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a th:href="@{/home/messages/} + ${chat.chatId} + '/addMembers'">Додати співрозмовників</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a th:href="@{/home/messages/} + ${chat.chatId} + '/leaveChat'">Залишити бесіду</a>-->
+                        <!--</li>-->
+                        <!--<li th:if="${ownerPermission == true}">-->
+                            <!--<a th:href="@{/home/messages/} + ${chat.chatId} + '/deleteChat'" >Видалити бесіду</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
                 </div>
             </div>
             <div class="messageList-content">
