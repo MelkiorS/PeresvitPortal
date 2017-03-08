@@ -10,19 +10,19 @@
 <div th:remove="all">
     <main class="my-way-main"  th:fragment="main">
         <div class="chats-header">
-            <a type="button" th:href="@{/home/messages/newChat}"><p>Розпочати бесіду</p></a>
+            <a type="button" class="chats-header-button" th:href="@{/home/messages/newChat}">Розпочати бесіду</a>
         </div>
         <div class="markList" th:unless="${#lists.isEmpty(chatList)}">
             <div th:each="chat : ${chatList}"   >
                 <form th:action="@{/home/messages/} + ${chat.chatId}" method="get">
-                    <button class="btn btn-default  markList-item" type="submit"  aria-haspopup="true" aria-expanded="false">
-                        <img class="col-xs-2" th:src="@{'data:image;base64,' + ${chat.sender.encodeFileToBase64Binary()}}" src="/resources/frontend/images/userIcon.png" alt="аватар юзера">
-                        <p class="col-xs-8 markList-item-title" th:text="${chat.chatTitle}"></p>
-                        <p class="col-xs-2 markList-item-time" th:text=
+                    <button class="btn btn-default  markList-item " type="submit"  aria-haspopup="true" aria-expanded="false">
+                        <img class="markList-item-avatar" th:src="@{'data:image;base64,' + ${chat.sender.encodeFileToBase64Binary()}}" src="/resources/frontend/images/userIcon.png" alt="аватар">
+                        <p class=" markList-item-title" th:text="${chat.chatTitle}"></p>
+                        <p class=" markList-item-time" th:text=
                                 "${#dates.format(#dates.createNow(), 'dd-MM-yyyy') == #dates.format(chat.createdAt, 'dd-MM-yyyy')} ?
                                 ${#dates.format(chat.createdAt, 'HH:mm')} :
                                 ${#dates.format(chat.createdAt, 'dd-MM-yyyy HH:mm')}">2:23 PM</p>
-                        <p class="col-xs-8 markList-item-message" th:text="${chat.sender.firstName} + ' ' + ${chat.sender.lastName} + ': ' + ${chat.content}">Last Message</p>
+                        <p class=" markList-item-message" th:text="${chat.sender.firstName} + ' ' + ${chat.sender.lastName} + ': ' + ${chat.content}">Last Message</p>
                     </button>
                     <a sec:authorize="hasRole('ADMIN')" th:href="@{/home/messages/} + ${chat.chatId} + '/deleteChat'"><span class="alert glyphicon glyphicon-trash"></span></a>
                 </form>

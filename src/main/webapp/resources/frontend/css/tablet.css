@@ -670,4 +670,96 @@
         margin:7px 0 0 7px;
     }
     /*profileEdit*/
+    /************************/
+    /*Chats*/
+    .chats-header{
+        position: relative;
+        width: 51.4%;
+        box-sizing: border-box;
+        margin: 32px 25% 30px 24%;
+        background: #7574d2;
+        border-radius: 3px;
+        height: 50px;
+        text-align: center;
+    }
+    .chats-header-button:before {
+
+        background: url('../image/chats.png') 2px 2px no-repeat;
+        content: "";
+        margin: 0 1px 0 0;
+        width: 40px;
+        height: 33px;
+        position: absolute;
+        top: 9px;
+        left: 7.5%;
+        display: inline-block;
+    }
+    .chats-header-button{
+        width: 63%;
+        display: block;
+        color: #fff;
+        font-size: 18px;
+        padding-top: 16px;
+        margin: 8px 10% 10px 30%;
+        box-sizing: border-box;
+        text-decoration: none;
+        text-align: left;
+    }
+    .chats-header-button:hover{
+        text-decoration: none;
+        color:#fff;
+    }
+    .markList{
+        width: 90%;
+        margin: 10px auto;
+        padding-top: 9px;
+        min-height: 600px;
+    }
+    .markList .markList-item{
+        width: 93%;
+        height: 63px;
+        margin: 8px 4% 3px;
+        background: #fff;
+        color: black;
+        padding: 3px 4px;
+        overflow: hidden;
+    }
+    .markList .markList-item.unread{
+        background: #f4f5fa;
+    }
+    .markList-item-avatar{
+        width: 68px;
+        padding: 0 2px;
+        margin: 1px 0 1px 6px;
+        border-radius: 100%;
+        font-size: 12px;
+        float: left;
+        height: 57px;
+    }
+    .markList-item-title{
+        float: left;
+        width: 42%;
+        padding: 0;
+        text-align: left;
+        margin: 7px 3px 5px 14px;
+        font-size: 17px;
+    }
+    .markList-item-time{
+        float: left;
+        width: 30%;
+        text-align: right;
+        font-size: 14px;
+        margin: 9px 0 0 14px;
+    }
+    .markList-item-message{
+        width: 60%;
+        text-align: left;
+        font-size: 15px;
+        float: left;
+        clear: right;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    /*Chats*/
 }
