@@ -1234,7 +1234,7 @@ footer .icons-footer a:nth-child(3) {
 	}
 
 	.wrapper {
-		min-height: 100%;
+		min-height: 99vh;
 		width: 84%;
 		margin: 0 auto;
 		height: auto;

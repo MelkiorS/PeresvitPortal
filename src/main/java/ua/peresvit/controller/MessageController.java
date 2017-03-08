@@ -55,6 +55,7 @@ public class MessageController {
         }
         unreadChats.addAll(readChats);
         model.addAttribute("chatList", unreadChats);
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/messages/chats";
     }
@@ -173,6 +174,9 @@ public class MessageController {
                                       Model model,
                                       @RequestParam(value = "users" , required = false) long[] users,
                                       Locale locale) {
+        if (users == null) {
+            return "redirect:/home/messages/{chatId}";
+        }
         Chat chat = messageService.findOneChat(chatId);
         HashSet<User> newMembers = new HashSet<>();
         for (Long userId : users) {

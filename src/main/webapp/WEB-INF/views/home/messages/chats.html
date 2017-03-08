@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head th:replace="home/fragments/head :: head('Бесіди')"></head>
 <head>
     <!--СЮДА МОЖНО ДОБАВИТЬ ВСЁ, ЧЕГО НЕТУ В head.HTML-->
@@ -15,7 +16,8 @@
         <div class="markList" th:unless="${#lists.isEmpty(chatList)}">
             <div th:each="chat : ${chatList}"   >
                 <form th:action="@{/home/messages/} + ${chat.chatId}" method="get">
-                    <button class="btn btn-default  markList-item " type="submit"  aria-haspopup="true" aria-expanded="false">
+
+                    <button th:class="${chat.readStatus.contains(currentUser.userId.toString()) == false ? 'unread ' : ''} + 'btn btn-default  markList-item'" type="submit"  aria-haspopup="true" aria-expanded="false">
                         <img class="markList-item-avatar" th:src="@{'data:image;base64,' + ${chat.sender.encodeFileToBase64Binary()}}" src="/resources/frontend/images/userIcon.png" alt="аватар">
                         <p class=" markList-item-title" th:text="${chat.chatTitle}"></p>
                         <p class=" markList-item-time" th:text=

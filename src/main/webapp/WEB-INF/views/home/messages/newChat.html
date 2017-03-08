@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ukr" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="home/fragments/head :: head('Нова бесіда  ')"></head>
+<head th:replace="home/fragments/head :: head('Нова бесіда')"></head>
 <head>
     <!--СЮДА МОЖНО ДОБАВИТЬ ВСЁ, ЧЕГО НЕТУ В head.HTML-->
 </head>
@@ -18,8 +18,8 @@
             <div class="newChat_body">
                 <ul class="newChat_body_list">
                     <li class="newChat_body_list_item" th:each="user : ${userList}">
-                        <img  alt="аватар">
-                        <label class="newChat_body_list_item_name" th:text="${user.firstName}">ROLE_USER</label>
+                        <img th:src="@{'data:image;base64,' + ${user.encodeFileToBase64Binary()}}"  alt="аватар">
+                        <label class="newChat_body_list_item_name" th:text="${user.firstName + ' ' + user.lastName}">ROLE_USER</label>
                         <label class="newChat_body_list_item_checkbox">
                             <input type="checkbox" th:field="*{members}" th:value="${user.userId}" title="учасники"/>
                             <span></span>
