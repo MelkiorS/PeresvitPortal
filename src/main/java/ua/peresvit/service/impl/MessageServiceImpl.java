@@ -93,6 +93,7 @@ public class MessageServiceImpl implements MessageService{
         message.setSender(creator);
         message.setChat(chat);
         message.setFunctional(true);
+        message.setReadStatus(message.getReadStatus()+creator.getUserId()+",");
         message.setContent(creator.getFirstName() + " " + creator.getLastName() + " "
                 + messages.getMessage("message.newChatCreationEvent", null, locale) + " "
                 + "<" + chat.getChatTitle() + ">");
@@ -100,7 +101,7 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public Chat addNewMembersToChat(LinkedList<User> membersToAdd, Chat chat) {
+    public Chat addNewMembersToChat(HashSet<User> membersToAdd, Chat chat) {
         Set<User> members = chat.getMembers();
         for (User u : membersToAdd) {
             members.add(u);
@@ -111,6 +112,10 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public Chat deleteMemberFromChat(User user, Chat chat) {
+        User currentUser = userService.getCurrentUser();
+        if (currentUser.equals(user) || !chat.getMembers().contains(user) || !chat.getMembers().contains(currentUser)) {
+            return chat;
+        }
         Set<User> members = chat.getMembers();
         members.remove(user);
         chat.setMembers(members);
@@ -118,11 +123,12 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public Message getAddingNewMemberMessage(User adder, LinkedList<User> listOfNewMembers, Chat chat, Locale locale) {
+    public Message getAddingNewMemberMessage(User adder, HashSet<User> listOfNewMembers, Chat chat, Locale locale) {
         Message message = new Message();
         message.setSender(adder);
         message.setChat(chat);
         message.setFunctional(true);
+        message.setReadStatus(adder.getUserId()+",");
 //      adding names of added members
         Iterator<User> it = listOfNewMembers.iterator();
         StringBuilder newMembers = new StringBuilder();
@@ -138,6 +144,19 @@ public class MessageServiceImpl implements MessageService{
         message.setContent(adder.getFirstName() + " " + adder.getLastName() + " "
                 + messages.getMessage("message.addingNewMembersEvent", null, locale) + " "
                 + newMembers);
+        return message;
+    }
+
+    @Override
+    public Message getChangingTitleMessage(User changer, Chat chat, Locale locale) {
+        Message message = new Message();
+        message.setSender(changer);
+        message.setChat(chat);
+        message.setFunctional(true);
+        message.setReadStatus(changer.getUserId()+",");
+        message.setContent(changer.getFirstName() + " " + changer.getLastName() + " "
+                + messages.getMessage("message.changeChatTitle", null, locale) + " "
+                + "<" + chat.getChatTitle() + ">");
         return message;
     }
 
@@ -159,20 +178,16 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public Message findLastMessage(Chat chat) {
-//        return messageRepository.findLastMessage(chat);
-        return  null;
-    }
-
-    @Override
     public long countUnreadChats() {
         User currentUser = userService.getCurrentUser();
 //        Add to repo method to count
         Set<ChatWithLastMessage> chats = chatRepository.getChatsWithLastMessage(currentUser);
         Long count = 0L;
         for (ChatWithLastMessage c: chats) {
-            if(!c.isReadStatus()) {
-                count++;
+            if (!c.getReadStatus().equals(null)) {
+                if (!c.getReadStatus().contains("," + currentUser.getUserId() + ",")) {
+                    count++;
+                }
             }
         }
         return count;

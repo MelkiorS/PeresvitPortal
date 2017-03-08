@@ -24,19 +24,19 @@ public interface MessageService {
 
     Message getNewChatCreatingMessage(User creator, Chat chat, Locale locale);
 
-    Chat addNewMembersToChat(LinkedList<User> membersToAdd, Chat chat);
+    Chat addNewMembersToChat(HashSet<User> membersToAdd, Chat chat);
 
     Chat deleteMemberFromChat(User user, Chat chat);
 
-    Message getAddingNewMemberMessage(User adder, LinkedList<User> listOfNewMembers, Chat chat, Locale locale);
+    Message getAddingNewMemberMessage(User adder, HashSet<User> listOfNewMembers, Chat chat, Locale locale);
+
+    Message getChangingTitleMessage(User changer, Chat chat, Locale locale);
 
     Message sendMessage(User from, Message message);
 
     List<Message> findMessagesByChatOrderByCreatedAt(Long chatId);
 
     Set<ChatWithLastMessage> findCustomChatsOfUser(User user);
-
-    Message findLastMessage(Chat chat);
 
     long countUnreadChats();
 }

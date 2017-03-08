@@ -38,6 +38,9 @@ public class UserController {
     @Autowired
     private MarkService markService;
 
+    @Autowired
+    private MessageService messageService;
+
     //go to manage page
     @RequestMapping(value = "/management", method = RequestMethod.GET)
     public String goToManagement(Model model) {
@@ -53,6 +56,7 @@ public class UserController {
 
         initializeModelLists(model);
         model.addAttribute(user);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         
         return "admin/user/addUser";
     }
@@ -78,7 +82,7 @@ public class UserController {
 
         model.addAttribute("userId", user.getUserId());
         model.addFlashAttribute("user", user);
-        
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "redirect:/admin/user/";
     }
 
@@ -87,6 +91,7 @@ public class UserController {
     public String getUser(@PathVariable("userId") long userId, Model model) {
         if (!model.containsAttribute("user"))
             model.addAttribute("user", userService.findOne(userId));
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/user/userProfile";
     }
 
@@ -96,6 +101,7 @@ public class UserController {
         List<User> users = userService.findAll();
         model.addAttribute("userList", users);
         model.addAttribute("user", new User());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/user/allUsers";
     }
 
@@ -123,7 +129,7 @@ public class UserController {
 
         initializeModelLists(model);
         model.addAttribute("user", user);
-
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/user/addUser";
     }
 

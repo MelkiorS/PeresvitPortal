@@ -385,9 +385,8 @@ footer .icons-footer a:nth-child(3) {
 		background:white;
 		margin: 11px 2px 0 -2px;
 		box-shadow: 1px 3px 3px 1px rgba(153,153,153,1);
-		/*overflow: hidden;*/
 		padding-bottom:6px;
-		/*background: red;*/
+		min-height: 40vh;
 	}
 	/*nav-path*/
 	.nav-path {
@@ -780,10 +779,8 @@ footer .icons-footer a:nth-child(3) {
 		background:white;
 		margin: 14px -2px 0 -1px;
 		box-shadow: 1px 3px 3px 1px rgba(153,153,153,1);
-		/*overflow: hidden;*/
 		padding-bottom:10px;
-		/*background: red;*/
-		/*margin: 32px 25px 129px 6px;*/
+		min-height: 40vh;
 	}
 	/*nav-path*/
 	.nav-path {

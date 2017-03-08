@@ -1,22 +1,18 @@
 package ua.peresvit.controller;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
-import org.springframework.format.Formatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.peresvit.entity.User;
 import ua.peresvit.entity.UserGroup;
+import ua.peresvit.service.MessageService;
 import ua.peresvit.service.UserGroupService;
 import ua.peresvit.service.UserService;
 
-import java.beans.PropertyEditorSupport;
-import java.text.ParseException;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -31,6 +27,9 @@ public class UserGroupController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MessageService messageService;
 
     @InitBinder
     protected void initBinder(final WebDataBinder binder) {
@@ -55,6 +54,7 @@ public class UserGroupController {
     public String listAllUsers(Model model) {
         List<UserGroup> userGroups = userGroupService.findAll();
         model.addAttribute("userGroupList", userGroups);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/userGroup/allUserGroups";
     }
 
@@ -62,6 +62,7 @@ public class UserGroupController {
     public String goToAddForm(Model model) {
         model.addAttribute("userList", userService.findAll());
         model.addAttribute("userGroup", new UserGroup());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/userGroup/addUserGroup";
     }
 
@@ -70,6 +71,7 @@ public class UserGroupController {
         model.addAttribute("userList", userService.findAll());
         UserGroup ug = userGroupService.findById(userGroupId);
         model.addAttribute("userGroup", ug);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/userGroup/addUserGroup";
     }
 

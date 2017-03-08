@@ -25,6 +25,8 @@ public interface UserService {
 
 	List<User> findAll();
 
+	List<User> findAllWithoutCurrent();
+
 	List<User> findByRole(Role role);
 
 	void delete(User user);

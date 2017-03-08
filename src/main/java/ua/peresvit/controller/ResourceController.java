@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.EnumResourceType;
 import ua.peresvit.entity.Resource;
 import ua.peresvit.entity.ResourceType;
+import ua.peresvit.service.MessageService;
 import ua.peresvit.service.ResourceGroupService;
 import ua.peresvit.service.ResourceService;
 import ua.peresvit.service.ResourceTypeService;
@@ -33,7 +34,9 @@ public class ResourceController {
 	private ResourceGroupService resourceGroupService;
 	@Autowired
 	private ResourceTypeService resourceTypeService;
-		
+	@Autowired
+	private MessageService messageService;
+
 	//go to manage page
 	@RequestMapping(value = "/management", method = RequestMethod.GET)
 	public String goToManagement(Model model) {
@@ -44,6 +47,7 @@ public class ResourceController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String goToAddForm(Model model) {
 		model.addAttribute("resource", new Resource());
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/resource/addResource";
 	}
 	
@@ -53,6 +57,7 @@ public class ResourceController {
 		Resource resource = new Resource();
 		resource.setResourceGroup(resourceGroupService.findOne(resourceGroupId));
 		model.addAttribute("resource", resource);
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/resource/addResource";
 	}
 
@@ -62,6 +67,7 @@ public class ResourceController {
 		Resource resource = new Resource();
 		resource.setResourceGroup(resourceGroupService.findOne(resourceGroupId));
 		model.addAttribute("resource", resource);
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/resource/addVideoResource";
 	}
 	
@@ -91,6 +97,7 @@ public class ResourceController {
 	public String getResource(@PathVariable("resourceId") long resourceId, Model model) {
 		if (!model.containsAttribute("resource")) 
 			model.addAttribute("resource", resourceService.findOne(resourceId));
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/resource/resourceProfile";
 	}
 
@@ -100,6 +107,7 @@ public class ResourceController {
 		Collection<Resource> resources = resourceGroupService.findOne(resourceGroupId).getResourceCollection();
 		model.addAttribute("resourceList", resources);
 		model.addAttribute("resource", new Resource());
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/resource/allResources";
 	}
 	
@@ -109,6 +117,7 @@ public class ResourceController {
 		List<Resource> resources = resourceService.findAll();
 		model.addAttribute("resourceList", resources);
 		model.addAttribute("resource", new Resource());
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/resource/allResources";
 	}
 	
@@ -135,6 +144,7 @@ public class ResourceController {
            // custom exception
         }
         model.addAttribute("resource", resource);
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/resource/addResource";
     }	
 	
@@ -170,6 +180,7 @@ public class ResourceController {
 	public String handleAllException(Exception ex, Model model) {
 		model.addAttribute("errorMessage", ex.getMessage());
 		model.addAttribute("type", "warning");
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "error/general";
 	}
 

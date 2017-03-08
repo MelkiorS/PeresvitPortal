@@ -1,78 +1,38 @@
 <!DOCTYPE html>
 <html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="home/fragments/head :: head('Ми')"></head>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Peresvit</title>
-    <link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">
-    <link rel="stylesheet" href="/resources/frontend/workField.css">
-    <script src="/resources/frontend/libraries/jquery-2.2.4.min.js"></script>
-    <script src="/resources/frontend/libraries/constants.js"></script>
+    <!--СЮДА МОЖНО ДОБАВИТЬ ВСЁ, ЧЕГО НЕТУ В head.HTML-->
 </head>
 <body>
-<div class="container-fluid wrapper">
-    <div class="row header">
-        <div class="col-xs-8 col-md-offset-4 h4 header_commercial">Гугл реклама</div>
-        <div class="col-xs-3 h2 header_logo"><img class='header_logo_img' src="/resources/frontend/images/logo_Peresvit.png" alt="логотип"></div>
-        <div class="col-xs-8  row header_nav">
-            <div th:replace="home/fragments/headBar :: headBar"></div>
-            <!--Сюда вставляем данные с верхнего бара fragments/headBar.html-->
-        </div>
-    </div>
-    <div class="row main">
-        <div class="col-xs-3 container main_sidebar">
-            <!--Сюда вставляем боковой бар fragments/sideBar.html-->
-            <div th:replace="home/fragments/sideBar :: sideBar"></div>
-            <div class="place_for_add_sidebar col-xs-12 row">
+<div th:replace="home/fragments/body :: body(~{::main}, '', false, '')"></div>
 
+<div th:remove="all">
+    <main class="my-way-main"  th:fragment="main">
+        <div>
+            <span> <a th:text="${'   #Все'}" th:href="@{/home/we}"></a> </span>
+            <span th:each="group: ${groups}"> <a th:text="${'   #' + group.name}" th:href="@{/home/we/{id}(id=${group.id}) }"></a> </span>
+        </div>
+        <br>
+
+        <div class="row" th:each="user : ${userList}">
+            <div class="col-xs-2">
+                <a th:href="@{/home/workField/} + ${user.userId}"><img th:src="@{'data:image;base64,' + ${user.encodeFileToBase64Binary()}}" alt="photo" height="42" width="42"></a>
             </div>
-        </div>
-        <div class=" col-xs-7 row well container-fluid main_section">
-
-                    <div>
-                        <span> <a th:text="${'   #Все'}" th:href="@{/home/we}"></a> </span>
-                        <span th:each="group: ${groups}"> <a th:text="${'   #' + group.name}" th:href="@{/home/we/{id}(id=${group.id}) }"></a> </span>
-                    </div>
-                    <br>
-
-                    <div class="row" th:each="user : ${userList}">
-                        <div class="col-xs-2">
-                            <img th:src="${user.avatarURL}" alt="photo" height="42" width="42">
-                        </div>
-                        <div class="col-xs-6">
-                            <div class="row" th:text="${user.firstName + ' ' + user.lastName}"></div>
-                            <div class="row" th:text="${user.combatArt.combatArtName}">Фрі-файт</div>
-                            <div class="row"> <span th:each="mark: ${user.marks}" th:text="${'  ' + mark.markName}"></span> </div>
-                            <div class="row" th:text="${user.role.roleName}">Наставник 2-го класу</div>
-                        </div>
-                        <div class="col-xs-4">
-                            <form th:action="@{/home/messages/postMessage/} + ${user.userId}" method="get">
-                                <button type="submit" class="btn btn-default">написати повідомлення</button>
-                            </form>
-                        </div>
-                        <br>
-                        <br>
-                        <br>
-                    </div>
-        </div>
-    </div>
-
-    <footer>
-        <div class="row container-fluid" >
-            <div class="col-xs-6 col-md-8 col-md-offset-2 footer_commercial">
-                <p>Гугл реклама</p>
-
+            <div class="col-xs-6">
+                <a th:href="@{/home/workField/} + ${user.userId}"><div class="row" th:text="${user.firstName + ' ' + user.lastName}"></div></a>
+                <div class="row" th:text="${user.combatArt.combatArtName}">Фрі-файт</div>
+                <div class="row"> <span th:each="mark: ${user.marks}" th:text="${'  ' + mark.markName}"></span> </div>
+                <div class="row" th:text="${user.role.roleName}">Наставник 2-го класу</div>
             </div>
-            <div class="col-xs-2 col-md-2 row">
-                <img src="/resources/frontend/images/Logovk.png" alt="vk">
-                <img src="/resources/frontend/images/Logofc.png" alt="fs">
-                <img src="/resources/frontend/images/Logoin.png" alt="instagram">
+            <div class="col-xs-4">
+                <a th:href="@{/home/messages/postMessage/} + ${user.userId}" type="submit" class="btn btn-default">написати повідомлення</a>
             </div>
+            <br>
+            <br>
+            <br>
         </div>
-    </footer>
-
+    </main>
 </div>
-
 </body>
 </html>

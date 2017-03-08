@@ -121,7 +121,7 @@
                 <div th:field="*{marks}" style="margin-left:20px;">
                     <!--<option value="" th:text="''"></option>-->
                     <p th:each="mark : ${markList}" style="margin-bottom:5px">
-                        <input  type="checkbox" style="margin-right: 7px; " th:value="${mark.markId}" th:text="${mark.markName}"/>
+                        <input  th:name="marks" type="checkbox" style="margin-right: 7px; " th:value="${mark.markId}" th:text="${mark.markName}" th:checked="${user!=null && user.marks != null && user.marks.contains(mark)}"/>
                     </p>
                 </div>
             </div>

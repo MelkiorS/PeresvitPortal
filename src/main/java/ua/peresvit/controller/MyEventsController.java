@@ -17,6 +17,7 @@ import ua.peresvit.entity.Event;
 import ua.peresvit.entity.User;
 import ua.peresvit.entity.UserGroup;
 import ua.peresvit.service.EventService;
+import ua.peresvit.service.MessageService;
 import ua.peresvit.service.UserGroupService;
 import ua.peresvit.service.UserService;
 
@@ -24,10 +25,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 
 class UserClassAdapter<T> extends TypeAdapter<T> {
     @Override
@@ -46,6 +44,39 @@ class UserClassAdapter<T> extends TypeAdapter<T> {
     }
 }
 
+class EventClassAdapter extends TypeAdapter<Event> {
+
+    private User user;
+
+    public EventClassAdapter(User user) {
+        this.user = user;
+    }
+
+    private void wrt(JsonWriter out, String name, String value) throws IOException {
+        out.name(name);
+        out.value(value);
+    }
+
+    @Override
+    public void write(JsonWriter out, Event value) throws IOException {
+        if (value !=null) {
+            out.beginObject();
+            wrt(out, "id", new Long(value.getId()).toString());
+            wrt(out, "text", value.getName().toString());
+            wrt(out, "start_date", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(value.getStart()));
+            wrt(out, "end_date", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(value.getFinish()));
+            wrt(out, "description", value.getDescription());
+            wrt(out, "assignedToMe", value.isAssigned(user) ? "true" : "false");
+            out.endObject();
+        }
+    }
+
+    @Override
+    public Event read(JsonReader in) throws IOException {
+        return null;
+    }
+}
+
 @Controller
 public class MyEventsController {
 
@@ -58,15 +89,20 @@ public class MyEventsController {
     @Autowired
     private UserGroupService ugs;
 
+    @Autowired
+    private MessageService messageService;
+
     @RequestMapping(value="/panel/ourevents", method = RequestMethod.GET)
     public String getAllEvents(Model model){
         model.addAttribute("all", true);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "panel/myevents";
     }
 
     @RequestMapping(value="/panel/myevents", method = RequestMethod.GET)
     public String getEvents(Model model){
         model.addAttribute("all", false);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "panel/myevents";
     }
 
@@ -75,7 +111,28 @@ public class MyEventsController {
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         model.addAttribute("events", es.findClosestByCurrentUser(dt, qty));
         model.addAttribute("me", us.getCurrentUser());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "panel/events_soon";
+    }
+
+    @RequestMapping(value = "/panel/myeventsdatajson", method = RequestMethod.GET, produces = {"application/json; charset=UTF-8"})
+    @ResponseBody
+    public String getDateMyEventsJson(@RequestParam("dt") String date, @RequestParam("qty") int qty, Model model) throws ParseException {
+        Gson g = new GsonBuilder().registerTypeAdapter(Event.class, new EventClassAdapter(us.getCurrentUser()))
+                .setDateFormat("MM/dd/yyyy HH:mm").create();
+        Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
+        String res = g.toJson(es.findClosestByCurrentUser(dt, qty));
+        return res;
+    }
+
+    @RequestMapping(value = "/panel/eventsdatajson", method = RequestMethod.GET, produces = {"application/json; charset=UTF-8"})
+    @ResponseBody
+    public String getDateEventsJson(@RequestParam("dt") String date, @RequestParam("qty") int qty, Model model) throws ParseException {
+        Gson g = new GsonBuilder().registerTypeAdapter(Event.class, new EventClassAdapter(us.getCurrentUser()))
+                .setDateFormat("MM/dd/yyyy HH:mm").create();
+        Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
+        String res = g.toJson(es.findClosest(dt, qty));
+        return res;
     }
 
     @RequestMapping(value = "/panel/eventsdata", method = RequestMethod.GET)
@@ -83,6 +140,7 @@ public class MyEventsController {
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         model.addAttribute("events", es.findClosest(dt, qty));
         model.addAttribute("me", us.getCurrentUser());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "panel/events_soon";
     }
 
@@ -91,6 +149,7 @@ public class MyEventsController {
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         model.addAttribute("event", es.findNextByCurrentUser(dt));
         model.addAttribute("me", us.getCurrentUser());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "panel/events_next";
     }
 
@@ -99,6 +158,7 @@ public class MyEventsController {
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         model.addAttribute("event", es.findNext(dt));
         model.addAttribute("me", us.getCurrentUser());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "panel/events_next";
     }
 
@@ -112,6 +172,16 @@ public class MyEventsController {
         Date dtFinish = (new SimpleDateFormat("yyyyMMdd")).parse(finish);
 
         String res = g.toJson(es.getPeriod(dtStart, dtFinish));
+        return res;
+    }
+
+    @RequestMapping(value = "/panel/eventjson", method = RequestMethod.GET, produces = {"application/json; charset=UTF-8"})
+    @ResponseBody
+    public String getEventJson(@RequestParam("dt") String date, Model model) throws ParseException {
+        Gson g = new GsonBuilder().registerTypeAdapter(Event.class, new EventClassAdapter(us.getCurrentUser()))
+                .setDateFormat("MM/dd/yyyy HH:mm").create();
+        Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
+        String res = g.toJson(es.findNext(dt));
         return res;
     }
 
@@ -175,6 +245,7 @@ public class MyEventsController {
         model.addAttribute("friends", us.findAll());
         model.addAttribute("groups", ugs.findAll());
         model.addAttribute("me", us.getCurrentUser());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "/admin/event_edit";
     }
 

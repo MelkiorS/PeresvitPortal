@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ukr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="home/fragments/head :: head('Нова бесіда  ')"></head>
+<head>
+    <!--СЮДА МОЖНО ДОБАВИТЬ ВСЁ, ЧЕГО НЕТУ В head.HTML-->
+</head>
+<body>
+<div th:replace="home/fragments/body :: body(~{::main}, '', false, '')"></div>
+
+<div th:remove="all">
+    <main class="my-way-main"  th:fragment="main">
+        <form th:object="${chat}" th:method="post" th:action="@{/home/messages/newChat}">
+            <input type="hidden" th:field="*{chatId}">
+            <label th:for="chatTitle">Назва бесіди</label>
+            <input type="text" th:field="*{chatTitle}">
+            <ul>
+                <li th:each="user : ${userList}">
+                    <input type="checkbox" th:field="*{members}" th:value="${user.userId}" title="учасники"/>
+                    <label th:text="${user.firstName}">ROLE_USER</label>
+                </li>
+            </ul>
+            <button class=' btn btn-primary messageList-content-newMsg-button' type="submit">Створити</button>
+        </form>
+    </main>
+</div>
+</body>
+</html>

@@ -9,12 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ua.peresvit.entity.*;
 import ua.peresvit.service.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Controller
 @RequestMapping(value = "/resource")
@@ -26,13 +20,15 @@ public class UserArticlesController {
     private final
     ResourceGroupTypeService resourceGroupTypeService;
     private final ArticleService articleService;
+    private final MessageService messageService;
 
     @Autowired
-    public UserArticlesController(ResourceGroupTypeChapterService chapterService, UserService userService, ResourceGroupTypeService resourceGroupTypeService, ArticleService articleService) {
+    public UserArticlesController(ResourceGroupTypeChapterService chapterService, UserService userService, ResourceGroupTypeService resourceGroupTypeService, ArticleService articleService, MessageService messageService) {
         this.chapterService = chapterService;
         this.userService = userService;
         this.resourceGroupTypeService = resourceGroupTypeService;
         this.articleService = articleService;
+        this.messageService = messageService;
     }
 
     // go to article
@@ -40,7 +36,8 @@ public class UserArticlesController {
     public String showArticle(@PathVariable long articleId, Model model) {
         Article article = articleService.findOne(articleId);
         model.addAttribute("article", article);
-        return "resource/studyingMaterial";
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
+        return "home/studyingMaterial";
     }
 
     // go to myWay
@@ -62,6 +59,7 @@ public class UserArticlesController {
             }
         }
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/myWay";
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.CombatArt;
 import ua.peresvit.service.CombatArtService;
+import ua.peresvit.service.MessageService;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class CombatArtController {
 
     @Autowired
     private CombatArtService combatArtService;
+    @Autowired
+    private MessageService messageService;
 
     //go to manage page
     @RequestMapping(value = "/management", method = RequestMethod.GET)
@@ -32,6 +35,7 @@ public class CombatArtController {
         CombatArt art = new CombatArt();
 
         model.addAttribute(art);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
 
         return "admin/combatArt/addCombatArt";
     }
@@ -53,6 +57,7 @@ public class CombatArtController {
     public String geArt(@PathVariable("combatArtId") long combatArtId, Model model) {
         if (!model.containsAttribute("combatArtId"))
             model.addAttribute("combatArtId", combatArtService.findOne(combatArtId));
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/combatArt/combatArtProfile";
     }
 
@@ -62,6 +67,7 @@ public class CombatArtController {
         List<CombatArt> arts = combatArtService.findAll();
         model.addAttribute("combatArtList", arts);
         model.addAttribute("combatArt", new CombatArt());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/combatArt/allCombatArts";
     }
 
@@ -71,6 +77,7 @@ public class CombatArtController {
                            Model model) {
         CombatArt combatArt = combatArtService.findOne(combatArtId);
         model.addAttribute("combatArt", combatArt);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/combatArt/addCombatArt";
     }
 }

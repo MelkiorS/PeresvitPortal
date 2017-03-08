@@ -514,4 +514,138 @@
         color: #484847;
     }
     /*My events*/
+    /*START of NEW CODE*/
+
+    .dhx_cal_container.dhx_mini_calendar {
+        height: 100%;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .dhx_mini_calendar .dhx_year_month {
+        line-height: 60px;
+        height: 60px;
+        font-size: 18px;
+        background: #f0f0f0;
+        border: none;
+        padding: 0;
+        border-bottom: 1px solid #dbdbdb;
+        color: #9e9e9e;
+    }
+
+    .dhx_mini_calendar .dhx_year_week {
+        padding: 0;
+        border: none;
+        height: 30px !important;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .dhx_mini_calendar .dhx_scale_bar {
+        font-size: 18px !important;
+        line-height: 40px !important;
+    }
+
+    .dhx_mini_calendar .dhx_cal_next_button,
+    .dhx_mini_calendar .dhx_cal_prev_button {
+        top: 28px !important;
+    }
+
+    .dhx_mini_calendar .dhx_month_head {
+        height: 26px;
+        font-size: 14px;
+        line-height: 26px;
+        margin: 0 !important;
+    }
+
+    .dhx_mini_calendar .dhx_calendar_click,
+    .dhx_mini_calendar .dhx_year_event {
+        border-radius: 0;
+        background: #d90118;
+        color: white;
+    }
+
+    /*END of NEW CODE*/
+    /******************/
+    /*profileEdit*/
+    .profileEdit{
+        padding: 2px 5px;
+    }
+    .profileEdit-name{
+        width: 75%;
+        font-size: 7vw;
+        color: #6f6ecb;
+        margin: 2% 0 0 4%;
+    }
+    .profileEdit .form-group{
+        padding: 2px 5px 2px 5px;
+        margin: 8px 0 5px;
+    }
+    .profileEdit .form-group>label,
+    .checkOldPass{
+        line-height: 25px;
+        font-size: 17px;
+        color: #0301ad;
+        margin-left: 7px;
+    }
+    .profileEdit .form-group .form-control{
+        display: block;
+        width: 92%;
+        height: 22px;
+        padding: 6px 12px;
+        font-size: 15px;
+        margin-top:2px;
+    }
+    .form-group_gender-title{
+        width: 30%;
+        font-size: 17px;
+        color: #0301ad;
+        margin-left: 7px;
+        line-height: 25px;
+    }
+    .form-group_gender-item{
+        margin-left:7px;
+    }
+    .profileEdit .form-group .form-control.textarea{
+        max-width:85%;
+        max-height: 150px;
+    }
+    .passwords{
+        border:1px solid #6f6ecb;
+        border-radius: 5px;
+    }
+    .passwords-title{
+        width: 49%;
+        font-size: 6vw;
+        color: #6f6ecb;
+        margin-left: 12px;
+        line-height: 26px;
+        margin-top:15px;
+    }
+    .btn{
+        font-size: 20px;
+        line-height: 22px;
+        color: #fff;
+        width: 35%;
+    }
+    .submit{
+        background: #71af5d;
+    }
+    submit:hover{
+        background: #337258;
+    }
+    .cancel{
+        float:right;
+        background: #d90118;
+    }
+    .cancel:hover{
+        background: #a00717;
+    }
+    .checkNewPass{
+        display:block;
+        margin:7px 0 0 7px;
+    }
+    /*profileEdit*/
 }

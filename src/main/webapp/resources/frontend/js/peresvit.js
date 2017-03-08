@@ -40,14 +40,16 @@ $(function(){
         });
         if($('.main-article-item')){$('.main-article-item').first().css('margin-top','3.8%')}
     }
-    $('.bxslider').bxSlider({
-        // slideWidth: 182,
-        slideWidth: 203,
-        maxSlides: 3,
-        minSlides: 1,
-        slideMargin: 20,
-        pager: false,
-        adaptiveHeight: true,
-        captions: true,
-    });
+    if($('.bxslider')){
+        $('.bxslider').bxSlider({
+            // slideWidth: 182,
+            slideWidth: 203,
+            maxSlides: 3,
+            minSlides: 1,
+            slideMargin: 20,
+            pager: false,
+            adaptiveHeight: true,
+            captions: true,
+        });
+    }
 });

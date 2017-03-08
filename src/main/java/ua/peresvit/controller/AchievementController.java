@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.Achievement;
 import ua.peresvit.service.AchievementService;
+import ua.peresvit.service.MessageService;
 import ua.peresvit.service.UserService;
 
 import java.util.List;
@@ -24,6 +25,9 @@ public class AchievementController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MessageService messageService;
 
     //go to manage page
     @RequestMapping(value = "/management", method = RequestMethod.GET)
@@ -39,6 +43,7 @@ public class AchievementController {
         model.addAttribute(achievement);
         model.addAttribute("userList", userService.findAll());
 
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/achievement/addAchievement";
     }
 
@@ -60,6 +65,7 @@ public class AchievementController {
         if (!model.containsAttribute("achievementId"))
             model.addAttribute("achievementId", achievementService.findOne(achievementId));
         model.addAttribute("userList", userService.findAll());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/achievement/achievementProfile";
     }
 
@@ -69,6 +75,7 @@ public class AchievementController {
         List<Achievement> achievements = achievementService.findAll();
         model.addAttribute("achievementList", achievements);
         model.addAttribute("achievement", new Achievement());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/achievement/allAchievements";
     }
 
@@ -79,6 +86,7 @@ public class AchievementController {
         Achievement achievement = achievementService.findOne(achievementId);
         model.addAttribute("achievement", achievement);
         model.addAttribute("userList", userService.findAll());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/achievement/addAchievement";
     }
 
@@ -88,6 +96,7 @@ public class AchievementController {
         Achievement achievement = new Achievement();
         achievement.setUser(userService.findOne(userId));
         model.addAttribute("achievement", achievement);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/achievement/addAchievement";
     }
 

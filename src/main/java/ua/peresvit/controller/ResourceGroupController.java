@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.ResourceGroup;
 import ua.peresvit.entity.ResourceGroupType;
 import ua.peresvit.entity.Role;
+import ua.peresvit.service.MessageService;
 import ua.peresvit.service.ResourceGroupService;
 import ua.peresvit.service.ResourceGroupTypeService;
 import ua.peresvit.service.RoleService;
@@ -27,7 +28,9 @@ public class ResourceGroupController {
 	private ResourceGroupTypeService resourceGroupTypeService;
 	@Autowired
 	private RoleService roleService;
-		
+	@Autowired
+	private MessageService messageService;
+
 	//go to manage page
 	@RequestMapping(value = "/management", method = RequestMethod.GET)
 	public String goToManagement(Model model) {
@@ -41,6 +44,7 @@ public class ResourceGroupController {
 		model.addAttribute(new ResourceGroup());   // addig empty object for post form
 		model.addAttribute("rangList", rangTypes); // adding list of rang for select
 		model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/resourceGroup/addResourceGroup";
 	}
 	
@@ -58,6 +62,7 @@ public class ResourceGroupController {
 	public String getResourceGroup(@PathVariable("resourceGroupId") long resourceGroupId, Model model) {
 		if (!model.containsAttribute("resourceGroup"))  // if it's not redirect add
 			model.addAttribute("resourceGroup", resourceGroupService.findOne(resourceGroupId));
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/resourceGroup/resourceGroupProfile";
 	}
 
@@ -66,6 +71,7 @@ public class ResourceGroupController {
 	public String listAllResourceGroups(Model model) {
 		List<ResourceGroup> resourceGroups = resourceGroupService.findAll();
 		model.addAttribute("resourceGroupList", resourceGroups);
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
 		return "admin/resourceGroup/allResourceGroups";
 	}
 	
@@ -95,6 +101,7 @@ public class ResourceGroupController {
         model.addAttribute("resourceGroup", resourceGroup); // object is not empty
         model.addAttribute("rangList", rangTypes);
 		model.addAttribute("resourceGroupTypeList", resourceGroupTypes);
+		model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/resourceGroup/addResourceGroup"; // sending to addForm
     }
 }

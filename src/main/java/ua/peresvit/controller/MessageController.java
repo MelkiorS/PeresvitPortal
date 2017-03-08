@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import ua.peresvit.dto.ChatWithLastMessage;
 import ua.peresvit.entity.Chat;
 import ua.peresvit.entity.Message;
@@ -36,6 +37,8 @@ public class MessageController {
     public String getAllChats(Model model) {
         User currentUser = userService.getCurrentUser();
         Set<ChatWithLastMessage> chats = messageService.findCustomChatsOfUser(currentUser);
+        Set<ChatWithLastMessage> readChats = new LinkedHashSet<>();
+        Set<ChatWithLastMessage> unreadChats = new LinkedHashSet<>();
         for (ChatWithLastMessage chat : chats) {
             if (chat.getChatTitle().equals("dialog")) {
                 for (User u : messageService.findOneChat(chat.getChatId()).getMembers()) {
@@ -44,14 +47,34 @@ public class MessageController {
                     }
                 }
             }
+            if (!chat.getReadStatus().contains(","+currentUser.getUserId()+",")) {
+                unreadChats.add(chat);
+            } else {
+                readChats.add(chat);
+            }
         }
-        model.addAttribute("chatList", chats);
-//        adding chat object to create new chat from start chats page
-        model.addAttribute(new Chat());
-        return "home/chats";
+        unreadChats.addAll(readChats);
+        model.addAttribute("chatList", unreadChats);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
+        return "home/messages/chats";
     }
 
-
+    //  creating new chat from main messages' page
+    @RequestMapping(value = "/newChat", method = RequestMethod.GET)
+    public String createFormForNewChat(Model model) {
+        model.addAttribute(new Chat());
+        List<UserGroup> ug = userService.getUserGroups(userService.getCurrentUser());
+        UserGroup[] uga;
+        uga = new UserGroup[ug.size()];
+        uga = ug.toArray(uga);
+        if (userService.getCurrentUser().getRole().getRoleName().equals("ADMIN")) {
+            model.addAttribute("userList", userService.findAllWithoutCurrent());
+        } else {
+            model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsersWithoutCurrent(ug.toArray(uga)));
+        }
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
+        return "home/messages/newChat";
+    }
 
     //  creating new chat from main messages' page
     @RequestMapping(value = "/newChat", method = RequestMethod.POST)
@@ -65,7 +88,8 @@ public class MessageController {
             return "redirect:/home/messages/{chatId}";
         } else {
             model.addAttribute("message", messages.getMessage("message.chatCreationError", null, locale));
-            return "home/chats";
+            model.addAttribute("unreadMessages", messageService.countUnreadChats());
+            return "home/messages/chats";
         }
     }
 
@@ -74,18 +98,18 @@ public class MessageController {
     public String getSingleChat(@PathVariable("chatId") Long chatId, Model model) {
         Chat chat = messageService.findOneChat(chatId);
         User currentUser = userService.getCurrentUser();
+        if (!chat.getMembers().contains(currentUser)) {
+            return "redirect:/home/messages";
+        }
         List<Message> messages = messageService.findMessagesByChatOrderByCreatedAt(chatId);
         if (!messages.isEmpty()) {
             Message lastMessage = messages.get(messages.size()-1);
-            if (!lastMessage.isReadStatus() && !currentUser.equals(lastMessage.getSender())){
-                lastMessage.setReadStatus(true);
+            if (!lastMessage.getReadStatus().contains(","+currentUser.getUserId()+",")){
+                lastMessage.setReadStatus(lastMessage.getReadStatus()+currentUser.getUserId()+",");
                 messageService.saveMessage(lastMessage);
             }
             messages = messageService.findMessagesByChatOrderByCreatedAt(chatId);
             model.addAttribute("messagesList", messages);
-        }
-        if (!chat.getMembers().contains(currentUser)) {
-            return "redirect:/home/messages";
         }
         if (chat.getChatTitle().equals("dialog")) {
             for (User u : chat.getMembers()) {
@@ -93,16 +117,19 @@ public class MessageController {
                     chat.setChatTitle(u.getFirstName() + " " + u.getLastName());
                 }
             }
+            model.addAttribute("dialog", true);
         }
 //      adding owner permissions to the chat view
-        if ((currentUser.equals(chat.getOwner()) && chat.getMembers().size() != 2) || (currentUser.getRole().getRoleName().equals("ADMIN"))) {
+        if (currentUser.equals(chat.getOwner()) && currentUser.getRole().getRoleName().equals("ADMIN")) {
             model.addAttribute("ownerPermission", true);
+        } else {
+            model.addAttribute("ownerPermission", false);
         }
         model.addAttribute("currentUser", currentUser);
-        model.addAttribute("ownerPermission", false);
         model.addAttribute(chat);
         model.addAttribute(new Message());
-        return "home/messages";
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
+        return "home/messages/messages";
     }
 
     // post new message to certain chat and refresh chat
@@ -121,77 +148,92 @@ public class MessageController {
         User currentUser = userService.getCurrentUser();
         List<UserGroup> ug = userService.getUserGroups(currentUser);
         List<User> membersToAdd = new LinkedList<>();
-        for (User u : userService.getGroupsUsers((UserGroup[]) ug.toArray())) {
+        List<User> users;
+        if (currentUser.getRole().getRoleName().equals("ADMIN")) {
+            users =  userService.findAll();
+        } else {
+            users = userService.getGroupsUsersWithoutCurrent( ug.toArray(new UserGroup[ug.size()]));
+        }
+        for (User u : users) {
             if (!chatMembers.contains(u)) {
                 membersToAdd.add(u);
             }
         }
+        model.addAttribute("chat", currentChat);
         model.addAttribute("membersToAdd", membersToAdd);
+        model.addAttribute("newMembers", new HashSet<User>());
         model.addAttribute("status", "add");
-        return "home/editMembersToChat";
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
+        return "home/messages/editChat";
     }
 
     //  adding new members to certain chat
     @RequestMapping(value = "/{chatId}/addMembers", method = RequestMethod.POST)
     public String addNewMembersToChat(@PathVariable("chatId") Long chatId,
                                       Model model,
-                                      Locale locale,
-                                      LinkedList<User> membersToAdd,
-                                      Chat currentChat) {
-        if (!membersToAdd.isEmpty()) {
+                                      @RequestParam(value = "users" , required = false) long[] users,
+                                      Locale locale) {
+        Chat chat = messageService.findOneChat(chatId);
+        HashSet<User> newMembers = new HashSet<>();
+        for (Long userId : users) {
+            newMembers.add(userService.findOne(userId));
+        }
+        if (!newMembers.isEmpty()) {
             User inviter = userService.getCurrentUser();
-            messageService.addNewMembersToChat(membersToAdd, currentChat);
-            messageService.sendMessage(inviter, messageService.getAddingNewMemberMessage(inviter, membersToAdd, currentChat, locale));
+            messageService.addNewMembersToChat(newMembers, chat);
+            messageService.sendMessage(inviter, messageService.getAddingNewMemberMessage(inviter, newMembers, chat, locale));
             model.addAttribute("chatId", chatId);
             return "redirect:/home/messages/{chatId}";
         } else {
             model.addAttribute("message", messages.getMessage("message.addingNewMemberToChatError", null, locale));
-            return "home/chats";
+            return "redirect:/home/messages/{chatId}";
         }
     }
 
-    //   get members from chat to delete
-    @RequestMapping(value = "/{chatId}/deleteMembers", method = RequestMethod.GET)
-    public String getMembersFromChatToDelete(@PathVariable("chatId") Long chatId, Model model) {
+    //   get page to edit chat
+    @RequestMapping(value = "/{chatId}/edit", method = RequestMethod.GET)
+    public String getChatEditPage(@PathVariable("chatId") Long chatId, Model model) {
         Chat chat = messageService.findOneChat(chatId);
         User currentUser = userService.getCurrentUser();
-        if (chat.getOwner().equals(currentUser) || currentUser.getRole().getRoleName().equals("ADMIN")) {
-            model.addAttribute("chat", chat);
-            model.addAttribute("charId", chatId);
-            model.addAttribute("status", "delete");
-            return "home/editMembersToChat";
-        }
-        model.addAttribute("message", "permission denied");
-        return "redirect:/home/messages";
-    }
-
-//    delete members from chat
-    @RequestMapping(value = "/{chatId}/deleteMembers", method = RequestMethod.POST)
-    public String deleteMembersFromChat(@PathVariable("chatId") Long chatId, Model model) {
-        return "redirect:/home/messages/{chatId}";
-    }
-
-//    delete chat
-    @RequestMapping(value = "/{chatId}/deleteChat", method = RequestMethod.DELETE)
-    public String deleteChat(@PathVariable("chatId") Long chatId, Model model) {
-        Chat chat = messageService.findOneChat(chatId);
-        User currentUser = userService.getCurrentUser();
-        if (chat.getOwner().equals(currentUser) || currentUser.getRole().getRoleName().equals("ADMIN")) {
-            messageService.deleteChat(chatId);
-            return "home/editMembersToChat";
-        }
-        model.addAttribute("message", "permission denied");
-        return "redirect:/home/messages";
+        model.addAttribute("chat", chat);
+        model.addAttribute("chatId", chatId);
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("status", "edit");
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
+        return "home/messages/editChat";
     }
 
     //  change chat title
     @RequestMapping(value = "/{chatId}/changeTitle", method = RequestMethod.POST)
     public String changeTitleOfChat(@PathVariable("chatId") Long chatId, Chat chat, Model model) {
-        if (!chat.getChatTitle().equals("")) {
+        if (!chat.getChatTitle().equals("") && !messageService.findOneChat(chatId).getChatTitle().equals(chat.getChatTitle())) {
+            User changer = userService.getCurrentUser();
+            messageService.sendMessage(changer, messageService.getChangingTitleMessage(changer, chat, new Locale("UK")));
             messageService.saveChat(chat);
         }
         model.addAttribute("chatId", chatId);
         return "redirect:/home/messages/{chatId}";
+    }
+
+//    delete member from chat
+    @RequestMapping(value = "/{chatId}/deleteMember/{userId}", method = RequestMethod.GET)
+    public String deleteMembersFromChat(@PathVariable("chatId") Long chatId, @PathVariable("userId") Long userId) {
+        messageService.deleteMemberFromChat(userService.findOne(userId), messageService.findOneChat(chatId));
+        return "redirect:/home/messages/{chatId}/edit";
+    }
+
+//    delete chat
+    @RequestMapping(value = "/{chatId}/deleteChat", method = RequestMethod.GET)
+    public String deleteChat(@PathVariable("chatId") Long chatId, Model model) {
+        Chat chat = messageService.findOneChat(chatId);
+        User currentUser = userService.getCurrentUser();
+        if (chat.getOwner().equals(currentUser) || currentUser.getRole().getRoleName().equals("ADMIN")) {
+            messageService.deleteChat(chatId);
+            model.addAttribute("message", "Бесіду видалено");
+            return "redirect:/home/messages";
+        }
+        model.addAttribute("message", "permission denied");
+        return "redirect:/home/messages";
     }
 
     //    leave chat
