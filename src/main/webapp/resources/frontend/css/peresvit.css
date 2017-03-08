@@ -907,6 +907,7 @@ footer .icons-footer a:nth-child(3) {
 	}
 	.wrapper{
 		position: relative;
+		min-height: 990px;
 	}
 	/*.wrapper {*/
 		/*min-height: 100%;*/

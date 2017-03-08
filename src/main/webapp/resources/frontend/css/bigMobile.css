@@ -651,15 +651,11 @@
     /************************/
     /*Chats*/
     .chats-header{
-        position: relative;
-        width: 72%;
+        width: 90%;
         box-sizing: border-box;
-        margin: 14px 14% 5px 14%;
-        background: #7574d2;
-        border-radius: 3px;
-        height: 51px;
+        margin: 40px auto 36px;
+        height: 53px;
         text-align: center;
-
     }
     .chats-header-button:before {
 
@@ -674,15 +670,20 @@
         display: inline-block;
     }
     .chats-header-button{
-        width: 63%;
+        position: relative;
+        width: 70%;
+        height: 50px;
         display: block;
         color: #fff;
         font-size: 20px;
-        padding-top: 15px;
-        margin: 4px 10% 10px 28%;
+        padding-top: 14px;
+        padding-left: 68px;
+        margin: 47px 15% 10px 15%;
         box-sizing: border-box;
         text-decoration: none;
         text-align: left;
+        border-radius: 3px;
+        background: #7574d2;
     }
     .chats-header-button:hover{
         text-decoration: none;
@@ -743,4 +744,112 @@
         white-space: nowrap;
     }
     /*Chats*/
+    /*****************/
+    /*newChat*/
+    .newChat_title{
+        width: 100%;
+        text-align: left;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 22px 0;
+        /* height: 62px; */
+        background: #f4f5fa;
+    }
+    .newChat_title-item{
+        font-size: 20px;
+        display: block;
+        width: 50%;
+        margin: 10px 25%;
+        box-sizing: border-box;
+        color: #7574d2;
+        text-align: center;
+    }
+    .newChat_title-input{
+        width: 79.8%;
+        height: 25px;
+        margin: -2px 0 0 8.3%;
+        font-size: 15px;
+    }
+    .newChat_body {
+        width: 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+    }
+    .newChat_body_list_item{
+        border-top: 1px solid #d3d4d5;
+        border-bottom: 1px solid #d3d4d5;
+        height: 100px;
+    }
+    .newChat_body_list_item>img{
+        display: block;
+        float: left;
+        margin: 2% 13px 10px 2%;
+        height: 84px;
+        width: 83px;
+        border-radius: 100%;
+    }
+    .newChat_body_list_item_name{
+        display: block;
+        float: left;
+        width: 56%;
+        margin: 40px 0 10px 0;
+        font-size: 18px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .newChat_body_list_item_checkbox{
+        float: right;
+        width: 27px;
+        height: 30px;
+        display: inline-block;
+        position: relative;
+        margin: 40px 10px 0 0;
+    }
+    .newChat_body_list_item_checkbox  input[type="checkbox"]+input[type="hidden"]+span{
+        position: absolute; /* Абсолютное позиционирование */
+        left: -8px;
+        top: -6px;
+        width: 100%;
+        height: 100%;
+        background: url('../image/newChat.png') no-repeat; /* Фоновый рисунок */
+        cursor: pointer; /* Курсор в виде руки */
+    }
+    .newChat_body_list_item_checkbox input[type="checkbox"]:checked +input[type="hidden"]+ span  {
+        background-position: -31px 0;
+
+    }
+    .messageList-content-newMsg-button{
+        display: block;
+        margin: 10px auto;
+        border-radius: 2px;
+        width: 56%;
+        height: 49px;
+        text-align: right;
+        font-size: 16px;
+        padding-right: 21px;
+        padding-top: 12px;
+        box-sizing: border-box;
+        background: #7574d2;
+        text-transform: uppercase;
+    }
+    .messageList-content-newMsg-button:before{
+        content: '';
+        background: url(../image/event-icons.png) -7px -79px no-repeat;
+        height: 36px;
+        width: 39px;
+        float: left;
+        margin: -7px -2px 0 2px;
+    }
+    .messageList-content-newMsg-button:hover{
+        background: #7574d2;
+        color:#fff;
+    }
+    .messageList-content-newMsg-button:after{
+        content: '';
+        clear:both;
+    }
+    /*newChat*/
 }

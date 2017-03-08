@@ -8,18 +8,26 @@
 <div th:replace="home/fragments/body :: body(~{::main}, '', false, '')"></div>
 
 <div th:remove="all">
-    <main class="my-way-main"  th:fragment="main">
+    <main class="my-way-main clearfix"  th:fragment="main">
         <form th:object="${chat}" th:method="post" th:action="@{/home/messages/newChat}">
             <input type="hidden" th:field="*{chatId}">
-            <label th:for="chatTitle">Назва бесіди</label>
-            <input type="text" th:field="*{chatTitle}">
-            <ul>
-                <li th:each="user : ${userList}">
-                    <input type="checkbox" th:field="*{members}" th:value="${user.userId}" title="учасники"/>
-                    <label th:text="${user.firstName}">ROLE_USER</label>
-                </li>
-            </ul>
-            <button class=' btn btn-primary messageList-content-newMsg-button' type="submit">Створити</button>
+            <div class="form-group newChat_title">
+                <label class="newChat_title-item" th:for="chatTitle">Назва бесіди</label>
+                <input class=" form-control newChat_title-input" type="text" th:field="*{chatTitle}" placeholder="Введiть назву бесiди">
+            </div>
+            <div class="newChat_body">
+                <ul class="newChat_body_list">
+                    <li class="newChat_body_list_item" th:each="user : ${userList}">
+                        <img  alt="аватар">
+                        <label class="newChat_body_list_item_name" th:text="${user.firstName}">ROLE_USER</label>
+                        <label class="newChat_body_list_item_checkbox">
+                            <input type="checkbox" th:field="*{members}" th:value="${user.userId}" title="учасники"/>
+                            <span></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <button class=' btn btn-primary messageList-content-newMsg-button clearfix' type="submit">Створити бесiду</button>
         </form>
     </main>
 </div>
