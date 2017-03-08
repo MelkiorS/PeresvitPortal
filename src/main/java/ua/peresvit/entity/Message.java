@@ -15,7 +15,7 @@ public class Message {
     private String content;
     private Timestamp createdAt;
 //    String of users, who read message
-    @Column(length = 65533)
+    @Column(length = 21578)
     private String readStatus;
 //    Functional message like about creating chat or inviting new members;
     private boolean functional;
@@ -26,4 +26,8 @@ public class Message {
     @ManyToOne
     @JoinColumn(name="chatId")
     private Chat chat;
+
+    public Message() {
+        readStatus = ",";
+    }
 }

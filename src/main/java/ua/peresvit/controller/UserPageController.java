@@ -52,8 +52,10 @@ public class UserPageController {
 
     private final MessageService messageService;
 
+    private final MarkService markservice;
+
     @Autowired
-    public UserPageController(ArticleService aService, UserService userService, UserGroupService userGroupService, EventService eventService, ResourceGroupTypeService rgtService, ResourceGroupTypeChapterService rgtcService, CityService cityService, ClubService clubService, CombatArtService combatArtService, PostService postService, RoleService roleService, AchievementService achievementService, MessageService messageService) {
+    public UserPageController(ArticleService aService, UserService userService, UserGroupService userGroupService, EventService eventService, ResourceGroupTypeService rgtService, ResourceGroupTypeChapterService rgtcService, CityService cityService, ClubService clubService, CombatArtService combatArtService, PostService postService, RoleService roleService, AchievementService achievementService, MessageService messageService, MarkService markservice) {
         this.aService = aService;
         this.userService = userService;
         this.userGroupService = userGroupService;
@@ -67,6 +69,7 @@ public class UserPageController {
         this.roleService = roleService;
         this.achievementService = achievementService;
         this.messageService = messageService;
+        this.markservice = markservice;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -94,6 +97,7 @@ public class UserPageController {
             }
         }
         Set<Mark> marks = loggedUser.getMarks();
+
         for (Mark mark : marks) {
             try {
                 mark.setImageURL(Constant.encodeFileToBase64Binary(mark.getImageURL()));

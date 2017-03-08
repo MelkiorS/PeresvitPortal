@@ -93,7 +93,7 @@ public class MessageServiceImpl implements MessageService{
         message.setSender(creator);
         message.setChat(chat);
         message.setFunctional(true);
-        message.setReadStatus(","+creator.getUserId()+",");
+        message.setReadStatus(message.getReadStatus()+creator.getUserId()+",");
         message.setContent(creator.getFirstName() + " " + creator.getLastName() + " "
                 + messages.getMessage("message.newChatCreationEvent", null, locale) + " "
                 + "<" + chat.getChatTitle() + ">");
@@ -184,8 +184,10 @@ public class MessageServiceImpl implements MessageService{
         Set<ChatWithLastMessage> chats = chatRepository.getChatsWithLastMessage(currentUser);
         Long count = 0L;
         for (ChatWithLastMessage c: chats) {
-            if(!c.getReadStatus().contains(","+currentUser.getUserId()+",")) {
-                count++;
+            if (!c.getReadStatus().equals(null)) {
+                if (!c.getReadStatus().contains("," + currentUser.getUserId() + ",")) {
+                    count++;
+                }
             }
         }
         return count;
