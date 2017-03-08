@@ -257,7 +257,7 @@ public class UserPageController {
 
     // NEWS all
     @RequestMapping(value = "/post", method = RequestMethod.GET)
-    public String getPosts(Model model, @PageableDefault(value=9, direction = Sort.Direction.DESC, sort = "createDate") Pageable pageable){
+    public String getPosts(Model model, @PageableDefault(value=3, direction = Sort.Direction.DESC, sort = "createDate") Pageable pageable){
         model.addAttribute("page", postService.findAll(pageable) );
         model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/workField_allPosts";

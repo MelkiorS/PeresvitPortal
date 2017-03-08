@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ukr" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="home/fragments/head :: head('НАЗВАНИЕ СТРАНИЦЫ')"></head>
+<head th:replace="home/fragments/head :: head('Бесіди')"></head>
 <head>
     <!--СЮДА МОЖНО ДОБАВИТЬ ВСЁ, ЧЕГО НЕТУ В head.HTML-->
 </head>
@@ -16,7 +16,7 @@
             <div th:each="chat : ${chatList}"   >
                 <form th:action="@{/home/messages/} + ${chat.chatId}" method="get">
                     <button class="btn btn-default  markList-item" type="submit"  aria-haspopup="true" aria-expanded="false">
-                        <img class="col-xs-2" th:src="${chat.sender.avatarURL}" src="/resources/frontend/images/userIcon.png" alt="аватар юзера">
+                        <img class="col-xs-2" th:src="@{'data:image;base64,' + ${chat.sender.encodeFileToBase64Binary()}}" src="/resources/frontend/images/userIcon.png" alt="аватар юзера">
                         <p class="col-xs-8 markList-item-title" th:text="${chat.chatTitle}"></p>
                         <p class="col-xs-2 markList-item-time" th:text=
                                 "${#dates.format(#dates.createNow(), 'dd-MM-yyyy') == #dates.format(chat.createdAt, 'dd-MM-yyyy')} ?

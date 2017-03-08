@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ukr" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="home/fragments/head :: head('НАЗВАНИЕ СТРАНИЦЫ')"></head>
+<head th:replace="home/fragments/head :: head('Новини')"></head>
 <head>
     <!--СЮДА МОЖНО ДОБАВИТЬ ВСЁ, ЧЕГО НЕТУ В head.HTML-->
 </head>
@@ -13,22 +13,20 @@
             <row class="col-md-10 blogShort" th:each="post : ${page}">
                 <div class="media well">
                     <a class="pull-left" href="#">
-                        <img class="media-object" style=" width: 250px;margin: 1px 6px 1px 1px;float: left;display: block;" th:src="@{'data:image;base64,' + ${post.encodeFileToBase64Binary()}}" alt="post img">
+                        <img class="media-object" style=" width: 250px;margin: 1px 6px 1px 1px;float: left;display: block;" th:src="@{'data:image;base64,' + ${post.encodeFileToBase64Binary()}}">
                     </a>
-                    <a class="btn btn-danger pull-right" th:href="@{/admin/post/} + @{${post.postId} + '/delete' }" onclick="event.preventDefault();deleteElem(this)"><span class="glyphicon glyphicon-trash"></span></a>
                     <div class="media-body">
-                        <h2 class="media-heading" th:text="${post.title}">Receta 1</h2>
-                        <div class="text-right">Автор: <a href="/home/workField" th:text="${post.user}">By Francisco</a></div>
-                        <p th:text="${post.body}" style="width: 250px;
+                        <h4 class="media-heading" th:text="${post.title}">Receta 1</h4>
+                        <p class="text-right" th:text="${post.user}">By Francisco</p>
+                        <p th:text="${post.body}" style="width: 150px;
                                                         white-space: nowrap;
                                                         overflow: hidden;
                                                         text-overflow: ellipsis;">text</p>
-                        <br>
                         <ul class="list-inline list-unstyled">
                             <li><i class="glyphicon glyphicon-calendar"></i> <span th:text="${#dates.format(post.createDate,'dd/MM/YYYY HH:mm')}">2 days, 8 hours </span></li>
                         </ul>
+                        <a class="btn btn-blog pull-right marginBottom10" th:href="@{/home/post/} + @{${post.postId}}">Переглянути</a>
                     </div>
-                    <a class="btn btn-blog pull-right marginBottom10" th:href="@{/admin/post/} + @{${post.postId} + '/edit' }">Редагувати</a>
                 </div>
             </row>
         </div>

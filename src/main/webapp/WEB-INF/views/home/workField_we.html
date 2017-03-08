@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ukr" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="home/fragments/head :: head('НАЗВАНИЕ СТРАНИЦЫ')"></head>
+<head th:replace="home/fragments/head :: head('Ми')"></head>
 <head>
     <!--СЮДА МОЖНО ДОБАВИТЬ ВСЁ, ЧЕГО НЕТУ В head.HTML-->
 </head>
@@ -17,7 +17,7 @@
 
         <div class="row" th:each="user : ${userList}">
             <div class="col-xs-2">
-                <a th:href="@{/home/workField/} + ${user.userId}"><img th:src="${user.avatarURL}" alt="photo" height="42" width="42"></a>
+                <a th:href="@{/home/workField/} + ${user.userId}"><img th:src="@{'data:image;base64,' + ${user.encodeFileToBase64Binary()}}" alt="photo" height="42" width="42"></a>
             </div>
             <div class="col-xs-6">
                 <a th:href="@{/home/workField/} + ${user.userId}"><div class="row" th:text="${user.firstName + ' ' + user.lastName}"></div></a>

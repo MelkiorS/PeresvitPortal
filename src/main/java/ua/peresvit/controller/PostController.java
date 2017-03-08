@@ -40,7 +40,7 @@ public class PostController {
     private MessageService messageService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getPosts(Model model, @PageableDefault(value=3, direction = Sort.Direction.DESC, sort = "createDate") Pageable pageable){
+    public String getPosts(Model model, @PageableDefault(direction = Sort.Direction.DESC, sort = "createDate") Pageable pageable){
         model.addAttribute("page", postService.findAll(pageable) );
         model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/post/allPosts";
