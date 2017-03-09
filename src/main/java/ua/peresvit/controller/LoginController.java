@@ -5,9 +5,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ua.peresvit.entity.User;
 import ua.peresvit.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 
 @Controller
@@ -28,8 +31,9 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login/failure")
-    public String loginFailure(Model model, HttpServletRequest httpServletRequest) {
-        model.addAttribute("message", messages.getMessage("message.loginFailure", null, httpServletRequest.getLocale()));
-        return "home";
+    public String loginFailure(RedirectAttributes model, Locale locale) {
+        model.addFlashAttribute("message", messages.getMessage("message.loginFailure", null, locale));
+//        model.addAttribute(new User());
+        return "redirect:/home";
     }
 }

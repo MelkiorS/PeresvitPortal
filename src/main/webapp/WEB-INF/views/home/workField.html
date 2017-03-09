@@ -24,9 +24,12 @@
                     <p class="belt-text" th:text="${mark.markName}">6 Кю. Жовтий пояс</p>
                 </div>
                 <div class="avatar-social">
-                    <a th:href="${user.profileVK != null} ? @{'https://vk.com/' + ${user.profileVK}} : @{''}" target="_blank" class="avatar-vk"></a>
-                    <a th:href="${user.profileFB != null} ? @{'https://www.facebook.com/' + ${user.profileFB}} : @{''}" target="_blank" class="avatar-fb"></a>
-                    <a th:href="${user.profileInstagram != null} ? @{'https://www.instagram.com/' + ${user.profileInstagram}} : @{''}" target="_blank" class="avatar-insta"></a>
+                    <a th:href="${user.profileVK != null} ? @{${user.profileVK.contains('vk.com') == true} ? ${user.profileVK} : @{'https://vk.com/' + ${user.profileVK}}} :
+                    @{''}" target="_blank" class="avatar-vk"></a>
+                    <a th:href="${user.profileFB != null} ? @{${user.profileFB.contains('facebook.com') == true} ? ${user.profileFB} : @{'https://www.facebook.com/' + ${user.profileFB}}} :
+                    @{''}" target="_blank" class="avatar-fb"></a>
+                    <a th:href="${user.profileInstagram != null} ? @{${user.profileInstagram.contains('instagram.com') == true} ? ${user.profileInstagram} : 'https://www.instagram.com/' + ${user.profileInstagram}} :
+                    @{''}" target="_blank" class="avatar-insta"></a>
                     <!--<a th:href="${user.profileGoogle != null} ? @{'' + ${user.profileGoogle}} : @{''}" target="_blank" class="avatar-insta"></a>-->
                 </div>
             </div>

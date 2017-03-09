@@ -111,8 +111,6 @@ public class UserServiceImpl implements UserService {
     public void initializeUserInfo(User user) {
         if(user == null)
             return;
-
-
     }
 
 

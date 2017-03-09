@@ -29,6 +29,5 @@ public class UserDto {
 
     @NotNull
     @NotEmpty
-//    @Column(unique = true)
     private String email;
 }

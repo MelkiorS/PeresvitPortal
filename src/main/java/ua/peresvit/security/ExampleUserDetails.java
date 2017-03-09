@@ -8,10 +8,7 @@ import org.springframework.social.security.SocialUser;
 import ua.peresvit.entity.Role;
 import ua.peresvit.util.helper.SocialMediaService;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -33,9 +30,9 @@ public class ExampleUserDetails extends SocialUser {
     //Getters are omitted for the sake of clarity.
 
     public static Builder getBuilder(){
-        return getBuilder();
+        return new Builder();
     }
-
+    @Data
     public static class Builder {
 
         private Long id;
@@ -56,6 +53,7 @@ public class ExampleUserDetails extends SocialUser {
 
         public Builder() {
             this.authorities = new HashSet<>();
+            this.socialSignInProvider = new ArrayList<>();
         }
 
         public Builder firstName(String firstName) {
@@ -91,8 +89,8 @@ public class ExampleUserDetails extends SocialUser {
             return this;
         }
 
-        public Builder socialSignInProvider(List<SocialMediaService>socialSignInProvider) {
-            this.socialSignInProvider = socialSignInProvider;
+        public Builder socialSignInProvider(List<SocialMediaService> socialSignInProvider) {
+            if (!socialSignInProvider.isEmpty()) this.socialSignInProvider = socialSignInProvider;
             return this;
         }
 

@@ -59,7 +59,7 @@ public class User {
 //	private Collection<Message> receivedMessages;
 //	@OneToMany(mappedBy = "receiver")
 //	private Collection<Message> sentMessages;
-	@ManyToMany(mappedBy = "members")
+	@ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
 	private Set<Chat> chats = new HashSet<>();
 
 	private String aboutMe;
@@ -119,10 +119,9 @@ public class User {
 
 	public List<SocialMediaService> getSocialMediaServices() {
 		List<SocialMediaService> list = new ArrayList<>();
-		if (!profileFB.isEmpty()) list.add(SocialMediaService.FB);
-		if (!profileGoogle.isEmpty()) list.add(SocialMediaService.GOOGLE);
-		if (!profileVK.isEmpty()) list.add(SocialMediaService.VK);
-
+		if (profileFB != null) list.add(SocialMediaService.FACEBOOK);
+		if (profileGoogle != null) list.add(SocialMediaService.GOOGLE);
+		if (profileVK != null) list.add(SocialMediaService.VKONTAKTE);
 		return list;
 	}
 }

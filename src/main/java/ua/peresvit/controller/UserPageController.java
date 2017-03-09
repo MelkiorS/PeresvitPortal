@@ -73,20 +73,13 @@ public class UserPageController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String goToReg(Model model, Principal principal) {
-//        if (principal != null) {
-//            // TODO use switch construction
-//            if (userService.getCurrentUser().getRole().getRoleName().equals("ADMIN")) {
-//                return "redirect:/admin";
-//            }
-//            return "redirect:/home/workField";
-//        }
+    public String goToReg(Model model) {
         model.addAttribute("user", (userService.getCurrentUser() == null ? new User() : userService.getCurrentUser()) );
         return "home";
     }
 
     @RequestMapping(value = "/workField", method = RequestMethod.GET)
-    public String showStartOffice(Model model, Principal principal) {
+    public String showStartOffice(Model model) {
         User loggedUser = userService.getCurrentUser();
         String imagePath = loggedUser.getAvatarURL();
         model.addAttribute("imageAvatar", null);

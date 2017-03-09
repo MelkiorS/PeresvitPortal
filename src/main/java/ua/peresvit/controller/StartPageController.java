@@ -15,4 +15,9 @@ public class StartPageController {
 	public String goToAdminPage() {
 		return "redirect:admin/user/";
 	}
+
+    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    public String redirectRequestToRegistrationPage() {
+        return "redirect:/registration";
+    }
 }

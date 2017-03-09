@@ -86,22 +86,22 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .apply(new SpringSocialConfigurer());
     }
-//
-//    @Bean(name = "authenticationManager")
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
+
+    @Bean(name = "authenticationManager")
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Bean
     public UserIdSource userIdSource() {
         return new AuthenticationNameUserIdSource();
     }
-//
-//    @Bean
-//    public TextEncryptor textEncryptor() {
-//        return Encryptors.noOpText();
-//    }
+
+    @Bean
+    public TextEncryptor textEncryptor() {
+        return Encryptors.noOpText();
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {

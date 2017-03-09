@@ -12,6 +12,7 @@ import ua.peresvit.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -25,16 +26,13 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username);
         if (user != null) {
             if (!user.isEnabled()) {
                 throw new RuntimeException("User is unable.");
             }
-            List<GrantedAuthority> authorities =
-                    new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getRole().getRoleName()));
-            ExampleUserDetails principal = ExampleUserDetails.getBuilder()
+            return ExampleUserDetails.getBuilder()
                     .firstName(user.getFirstName())
                     .id(user.getUserId())
                     .lastName(user.getLastName())
@@ -43,8 +41,7 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
                     .socialSignInProvider(user.getSocialMediaServices())
                     .username(user.getEmail())
                     .build();
-            return principal;
         }
-        throw new UsernameNotFoundException("User with email '" + email + "' not found.");
+        throw new UsernameNotFoundException("User with email '" + username + "' not found.");
     }
 }

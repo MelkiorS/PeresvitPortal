@@ -3,8 +3,6 @@ package ua.peresvit.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
@@ -15,6 +13,7 @@ import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
+import org.springframework.social.connect.support.ConnectionFactoryRegistry;
 import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.connect.web.ReconnectFilter;
 import org.springframework.social.facebook.api.Facebook;
@@ -26,7 +25,6 @@ import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.vkontakte.api.VKontakte;
 import org.springframework.social.vkontakte.connect.VKontakteConnectionFactory;
 
-import javax.inject.Inject;
 import javax.sql.DataSource;
 
 @Configuration
@@ -35,10 +33,12 @@ import javax.sql.DataSource;
 public class SocialConfig implements SocialConfigurer {
 
     private final DataSource dataSource;
+    private final Environment environment;
 
     @Autowired
-    public SocialConfig(DataSource dataSource) {
+    public SocialConfig(DataSource dataSource, Environment environment) {
         this.dataSource = dataSource;
+        this.environment = environment;
     }
 
     @Override
@@ -52,6 +52,32 @@ public class SocialConfig implements SocialConfigurer {
         cfConfig.addConnectionFactory(new VKontakteConnectionFactory(
                 env.getProperty("vk.app.id"),
                 env.getProperty("vk.app.secret")));
+    }
+
+//    @Bean
+//    @Scope(value="singleton", proxyMode=ScopedProxyMode.INTERFACES)
+//    public ConnectionFactoryLocator connectionFactoryLocator() {
+//        ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
+//
+//        registry.addConnectionFactory(new FacebookConnectionFactory(
+//                environment.getProperty("facebook.app.id"),
+//                environment.getProperty("facebook.app.secret")));
+//
+//        registry.addConnectionFactory(new GoogleConnectionFactory(
+//                environment.getProperty("google.clientId"),
+//                environment.getProperty("google.clientSecret")));
+//
+//        registry.addConnectionFactory(new VKontakteConnectionFactory(
+//                environment.getProperty("vk.app.id"),
+//                environment.getProperty("vk.app.secret")));
+//
+//        return registry;
+//    }
+
+    @Bean
+    @Scope(value="singleton", proxyMode=ScopedProxyMode.INTERFACES)
+    public UsersConnectionRepository usersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
+        return new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
     }
 
     @Override

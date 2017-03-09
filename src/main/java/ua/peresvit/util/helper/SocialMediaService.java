@@ -1,7 +1,7 @@
 package ua.peresvit.util.helper;
 
 public enum SocialMediaService {
-    FB,
+    FACEBOOK,
     GOOGLE,
-    VK
+    VKONTAKTE
 }
