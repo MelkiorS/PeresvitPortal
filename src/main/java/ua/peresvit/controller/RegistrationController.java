@@ -1,5 +1,10 @@
 package ua.peresvit.controller;
 
+import com.vk.api.sdk.client.VkApiClient;
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.httpclient.HttpTransportClient;
+import com.vk.api.sdk.queries.users.UserField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
@@ -7,22 +12,23 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.connect.*;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.google.api.Google;
 import org.springframework.social.google.api.plus.Person;
 import org.springframework.social.vkontakte.api.VKontakte;
-import org.springframework.social.vkontakte.api.VKontakteProfile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.dto.UserDto;
 import ua.peresvit.entity.User;
 import ua.peresvit.error.UserAlreadyExistException;
 import ua.peresvit.service.UserService;
 import ua.peresvit.service.registration.OnRegistrationCompleteEvent;
-import ua.peresvit.util.helper.SocialEnum;
+import ua.peresvit.util.helper.SocialMediaService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -42,37 +48,91 @@ public class RegistrationController {
 
     private final MessageSource messages;
 
+    private final ProviderSignInUtils providerSignInUtils;
+
     @Autowired
-    public RegistrationController(UserService userService, ApplicationEventPublisher eventPublisher, ConnectionRepository connectionRepository, MessageSource messages) {
+    public RegistrationController(UserService userService, ApplicationEventPublisher eventPublisher, ConnectionRepository connectionRepository, MessageSource messages, ConnectionFactoryLocator connectionFactoryLocator, UsersConnectionRepository usersConnectionRepository) {
         this.userService = userService;
         this.eventPublisher = eventPublisher;
         this.connectionRepository = connectionRepository;
         this.messages = messages;
+        this.providerSignInUtils = new ProviderSignInUtils(connectionFactoryLocator, usersConnectionRepository);
     }
 
     // Show registration form
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String showRegistrationForm(Model model) {
-        UserDto userDto = new UserDto();
+    public String showRegistrationForm(WebRequest request, Model model) throws ClientException, ApiException {
+        Connection<?> connection = providerSignInUtils.getConnectionFromSession(request);
+        UserDto userDto;
+        userDto = createUserDto(connection);
         model.addAttribute("user", userDto);
         return "home";
     }
 
-// register user
+    private UserDto createUserDto(Connection<?> connection) throws ClientException, ApiException {
+        UserDto userDto = new UserDto();
+
+        if (connection != null) {
+            switch (connection.getKey().getProviderId()) {
+                case "facebook" :
+                    userDto = createSocialUserDtoForFB((Connection<Facebook>) connection);
+                    break;
+                case "google" :
+                    userDto = createSocialUserDtoForGoogle((Connection<Google>) connection);
+                    break;
+                case "vkontakte" :
+                    userDto = createSocialUserDtoForVK((Connection<VKontakte>) connection);
+                    break;
+            }
+        }
+        return userDto;
+    }
+
+    // register user
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String registerUserAccount(
-            @ModelAttribute("user") UserDto accountDto,
-            final HttpServletRequest request,
-            Model model) {
+            @ModelAttribute("user") UserDto accountDto, final HttpServletRequest servletRequest,
+            RedirectAttributes model, Locale locale, WebRequest webRequest) {
 
         User registered = createUserAccount(accountDto);
         if (registered == null) {
-            model.addAttribute("message", messages.getMessage("message.regError", null, request.getLocale()));
-            return "home";
+            if (accountDto.getSocial() != null) {
+                registered = userService.findUserByEmail(accountDto.getEmail());
+                if (registered.getPassword().equals(accountDto.getPassword())) {
+                    switch (accountDto.getSocial()) {
+                        case FACEBOOK: {
+                            registered.setProfileFB(accountDto.getProfileFB());
+                            break;
+                        }
+                        case VKONTAKTE: {
+                            registered.setProfileVK(accountDto.getProfileVK());
+                            break;
+                        }
+                        case GOOGLE:{
+                            registered.setProfileGoogle(accountDto.getProfileGoogle());
+                            break;
+                        }
+                    }
+                    userService.save(registered);
+                    authenticateUser(registered);
+                    providerSignInUtils.doPostSignUp(registered.getEmail(), webRequest);
+                    return "redirect:/home/workField";
+                }
+            }
+            model.addFlashAttribute("message", messages.getMessage("message.regError", null, locale));
+            return "redirect:/home";
         }
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request), true));
-        model.addAttribute("message", messages.getMessage("message.regConfirm", null, request.getLocale()));
-        return "redirect:/";
+        registered.setEnabled(true);
+        userService.save(registered);
+        if (accountDto.getSocial() != null) {
+            providerSignInUtils.doPostSignUp(registered.getEmail(), webRequest);
+            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, locale, getAppUrl(servletRequest), false));
+            authenticateUser(registered);
+            return "redirect:/home/workField";
+        }
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, locale, getAppUrl(servletRequest), true));
+        model.addFlashAttribute("message", messages.getMessage("message.regConfirm", null, locale));
+        return "redirect:/home";
     }
 
     // remind user
@@ -137,144 +197,6 @@ public class RegistrationController {
         return "redirect:/home";
     }
 
-//    Register user from social networks
-    @RequestMapping(value = "/social", method = RequestMethod.POST)
-    public String registerUserAccountFromSN(
-            @ModelAttribute("user") UserDto accountDto, final HttpServletRequest request) {
-
-        User registered = createUserAccount(accountDto);
-        if (registered == null) {
-            registered = userService.findUserByEmail(accountDto.getEmail());
-            switch (accountDto.getSocial()) {
-                case FB: {
-                    if(registered.getProfileFB().isEmpty()) {
-                        registered.setProfileFB(accountDto.getProfileFB());
-                        registered.setEnabled(true);
-                        userService.save(registered);
-                        authenticateUser(registered);
-                        return "redirect:/home/workField";
-                    }
-                    break;
-                }
-                case VK: {
-                    if(registered.getProfileVK().isEmpty()) {
-                        registered.setProfileVK(accountDto.getProfileVK());
-                        registered.setEnabled(true);
-                        userService.save(registered);
-                        authenticateUser(registered);
-                        return "redirect:/home/workField";
-                    }
-                    break;
-                }
-                case GOOGLE:{
-                    if(registered.getProfileGoogle().isEmpty()) {
-                        registered.setProfileGoogle(accountDto.getProfileGoogle());
-                        registered.setEnabled(true);
-                        userService.save(registered);
-                        authenticateUser(registered);
-                        return "redirect:/home/workField";
-                    }
-                    break;
-                }
-            }
-            return "registration/registration";
-        }
-        registered.setEnabled(true);
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), getAppUrl(request), false));
-        authenticateUser(registered);
-        return "redirect:/home/workField";
-    }
-
-//    Facebook registration
-    @RequestMapping(value="/facebook", method=RequestMethod.GET)
-    public String facebook(final HttpServletRequest request) {
-        Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Facebook.class);
-        if (connection == null) {
-            return "redirect:/connect/facebook";
-        }
-        UserDto userDtoFB = createSocialUserDtoForFB(connection);
-        User user = userService.findUserByEmail(userDtoFB.getEmail());
-        if (user != null) {
-            authenticateUser(userService.findUserByEmail(userDtoFB.getEmail()));
-            return "redirect:/home/workField";
-        }
-        return "redirect:/registration/facebook/finishRegistration";
-    }
-
-//    Redirect page after FB getting access to fulfill User's info
-    @RequestMapping(value="/facebook/finishRegistration", method=RequestMethod.GET)
-    public String facebookFinish(Model model) {
-        try {
-            Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Facebook.class);
-            UserDto userDto = createSocialUserDtoForFB(connection);
-            model.addAttribute("user", userDto);
-            return "registration/registration";
-        } catch (NullPointerException ex) {
-            return "redirect:/connect/facebook";
-        }
-    }
-
-
-//    Google registration
-    @RequestMapping(value="/google", method=RequestMethod.GET)
-    public String googlePlus(final HttpServletRequest request) {
-        Connection<Google> connection = connectionRepository.findPrimaryConnection(Google.class);
-        if (connection == null) {
-            return "redirect:/connect/google";
-        }
-        UserDto socialUserDtoForGoogle = createSocialUserDtoForGoogle(connection);
-        User user = userService.findUserByEmail(socialUserDtoForGoogle.getEmail());
-        if (user != null) {
-            authenticateUser(userService.findUserByEmail(socialUserDtoForGoogle.getEmail()));
-            return "redirect:/home/workField";
-        }
-        return "redirect:/registration/google/finishRegistration";
-    }
-
-//    Redirect page after Google getting access to fulfill User's info
-    @RequestMapping(value="/google/finishRegistration", method=RequestMethod.GET)
-    public String finishGoogleRegistration(Model model) {
-        try {
-            Connection<Google> connection = connectionRepository.findPrimaryConnection(Google.class);
-            UserDto userDto = createSocialUserDtoForGoogle(connection);
-            model.addAttribute("user", userDto);
-            return "registration/registration";
-        } catch (NullPointerException ex) {
-            return "redirect:/connect/google";
-        }
-    }
-
-//    VK registration with redirect to registration page to finish registration
-    @RequestMapping(value="/vkontakte", method=RequestMethod.GET)
-    public String vkontakte() {
-        Connection<VKontakte> connection = connectionRepository.findPrimaryConnection(VKontakte.class);
-        if (connection == null) {
-            return "redirect:/connect/vkontakte";
-        }
-        UserDto socialUserForVk = createSocialUserDtoForVK(connection);
-        User user = userService.findByName(socialUserForVk.getFirstName(), socialUserForVk.getLastName());
-        if (user == null){
-            return "redirect:/registration/vkontakte/finishRegistration";
-        }
-        else {
-            return "";
-        }
-    }
-
-//    Redirect page after VK getting access to fulfill User's info
-    @RequestMapping(value = "/vkontakte/finishRegistration", method = RequestMethod.GET)
-    public String finishVkRegistration(Model model) {
-        try {
-            Connection<VKontakte> connection = connectionRepository.findPrimaryConnection(VKontakte.class);
-            UserDto userDto = createSocialUserDtoForVK(connection);
-            model.addAttribute("user", userDto);
-            return "registration/registration";
-        } catch (NullPointerException ex) {
-            return "redirect:/connect/vkontakte";
-        }
-    }
-
-
 //    -----------------------------------------------------------------------------------------------------------------
 
     private User createUserAccount(UserDto accountDto) {
@@ -294,27 +216,28 @@ public class RegistrationController {
 // Fields available for FB
 //{ "id", "about", "age_range", "birthday", "context", "cover", "currency", "devices", "education", "email", "favorite_athletes", "favorite_teams", "first_name", "gender", "hometown", "inspirational_people", "installed", "install_type", "is_verified", "languages", "last_name", "link", "locale", "location", "meeting_for", "middle_name", "name", "name_format", "political", "quotes", "payment_pricepoints", "relationship_status", "religion", "security_settings", "significant_other", "sports", "test_group", "timezone", "third_party_id", "updated_time", "verified", "video_upload_limits", "viewer_can_send_gift", "website", "work"}
 
-        String [] fields = { "id", "email",  "first_name", "last_name"};
+        String [] fields = { "id", "email",  "first_name", "last_name", "link"};
         org.springframework.social.facebook.api.User userProfile = facebook.fetchObject("me", org.springframework.social.facebook.api.User.class, fields);
         UserDto userDto = new UserDto();
         userDto.setEmail(userProfile.getEmail());
         userDto.setFirstName(userProfile.getFirstName());
         userDto.setLastName(userProfile.getLastName());
         userDto.setProfileFB(userProfile.getLink());
-        userDto.setSocial(SocialEnum.FB);
+        userDto.setSocial(SocialMediaService.FACEBOOK);
         return userDto;
     }
 
 //Creation DTO from connection with VK
-    private UserDto createSocialUserDtoForVK(Connection<VKontakte> connection) {
+    private UserDto createSocialUserDtoForVK(Connection<VKontakte> connection) throws ClientException, ApiException {
+        UserProfile socialMediaProfile = connection.fetchUserProfile();
         VKontakte vKontakte = connection.getApi();
 //            Here we can get fields from VK connection
-        VKontakteProfile userProfile = vKontakte.usersOperations().getProfile();
         UserDto userDto = new UserDto();
-        userDto.setFirstName(userProfile.getFirstName());
-        userDto.setLastName(userProfile.getLastName());
-        userDto.setProfileVK(userProfile.getProfileURL());
-        userDto.setSocial(SocialEnum.VK);
+        userDto.setFirstName(socialMediaProfile.getFirstName());
+        userDto.setLastName(socialMediaProfile.getLastName());
+        userDto.setEmail(vKontakte.getEmail());
+        userDto.setProfileVK("id"+socialMediaProfile.getUsername());
+        userDto.setSocial(SocialMediaService.VKONTAKTE);
         return userDto;
     }
 
@@ -328,7 +251,7 @@ public class RegistrationController {
         userDto.setFirstName(googleProfile.getGivenName());
         userDto.setLastName(googleProfile.getFamilyName());
         userDto.setProfileGoogle(googleProfile.getUrl());
-        userDto.setSocial(SocialEnum.GOOGLE);
+        userDto.setSocial(SocialMediaService.GOOGLE);
         return userDto;
     }
 
@@ -344,12 +267,5 @@ public class RegistrationController {
 
     private String getAppUrl(HttpServletRequest request) {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-    }
-
-    private String getAnySocialUrl(UserDto accountDto) {
-        if (!accountDto.getProfileFB().isEmpty()) return accountDto.getProfileFB();
-        if (!accountDto.getProfileGoogle().isEmpty()) return accountDto.getProfileGoogle();
-        if (!accountDto.getProfileVK().isEmpty()) return accountDto.getProfileVK();
-        return "";
     }
 }

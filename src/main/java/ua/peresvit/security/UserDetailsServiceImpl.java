@@ -12,6 +12,7 @@ import ua.peresvit.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -31,13 +32,15 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
             if (!user.isEnabled()) {
                 throw new RuntimeException("User is unable.");
             }
-            List<GrantedAuthority> authorities =
-                    new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getRole().getRoleName()));
-            return new org.springframework.security.core.userdetails.User(
-                    user.getEmail(),
-                    user.getPassword(),
-                    authorities);
+            return ExampleUserDetails.getBuilder()
+                    .firstName(user.getFirstName())
+                    .id(user.getUserId())
+                    .lastName(user.getLastName())
+                    .password(user.getPassword())
+                    .role(user.getRole())
+                    .socialSignInProvider(user.getSocialMediaServices())
+                    .username(user.getEmail())
+                    .build();
         }
         throw new UsernameNotFoundException("User with email '" + username + "' not found.");
     }

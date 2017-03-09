@@ -2,14 +2,13 @@ package ua.peresvit.entity;
 
 import lombok.Data;
 import ua.peresvit.config.Constant;
+import ua.peresvit.util.helper.SocialMediaService;
 
 import javax.persistence.*;
 import javax.validation.Constraint;
 import javax.validation.constraints.Size;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Collection;
+import java.util.*;
 
 
 @Entity
@@ -60,7 +59,7 @@ public class User {
 //	private Collection<Message> receivedMessages;
 //	@OneToMany(mappedBy = "receiver")
 //	private Collection<Message> sentMessages;
-	@ManyToMany(mappedBy = "members")
+	@ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
 	private Set<Chat> chats = new HashSet<>();
 
 	private String aboutMe;
@@ -116,5 +115,13 @@ public class User {
 		try {
 			return Constant.encodeFileToBase64Binary(getAvatarURL());
 		} catch (IOException ex){return "";}
+	}
+
+	public List<SocialMediaService> getSocialMediaServices() {
+		List<SocialMediaService> list = new ArrayList<>();
+		if (profileFB != null) list.add(SocialMediaService.FACEBOOK);
+		if (profileGoogle != null) list.add(SocialMediaService.GOOGLE);
+		if (profileVK != null) list.add(SocialMediaService.VKONTAKTE);
+		return list;
 	}
 }

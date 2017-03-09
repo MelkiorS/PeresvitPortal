@@ -23,6 +23,9 @@ $(function(){
             $('#confirmPasswd').removeAttr('disabled');
         }else{
             $('.checkOldPass').text('Введений неправильний старий пароль');
+            $('.checkOldPass').css('color','#d90118');
+            $('#newPasswd').attr('disabled', true);
+            $('#confirmPasswd').attr('disabled', true);
         }
     });
 
@@ -30,6 +33,8 @@ $(function(){
         if($.trim($(this).val()) == $.trim($('#newPasswd').val())){
             $('.checkNewPass').text('Паролі збігаються');
             $('.checkNewPass').css('color','#71af5d');
+
+            $.trim($('#password').val($.trim($('#newPasswd').val())));
         }else{
             $('.checkNewPass').text('Паролі не збігаються');
             $('.checkNewPass').css('color','#d90118');
