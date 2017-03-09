@@ -43,6 +43,7 @@
                     <!--*****************Сюда записывать form action при входе вличный кабинет*****************-->
                     <div class='col-xs-offset-1 col-xs-10 modal_logIn_section_form'>
                     <form  data-toggle="validator" role="form" th:action="@{/login}" method="post">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <div class="form-group has-feedback row modal_logIn_section_form_email">
                                 <label for="inputEmail" class="control-label">Введіть Ваш email</label>
                                 <div class="input-group col-xs-12">
