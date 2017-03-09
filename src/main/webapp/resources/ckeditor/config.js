@@ -10,7 +10,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.skin = 'moonocolor';
     config.language = 'ru';
     config.height = 400;
-    config.width = 950;
+    // config.width = 9;
     // config.alignCenter;
     config.uiColor = '#C0C0C0';
     config.margin = '0 auto';
