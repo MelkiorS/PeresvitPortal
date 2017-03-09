@@ -1319,4 +1319,15 @@
     }
     /*workField_allPosts*/
 
+    /*We*/
+    .dialogButton {
+        float: right;
+        width: 230px;
+        height: 30px;
+        display: inline-block;
+        position: relative;
+        margin: 11px 23px 0 0;
+    }
+    /*We*/
+
 }

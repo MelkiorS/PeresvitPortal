@@ -1,6 +1,7 @@
 package ua.peresvit.config;
 
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ua.peresvit.dao.UserRepository;
 import ua.peresvit.security.UserDetailsServiceImpl;
 
@@ -79,10 +80,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .logoutUrl("/logout").permitAll()
                     .logoutSuccessUrl("/home")
-//                    .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID")
-//            .and()
-//                .rememberMe()
             .and()
                 .apply(new SpringSocialConfigurer());
     }

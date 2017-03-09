@@ -89,8 +89,7 @@ public class MessageController {
             return "redirect:/home/messages/{chatId}";
         } else {
             model.addAttribute("message", messages.getMessage("message.chatCreationError", null, locale));
-            model.addAttribute("unreadMessages", messageService.countUnreadChats());
-            return "home/messages/chats";
+            return getAllChats(model);
         }
     }
 
