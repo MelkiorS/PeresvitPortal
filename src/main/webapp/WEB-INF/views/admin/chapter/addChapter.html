@@ -8,16 +8,16 @@
         <form action="#" th:action="@{/admin/chapter/}" th:object="${chapter}" method="post">
             <input type="hidden" th:field="*{chapterId}" />
             <label for="chapterName">Chapter name:</label>
-            <input type="text" th:field="*{chapterName}" />
+            <input class="form-control" type="text" th:field="*{chapterName}" />
             <br/>
             <label for="resourceGroupType">Type:</label>
-            <select th:field="*{resourceGroupType.resourceGroupTypeId}">
+            <select class="form-control" th:field="*{resourceGroupType.resourceGroupTypeId}">
                 <option th:each="resourceGroupType : ${resourceGroupTypeList}"
                         th:value="${resourceGroupType.resourceGroupTypeId}"
-                        th:text="${resourceGroupType.groupName}"></option>
+                        th:text="${resourceGroupType.caption}"></option>
             </select>
             <br/>
-            <input type="submit" />
+            <input class="btn btn-primary" type="submit" value="Зберегти">
         </form>
     </div>
 </div>

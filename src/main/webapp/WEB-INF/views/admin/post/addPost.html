@@ -8,18 +8,18 @@
         <form action="#" th:action="@{/admin/post/add/}"  th:object="${post}" enctype="multipart/form-data" method="post">
             <input type="hidden" th:field="*{postId}" />
             <label for="title">Заголовок</label>
-            <input type="text" th:field="*{title}" />
+            <input class="form-control" type="text" th:field="*{title}" />
             <br/>
             <p class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
             <label for="description">Описання новини</label>
-            <textarea type="text" th:field="*{body}"></textarea>
+            <textarea class="form-control" type="text" th:field="*{body}"></textarea>
             <br/>
             <p class="alert alert-danger" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></p>
             <br/>
             <label for="file">Фото новини</label>
-            <input type="file" name="file" />
+            <input class="form-control" type="file" name="file" />
             <br/>
-            <input type="submit" />
+            <input class="btn btn-primary" type="submit" value="Зберегти">
         </form>
     </div>
 </div>
