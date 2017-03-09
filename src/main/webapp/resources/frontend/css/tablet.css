@@ -1265,4 +1265,32 @@
         width: 200px;
     }
     /*workField_allPosts*/
+    /*workField_post*/
+    .workfield_post .workfield_post_article{
+        text-transform: uppercase;
+        font-size: 25px;
+        padding: 10px 0 6px 0;
+        border-radius: 3px;
+        color: #6f6ecb;
+        background: rgba(197,202,233 ,0.5);
+    }
+    .workfield_post .list-inline{
+        padding: 11px;
+    }
+    .workfield_post{
+        width:98%;
+        margin:0 auto;
+    }
+    .workfield_post .image-block{
+        width:90%;
+        margin:5px auto;
+    }
+    .workfield_post .workfield_post_text{
+        width: 95%;
+        margin: 5px auto;
+        font-size: 14px;
+        line-height: 17px;
+        padding: 4px 5px 10px;
+    }
+    /*workField_post*/
 }
