@@ -47,7 +47,7 @@
                             <p th:text="${message.content}"></p>
                         </div>
                         <div th:if="${message.functional != true}" class="msgField-letter clearfix">
-                            <img   alt="аватар">
+                            <img th:src="@{'data:image;base64,' + ${message.sender.encodeFileToBase64Binary()}}"  alt="аватар">
                             <p class=" msgField-letter-author" th:text="${message.sender.getFirstName()} + ' ' + ${message.sender.getLastName()}"></p>
                             <!--<span class="msgField-letter-id" th:text="${message.messageId}"></span>-->
                             <p class="msgField-letter-content" th:text="${message.content}"></p>

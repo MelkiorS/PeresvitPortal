@@ -20,13 +20,16 @@
                 <input type="hidden" th:field="*{chatId}">
                 <input type="hidden" th:field="*{owner}">
                 <input type="hidden" th:field="*{members}" th:value="${chat.members}">
-                <button class=' btn btn-primary messageList-content-newMsg-button clearfix' type="submit">Зберегти</button>
+
                 <!--<input type="submit" title="Змінити назву бесіди">-->
-                <div th:each="user: ${chat.members}">
-                    <label th:text="${user.firstName} + ' ' + ${user.lastName}"></label>
-                    <a th:if="${!currentUser.equals(user)}" th:href="@{/home/messages/} + ${chatId} + '/deleteMember/' + ${user.userId}"> Видалити з бесіди</a>
-                    <!--Тут чекбоксы с пользователями на удаление. В конце кнопка удалить-->
-                </div>
+                <table class="table table-striped">
+                    <tr class="delete-users" th:each="user: ${chat.members}">
+                        <td th:text="${user.firstName} + ' ' + ${user.lastName}"></td>
+                        <td><a th:if="${!currentUser.equals(user)}" th:href="@{/home/messages/} + ${chatId} + '/deleteMember/' + ${user.userId}"> Видалити з бесіди</a></td>
+                        <!--Тут чекбоксы с пользователями на удаление. В конце кнопка удалить-->
+                    </tr>
+                </table>
+                <button class=' btn btn-primary messageList-content-newMsg-button clearfix' type="submit">Зберегти</button>
             </form>
 
         </div>

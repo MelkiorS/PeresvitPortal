@@ -1224,4 +1224,12 @@
 
     }
     /*addMembers*/
+    /************/
+    /*editChat*/
+    .table-striped .delete-users td{
+        padding-left:5%;
+        /*text-align: center;*/
+
+    }
+    /*editChat*/
 }
