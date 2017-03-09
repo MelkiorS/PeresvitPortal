@@ -8,19 +8,19 @@
   <form action="#" th:action="@{/admin/achievement/add/}"  th:object="${achievement}" enctype="multipart/form-data" method="post">
       <input type="hidden" th:field="*{achievementId}" />
    <label for="title">Title:</label>
-   <input type="text" th:field="*{achievementName}" />
+   <input class="form-control" type="text" th:field="*{achievementName}" />
    <br/>
     <label for="description">Description:</label>
-   <input type="text" th:field="*{description}" />
+   <input class="form-control" type="text" th:field="*{description}" />
    <br/>
-   <select th:field="*{user.userId}">
+   <select class="form-control" th:field="*{user.userId}">
     <option th:each="u : ${userList}" th:text="${u.firstName} + ' ' + ${u.lastName}" th:value="${{u.getUserId().toString()}}" th:checked="${u.getUserId() == user}"/>
    </select>
    <br/>
     <label for="file">File to upload:</label>
-   <input type="file" name="file" />
+   <input class="form-control" type="file" name="file" />
    <br/>
-   <input type="submit" />
+   <input class="btn btn-primary" type="submit" value="Зберегти">
   </form>
  </div>
 </div>

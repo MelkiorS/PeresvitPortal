@@ -49,6 +49,9 @@ a{
 .btn-broadcast:before{
 	background: url('../image/new_icons.png') -8px -7px no-repeat;
 }
+.btn-admin:before{
+	background: url('../image/new_icons.png') -13px -118px no-repeat;
+}
 .btn-our-events:before{
 	background: url('../image/new_icons.png') -13px -50px no-repeat;
 	/*background-size: 15px 15px;*/
@@ -231,6 +234,9 @@ footer .icons-footer a:nth-child(3) {
 		top: 11px;
 		left: 23px;
 		display: inline-block;
+	}
+	.sideNav .menu-level1 .btn-admin{
+		padding: 8px 0 0 64px;
 	}
 	.sideNav .menu-level1 .btn-our-events{
 		padding: 8px 0 0 64px;
@@ -623,6 +629,9 @@ footer .icons-footer a:nth-child(3) {
 		left: 23px;
 		display: inline-block;
 	}
+	.sideNav .menu-level1 .btn-admin{
+		padding: 8px 0 0 64px;
+	}
 	.sideNav .menu-level1 .btn-our-events{
 		padding: 8px 0 0 64px;
 	}
@@ -970,8 +979,14 @@ footer .icons-footer a:nth-child(3) {
 		left: 0;
 		display: inline-block;
 	}
+	.sideNav .menu-level1 .btn-admin{
+		padding: 10px 0 0 55px;
+	}
 	.sideNav .menu-level1 .btn-our-events{
 		padding: 10px 0 0 55px;
+	}
+	.sideNav .menu-level1 .btn-admin:before{
+		margin: 0 0 0 18px;
 	}
 	.sideNav .menu-level1 .btn-our-events:before{
 		margin: 0 0 0 18px;
@@ -1290,8 +1305,14 @@ footer .icons-footer a:nth-child(3) {
 		left: 0;
 		display: inline-block;
 	}
+	.sideNav .menu-level1 .btn-admin{
+		padding: 10px 0 0 55px;
+	}
 	.sideNav .menu-level1 .btn-our-events{
 		padding: 10px 0 0 55px;
+	}
+	.sideNav .menu-level1 .btn-admin:before{
+		margin: 0 0 0 18px;
 	}
 	.sideNav .menu-level1 .btn-our-events:before{
 		margin: 0 0 0 18px;

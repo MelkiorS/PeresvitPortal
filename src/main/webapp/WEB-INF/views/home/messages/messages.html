@@ -10,8 +10,8 @@
 <div th:remove="all">
     <main class="my-way-main"  th:fragment="main">
         <div class="messageList1">
-            <div class="container-fluid messageList-header">
-                <p class="col-xs-4 messageList-header-title" th:text="${chat.getChatTitle()}">Название беседы</p>
+            <div class=" messageList-header">
+                <p class=" messageList-header-title" th:text="${chat.getChatTitle()}">Название беседы</p>
                 <!--<select class="col-xs-4 messageList-header-select" name="Settings" >-->
                 <!--<option selected value="settings">Налаштування</option>-->
                 <!--<option th:action="@{/home/messages/} + ${chat.chatId} + '/addMembers'" th:method="get" value="add buddy">Додати співрозмовників</option>-->
@@ -19,48 +19,53 @@
                 <!--<option th:action="@{/home/messages/} + ${chat.chatId} + '/leaveChat'" th:method="post" value="leave chat">Покинути бесіду</option>-->
                 <!--</select>-->
                 <!-- Если это диалог, то существует переменная dialog и настройка чата не отображается -->
-                <div th:if="${dialog == null}">
 
-                    <ul>
-                        <li>
-                            <a th:href="@{/home/messages/} + ${chat.chatId} + '/edit'">Налаштування бесіди</a>
-                        </li>
-                        <li>
-                            <a th:href="@{/home/messages/} + ${chat.chatId} + '/addMembers'">Додати співрозмовників</a>
-                        </li>
-                        <li>
-                            <a th:href="@{/home/messages/} + ${chat.chatId} + '/leaveChat'">Залишити бесіду</a>
-                        </li>
-                        <li th:if="${ownerPermission == true}">
-                            <a th:href="@{/home/messages/} + ${chat.chatId} + '/deleteChat'" >Видалити бесіду</a>
-                        </li>
-                    </ul>
-                </div>
+                <nav th:if="${dialog == null}" class="messageList-options">
+                        <ul class="dropdown">
+                            <li class="messageList-options-items dropdown-top">
+                                <a class="dropdown-top" th:href="@{/home/messages/} + ${chat.chatId} + '/edit'">Налаштування<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></a>
+                                <a class="dropdown-top gears" th:href="@{/home/messages/} + ${chat.chatId} + '/edit'"></a>
+                            <ul class="dropdown-inside">
+                                <li class="dropdown-inside-item">
+                                    <a class="" th:href="@{/home/messages/} + ${chat.chatId} + '/addMembers'">Додати співрозмовників</a>
+                                </li >
+                                <li class="dropdown-inside-item">
+                                    <a th:href="@{/home/messages/} + ${chat.chatId} + '/leaveChat'">Залишити бесіду</a>
+                                </li>
+                                <li class="dropdown-inside-item" th:if="${ownerPermission == true}">
+                                    <a th:href="@{/home/messages/} + ${chat.chatId} + '/deleteChat'" >Видалити бесіду</a>
+                                </li>
+                            </ul>
+                            </li>
+                        </ul>
+                </nav>
             </div>
             <div class="messageList-content">
                 <div class="container-fluid markList messageList-content-msgField" th:unless="${#lists.isEmpty(messagesList)}">
                     <div th:each="message : ${messagesList}">
                         <div th:if="${message.functional == true}" class="msgField-advert">
-                            <b th:text="${message.content}"></b>
+                            <p th:text="${message.content}"></p>
                         </div>
-                        <div th:if="${message.functional != true}" class="msgField-letter">
-                            <span class="col-xs-12 msgField-letter-author" th:text="${message.sender.getFirstName()} + ' ' + ${message.sender.getLastName()}"></span>
+                        <div th:if="${message.functional != true}" class="msgField-letter clearfix">
+                            <img   alt="аватар">
+                            <p class=" msgField-letter-author" th:text="${message.sender.getFirstName()} + ' ' + ${message.sender.getLastName()}"></p>
                             <!--<span class="msgField-letter-id" th:text="${message.messageId}"></span>-->
-                            <span class="msgField-letter-content" th:text="${message.content}"></span>
+                            <p class="msgField-letter-content" th:text="${message.content}"></p>
                             <!--<span th:if="${#dates.createToday().getDay()} == ${message.createdAt.date}"></span>-->
-                            <span class="msgField-letter-time" th:text="
+                            <p class="msgField-letter-time" th:text="
                                 ${#dates.format(#dates.createNow(), 'dd-MM-yyyy') == #dates.format(message.createdAt, 'dd-MM-yyyy')} ?
                                 ${#dates.format(message.createdAt, 'HH:mm')} :
-                                ${#dates.format(message.createdAt, 'dd-MM-yyyy HH:mm')}"></span>
+                                ${#dates.format(message.createdAt, 'dd-MM-yyyy HH:mm')}"></p>
                         </div>
                     </div>
                 </div>
-                <div class="messageList-content-newMsg">
-                    <form action="#" th:action="@{/home/messages/} + ${chat.chatId}" method="post" th:object="${message}">
+                <div class="messageList-content-newMsg clearfix">
+                    <form class="messageList-content-newMsg-form" action="#" th:action="@{/home/messages/} + ${chat.chatId}" method="post" th:object="${message}">
                         <input type="hidden" th:field="*{messageId}">
                         <div hidden><select th:field="*{chat.chatId}"><option hidden th:value="${chat.chatId}"></option></select></div>
-                        <input type="text" class="form-control messageList-content-newMsg-input" placeholder="Введіть повідомлення" th:field="*{content}" required>
-                        <button class=' btn btn-primary messageList-content-newMsg-button' type="submit">Відправити</button>
+                        <textarea type="text" class=" messageList-content-newMsg-textarea" placeholder="Введіть повідомлення" th:field="*{content}" required></textarea>
+                        <button class=' btn btn-primary messageList-content-newMsg_submit' type="submit"><span>Надіслати</span></button>
+                        <!--messageList-content-newMsg-button-->
                     </form>
                 </div>
             </div>
@@ -71,6 +76,6 @@
 <!--<script src="/resources/frontend/js/jquery.bxslider.min.js"></script>-->
 <script src="/resources/frontend/js/sideBar.js"></script>
 <script src="/resources/frontend/js/peresvit.js"></script>
-<script type="text/javascript" src="/resources/frontend/js/our-events-calendar.js"></script>
+<!--<script type="text/javascript" src="/resources/frontend/js/our-events-calendar.js"></script>-->
 </body>
 </html>
