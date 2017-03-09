@@ -121,7 +121,7 @@ public class MessageController {
             model.addAttribute("dialog", true);
         }
 //      adding owner permissions to the chat view
-        if (currentUser.equals(chat.getOwner()) && currentUser.getRole().getRoleName().equals("ADMIN")) {
+        if (currentUser.equals(chat.getOwner()) || currentUser.getRole().getRoleName().equals("ADMIN")) {
             model.addAttribute("ownerPermission", true);
         } else {
             model.addAttribute("ownerPermission", false);

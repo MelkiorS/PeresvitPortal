@@ -26,7 +26,8 @@
                                 ${#dates.format(chat.createdAt, 'dd-MM-yyyy HH:mm')}">2:23 PM</p>
                         <p class=" markList-item-message" th:text="${chat.sender.firstName} + ' ' + ${chat.sender.lastName} + ': ' + ${chat.content}">Last Message</p>
                     </button>
-                    <a sec:authorize="hasRole('ADMIN')" th:href="@{/home/messages/} + ${chat.chatId} + '/deleteChat'"><span class="alert glyphicon glyphicon-trash"></span></a>
+                    <a sec:authorize="hasRole('ADMIN')" th:href="@{/home/messages/} + ${chat.chatId} + '/deleteChat'"><span style="float: right;
+    padding: 1px;margin-top: 35px;" class="alert glyphicon glyphicon-trash"></span></a>
                 </form>
             </div>
         </div>
