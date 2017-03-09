@@ -77,7 +77,7 @@
 
     <label for="text">Заголовок</label><input type="text" name="text" value="" id="text">
     <label for="eventtype">Тип</label><select name="eventtype" value="" id="eventtype">
-        <option th:each="type : ${types}" th:text="${type.getPres()}" th:value="${type}"></option>
+        <option th:each="type : ${types}" th:text="${type.getPres()}" th:value="${type.name()}"></option>
     </select> <br>
 
     <label for="description">Опис</label><input type="text" name="description" value="" id="description"> <br>
