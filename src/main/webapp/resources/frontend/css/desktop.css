@@ -1328,6 +1328,9 @@
         position: relative;
         margin: 11px 23px 0 0;
     }
+    .newChat_body_list_item_button{
+        width:180px ;
+    }
     /*We*/
     /***********************************************/
     /*workField_post*/

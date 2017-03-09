@@ -80,18 +80,18 @@
                 <!--</li>-->
             <!--</ul>-->
         <!--</div>-->
-        <div class="newChat_body_list_item" name="user" th:each="user : ${userList}" style="padding-top: 4px">
+        <div class="newChat_body_list_item" name="user" th:each="user : ${userList}" style="padding-top: 10px">
             <div class="col-xs-2">
                 <img th:href="@{/home/workField/} + ${user.userId}" th:src="@{'data:image;base64,' + ${user.encodeFileToBase64Binary()}}" height="auto" width="50" alt="аватар">
                 <!--<img th:href="@{/home/workField/} + ${user.userId}" th:src="@{'data:image;base64,' + ${user.encodeFileToBase64Binary()}}" alt="photo" height="42" width="42"></img>-->
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-3 col-sm-4 col-md-5">
                 <a th:href="@{/home/workField/} + ${user.userId}"><div class="row" th:text="${user.firstName + ' ' + user.lastName}"></div></a>
                 <div class="row" th:text="${user.combatArt.combatArtName}">Фрі-файт</div>
                 <div class="row"> <span th:each="mark: ${user.marks}" th:text="${'  ' + mark.markName}"></span> </div>
                 <div class="row" th:text="${user.role.roleName}">Наставник 2-го класу</div>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-3 col-md-4 newChat_body_list_item_button">
                 <label class="dialogButton">
                 <a type="button" class=' btn btn-primary messageList-content-newMsg_submit' th:href="@{/home/messages/postMessage/} + ${user.userId}"><span>Надіслати</span></a>
                 </label>
