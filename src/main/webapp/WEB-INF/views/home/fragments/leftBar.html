@@ -6,14 +6,14 @@
     <nav class="menu-level1 tabs-in-sidebar" >
         <ul>
             <li><a class="btn-news" href="/home/post">Новини</a></li>
-            <li><a class="btn-messages" href="/home/messages/">Повiдомлення</a></li>
+            <li><a class="btn-messages" href="/home/messages/" th:text="${unreadMessages > 0 ? 'Повiдомлення (' + unreadMessages + ')' : 'Повiдомлення'}">Повiдомлення</a></li>
             <li><a class="btn-we" href="/home/we">Ми</a></li>
             <li><a class="btn-broadcast" href="">Трансляцiя</a></li>
         </ul>
     </nav>
     <nav class="menu-level1">
         <ul>
-            <li sec:authorize="hasRole('ADMIN')"><a class="btn-our-events" href="/admin">Адмін панель</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a class="btn-admin" href="/admin">Адмін панель</a></li>
             <li><a class="btn-our-events" href="/panel/ourevents">Нашi подiї</a></li>
             <li><a class="btn-my-events" href="/panel/myevents">Мої подiї</a></li>
             <li class="my-way ">

@@ -93,6 +93,7 @@ public class MessageServiceImpl implements MessageService{
         message.setSender(creator);
         message.setChat(chat);
         message.setFunctional(true);
+        message.setReadStatus(message.getReadStatus()+creator.getUserId()+",");
         message.setContent(creator.getFirstName() + " " + creator.getLastName() + " "
                 + messages.getMessage("message.newChatCreationEvent", null, locale) + " "
                 + "<" + chat.getChatTitle() + ">");
@@ -127,6 +128,7 @@ public class MessageServiceImpl implements MessageService{
         message.setSender(adder);
         message.setChat(chat);
         message.setFunctional(true);
+        message.setReadStatus(adder.getUserId()+",");
 //      adding names of added members
         Iterator<User> it = listOfNewMembers.iterator();
         StringBuilder newMembers = new StringBuilder();
@@ -151,6 +153,7 @@ public class MessageServiceImpl implements MessageService{
         message.setSender(changer);
         message.setChat(chat);
         message.setFunctional(true);
+        message.setReadStatus(changer.getUserId()+",");
         message.setContent(changer.getFirstName() + " " + changer.getLastName() + " "
                 + messages.getMessage("message.changeChatTitle", null, locale) + " "
                 + "<" + chat.getChatTitle() + ">");
@@ -181,8 +184,10 @@ public class MessageServiceImpl implements MessageService{
         Set<ChatWithLastMessage> chats = chatRepository.getChatsWithLastMessage(currentUser);
         Long count = 0L;
         for (ChatWithLastMessage c: chats) {
-            if(!c.isReadStatus()) {
-                count++;
+            if (!c.getReadStatus().equals(null)) {
+                if (!c.getReadStatus().contains("," + currentUser.getUserId() + ",")) {
+                    count++;
+                }
             }
         }
         return count;

@@ -17,6 +17,7 @@ import ua.peresvit.entity.Event;
 import ua.peresvit.entity.User;
 import ua.peresvit.entity.UserGroup;
 import ua.peresvit.service.EventService;
+import ua.peresvit.service.MessageService;
 import ua.peresvit.service.UserGroupService;
 import ua.peresvit.service.UserService;
 
@@ -88,15 +89,20 @@ public class MyEventsController {
     @Autowired
     private UserGroupService ugs;
 
+    @Autowired
+    private MessageService messageService;
+
     @RequestMapping(value="/panel/ourevents", method = RequestMethod.GET)
     public String getAllEvents(Model model){
         model.addAttribute("all", true);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "panel/myevents";
     }
 
     @RequestMapping(value="/panel/myevents", method = RequestMethod.GET)
     public String getEvents(Model model){
         model.addAttribute("all", false);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "panel/myevents";
     }
 
@@ -105,6 +111,7 @@ public class MyEventsController {
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         model.addAttribute("events", es.findClosestByCurrentUser(dt, qty));
         model.addAttribute("me", us.getCurrentUser());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "panel/events_soon";
     }
 
@@ -133,6 +140,7 @@ public class MyEventsController {
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         model.addAttribute("events", es.findClosest(dt, qty));
         model.addAttribute("me", us.getCurrentUser());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "panel/events_soon";
     }
 
@@ -141,6 +149,7 @@ public class MyEventsController {
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         model.addAttribute("event", es.findNextByCurrentUser(dt));
         model.addAttribute("me", us.getCurrentUser());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "panel/events_next";
     }
 
@@ -149,6 +158,7 @@ public class MyEventsController {
         Date dt = (new SimpleDateFormat("MM/dd/yyyy")).parse(date);
         model.addAttribute("event", es.findNext(dt));
         model.addAttribute("me", us.getCurrentUser());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "panel/events_next";
     }
 
@@ -235,6 +245,7 @@ public class MyEventsController {
         model.addAttribute("friends", us.findAll());
         model.addAttribute("groups", ugs.findAll());
         model.addAttribute("me", us.getCurrentUser());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "/admin/event_edit";
     }
 

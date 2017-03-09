@@ -14,7 +14,7 @@
             <select class="form-control" th:field="*{resourceGroupType.resourceGroupTypeId}">
                 <option th:each="resourceGroupType : ${resourceGroupTypeList}"
                         th:value="${resourceGroupType.resourceGroupTypeId}"
-                        th:text="${resourceGroupType.caption}"></option>
+                        th:text="${resourceGroupType.getCaption()}"></option>
             </select>
             <br/>
             <input class="btn btn-primary" type="submit" value="Зберегти">

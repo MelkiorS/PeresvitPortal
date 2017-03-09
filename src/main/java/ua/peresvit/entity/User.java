@@ -1,9 +1,12 @@
 package ua.peresvit.entity;
 
 import lombok.Data;
+import ua.peresvit.config.Constant;
+
 import javax.persistence.*;
 import javax.validation.Constraint;
 import javax.validation.constraints.Size;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Collection;
@@ -109,5 +112,9 @@ public class User {
 		return role.getRoleName().equals("ADMIN");
 	}
 
-
+	public String encodeFileToBase64Binary(){
+		try {
+			return Constant.encodeFileToBase64Binary(getAvatarURL());
+		} catch (IOException ex){return "";}
+	}
 }

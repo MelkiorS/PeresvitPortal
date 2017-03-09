@@ -12,10 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.Article;
 import ua.peresvit.entity.ResourceGroupType;
 import ua.peresvit.entity.Role;
-import ua.peresvit.service.ArticleService;
-import ua.peresvit.service.ResourceGroupTypeChapterService;
-import ua.peresvit.service.ResourceGroupTypeService;
-import ua.peresvit.service.RoleService;
+import ua.peresvit.service.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -32,6 +29,8 @@ public class ArticleController {
     private ResourceGroupTypeChapterService chapterService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private MessageService messageService;
 
     //go to addForm
     @RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -44,6 +43,7 @@ public class ArticleController {
         model.addAttribute("roleList", roleTypes); // adding list of rang for select
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
         model.addAttribute("chapters", chapterService.findAll());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/article/addArticle";
     }
 
@@ -53,6 +53,7 @@ public class ArticleController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("article", article); // object is not empty
             model.addAttribute("resourceGroupTypeList", resourceGroupTypeService.findAll());
+            model.addAttribute("unreadMessages", messageService.countUnreadChats());
             return "admin/article/addArticle";
         }
 
@@ -69,6 +70,7 @@ public class ArticleController {
     public String getArticle(@PathVariable("articleId") long articleId, Model model) {
         if (!model.containsAttribute("article"))  // if it's not redirect add
             model.addAttribute("article", articleService.findOne(articleId));
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/article/articleProfile";
     }
 
@@ -77,6 +79,7 @@ public class ArticleController {
     public String listAllArticles(Model model) {
         List<Article> articles = articleService.findAll();
         model.addAttribute("articleList", articles);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/article/allArticles";
     }
 
@@ -109,6 +112,7 @@ public class ArticleController {
         model.addAttribute("roleList", roleTypes);
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes);
         model.addAttribute("chapters", chapterService.findAll());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/article/addArticle";
     }
 }

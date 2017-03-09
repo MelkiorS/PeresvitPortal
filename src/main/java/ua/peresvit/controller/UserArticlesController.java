@@ -20,13 +20,15 @@ public class UserArticlesController {
     private final
     ResourceGroupTypeService resourceGroupTypeService;
     private final ArticleService articleService;
+    private final MessageService messageService;
 
     @Autowired
-    public UserArticlesController(ResourceGroupTypeChapterService chapterService, UserService userService, ResourceGroupTypeService resourceGroupTypeService, ArticleService articleService) {
+    public UserArticlesController(ResourceGroupTypeChapterService chapterService, UserService userService, ResourceGroupTypeService resourceGroupTypeService, ArticleService articleService, MessageService messageService) {
         this.chapterService = chapterService;
         this.userService = userService;
         this.resourceGroupTypeService = resourceGroupTypeService;
         this.articleService = articleService;
+        this.messageService = messageService;
     }
 
     // go to article
@@ -34,6 +36,7 @@ public class UserArticlesController {
     public String showArticle(@PathVariable long articleId, Model model) {
         Article article = articleService.findOne(articleId);
         model.addAttribute("article", article);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/studyingMaterial";
     }
 
@@ -56,6 +59,7 @@ public class UserArticlesController {
             }
         }
         model.addAttribute("resourceGroupTypeList", resourceGroupTypes); // adding types for select
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/myWay";
     }
 }

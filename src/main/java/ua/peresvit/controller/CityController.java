@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.City;
 import ua.peresvit.service.CityService;
+import ua.peresvit.service.MessageService;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class CityController {
 
     @Autowired
     private CityService cityService;
+    @Autowired
+    private MessageService messageService;
 
     //go to manage page
     @RequestMapping(value = "/management", method = RequestMethod.GET)
@@ -31,6 +34,7 @@ public class CityController {
         City city = new City();
 
         model.addAttribute(city);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
 
         return "admin/city/addCity";
     }
@@ -52,6 +56,7 @@ public class CityController {
     public String geCity(@PathVariable("cityId") long cityId, Model model) {
         if (!model.containsAttribute("cityId"))
             model.addAttribute("cityId", cityService.findOne(cityId));
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/city/cityProfile";
     }
 
@@ -61,6 +66,7 @@ public class CityController {
         List<City> cities = cityService.findAll();
         model.addAttribute("cityList", cities);
         model.addAttribute("city", new City());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/city/allCities";
     }
 
@@ -70,6 +76,7 @@ public class CityController {
                            Model model) {
         City city = cityService.findOne(cityId);
         model.addAttribute("city", city);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/city/addCity";
     }
 

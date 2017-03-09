@@ -50,8 +50,12 @@ public class UserPageController {
 
     private final PostService postService;
 
+    private final MessageService messageService;
+
+    private final MarkService markservice;
+
     @Autowired
-    public UserPageController(ArticleService aService, UserService userService, UserGroupService userGroupService, EventService eventService, ResourceGroupTypeService rgtService, ResourceGroupTypeChapterService rgtcService, CityService cityService, ClubService clubService, CombatArtService combatArtService, PostService postService, RoleService roleService, AchievementService achievementService) {
+    public UserPageController(ArticleService aService, UserService userService, UserGroupService userGroupService, EventService eventService, ResourceGroupTypeService rgtService, ResourceGroupTypeChapterService rgtcService, CityService cityService, ClubService clubService, CombatArtService combatArtService, PostService postService, RoleService roleService, AchievementService achievementService, MessageService messageService, MarkService markservice) {
         this.aService = aService;
         this.userService = userService;
         this.userGroupService = userGroupService;
@@ -64,6 +68,8 @@ public class UserPageController {
         this.postService = postService;
         this.roleService = roleService;
         this.achievementService = achievementService;
+        this.messageService = messageService;
+        this.markservice = markservice;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -90,12 +96,21 @@ public class UserPageController {
             } catch (IOException ex) {
             }
         }
+//        Set<Mark> marks = loggedUser.getMarks();
+//
+//        for (Mark mark : marks) {
+//            try {
+//                mark.setImageURL(Constant.encodeFileToBase64Binary(mark.getImageURL()));
+//            } catch (IOException ignored) {}
+//        }
+//        loggedUser.setMarks(marks);
 
         // Achievements
         Map<Long, String> achiveList = new HashMap<>();
         List<Achievement> achievements = achievementService.findByUser(loggedUser);
         for (Achievement achievement:achievements) {
             try {
+//                achievement.setImageURL(Constant.encodeFileToBase64Binary(achievement.getImageURL()));
                 achiveList.put(achievement.getAchievementId(), Constant.encodeFileToBase64Binary(achievement.getImageURL()));
             } catch (IOException ex){achiveList.put(achievement.getAchievementId(), null);}
         }
@@ -112,13 +127,49 @@ public class UserPageController {
 
         model.addAttribute("user", loggedUser);
         model.addAttribute("groups", rgtService.findAll());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
+        return "home/workField";
+    }
 
+    @RequestMapping(value = "/workField/{userId}", method = RequestMethod.GET)
+    public String showUserPage(@PathVariable("userId") long userId,  Model model, Principal principal) {
+        User loggedUser = userService.findOne(userId);
+        Set<Mark> marks = loggedUser.getMarks();
+        for (Mark mark : marks) {
+            try {
+                mark.setImageURL(Constant.encodeFileToBase64Binary(mark.getImageURL()));
+            } catch (IOException ignored) {}
+        }
+        loggedUser.setMarks(marks);
+        Map<Long, String> achiveList = new HashMap<>();
+        List<Achievement> achievements = achievementService.findByUser(loggedUser);
+        for (Achievement achievement:achievements) {
+            try {
+//                achievement.setImageURL(Constant.encodeFileToBase64Binary(achievement.getImageURL()));
+                achiveList.put(achievement.getAchievementId(), Constant.encodeFileToBase64Binary(achievement.getImageURL()));
+            } catch (IOException ex){achiveList.put(achievement.getAchievementId(), null);}
+        }
+        String imagePath = loggedUser.getAvatarURL();
+        model.addAttribute("imageAvatar", null);
+        if (imagePath != null) {
+            try {
+                model.addAttribute("imageAvatar", Constant.encodeFileToBase64Binary(imagePath));
+            } catch (IOException ex) {
+            }
+        }
+        model.addAttribute("user", loggedUser);
+        model.addAttribute("isGuest", true);
+        model.addAttribute("achieveList", achiveList);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/workField";
     }
 
      // go to Edit user form
     @RequestMapping(value = "/profileEdit/{userId}", method = RequestMethod.GET)
     public String editUser(@PathVariable("userId")  long userId, Model model) {
+        if (!userService.getCurrentUser().getUserId().equals(userId)) {
+            return "redirect:/home/workField";
+        }
         User user = userService.findOne(userId);
 
         List<City> cities = cityService.findAll();
@@ -136,16 +187,22 @@ public class UserPageController {
         List<Role> roleList = roleService.findAll();
         model.addAttribute("rangList", roleList);       // adding list of rang for select
 
-        model.addAttribute(user);
+        List<Mark> markList = markservice.findAll();
+        model.addAttribute("markList", markList);       // adding list of marks for select
 
-         return "home/profileEdit";
+        model.addAttribute(user);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
+        return "home/profileEdit";
     }
 
     // Edit User
     @RequestMapping(value = "/profileEdit", method = RequestMethod.POST)
     public String editUser(@Valid User user, BindingResult bindingResult, Model model, @RequestParam("file") MultipartFile file) {
 
-        if (bindingResult.hasErrors()) return "home/profileEdit";
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("unreadMessages", messageService.countUnreadChats());
+            return "home/profileEdit";
+        }
 
         user.setAvatarURL(userService.saveFile(user, file));
 
@@ -197,13 +254,15 @@ public class UserPageController {
         model.addAttribute("groups", ug);
         //TODO how to do it in more correct way?
         model.addAttribute("userList", uga.length==0 ? new ArrayList<User>() : userService.getGroupsUsersWithoutCurrent(uga));
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/workField_we";
     }
 
     // NEWS all
     @RequestMapping(value = "/post", method = RequestMethod.GET)
-    public String getPosts(Model model, @PageableDefault(value=9, direction = Sort.Direction.DESC, sort = "createDate") Pageable pageable){
+    public String getPosts(Model model, @PageableDefault(value=3, direction = Sort.Direction.DESC, sort = "createDate") Pageable pageable){
         model.addAttribute("page", postService.findAll(pageable) );
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/workField_allPosts";
     }
 
@@ -211,6 +270,7 @@ public class UserPageController {
     @RequestMapping(value = "/post/{id}", method = RequestMethod.GET)
     public String showPost(@PathVariable Long id, Model model){
         model.addAttribute("post", postService.findOne(id));
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/workField_post";
     }
 

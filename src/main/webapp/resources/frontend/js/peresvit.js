@@ -1,5 +1,4 @@
 $(function(){
-
     if(window.innerWidth <768){
         let sideBarWidth = window.innerWidth*0.865;
         $('.toggle-button').sideNav({
@@ -52,4 +51,5 @@ $(function(){
             captions: true,
         });
     }
+
 });

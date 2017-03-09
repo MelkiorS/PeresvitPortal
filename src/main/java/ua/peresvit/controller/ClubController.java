@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.Club;
 import ua.peresvit.service.ClubService;
+import ua.peresvit.service.MessageService;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class ClubController {
 
     @Autowired
     private ClubService clubService;
+    @Autowired
+    private MessageService messageService;
 
     //go to manage page
     @RequestMapping(value = "/management", method = RequestMethod.GET)
@@ -31,6 +34,7 @@ public class ClubController {
         Club club = new Club();
 
         model.addAttribute(club);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
 
         return "admin/club/addClub";
     }
@@ -52,6 +56,7 @@ public class ClubController {
     public String geClub(@PathVariable("clubId") long clubId, Model model) {
         if (!model.containsAttribute("clubId"))
             model.addAttribute("clubId", clubService.findOne(clubId));
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/club/clubProfile";
     }
 
@@ -61,6 +66,7 @@ public class ClubController {
         List<Club> clubs = clubService.findAll();
         model.addAttribute("clubList", clubs);
         model.addAttribute("club", new Club());
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "admin/club/allClubs";
     }
 
@@ -69,6 +75,7 @@ public class ClubController {
     public String editClub(@PathVariable("clubId")  long clubId,
                            Model model) {
         Club club = clubService.findOne(clubId);
+        model.addAttribute("unreadMessages", messageService.countUnreadChats());
         model.addAttribute("club", club);
         return "admin/club/addClub";
     }

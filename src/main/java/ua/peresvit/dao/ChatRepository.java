@@ -34,6 +34,6 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
             "left outer join u.chats c " +
             "left outer join c.messages m " +
             "where (m.createdAt = (select max(m.createdAt) from m where m.chat = c)) and (u = :user) " +
-            "order by m.readStatus, m.createdAt desc")
+            "order by m.readStatus")
     Set<ChatWithLastMessage> getChatsWithLastMessage(@Param("user") User user);
 }

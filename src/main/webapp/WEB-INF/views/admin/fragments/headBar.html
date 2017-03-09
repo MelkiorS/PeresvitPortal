@@ -15,21 +15,21 @@
                 <div class="btn-group " role="group">
                     <form th:action="@{/home/post}">
                     <button class="btn btn-default btn-lg dropdown-toggle control_button headFirst" type="submit"  aria-haspopup="true" aria-expanded="false">
-                        новини
+                        Новини
                     </button>
                     </form>
                 </div>
                 <div class="btn-group " role="group">
                     <form th:action="@{/home/messages}" method="get">
-                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false">
-                        повідомлення
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false" th:text="${unreadMessages > 0 ? 'Повiдомлення (' + unreadMessages + ')' : 'Повiдомлення'}">
+                        Повідомлення
                     </button>
                     </form>
                 </div>
                 <div class="btn-group " role="group">
                     <form th:action="@{/home/we}">
                         <button class="btn btn-default btn-lg dropdown-toggle control_button headLast" type="submit"  aria-haspopup="true" aria-expanded="false">
-                            ми
+                            Ми
                         </button>
                     </form>
                 </div>
