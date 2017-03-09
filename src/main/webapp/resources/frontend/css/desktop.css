@@ -343,28 +343,56 @@
         background: #d90118;
     }
 
+    .bgred {
+        background: #d90118 !important;
+    }
+
     .calendar-legend p.yellow:before {
         background: #f1b628;
+    }
+
+    .bgyellow {
+        background: #f1b628 !important;
     }
 
     .calendar-legend p.violet:before {
         background: #6f6ecb;
     }
 
+    .bgviolet {
+        background: #6f6ecb !important;
+    }
+
     .calendar-legend p.grey:before {
         background: #9e9e9e;
+    }
+
+    .bgviolet {
+        background: #9e9e9e !important;
     }
 
     .calendar-legend p.darkgrey:before {
         background: #464648;
     }
 
+    .bgdarkgrey {
+        background: #464648 !important;
+    }
+
     .calendar-legend p.lightgreen:before {
         background: #71af5d;
     }
 
+    .bglightgreen {
+        background: #71af5d !important;
+    }
+
     .calendar-legend p.green:before {
         background: #438e6f;
+    }
+
+    .bggreen {
+        background: #438e6f !important;
     }
 
     section .event-list {

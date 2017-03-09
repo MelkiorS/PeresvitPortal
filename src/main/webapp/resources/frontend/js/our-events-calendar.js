@@ -9,7 +9,7 @@
 		scheduler.init('scheduler_here',new Date(),"day");
 
 		scheduler.load(eventsPath + "?dt=" + fmtDate(startMonth(new Date())) + "&qty=1000", 'json',function(){
-			scheduler.renderCalendar({
+			var calendar = scheduler.renderCalendar({
 				container:"mini_here",
 				date:scheduler._date,
 				navigation:true,
@@ -18,6 +18,7 @@
 					fillDayEvent(date);
 				}
 			});
+			window.calendar = calendar;
 		});
 		scheduler.afterRender = function(d) {
 			fillMonthEvents(startMonth(d));
@@ -54,7 +55,8 @@
 			success: function (data) {
 				$('#close5events').empty();
 				for (var i=0;i<data.length;i++) {
-					if (new Date(data[i].start_date).getMonth() <= d.getMonth()) $('#close5events').append('<li class="event-li red" onClick="fillDayEvent(new Date(' + new Date(data[i].start_date).getTime() + '))">' + data[i].text + '</li>');
+					if (new Date(data[i].start_date).getMonth() <= d.getMonth()) $('#close5events').append('<li class="event-li ' + colorsByTypes(data[i].eventtype) + '" onClick="fillDayEvent(new Date(' + new Date(data[i].start_date).getTime() + '))">' + data[i].text + '</li>');
+					scheduler.markCalendar(calendar, new Date(data[i].start_date), colorDate(data[i].eventtype));
 				}
 				if (data.length > 0) {
 					fillDayEvent(new Date(data[0].start_date));
@@ -74,6 +76,31 @@
 				fillDayEvent(dt);
 			}
 		})
+	}
+
+	function colorsByTypes(eventtype) {
+		switch(eventtype) {
+			case "COMPETITION":
+				return "red";
+			case "CELEBRATION":
+				return "yellow";
+			case "DEMONSTARTION":
+				return "violet";
+			case "APPRAISAL":
+				return "grey";
+			case "WORKSHOP":
+				return "darkgrey";
+			case "TEASCHOOL":
+				return "lightgreen";
+			case "HIKECAMPMOVIE":
+				return "green";
+			default:
+				return "red";
+		}
+	}
+
+	function colorDate(eventtype) {
+		return "bg" + colorsByTypes(eventtype);
 	}
 
 	function removeStyle() {

@@ -60,6 +60,9 @@ public class Event {
                     nullable = false, updatable = false) })
     private Set<UserGroup> groups = new HashSet<UserGroup>();
 
+    @SerializedName("eventtype")
+    private EventType eventType;
+
     @Override
     public String toString() {
         String startDate = (new SimpleDateFormat("dd.MM.yyyy")).format(start);

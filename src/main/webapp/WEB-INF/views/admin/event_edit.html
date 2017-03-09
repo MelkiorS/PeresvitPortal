@@ -52,6 +52,7 @@
             ev.text = html("text").value;
             ev.description = html("description").value;
             ev.connectall = html("connectall").value;
+            ev.eventtype = html("eventtype").value;
             ev.friends = n($.map($('#friends').children("li").children("input:checked"), function(n) {return n.value}), []);
             ev.groups = n($.map($('#groups').children("li").children("input:checked"), function(n) {return n.value}), []);
             scheduler.endLightbox(true, html("my_form"));
@@ -74,7 +75,11 @@
     <label for="author">Автор</label><input type="text" name="author" th:value="${me.toString()}" th:authorid="${me.userId}" id="author" disabled>
     <label for="from">Тривалість</label><input type="time" name="from" value="" id="from"><input type="time" name="to" value="" id="to"> <br>
 
-    <label for="text">Заголовок</label><input type="text" name="text" value="" id="text"> <br>
+    <label for="text">Заголовок</label><input type="text" name="text" value="" id="text">
+    <label for="eventtype">Тип</label><select name="eventtype" value="" id="eventtype">
+        <option th:each="type : ${types}" th:text="${type.getPres()}" th:value="${type}"></option>
+    </select> <br>
+
     <label for="description">Опис</label><input type="text" name="description" value="" id="description"> <br>
 
     <label for="connectall">Хто може приєднатись</label><select name="connectall" value="" id="connectall">

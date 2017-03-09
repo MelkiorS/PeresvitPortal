@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.peresvit.entity.Event;
+import ua.peresvit.entity.EventType;
 import ua.peresvit.entity.User;
 import ua.peresvit.entity.UserGroup;
 import ua.peresvit.service.EventService;
@@ -67,6 +68,7 @@ class EventClassAdapter extends TypeAdapter<Event> {
             wrt(out, "end_date", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(value.getFinish()));
             wrt(out, "description", value.getDescription());
             wrt(out, "assignedToMe", value.isAssigned(user) ? "true" : "false");
+            wrt(out, "eventtype",  value.getEventType() == null ? EventType.defaultType().name() : value.getEventType().name());
             out.endObject();
         }
     }
@@ -193,6 +195,7 @@ public class MyEventsController {
                            @RequestParam("title") String title,
                            @RequestParam("description") String description,
                            @RequestParam("connectall") boolean connectall,
+                           @RequestParam("eventtype") EventType eventType,
                            @RequestParam(value = "groups[]", required = false) String[] groups,
                            @RequestParam(value = "friends[]", required = false) String[] friends) throws URISyntaxException {
         Event ev = new Event();
@@ -203,6 +206,7 @@ public class MyEventsController {
         ev.setPlace(place);
         ev.setDescription(description);
         ev.setConnectAll(connectall);
+        ev.setEventType(eventType);
 
         ev.setUsers(us.getSetFromStringArray(friends));
         ev.setGroups(ugs.getSetFromStringArray(groups));
@@ -217,6 +221,7 @@ public class MyEventsController {
                            @RequestParam("title") String title,
                            @RequestParam("description") String description,
                            @RequestParam("connectall") boolean connectall,
+                           @RequestParam("eventtype") EventType eventType,
                            @RequestParam(value = "groups[]", required = false) String[] groups,
                            @RequestParam(value = "friends[]", required = false) String[] friends) {
         Event ev = es.findById(id);
@@ -227,6 +232,7 @@ public class MyEventsController {
         ev.setPlace(place);
         ev.setDescription(description);
         ev.setConnectAll(connectall);
+        ev.setEventType(eventType);
 
         ev.setUsers(us.getSetFromStringArray(friends));
         ev.setGroups(ugs.getSetFromStringArray(groups));
@@ -243,6 +249,7 @@ public class MyEventsController {
     @RequestMapping(value = "/admin/event_edit", method = RequestMethod.GET)
     public String editEvents(Model model){
         model.addAttribute("friends", us.findAll());
+        model.addAttribute("types", EventType.values());
         model.addAttribute("groups", ugs.findAll());
         model.addAttribute("me", us.getCurrentUser());
         model.addAttribute("unreadMessages", messageService.countUnreadChats());

@@ -18,6 +18,7 @@ $(function(){
                "title" : ev.text,
                "description":  ev.description,
                "connectall":   ev.connectall,
+               "eventtype":   ev.eventtype,
                "groups":   ev.groups,
                "friends":  ev.friends
            };
@@ -49,6 +50,7 @@ $(function(){
                    "title" : ev.text,
                    "description":  ev.description,
                    "connectall":   ev.connectall,
+                   "eventtype":   ev.eventtype,
                    "groups":   ev.groups,
                    "friends":  ev.friends
                },
@@ -80,6 +82,7 @@ $(function(){
            html("place").value =  t(ev.place, "");
            html("description").value = t(ev.description, "");
            html("connectall").value = t(ev.connectall, true);
+           html("eventtype").value = ev.eventtype;
            html("text").value = t(ev.text, "");
 
            html("from").value = t(ev.from, fmtTime(ev.start_date));
