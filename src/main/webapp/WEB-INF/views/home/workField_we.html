@@ -80,7 +80,7 @@
                 <!--</li>-->
             <!--</ul>-->
         <!--</div>-->
-        <div class="newChat_body_list_item" name="user" th:each="user : ${userList}">
+        <div class="newChat_body_list_item" name="user" th:each="user : ${userList}" style="padding-top: 4px">
             <div class="col-xs-2">
                 <img th:href="@{/home/workField/} + ${user.userId}" th:src="@{'data:image;base64,' + ${user.encodeFileToBase64Binary()}}" height="auto" width="50" alt="аватар">
                 <!--<img th:href="@{/home/workField/} + ${user.userId}" th:src="@{'data:image;base64,' + ${user.encodeFileToBase64Binary()}}" alt="photo" height="42" width="42"></img>-->
@@ -92,7 +92,9 @@
                 <div class="row" th:text="${user.role.roleName}">Наставник 2-го класу</div>
             </div>
             <div class="col-xs-4">
+                <label class="dialogButton">
                 <a type="button" class=' btn btn-primary messageList-content-newMsg_submit' th:href="@{/home/messages/postMessage/} + ${user.userId}"><span>Надіслати</span></a>
+                </label>
                 <!--<a th:href="@{/home/messages/postMessage/} + ${user.userId}" type="button" class="btn btn-default">Написати</a>-->
             </div>
             <br>
