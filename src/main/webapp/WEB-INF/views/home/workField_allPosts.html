@@ -10,22 +10,20 @@
 <div th:remove="all">
     <main class="my-way-main"  th:fragment="main">
         <div class="achievementList" th:unless="${#lists.isEmpty(page)}">
-            <row class="col-md-10 blogShort" th:each="post : ${page}">
+            <row class=" blogShort" th:each="post : ${page}">
                 <div class="media well">
-                    <a class="pull-left" href="#">
+                    <a class="media-image" href="#">
                         <img class="media-object" style=" width: 250px;margin: 1px 6px 1px 1px;float: left;display: block;" th:src="@{'data:image;base64,' + ${post.encodeFileToBase64Binary()}}">
                     </a>
                     <div class="media-body">
                         <h4 class="media-heading" th:text="${post.title}">Receta 1</h4>
-                        <p class="text-right" th:text="${post.user}">By Francisco</p>
-                        <p th:text="${post.body}" style="width: 150px;
-                                                        white-space: nowrap;
-                                                        overflow: hidden;
-                                                        text-overflow: ellipsis;">text</p>
+                        <a class="media-body-author" th:text="${post.user}"  th:href="@{/home/workField/} + ${post.user.userId}">By Francisco</a>
                         <ul class="list-inline list-unstyled">
                             <li><i class="glyphicon glyphicon-calendar"></i> <span th:text="${#dates.format(post.createDate,'dd/MM/YYYY HH:mm')}">2 days, 8 hours </span></li>
                         </ul>
+                        <article class="media-body-article" th:text="${post.body}">text</article>
                         <a class="btn btn-blog pull-right marginBottom10" th:href="@{/home/post/} + @{${post.postId}}">Переглянути</a>
+                        <!--<a class="btn btn-blog pull-right marginBottom10" th:href="@{/home/post/} + @{${post.postId}}">Переглянути</a>-->
                     </div>
                 </div>
             </row>
