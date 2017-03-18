@@ -3,6 +3,7 @@
 <head th:replace="home/fragments/head :: head('Новини')"></head>
 <head>
     <!--СЮДА МОЖНО ДОБАВИТЬ ВСЁ, ЧЕГО НЕТУ В head.HTML-->
+    <!--<link rel="stylesheet" href="/resources/frontend/libraries/bootstrap.css">-->
 </head>
 <body>
 <div th:replace="home/fragments/body :: body(~{::main}, '', false, '')"></div>
@@ -11,7 +12,7 @@
     <main class="my-way-main"  th:fragment="main">
         <div class="achievementList" th:unless="${#lists.isEmpty(page)}">
             <row class=" blogShort" th:each="post : ${page}">
-                <div class="media well">
+                <div class="media clearfix">
                     <a class="media-image" href="#">
                         <img class="media-object" style=" width: 250px;margin: 1px 6px 1px 1px;float: left;display: block;" th:src="@{'data:image;base64,' + ${post.encodeFileToBase64Binary()}}">
                     </a>
@@ -19,7 +20,10 @@
                         <h4 class="media-heading" th:text="${post.title}">Receta 1</h4>
                         <a class="media-body-author" th:text="${post.user}"  th:href="@{/home/workField/} + ${post.user.userId}">By Francisco</a>
                         <ul class="list-inline list-unstyled">
-                            <li><i class="glyphicon glyphicon-calendar"></i> <span th:text="${#dates.format(post.createDate,'dd/MM/YYYY HH:mm')}">2 days, 8 hours </span></li>
+                            <li>
+                                <img src="/resources/frontend/image/glyphicon-calendar.png" class="glyphicon-calendar"></img>
+                                <span class="glyphicon-calendar-span" th:text="${#dates.format(post.createDate,'dd/MM/YYYY HH:mm')}">2 days, 8 hours </span>
+                            </li>
                         </ul>
                         <article class="media-body-article" th:text="${post.body}">text</article>
                         <a class="btn btn-blog pull-right marginBottom10" th:href="@{/home/post/} + @{${post.postId}}">Переглянути</a>
