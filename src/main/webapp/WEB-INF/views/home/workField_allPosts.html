@@ -25,7 +25,7 @@
                                 <span class="glyphicon-calendar-span" th:text="${#dates.format(post.createDate,'dd/MM/YYYY HH:mm')}">2 days, 8 hours </span>
                             </li>
                         </ul>
-                        <article class="media-body-article" th:text="${post.body}">text</article>
+                        <!--<article class="media-body-article" th:text="${post.body}">text</article>-->
                         <a class="btn btn-blog pull-right marginBottom10" th:href="@{/home/post/} + @{${post.postId}}">Переглянути</a>
                         <!--<a class="btn btn-blog pull-right marginBottom10" th:href="@{/home/post/} + @{${post.postId}}">Переглянути</a>-->
                     </div>

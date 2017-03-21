@@ -32,7 +32,10 @@
                     <img th:src="@{'data:image;base64,' + ${post.encodeFileToBase64Binary()}}" class="img-responsive" >
                 </div>
                 <article class="workfield_post_text">
-                    <p th:text="${post.body}"></p>
+                    <!--<p th:text="${post.body}"></p>-->
+                    <article class="articleText">
+                        <textarea th:utext="${post.body}" th:remove="tag">Новости</textarea>
+                    </article>
                 </article>
             </div>
         </div>
