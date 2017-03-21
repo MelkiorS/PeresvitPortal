@@ -3,7 +3,9 @@
 <nav class="tabs-in-main clearfix">
     <ul>
         <li><a class="tab-news" href="/home/post">Новини</a></li>
-        <li><a class="tab-messages" href="/home/messages" th:text="${unreadMessages > 0 ? 'Повiдомлення (' + unreadMessages + ')' : 'Повiдомлення'}">Повiдомлення</a></li>
+        <li><a class="tab-messages" href="/home/messages">
+            Повiдомлення <div th:if="${unreadMessages != null}" th:text="${unreadMessages > 0 ? '(' + unreadMessages + ')' : ''}"></div>
+        </a></li>
         <li><a class="tab-we" href="/home/we">Ми</a></li>
         <li><a class="btn-broadcast" href="#">Трансляцiя</a></li>
     </ul>

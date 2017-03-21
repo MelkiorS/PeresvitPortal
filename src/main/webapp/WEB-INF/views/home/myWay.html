@@ -7,7 +7,7 @@
 <div th:remove="all">
     <main class="my-way-main" th:fragment="main" th:each="resourceGroupType : ${resourceGroupTypeList}">
         <article th:each="chapter :  ${resourceGroupType.chapterList}" class="main-article-item">
-            <h3 ><span th:text="${chapter.chapterName}">Подготовка к использованию техники разбивания предметов</span></h3>
+            <h3 th:unless="${#lists.isEmpty(chapter.articleCollection)}"><span th:text="${chapter.chapterName}">Подготовка к использованию техники разбивания предметов</span></h3>
             <ol th:unless="${#lists.isEmpty(chapter.articleCollection)}" th:each="article : ${chapter.articleCollection}">
                 <li><a href="#" class="level2" th:href="@{/resource/article/} + ${article.articleId}" th:text="${article.articleName}">В чем важность техники разбивания</a></li>
             </ol>

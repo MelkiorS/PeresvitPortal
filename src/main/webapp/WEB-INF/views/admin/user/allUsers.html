@@ -39,7 +39,8 @@
           <!--<td th:text="${user.userId}"></td>-->
           <td>
             <a class="glyphicon glyphicon-pencil btn btn-link btn-xs" th:href="@{/admin/user/edit/} + ${user.userId}"></a>
-            <a class="glyphicon glyphicon-remove btn btn-danger btn-xs" onclick="event.preventDefault();deleteElem(this)" th:href="@{/admin/user/delete/} + ${user.userId}"></a>
+            <a th:if="${user.enabled}" class="glyphicon glyphicon-remove btn btn-danger btn-xs" onclick="event.preventDefault();deleteElem(this)" th:href="@{/admin/user/deactivate/} + ${user.userId}"></a>
+            <a th:if="${!user.enabled}" class="glyphicon glyphicon-ok btn btn-success btn-xs" onclick="event.preventDefault();activateElem(this)" th:href="@{/admin/user/activate/} + ${user.userId}"></a>
           </td>
           <td th:text="${user.firstName} +' '+ ${user.lastName}"></td>
           <!--<td th:text="${user.lastName}"></td>-->
@@ -53,7 +54,10 @@
     </div>
     <script>
         function deleteElem(e){
-            return confirm('Видалити цього користувача?')? location.href = e.getAttribute('href'):false;
+            return confirm('Деактивувати цього користувача?')? location.href = e.getAttribute('href'):false;
+        }
+        function activateElem(e){
+            return confirm('Активувати цього користувача?')? location.href = e.getAttribute('href'):false;
         }
     </script>
   </div>

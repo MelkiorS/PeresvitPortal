@@ -1,7 +1,5 @@
 package ua.peresvit.controller;
 
-import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -105,16 +103,31 @@ public class UserController {
         return "admin/user/allUsers";
     }
 
-    // delete user
+    // deactivate user
     // need to solve issue when its FK to smth !!!!
-    @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
-    public String deleteUser(@PathVariable("userId") long userId,
+    @RequestMapping(value = "/deactivate/{userId}", method = RequestMethod.GET)
+    public String deactivateUser(@PathVariable("userId") long userId,
+                                 Model model) {
+        User user = userService.findOne(userId);
+        if (user == null) {
+            // custom exception
+            return listAllUsers(model);
+        }
+        userService.deactivateUser(user);
+        return listAllUsers(model);
+    }
+
+    // activate user
+    // need to solve issue when its FK to smth !!!!
+    @RequestMapping(value = "/activate/{userId}", method = RequestMethod.GET)
+    public String activateUser(@PathVariable("userId") long userId,
                              Model model) {
         User user = userService.findOne(userId);
         if (user == null) {
             // custom exception
+            return listAllUsers(model);
         }
-        userService.delete(user);
+        userService.activateUser(user);
         return listAllUsers(model);
     }
 
