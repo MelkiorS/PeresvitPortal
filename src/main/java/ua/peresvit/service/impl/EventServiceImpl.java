@@ -1,6 +1,7 @@
 package ua.peresvit.service.impl;
 
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
@@ -151,7 +152,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getPeriod(Date start, Date finish) {
-        return dao.getPeriod(start, finish);
+        return dao.getPeriod(start, DateUtils.addDays(finish, 1) );
     }
 
     @Override
