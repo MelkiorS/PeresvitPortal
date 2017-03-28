@@ -118,6 +118,10 @@ public class MessageServiceImpl implements MessageService{
         }
         Set<User> members = chat.getMembers();
         members.remove(user);
+        if (members.isEmpty()) {
+            deleteChat(chat.getChatId());
+            return null;
+        }
         chat.setMembers(members);
         return chatRepository.save(chat);
     }
@@ -183,8 +187,11 @@ public class MessageServiceImpl implements MessageService{
 //        Add to repo method to count
         Set<ChatWithLastMessage> chats = chatRepository.getChatsWithLastMessage(currentUser);
         Long count = 0L;
+        if (chats.isEmpty()) {
+            return count;
+        }
         for (ChatWithLastMessage c: chats) {
-            if (!c.getReadStatus().equals(null)) {
+            if (!(c.getReadStatus() == null)) {
                 if (!c.getReadStatus().contains("," + currentUser.getUserId() + ",")) {
                     count++;
                 }

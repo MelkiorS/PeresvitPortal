@@ -29,7 +29,9 @@ public interface UserService {
 
 	List<User> findByRole(Role role);
 
-	void delete(User user);
+	void activateUser(User user);
+
+	void deactivateUser(User user);
 
 	boolean equals(Object obj);
 

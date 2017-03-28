@@ -78,14 +78,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(User user) {
-        final VerificationToken verificationToken = tokenRepository.findByUser(user);
+    public void activateUser(User user) {
+        user.setEnabled(true);
+        userRepository.save(user);
+    }
 
-        if (verificationToken != null) {
-            tokenRepository.delete(verificationToken);
-        }
-
-        userRepository.delete(user);
+    @Override
+    public void deactivateUser(User user) {
+//        final VerificationToken verificationToken = tokenRepository.findByUser(user);
+//
+//        if (verificationToken != null) {
+//            tokenRepository.delete(verificationToken);
+//        }
+        user.setEnabled(false);
+        userRepository.save(user);
     }
 
     @Override

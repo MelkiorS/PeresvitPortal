@@ -189,7 +189,7 @@ public class RegistrationController {
 
     // remindConfirm Post
     @RequestMapping(value = "/remindConfirm", method = RequestMethod.POST)
-    public String remindConfirmRegistrationPost(User user, final Model model) {
+    public String remindConfirmRegistrationPost(User user) {
         User editUser = userService.findOne(user.getUserId());
         editUser.setPassword(user.getPassword());
         userService.save(editUser);
@@ -236,7 +236,7 @@ public class RegistrationController {
         userDto.setFirstName(socialMediaProfile.getFirstName());
         userDto.setLastName(socialMediaProfile.getLastName());
         userDto.setEmail(vKontakte.getEmail());
-        userDto.setProfileVK("id"+socialMediaProfile.getUsername());
+        userDto.setProfileVK("id"+connection.getKey().getProviderUserId());
         userDto.setSocial(SocialMediaService.VKONTAKTE);
         return userDto;
     }

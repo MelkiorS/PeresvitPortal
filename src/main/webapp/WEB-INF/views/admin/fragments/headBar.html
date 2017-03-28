@@ -7,7 +7,7 @@
     </div>
     <div class="row">
         <div class="col-xs-3 h2 header_logo">
-            <img class='header_logo_img' src="/resources/frontend/images/logo_Peresvit.png" alt="логотип">
+            <img class='header_logo_img' src="/resources/frontend/images/logo_Peresvit.png" th:href="@{/home}" alt="логотип">
         </div>
 
         <div class="col-xs-9">
@@ -21,8 +21,8 @@
                 </div>
                 <div class="btn-group " role="group">
                     <form th:action="@{/home/messages}" method="get">
-                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false" th:text="${unreadMessages > 0 ? 'Повiдомлення (' + unreadMessages + ')' : 'Повiдомлення'}">
-                        Повідомлення
+                    <button class="btn btn-default btn-lg dropdown-toggle control_button" type="submit"  aria-haspopup="true" aria-expanded="false"> <!--th:text="${unreadMessages > 0 ? 'Повiдомлення (' + unreadMessages + ')' : 'Повiдомлення'}"-->
+                        Повідомлення <div th:if="${unreadMessages != null}" th:text="${unreadMessages > 0 ? '(' + unreadMessages + ')' : ''}"></div>
                     </button>
                     </form>
                 </div>

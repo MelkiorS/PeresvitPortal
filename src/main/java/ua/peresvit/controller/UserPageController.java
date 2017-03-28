@@ -142,6 +142,7 @@ public class UserPageController {
                 achiveList.put(achievement.getAchievementId(), Constant.encodeFileToBase64Binary(achievement.getImageURL()));
             } catch (IOException ex){achiveList.put(achievement.getAchievementId(), null);}
         }
+        model.addAttribute("achieveList", achiveList);
         String imagePath = loggedUser.getAvatarURL();
         model.addAttribute("imageAvatar", null);
         if (imagePath != null) {
@@ -152,7 +153,7 @@ public class UserPageController {
         }
         model.addAttribute("user", loggedUser);
         model.addAttribute("isGuest", true);
-        model.addAttribute("achieveList", achiveList);
+//        model.addAttribute("achieveList", achiveList);
         model.addAttribute("unreadMessages", messageService.countUnreadChats());
         return "home/workField";
     }
