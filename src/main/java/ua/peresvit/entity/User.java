@@ -1,10 +1,14 @@
 package ua.peresvit.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 import ua.peresvit.config.Constant;
 import ua.peresvit.util.helper.SocialMediaService;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.Constraint;
 import javax.validation.constraints.Size;
 import java.io.IOException;
@@ -80,6 +84,7 @@ public class User {
 	private Set<Mark> marks = new HashSet<>();
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@Cascade(CascadeType.DELETE)
 	private Set<Achievement> achievements = new HashSet<>();
 
 	@Override
