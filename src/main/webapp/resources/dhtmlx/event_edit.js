@@ -6,8 +6,11 @@ $(function(){
 
        scheduler.config.xml_date="%Y%m%d %H%i";
        scheduler.templates.xml_date = function(value){ return new Date(value); };
-       scheduler.load('/admin/myeventsperiod?' + current_month_period(),'json');
+       scheduler.load('/admin/myeventsperiod?' + current_month_period(new Date()),'json');
 
+        scheduler.attachEvent("onViewChange", function (new_mode , new_date){
+            scheduler.load('/admin/myeventsperiod?' + current_month_period(new_date),'json');
+        });
         scheduler.attachEvent("onEventAdded", function(id,ev){
            dtFrom = new Date(ev.date + ' ' + ev.from);
            dtTo = new Date(ev.date + ' ' + ev.to);
@@ -27,7 +30,7 @@ $(function(){
                url : "/admin/addEvent",
                data : data,
                success: function(data){
-                   scheduler.load('/admin/myeventsperiod?' + current_month_period(),'json');
+                   scheduler.load('/admin/myeventsperiod?' + current_month_period(dtFrom),'json');
                    scheduler.deleteEvent(id);
                },
                fail: function() {
@@ -122,10 +125,10 @@ $(function(){
        return "" + fmtNum(tm.getHours(), 2) + ":" + fmtNum(tm.getMinutes(), 2);
    }
 
-   function current_month_period() {
-       var date = new Date();
-       var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-       var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+   function current_month_period(dt) {
+       var date = dt;
+       var firstDay = new Date(date.getFullYear(), date.getMonth(), -1);
+       var lastDay = new Date(date.getFullYear(), date.getMonth() + 2, 0);
 
        return "start=" + fmtDate(firstDay) + "&finish=" + fmtDate(lastDay);
    }
