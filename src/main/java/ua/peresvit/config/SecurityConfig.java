@@ -82,7 +82,9 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/home")
                     .deleteCookies("JSESSIONID")
             .and()
-                .apply(new SpringSocialConfigurer());
+                .apply(new SpringSocialConfigurer())
+            .and()
+                .rememberMe();
     }
 
     @Bean(name = "authenticationManager")
