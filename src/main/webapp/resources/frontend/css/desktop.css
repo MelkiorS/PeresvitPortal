@@ -1064,7 +1064,6 @@
         min-height: 300px;
         max-height: 500px;
         overflow-y: scroll;
-        scroll
     }
     .messageList-content-msgField::-webkit-scrollbar-button {
         /*background-image:url('');*/
