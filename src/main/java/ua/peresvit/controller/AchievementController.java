@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.peresvit.entity.Achievement;
+import ua.peresvit.entity.User;
 import ua.peresvit.service.AchievementService;
 import ua.peresvit.service.MessageService;
 import ua.peresvit.service.UserService;
@@ -94,9 +95,11 @@ public class AchievementController {
     @RequestMapping(value = "/add/{userId}", method = RequestMethod.GET)
     public String goToAddForm(@PathVariable("userId") long userId, Model model) {
         Achievement achievement = new Achievement();
-        achievement.setUser(userService.findOne(userId));
+        User user = userService.findOne(userId);
+        achievement.setUser(user);
         model.addAttribute("achievement", achievement);
         model.addAttribute("unreadMessages", messageService.countUnreadChats());
+        model.addAttribute("userList", user);
         return "admin/achievement/addAchievement";
     }
 
