@@ -14,7 +14,7 @@
 <head th:replace="home/fragments/head :: head(${all ? 'Наші події' : 'Мої події'})"></head>
 
 <body>
-<div th:replace="home/fragments/body :: body(~{::main}, '', false, '')"></div>
+<div th:replace="home/fragments/body :: body(~{::main}, ${all} ? 'ourevents' : 'myevents', false, '')"></div>
 
 <div th:remove="all">
     <main class="my-way-main"  th:fragment="main">

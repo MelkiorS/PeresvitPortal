@@ -2,7 +2,7 @@
 <html lang="ukr" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="home/fragments/head :: head(${resourceGroupTypeList.getCaption()})"></head>
 <body>
-<div th:replace="home/fragments/body :: body(~{::main}, '', true, ${resourceGroupTypeList.getCaption()})"></div>
+<div th:replace="home/fragments/body :: body(~{::main}, 'myway', true, ${resourceGroupTypeList.getCaption()})"></div>
 
 <div th:remove="all">
     <main class="my-way-main" th:fragment="main" th:each="resourceGroupType : ${resourceGroupTypeList}">

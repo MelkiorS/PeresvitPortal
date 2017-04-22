@@ -5,7 +5,7 @@
 </head>
 <head th:replace="home/fragments/head :: head('Кабінет')"></head>
 <body>
-<div th:replace="home/fragments/body :: body(~{::main}, '', false, '')"></div>
+<div th:replace="home/fragments/body :: body(~{::main}, 'workField', false, '')"></div>
 
 <div th:remove="all">
     <main class="my-way-main"  th:fragment="main">
