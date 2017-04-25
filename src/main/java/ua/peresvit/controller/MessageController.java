@@ -253,7 +253,7 @@ public class MessageController {
         if (currentUser.getUserId().equals(userId)) {
             return "redirect:/home/messages";
         }
-        Chat currentChat = messageService.findDialog(currentUser.getUserId());
+        Chat currentChat = messageService.findDialog(userId);
         if (currentChat == null) {
             currentChat = messageService.saveDialog(new User[]{currentUser, userService.findOne(userId)});
         }
